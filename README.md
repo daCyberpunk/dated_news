@@ -17,8 +17,9 @@ The extension needs to be installed as any other extension of TYPO3 CMS:
 2. Get the extension
 	1. Get it from the Extension Manager: Press the “Retrieve/Update” button and search for the extension key news_calendar and import the extension from the repository.
 
-##PREPARATION INCLUDE STATIC TYPOSCRIPT
+##PREPARATION 
 
+INCLUDE STATIC TYPOSCRIPT
 The extension ships some TypoScript code which needs to be included.
 
 1. Switch to the root page of your site.
@@ -36,7 +37,7 @@ The Extension adds some new constants to the extension news which are configurab
 plugin.tx_news.settings.
 
 constant | type | description
------------------------------
+---------|------|--------------
 twentyfourhour | boolean | default: 1; if checked (default) the time in calendar will be shown in 24 hours format (e.g. 23:00); If not the 23:00 is changing to 11:00pm.
 tooltipPreStyle | option | here you can choose some preconfigured styles for the tooltip which is shwon if you hover an event in calendar.
 uiTheme | option | here you can choose some preconfigured styles for the calendar (not the tooltips). These styles are jQuery Themes. For the option *custom* you need to set *uiThemeCustom* as well. Please see *uiThemeCustom* for more information.
