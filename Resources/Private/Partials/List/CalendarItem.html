@@ -1,0 +1,8 @@
+{namespace nc=FR\NewsCalendar\ViewHelpers}
+{namespace n=Tx_News_ViewHelpers}
+
+<f:if condition="{newsItem.showincalendar}">
+
+<nc:javascript.event url="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" uid="{newsItem.uid}" title="{newsItem.title}" start="{newsItem.eventstart}" end="{newsItem.eventend}" description="{newsItem.teasertext}" color="{newsItem.backgroundcolor}" textcolor="{newsItem.textcolor}" fulltime="{newsItem.fulltime}" />
+
+</f:if>

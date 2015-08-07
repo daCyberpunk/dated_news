@@ -1,0 +1,118 @@
+{
+    "modules": [
+        {
+            "config": {
+                "position": [
+                    182,
+                    120
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": true,
+                    "_default1_show": true,
+                    "_default2_new_create": false,
+                    "_default3_edit_update": false,
+                    "_default4_delete": false,
+                    "customActions": []
+                },
+                "name": "News",
+                "objectsettings": {
+                    "addDeletedField": true,
+                    "addHiddenField": true,
+                    "addStarttimeEndtimeFields": true,
+                    "aggregateRoot": true,
+                    "categorizable": true,
+                    "description": "",
+                    "mapToTable": "tx_news_domain_model_news",
+                    "parentClass": "\\Tx_News_Domain_Model_NewsDefault",
+                    "sorting": true,
+                    "type": "Entity",
+                    "uid": "832023814385"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": false,
+                            "propertyIsRequired": false,
+                            "propertyName": "eventstart",
+                            "propertyType": "NativeDateTime",
+                            "uid": "20976752122"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": false,
+                            "propertyIsRequired": false,
+                            "propertyName": "eventend",
+                            "propertyType": "NativeDateTime",
+                            "uid": "1348822351326"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": false,
+                            "propertyIsRequired": false,
+                            "propertyName": "eventlocation",
+                            "propertyType": "String",
+                            "uid": "1159249974522"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": []
+                }
+            }
+        }
+    ],
+    "properties": {
+        "backendModules": [],
+        "description": "",
+        "emConf": {
+            "category": "plugin",
+            "custom_category": "",
+            "dependsOn": "typo3 => 6.2\n",
+            "disableLocalization": false,
+            "disableVersioning": false,
+            "sourceLanguage": "en",
+            "state": "alpha",
+            "targetVersion": "6.2",
+            "version": "0.01"
+        },
+        "extensionKey": "news_calendar",
+        "name": "newscalendar",
+        "originalExtensionKey": "news_calendar",
+        "persons": [
+            {
+                "company": "",
+                "email": "mail@falk-roeder.de",
+                "name": "Falk R\u00f6der",
+                "role": "Developer"
+            }
+        ],
+        "plugins": [
+            {
+                "actions": {
+                    "controllerActionCombinations": "News => list,show",
+                    "noncacheableActions": "",
+                    "switchableActions": ""
+                },
+                "key": "newscalendar",
+                "name": "newscalendar"
+            }
+        ],
+        "vendorName": "FR"
+    },
+    "wires": [],
+    "log": {
+        "last_modified": "2015-07-31 03:13",
+        "extension_builder_version": "6.2.0",
+        "be_user": " (2)"
+    }
+}

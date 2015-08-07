@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-07-31T15:13:12Z" product-name="news_calendar">
+		<header/>
+		<body>
+			<trans-unit id="tx_newscalendar_domain_model_news">
+				<source>Event Data</source>
+			</trans-unit>
+			<trans-unit id="tx_newscalendar_domain_model_news.eventstart">
+				<source>Event Start</source>
+			</trans-unit>
+			<trans-unit id="tx_newscalendar_domain_model_news.eventend">
+				<source>Event End</source>
+			</trans-unit>
+			<trans-unit id="tx_newscalendar_domain_model_news.eventlocation">
+				<source>Event Location</source>
+			</trans-unit>
+			<trans-unit id="tx_newscalendar_domain_model_news.showincalendar">
+				<source>Show in Calendar</source>
+			</trans-unit>
+			<trans-unit id="tx_newscalendar_domain_model_news.fulltime">
+				<source>Fulltime Event</source>
+			</trans-unit>
+			<trans-unit id="tx_newscalendar_domain_model_news.textcolor">
+				<source>Text Color</source>
+			</trans-unit>
+			<trans-unit id="tx_newscalendar_domain_model_news.backgroundcolor">
+				<source>Background Color</source>
+			</trans-unit>
+			<trans-unit id="tx_news_domain_model_news.tx_extbase_type.Tx_NewsCalendar_News">
+				<source>newscalendar News</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

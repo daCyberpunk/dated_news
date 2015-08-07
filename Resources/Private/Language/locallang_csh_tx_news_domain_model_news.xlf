@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-07-31T15:13:12Z" product-name="news_calendar">
+		<header/>
+		<body>
+			<trans-unit id="eventstart.description">
+				<source>When the event starts.</source>
+			</trans-unit>
+			<trans-unit id="eventend.description">
+				<source>When the event ends.</source>
+			</trans-unit>
+			<trans-unit id="eventlocation.description">
+				<source>Location where the Event takes place</source>
+			</trans-unit>
+			<trans-unit id="showincalendar.description">
+				<source>show this news as an event in calendar.</source>
+			</trans-unit>
+			<trans-unit id="fulltime.description">
+				<source>This Event is a full-time / full-day Event.</source>
+			</trans-unit>
+			<trans-unit id="textcolor.description">
+				<source>Give this event a different text color in calendar.</source>
+			</trans-unit>
+			<trans-unit id="backgroundcolor.description">
+				<source>Give this event a different background color in calendar.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,12 @@
+.qtip-title {
+text-decoration: underline;
+  font-weight: bold;
+  padding-bottom: 5px;
+  width: 100%;
+}
+.qtip-start {
+  float: left;
+}
+.qtip-desc {
+  margin-top: 10px;
+}
