@@ -34,25 +34,39 @@ namespace FR\NewsCalendar\Viewhelpers\Javascript;
  * @author Falk Röder
  */
 class EventViewHelper extends \Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
-
-
+	/**
+	* Arguments initialization
+	*
+	* @return void
+	*/
+	public function initializeArguments() {
+		$this->registerArgument('title', 'string', 'title of event');
+		$this->registerArgument('url', 'mixed', 'url to detailview of event');
+		$this->registerArgument('start', 'mixed', 'startdate of event');
+		$this->registerArgument('end', 'mixed', 'enddate of event');
+		$this->registerArgument('strftime', 'bool', 'if true, the strftime is used instead of date()', FALSE, TRUE);
+		$this->registerArgument('fulltime', 'bool', 'if true, the event time will be ignored');
+		$this->registerArgument('description', 'string', 'description of event');
+		$this->registerArgument('color', 'string', 'backgroundcolor of event');
+		$this->registerArgument('textcolor', 'string', 'textcolor of event');
+		$this->registerArgument('uid', 'int', 'uid of event');
+	}
 
 	/**
-	 * Creates Javascript Output for given events
-	 * @param string $title title of event
-	 * @param mixed $url url to detailview of event
-	 * @param mixed $start startdate of event
-	 * @param mixed $end enddate of event
-	 * @param bool $strftime if true, the strftime is used instead of date()
-	 * @param bool $fulltime if true, the event time will be ignored
-	 * @param string $description description of event
-	 * @param string $color backgroundcolor in calender of event optional
-	 * @param string $textcolor textcolor in calender of event optional
-	 * @param int $uid uid of the event
-	 * @return string the needed html markup inclusive javascript
-	 * @api
-	 */
-	public function render($url, $uid = NULL, $title = NULL, $start = NULL, $end = NULL, $description = NULL, $color = NULL, $textcolor = NULL, $strftime = TRUE, $fulltime = FALSE ) {
+	* @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $objects
+	* @return string the needed html markup inklusive javascript
+	*/
+	public function render() {
+ 		$title = $this->arguments['title'];
+ 		$url = $this->arguments['url'];
+ 		$start = $this->arguments['start'];
+ 		$end = $this->arguments['end'];
+ 		$strftime = $this->arguments['strftime'];
+ 		$fulltime = $this->arguments['fulltime'];
+ 		$description = $this->arguments['description'];
+ 		$color = $this->arguments['color'];
+ 		$textcolor = $this->arguments['textcolor'];
+ 		$uid = $this->arguments['uid'];
 
 		if ($start === NULL || $uid === NULL) {
 				return '';

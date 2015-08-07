@@ -1,5 +1,5 @@
 <?php
-namespace FR\NewsCalendar\Viewhelpers\Javascript;
+namespace FR\NewsCalendar\ViewHelpers\Javascript;
 
 /***************************************************************
  *
@@ -33,20 +33,34 @@ namespace FR\NewsCalendar\Viewhelpers\Javascript;
  * @subpackage news_calendar
  * @author Falk Röder
  */
-class CalendarViewHelper extends \Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
-
-
+class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Creates Javascript Output for given events
-	 * @param string $uiThemeCustom custom name of Theme
-	 * @param string $uiTheme calendar theme
-	 * @param string $tooltipPreStyle class with predefined tooltip style
-	 * @return string the needed html markup inklusive javascript
-	 * @api
-	 */
-	public function render($uiTheme = NULL, $uiThemeCustom = NULL, $twentyfourhour = NULL, $tooltipPreStyle = NULL) {
- 
+	* Arguments initialization
+	*
+	* @return void
+	*/
+	public function initializeArguments() {
+		$this->registerArgument('uiThemeCustom', 'string', 'custom name of Theme');
+		$this->registerArgument('uiTheme', 'string', 'calendar theme');
+		$this->registerArgument('tooltipPreStyle', 'string', 'class with predefined tooltip style');
+		$this->registerArgument('twentyfourhour', 'bool', 'determines if the time shall be shown in 24h format or not', FALSE, TRUE);
+	}
+
+	/**
+	* @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $objects
+	* @return string the needed html markup inklusive javascript
+	*/
+	public function render() {
+ 		$uiThemeCustom = $this->arguments['uiThemeCustom'];
+ 		$uiTheme = $this->arguments['uiTheme'];
+ 		$tooltipPreStyle = $this->arguments['tooltipPreStyle'];
+ 		$twentyfourhour = $this->arguments['twentyfourhour'];
+
+
+
+
+
 		if ($uiTheme === 'custom') {
 			$uiTheme = $uiThemeCustom;
 		}
