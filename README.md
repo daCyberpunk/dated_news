@@ -50,23 +50,23 @@ uiThemeCustom | string | here you can write down the name of your own calendar t
 The Extension adds a new option to the template Selector of the news frontend plugin with number 99 and simply called *calendar*. Soo just add the tx_news frontend plugin to the page you wish to see the calendar and configure it as usual. On tab *Template* you choose *calendar* as Template Layout. 
 
 Add following code to Templates/News/List.html
-><f:if condition="{settings.templateLayout} == 99">  
-    <f:for each="{news}" as="newsItem" iteration="iterator">
-        <f:render partial="List/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator}" />
-    </f:for>
-    <nc:javascript.calendar uiThemeCustom="{settings.uiThemeCustom}" uiTheme="{settings.uiTheme}" tooltipPreStyle="{settings.tooltipPreStyle}" twentyfourhour="{settings.twentyfourhour}"/>
-</f:if> 
+    <f:if condition="{settings.templateLayout} == 99">  
+        <f:for each="{news}" as="newsItem" iteration="iterator">
+            <f:render partial="List/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator}" />
+        </f:for>
+        <nc:javascript.calendar uiThemeCustom="{settings.uiThemeCustom}" uiTheme="{settings.uiTheme}" tooltipPreStyle="{settings.tooltipPreStyle}" twentyfourhour="{settings.twentyfourhour}"/>
+    </f:if> 
 
 
 Add a file named *CalendarItem.html* in folder *Partials/List* with following content:
->{namespace nc=FR\NewsCalendar\ViewHelpers}
->{namespace n=Tx_News_ViewHelpers}
->
-><f:if condition="{newsItem.showincalendar}">
->
-><nc:javascript.event url="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" uid="{newsItem.uid}" title="{newsItem.title}" start="{newsItem.eventstart}" end="{newsItem.eventend}" description="{newsItem.teaser -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}" color="{newsItem.backgroundcolor}" textcolor="{newsItem.textcolor}" fulltime="{newsItem.fulltime}" />
->
-></f:if>
+    {namespace nc=FR\NewsCalendar\ViewHelpers}
+    {namespace n=Tx_News_ViewHelpers}
+
+    <f:if condition="{newsItem.showincalendar}">
+
+        <nc:javascript.event url="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" uid="{newsItem.uid}" title="{newsItem.title}" start="{newsItem.eventstart}" end="{newsItem.eventend}" description="{newsItem.teaser -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}" color="{newsItem.backgroundcolor}" textcolor="{newsItem.textcolor}" fulltime="{newsItem.fulltime}" />
+
+    </f:if>
 
 Clear system cache and enjoy!
 
