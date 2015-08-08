@@ -77,4 +77,12 @@ Add a file named *CalendarItem.html* in folder *Partials/List* with following co
 
     </f:if>
 
+3. News Item
+
+The Extension adds some fields to the news item. You can find them in the Tab called _event_.
+field | type | description
+---------|------|--------------
+
+
+
 Clear system cache and enjoy!
