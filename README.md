@@ -19,7 +19,8 @@ The extension needs to be installed as any other extension of TYPO3 CMS:
 
 ##PREPARATION 
 
-INCLUDE STATIC TYPOSCRIPT
+###INCLUDE STATIC TYPOSCRIPT
+
 The extension ships some TypoScript code which needs to be included.
 
 1. Switch to the root page of your site.
@@ -28,9 +29,9 @@ The extension ships some TypoScript code which needs to be included.
 4. Select *newscalendar (news_calendar)* at the field Include static (from extensions):
 
 
-##CONFIGURATION
+###CONFIGURATION
 
-1. Constants
+#####Constants
 
 The Extension adds some new constants to the extension news which are configurable in constants editor.
 
@@ -45,7 +46,7 @@ uiThemeCustom | string | here you can write down the name of your own calendar t
 
 
 
-2. Template and Fluid
+####Template and Fluid
 
 The Extension adds a new option to the template Selector of the news frontend plugin with number 99 and simply called *calendar*. Soo just add the tx_news frontend plugin to the page you wish to see the calendar and configure it as usual. On tab *Template* you choose *calendar* as Template Layout. 
 
@@ -77,7 +78,7 @@ Add a file named *CalendarItem.html* in folder *Partials/List* with following co
 
     </f:if>
 
-3. News Item
+###Add events
 
 The Extension adds some fields to the news item. You can find them in the Tab called _event_.
 
