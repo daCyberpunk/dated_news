@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-07-31T15:13:12Z" product-name="news_calendar">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-07-31T15:13:12Z" product-name="dated_news">
 		<header/>
 		<body>
 			<trans-unit id="eventstart.description">

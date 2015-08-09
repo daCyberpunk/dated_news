@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-07-31T15:13:12Z" product-name="news_calendar">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-07-31T15:13:12Z" product-name="dated_news">
 		<header/>
 		<body>
-			<trans-unit id="tx_newscalendar_domain_model_news">
+			<trans-unit id="tx_datednews_domain_model_news">
 				<source>Event Data</source>
 			</trans-unit>
-			<trans-unit id="tx_newscalendar_domain_model_news.eventstart">
+			<trans-unit id="tx_datednews_domain_model_news.eventstart">
 				<source>Event Start</source>
 			</trans-unit>
-			<trans-unit id="tx_newscalendar_domain_model_news.eventend">
+			<trans-unit id="tx_datednews_domain_model_news.eventend">
 				<source>Event End</source>
 			</trans-unit>
-			<trans-unit id="tx_newscalendar_domain_model_news.eventlocation">
+			<trans-unit id="tx_datednews_domain_model_news.eventlocation">
 				<source>Event Location</source>
 			</trans-unit>
-			<trans-unit id="tx_newscalendar_domain_model_news.showincalendar">
+			<trans-unit id="tx_datednews_domain_model_news.showincalendar">
 				<source>Show in Calendar</source>
 			</trans-unit>
-			<trans-unit id="tx_newscalendar_domain_model_news.fulltime">
+			<trans-unit id="tx_datednews_domain_model_news.fulltime">
 				<source>Fulltime Event</source>
 			</trans-unit>
-			<trans-unit id="tx_newscalendar_domain_model_news.textcolor">
+			<trans-unit id="tx_datednews_domain_model_news.textcolor">
 				<source>Text Color</source>
 			</trans-unit>
-			<trans-unit id="tx_newscalendar_domain_model_news.backgroundcolor">
+			<trans-unit id="tx_datednews_domain_model_news.backgroundcolor">
 				<source>Background Color</source>
 			</trans-unit>
-			<trans-unit id="tx_news_domain_model_news.tx_extbase_type.Tx_NewsCalendar_News">
-				<source>newscalendar News</source>
+			<trans-unit id="tx_news_domain_model_news.tx_extbase_type.Tx_DatedNews_News">
+				<source>Dated News</source>
 			</trans-unit>
 		</body>
 	</file>

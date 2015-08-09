@@ -1,4 +1,4 @@
-# news_calendar
+# dated_news
 Extends the TYPO3 versatile news system extension tx_news with a calendar view
 
 
@@ -15,7 +15,7 @@ The extension needs to be installed as any other extension of TYPO3 CMS:
 
 1. Switch to the module “Extension Manager”.
 2. Get the extension
-	1. Get it from the Extension Manager: Press the “Retrieve/Update” button and search for the extension key news_calendar and import the extension from the repository.
+	1. Get it from the Extension Manager: Press the “Retrieve/Update” button and search for the extension key dated_news and import the extension from the repository.
 
 ##PREPARATION 
 
@@ -26,7 +26,7 @@ The extension ships some TypoScript code which needs to be included.
 1. Switch to the root page of your site.
 2. Switch to the Template module and select *Info/Modify*.
 3. Press the link *Edit the whole template record* and switch to the tab Includes.
-4. Select *newscalendar (news_calendar)* at the field Include static (from extensions):
+4. Select *datednews (dated_news)* at the field Include static (from extensions):
 
 
 ###CONFIGURATION
@@ -51,7 +51,7 @@ uiThemeCustom | string | here you can write down the name of your own calendar t
 The Extension adds a new option to the template Selector of the news frontend plugin with number 99 and simply called *calendar*. Soo just add the tx_news frontend plugin to the page you wish to see the calendar and configure it as usual. On tab *Template* you choose *calendar* as Template Layout. 
 
 Add following code to Templates/News/List.html
-    {namespace nc=FR\NewsCalendar\ViewHelpers}
+    {namespace nc=FalkRoeder\DatedNews\ViewHelpers}
 
     <f:if condition="{settings.templateLayout} == 99">  
 
@@ -68,7 +68,7 @@ Add following code to Templates/News/List.html
 
 Add a file named *CalendarItem.html* in folder *Partials/List* with following content:
 
-    {namespace nc=FR\NewsCalendar\ViewHelpers}
+    {namespace nc=FalkRoeder\DatedNews\ViewHelpers}
 
     {namespace n=Tx_News_ViewHelpers}
 

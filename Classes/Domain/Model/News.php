@@ -1,5 +1,5 @@
 <?php
-namespace FR\NewsCalendar\Domain\Model;
+namespace FalkRoeder\DatedNews\Domain\Model;
 
 
 /***************************************************************

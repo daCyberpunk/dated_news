@@ -85,9 +85,9 @@
             "targetVersion": "6.2",
             "version": "0.01"
         },
-        "extensionKey": "news_calendar",
-        "name": "newscalendar",
-        "originalExtensionKey": "news_calendar",
+        "extensionKey": "dated_news",
+        "name": "Dated News",
+        "originalExtensionKey": "dated_news",
         "persons": [
             {
                 "company": "",
@@ -103,11 +103,11 @@
                     "noncacheableActions": "",
                     "switchableActions": ""
                 },
-                "key": "newscalendar",
-                "name": "newscalendar"
+                "key": "datednews",
+                "name": "datednews"
             }
         ],
-        "vendorName": "FR"
+        "vendorName": "FalkRoeder"
     },
     "wires": [],
     "log": {

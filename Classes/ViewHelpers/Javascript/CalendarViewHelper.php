@@ -1,5 +1,5 @@
 <?php
-namespace FR\NewsCalendar\ViewHelpers\Javascript;
+namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
 
 /***************************************************************
  *

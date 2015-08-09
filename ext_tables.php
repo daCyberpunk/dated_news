@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'newscalendar');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'datednews');
 
 if (!isset($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'])) {
 	if (file_exists($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['dynamicConfigFile'])) {
@@ -15,7 +15,7 @@ if (!isset($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'])) {
 	$tempColumns = array();
 	$tempColumns[$GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type']] = array(
 		'exclude' => 1,
-		'label'   => 'LLL:EXT:news_calendar/Resources/Private/Language/locallang_db.xlf:tx_newscalendar.tx_extbase_type',
+		'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews.tx_extbase_type',
 		'config' => array(
 			'type' => 'select',
 			'items' => array(),
@@ -26,10 +26,10 @@ if (!isset($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'])) {
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tx_news_domain_model_news', $tempColumns, 1);
 }
 
-$tmp_news_calendar_columns = array(
+$tmp_dated_news_columns = array(
 	'showincalendar' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:news_calendar/Resources/Private/Language/locallang_db.xlf:tx_newscalendar_domain_model_news.showincalendar',
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.showincalendar',
 		'config' => array(
 			'type' => 'check',
 			'default' => 0
@@ -37,7 +37,7 @@ $tmp_news_calendar_columns = array(
 	),
 	'fulltime' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:news_calendar/Resources/Private/Language/locallang_db.xlf:tx_newscalendar_domain_model_news.fulltime',
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.fulltime',
 		'config' => array(
 			'type' => 'check',
 			'default' => 0
@@ -45,7 +45,7 @@ $tmp_news_calendar_columns = array(
 	),
 	'eventstart' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:news_calendar/Resources/Private/Language/locallang_db.xlf:tx_newscalendar_domain_model_news.eventstart',
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.eventstart',
 		'config' => array(
 			'dbType' => 'datetime',
 			'type' => 'input',
@@ -57,7 +57,7 @@ $tmp_news_calendar_columns = array(
 	),
 	'eventend' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:news_calendar/Resources/Private/Language/locallang_db.xlf:tx_newscalendar_domain_model_news.eventend',
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.eventend',
 		'config' => array(
 			'dbType' => 'datetime',
 			'type' => 'input',
@@ -69,7 +69,7 @@ $tmp_news_calendar_columns = array(
 	),
 	'eventlocation' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:news_calendar/Resources/Private/Language/locallang_db.xlf:tx_newscalendar_domain_model_news.eventlocation',
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.eventlocation',
 		'config' => array(
 			'type' => 'input',
 			'size' => 30,
@@ -96,11 +96,11 @@ $tmp_news_calendar_columns = array(
 	),
 );
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tx_news_domain_model_news',$tmp_news_calendar_columns);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes("tx_news_domain_model_news",",--div--;LLL:EXT:news_calendar/Resources/Private/Language/locallang_db.xlf:tx_newscalendar_domain_model_news, showincalendar;;;;1-1-1, eventstart;;;;1-1-1, eventend;;;;1-1-1, fulltime;;;;1-1-1, eventlocation;;;;1-1-1, textcolor;;;;1-1-1, backgroundcolor;;;;1-1-1");
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tx_news_domain_model_news',$tmp_dated_news_columns);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes("tx_news_domain_model_news",",--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news, showincalendar;;;;1-1-1, eventstart;;;;1-1-1, eventend;;;;1-1-1, fulltime;;;;1-1-1, eventlocation;;;;1-1-1, textcolor;;;;1-1-1, backgroundcolor;;;;1-1-1");
 
 
-$GLOBALS['TCA']['tx_news_domain_model_news']['columns'][$TCA['tx_news_domain_model_news']['ctrl']['type']]['config']['items'][] = array('LLL:EXT:news_calendar/Resources/Private/Language/locallang_db.xlf:tx_news_domain_model_news.tx_extbase_type.Tx_NewsCalendar_News','Tx_NewsCalendar_News');
+$GLOBALS['TCA']['tx_news_domain_model_news']['columns'][$TCA['tx_news_domain_model_news']['ctrl']['type']]['config']['items'][] = array('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_news_domain_model_news.tx_extbase_type.Tx_DatedNews_News','Tx_DatedNews_News');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tx_news_domain_model_news', $GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'],'','after:' . $TCA['tx_news_domain_model_news']['ctrl']['label']);
 

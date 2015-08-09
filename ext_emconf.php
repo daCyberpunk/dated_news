@@ -11,7 +11,7 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'newscalendar',
+	'title' => 'datednews',
 	'description' => '',
 	'category' => 'plugin',
 	'author' => 'Falk Röder',
