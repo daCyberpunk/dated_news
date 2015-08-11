@@ -11,57 +11,19 @@
 Users Manual
 ============
 
-Target group: **Editors**
+Add events
+------------
 
-Here should be described how to use the extension from the editor perspective.
+The Extension adds some fields to the news item. You can find them in the Tab called *event*.
 
-- How does it work?
-
-  - works well when doing this.
-
-  - does not work so well when doing that
-    but we can live with it.
-
-  - **mind indentation when nesting lists**.
-
-- How to install the plugin on a web page?
-
-- What options are available?
-
-Language should be non-technical, explaining, using small examples.
-Don't use to many acronyms unless they have been explained.
-Don't be confusing by putting information targeting administrators.
-
-.. tip::
-
-   Take a break from time to time.
-
-Admonitions should be used to warn the users about potential
-pitfalls, attract their attention to important elements
-or just add some notes for for information (further reading,
-for example).
-
-.. important::
-
-   Remember to always say "please" when asking your software to
-   do something.
-
-Provide screenshots as needed for making things clear. When creating
-screenshots, try using the `Introduction Package <http://demo.typo3.org/>`_
-as a neutral TYPO3 CMS instance.
-
-.. figure:: ../Images/UserManual/BackendView.png
-   :width: 500px
-   :alt: Backend view
-
-   Default Backend view (caption of the image)
-
-   The Backend view of TYPO3 after the user has clicked on module "Page". (legend of the image)
+==============================  ============  ======================================================================================================================================================
+field                           type          description
+==============================  ============  ======================================================================================================================================================
+Show in Calendar                check         Show Event in calendar or even not
+Event Start / End               DateTime      exacttime is important if its not an all day event. Otherwise the date is enough
+Full Time Event                 check         if checked the devent is handled as a full day event and no time is displayed
+Event Location                  text          where the event takes place
+Textcolor / backgroundcolor     text          if the event shall be displayed with an other color as the standard one. Just insert words e.g. _yellow_. You can also insert hex or RGB notation
+==============================  ============  ======================================================================================================================================================
 
 
-.. _user-faq:
-
-FAQ
----
-
-Possible subsection: FAQ

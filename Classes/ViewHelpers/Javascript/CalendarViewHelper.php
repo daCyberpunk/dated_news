@@ -30,7 +30,7 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  * CalendarViewHelper
  * 
  * @package TYPO3
- * @subpackage news_calendar
+ * @subpackage dated_news
  * @author Falk Röder
  */
 class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {

@@ -1,5 +1,5 @@
 <?php
-namespace FalkRoeder\DatedNews\Viewhelpers\Javascript;
+namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
 
 /***************************************************************
  *
@@ -30,10 +30,11 @@ namespace FalkRoeder\DatedNews\Viewhelpers\Javascript;
  * EventViewHelper
  * 
  * @package TYPO3
- * @subpackage news_calendar
+ * @subpackage dated_news
  * @author Falk Röder
  */
-class EventViewHelper extends \Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+
 	/**
 	* Arguments initialization
 	*
@@ -126,7 +127,6 @@ class EventViewHelper extends \Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 			}
 			</script>
 EOT;
-
 		return $string; 		
 	}
 }
