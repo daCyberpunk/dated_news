@@ -51,6 +51,7 @@ uiThemeCustom | string | here you can write down the name of your own calendar t
 The Extension adds a new option to the template Selector of the news frontend plugin with number 99 and simply called *calendar*. Soo just add the tx_news frontend plugin to the page you wish to see the calendar and configure it as usual. On tab *Template* you choose *calendar* as Template Layout. 
 
 Add following code to Templates/News/List.html
+
     {namespace nc=FalkRoeder\DatedNews\ViewHelpers}
 
     <f:if condition="{settings.templateLayout} == 99">  

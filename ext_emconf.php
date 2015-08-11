@@ -11,7 +11,7 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'datednews',
+	'title' => 'Dated News',
 	'description' => 'Extends the TYPO3 versatile news system extension tx_news with a calendar view',
 	'category' => 'fe',
 	'author' => 'Falk Röder',
@@ -21,7 +21,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'uploadfolder' => '0',
 	'createDirs' => '',
 	'clearCacheOnLoad' => 0,
-	'version' => '1.0.0',
+	'version' => '1.0.1',
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '6.2.10-7.99.99',
