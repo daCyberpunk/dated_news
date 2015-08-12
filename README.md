@@ -46,7 +46,9 @@ uiThemeCustom | string | here you can write down the name of your own calendar t
 
 
 
-####Template and Fluid
+####Fluid Template
+
+#####Basic Fluid
 
 The Extension adds a new option to the template Selector of the news frontend plugin with number 99 and simply called *calendar*. Soo just add the tx_news frontend plugin to the page you wish to see the calendar and configure it as usual. On tab *Template* you choose *calendar* as Template Layout. 
 
@@ -77,6 +79,26 @@ Add a file named *CalendarItem.html* in folder *Partials/List* with following co
 
         <nc:javascript.event url="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" uid="{newsItem.uid}" title="{newsItem.title}" start="{newsItem.eventstart}" end="{newsItem.eventend}" description="{newsItem.teaser -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}" color="{newsItem.backgroundcolor}" textcolor="{newsItem.textcolor}" fulltime="{newsItem.fulltime}" />
 
+    </f:if>
+
+
+#####Tag based Filtering
+
+The Extension adds the possibility to filter events based on their tags you can add to the news items.
+You just have to build a list of tag-items where every item has the class *dated-news-filter* and a data attribute *data-dn-filter* with the tag title in it. Luckily the news extension comes allready with a tag-template. The code you add there could look like the following:
+
+    <f:if condition="{tags}">
+
+        <div class="button-group filters-button-group">
+    
+            <f:for each="{tags}" as="tag">
+    
+                <button class="dated-news-filter button" data-dn-filter="{tag.title}">{tag.title}</button>
+    
+            </f:for>
+    
+        </div>
+    
     </f:if>
 
 ###Add events

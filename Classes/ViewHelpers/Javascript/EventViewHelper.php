@@ -26,12 +26,16 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+
 /**
  * EventViewHelper
  * 
  * @package TYPO3
  * @subpackage dated_news
  * @author Falk Röder
+ * @var TYPO3\CMS\Fluid\ViewHelpers\Format\CropViewHelper
+ * @var TYPO3\CMS\Fluid\ViewHelpers\Format\HtmlViewHelper
+ * @inject 
  */
 class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
@@ -41,16 +45,10 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 	* @return void
 	*/
 	public function initializeArguments() {
-		$this->registerArgument('title', 'string', 'title of event');
 		$this->registerArgument('url', 'mixed', 'url to detailview of event');
-		$this->registerArgument('start', 'mixed', 'startdate of event');
-		$this->registerArgument('end', 'mixed', 'enddate of event');
 		$this->registerArgument('strftime', 'bool', 'if true, the strftime is used instead of date()', FALSE, TRUE);
-		$this->registerArgument('fulltime', 'bool', 'if true, the event time will be ignored');
 		$this->registerArgument('description', 'string', 'description of event');
-		$this->registerArgument('color', 'string', 'backgroundcolor of event');
-		$this->registerArgument('textcolor', 'string', 'textcolor of event');
-		$this->registerArgument('uid', 'int', 'uid of event');
+		$this->registerArgument('item', 'mixed', 'newsitem');
 	}
 
 	/**
@@ -58,16 +56,29 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 	* @return string the needed html markup inklusive javascript
 	*/
 	public function render() {
- 		$title = $this->arguments['title'];
- 		$url = $this->arguments['url'];
- 		$start = $this->arguments['start'];
- 		$end = $this->arguments['end'];
+ 		$item = $this->arguments['item'];
  		$strftime = $this->arguments['strftime'];
- 		$fulltime = $this->arguments['fulltime'];
+ 		$url = $this->arguments['url'];
  		$description = $this->arguments['description'];
- 		$color = $this->arguments['color'];
- 		$textcolor = $this->arguments['textcolor'];
- 		$uid = $this->arguments['uid'];
+		
+ 		$title = $item->getTitle();
+ 		$start = $item->getEventstart();
+ 		$end = $item->getEventend();
+ 		$fulltime = $item->getFulltime();
+ 		$color = $item->getBackgroundcolor;
+ 		$textcolor = $item->getTextcolor;
+ 		$uid = $item->getUid();
+ 		$tags = $item->getTags();
+ 		
+ 		$i = 0;
+ 		foreach($tags as $key => $value) {
+ 			$i++;
+ 			if ($i === 1) {
+ 				$filterTags = $value->getTitle();
+ 			} else {
+ 				$filterTags .= ','.$value->getTitle();
+ 			}
+		}
 
 		if ($start === NULL || $uid === NULL) {
 				return '';
@@ -125,6 +136,22 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			    color: '$color',
 			    textColor: '$textcolor'
 			}
+				if(!newsCalendarTags){
+					var newsCalendarTags = [];
+				}
+
+				var tempTags = '$filterTags';
+					if(tempTags.length > 0){
+						tempTags = tempTags.split(',');
+						for (var key in tempTags) {
+							  if (tempTags.hasOwnProperty(key)) {
+							  	if(!newsCalendarTags[tempTags[key]]){
+									newsCalendarTags[tempTags[key]] = [];
+								}
+								newsCalendarTags[tempTags[key]].push($uid);
+							  }
+						}
+					}
 			</script>
 EOT;
 		return $string; 		

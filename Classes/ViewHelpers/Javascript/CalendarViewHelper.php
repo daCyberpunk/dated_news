@@ -41,10 +41,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	* @return void
 	*/
 	public function initializeArguments() {
-		$this->registerArgument('uiThemeCustom', 'string', 'custom name of Theme');
-		$this->registerArgument('uiTheme', 'string', 'calendar theme');
-		$this->registerArgument('tooltipPreStyle', 'string', 'class with predefined tooltip style');
-		$this->registerArgument('twentyfourhour', 'bool', 'determines if the time shall be shown in 24h format or not', FALSE, TRUE);
+		$this->registerArgument('settings', 'mixed', 'settings');
 	}
 
 	/**
@@ -52,10 +49,11 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	* @return string the needed html markup inklusive javascript
 	*/
 	public function render() {
- 		$uiThemeCustom = $this->arguments['uiThemeCustom'];
- 		$uiTheme = $this->arguments['uiTheme'];
- 		$tooltipPreStyle = $this->arguments['tooltipPreStyle'];
- 		$twentyfourhour = $this->arguments['twentyfourhour'];
+ 		$settings = $this->arguments['settings'];
+ 		$uiThemeCustom = $settings['uiThemeCustom'];
+ 		$uiTheme = $settings['uiTheme'];
+ 		$tooltipPreStyle = $settings['tooltipPreStyle'];
+ 		$twentyfourhour = $settings['twentyfourhour'];
 
 
 
@@ -163,13 +161,51 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 			        	$tformat
 
 			    	})
+					
+					function addAllEvents(){
+						for (var key in newsCalendarEvent) {
+						  if (newsCalendarEvent.hasOwnProperty(key)) {
+							newsCalendar.fullCalendar( 'addEventSource', newsCalendarEvent[key] )	
+							console.log(key)
+						  }
+						}
+					}
+					addAllEvents();
+					function removeAllEvents(){
+						for (var key in newsCalendarEvent) {
+						  if (newsCalendarEvent.hasOwnProperty(key)) {
+							newsCalendar.fullCalendar( 'removeEventSource', newsCalendarEvent[key] )	
+						  }
+						}
+					}
 
-					for (var key in newsCalendarEvent) {
-					  if (newsCalendarEvent.hasOwnProperty(key)) {
-						newsCalendar.fullCalendar( 'addEventSource', newsCalendarEvent[key] )	
-						console.log(newsCalendarEvent[key])    
-					  }
-				}
+					$('.dated-news-filter').on('click', function(){
+						removeAllEvents();
+						$(this).hasClass('dn-checked') ? $(this).removeClass('dn-checked') : $(this).addClass('dn-checked');
+						var dnchecked = $('.dated-news-filter.dn-checked');
+						// wenn nix gechecked dann alle adden
+						if (!dnchecked.length) {
+							addAllEvents();
+						} else {
+							//wenn gecheckt dann add gecheckt
+							var added =[];
+							dnchecked.each(function(){
+								var filter = $(this).data('dn-filter');
+								for (var key in newsCalendarTags[filter]) {
+							  		if (newsCalendarTags[filter].hasOwnProperty(key)) {
+							  			//make sure event wasn't added before
+							  			if (!added['Event_'+newsCalendarTags[filter][key]]) {
+											newsCalendar.fullCalendar( 'addEventSource', newsCalendarEvent['Event_'+newsCalendarTags[filter][key]] )	
+								  			added['Event_'+newsCalendarTags[filter][key]] = 1;
+							  			}
+							  		}
+								}		
+							}) 
+						}
+
+							
+						
+					})
 				});
 			})(jQuery);
 			</script>
