@@ -11,8 +11,8 @@
 	<f:for each="{news}" as="newsItem" iteration="iterator">
 		<f:render partial="List/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator}" />
 	</f:for>
-	
-	<nc:javascript.calendar timeformat="{settings.timeformat}"/>
+
+	<nc:javascript.calendar settings="{settings}" />
 </f:if>
 
 </f:section>

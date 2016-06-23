@@ -63,9 +63,8 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 			$uiTheme = $uiThemeCustom;
 		}
 		if ($uiTheme != NULL) {
-			$GLOBALS['TSFE']->additionalHeaderData['news'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/news_calendar/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.css" media="all">';  
-			/*$GLOBALS['TSFE']->additionalHeaderData['news2'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/news_calendar/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.structure.css" media="all">';  */
-			$GLOBALS['TSFE']->additionalHeaderData['news3'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/news_calendar/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.theme.css" media="all">';  
+			$GLOBALS['TSFE']->additionalHeaderData['news'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.min.css" media="all">';
+			$GLOBALS['TSFE']->additionalHeaderData['news3'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.theme.min.css" media="all">';
 		}
 
 		$lang = $GLOBALS['TSFE']->lang;

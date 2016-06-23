@@ -4,8 +4,8 @@ Extends the TYPO3 versatile news system extension tx_news with a calendar view
 
 ##REQUIREMENTS:
 
-1. TYPO3 CMS 6.2
-2. tx_news 3.2
+1. TYPO3 CMS 6.2 or higher
+2. tx_news 3.2.5 or higher
 3. jQuery and jQuery UI Javascript files (not shipped with this package)
 
 
@@ -64,7 +64,7 @@ Add following code to Templates/News/List.html
 
         </f:for>
 
-        <nc:javascript.calendar uiThemeCustom="{settings.uiThemeCustom}" uiTheme="{settings.uiTheme}" tooltipPreStyle="{settings.tooltipPreStyle}" twentyfourhour="{settings.twentyfourhour}"/>
+        <nc:javascript.calendar settings="{settings}" />
 
     </f:if> 
 
@@ -77,7 +77,7 @@ Add a file named *CalendarItem.html* in folder *Partials/List* with following co
 
     <f:if condition="{newsItem.showincalendar}">
 
-        <nc:javascript.event url="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" uid="{newsItem.uid}" title="{newsItem.title}" start="{newsItem.eventstart}" end="{newsItem.eventend}" description="{newsItem.teaser -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}" color="{newsItem.backgroundcolor}" textcolor="{newsItem.textcolor}" fulltime="{newsItem.fulltime}" />
+        <nc:javascript.event url="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" item="{newsItem}" />
 
     </f:if>
 
@@ -116,3 +116,4 @@ Textcolor / backgroundcolor | text | if the event shall be displayed with an oth
 
 
 Clear system cache and enjoy!
+Please contact me if something is still wrong. I'll try to fix it asap!
