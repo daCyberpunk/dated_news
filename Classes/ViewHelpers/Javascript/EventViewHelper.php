@@ -25,7 +25,7 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * EventViewHelper
@@ -49,6 +49,8 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		$this->registerArgument('strftime', 'bool', 'if true, the strftime is used instead of date()', FALSE, TRUE);
 		$this->registerArgument('description', 'string', 'description of event');
 		$this->registerArgument('item', 'mixed', 'newsitem');
+		$this->registerArgument('iterator', 'mixed', 'iterator');
+
 	}
 
 	/**
@@ -60,7 +62,9 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$strftime = $this->arguments['strftime'];
  		$url = $this->arguments['url'];
  		$description = $this->arguments['description'];
-		
+ 		$iterator = $this->arguments['iterator'];
+
+
  		$title = $item->getTitle();
  		$start = $item->getEventstart();
  		$end = $item->getEventend();
@@ -152,8 +156,10 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 							  }
 						}
 					}
+				
 			</script>
 EOT;
+
 		return $string; 		
 	}
 }

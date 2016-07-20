@@ -3,6 +3,6 @@
 
 <f:if condition="{newsItem.showincalendar}">
 
-    <nc:javascript.event url="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" item="{newsItem}" />
+    <nc:javascript.event url="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" iterator="{iterator}" item="{newsItem}" />
 
 </f:if>

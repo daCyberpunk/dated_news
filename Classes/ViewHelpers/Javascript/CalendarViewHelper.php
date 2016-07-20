@@ -207,8 +207,11 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 					})
 				});
 			})(jQuery);
+			jQuery.noConflict(true);
 			</script>
 EOT;
+
+
 		return $string; 		
 	}
 }
