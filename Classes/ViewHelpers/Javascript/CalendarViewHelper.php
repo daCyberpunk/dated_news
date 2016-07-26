@@ -165,7 +165,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 						for (var key in newsCalendarEvent) {
 						  if (newsCalendarEvent.hasOwnProperty(key)) {
 							newsCalendar.fullCalendar( 'addEventSource', newsCalendarEvent[key] )	
-							console.log(key)
+							//console.log(key)
 						  }
 						}
 					}

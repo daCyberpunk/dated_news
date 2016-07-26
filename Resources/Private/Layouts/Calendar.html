@@ -1,0 +1,22 @@
+{namespace n=GeorgRinger\News\ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+
+<f:if condition="{settings.cssFile}">
+    <n:includeFile path="{settings.cssFile}" />
+</f:if>
+
+<v:asset.script path="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" name="jquery" external="1" namedChunks="1" group="dated_news"  standalone="0" overwrite="false" allowMoveToFooter="false"/>
+<v:asset.script path="typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lib/moment.min.js" name="xmoment" dependencies="jquery" namedChunks="1" group="dated_news"  standalone="0" overwrite="false" allowMoveToFooter="false"/>
+<v:asset.script path="typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.js" name="xfullcalendar" dependencies="jquery" namedChunks="1" group="dated_news"  standalone="0" overwrite="false" allowMoveToFooter="false"/>
+<v:asset.script path="typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lang-all.js" name="xlangall" dependencies="jquery" namedChunks="1" group="dated_news"  standalone="0" overwrite="false" allowMoveToFooter="false"/>
+<v:asset.script path="typo3conf/ext/dated_news/Resources/Public/Plugins/qtip/qtip.js" name="xqtip" dependencies="jquery" namedChunks="1" group="dated_news"  standalone="0" overwrite="false" allowMoveToFooter="false"/>
+
+<v:asset.style path="typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css" dependencies="normalizeDSFGrid" external="0" name="xfullcalendar" overwrite="0" namedChunks="1" standalone="0" rewrite="0" movable="1" />
+<v:asset.style path="typo3conf/ext/dated_news/Resources/Public/Plugins/qtip/qtip.css" dependencies="normalizeDSFGrid" external="0" name="xqtip" overwrite="0" namedChunks="1" standalone="0" rewrite="0" movable="1" />
+<v:asset.style path="typo3conf/ext/dated_news/Resources/Public/CSS/dated_news.css" dependencies="normalizeDSFGrid" external="0" name="dated_news" overwrite="0" namedChunks="1" standalone="0" rewrite="0" movable="1" />
+
+
+
+<div class="news">
+    <f:render section="content" />
+</div>

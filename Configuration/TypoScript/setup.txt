@@ -53,13 +53,13 @@ plugin.tx_news {
 
 
 
-page.includeJS.jQuery = https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js
-page.includeJS.jQuery.external = 1
+#page.includeJS.jQuery = https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js
+#page.includeJS.jQuery.external = 1
 
-page.includeJS.xmoment = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lib/moment.min.js
-page.includeJS.xfullcalendar = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.js
-page.includeJS.xlangall = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lang-all.js
-page.includeJS.xqtip = typo3conf/ext/dated_news/Resources/Public/Plugins/qtip/qtip.js
-page.includeCSS.xfullcalendar = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css
-page.includeCSS.xqtip = typo3conf/ext/dated_news/Resources/Public/Plugins/qtip/qtip.css
-page.includeCSS.dated_news = typo3conf/ext/dated_news/Resources/Public/CSS/dated_news.css
+#page.includeJS.xmoment = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lib/moment.min.js
+#page.includeJS.xfullcalendar = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.js
+#page.includeJS.xlangall = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lang-all.js
+#page.includeJS.xqtip = typo3conf/ext/dated_news/Resources/Public/Plugins/qtip/qtip.js
+#page.includeCSS.xfullcalendar = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css
+#page.includeCSS.xqtip = typo3conf/ext/dated_news/Resources/Public/Plugins/qtip/qtip.css
+#page.includeCSS.dated_news = typo3conf/ext/dated_news/Resources/Public/CSS/dated_news.css
