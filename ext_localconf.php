@@ -16,7 +16,7 @@ $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['templateLayouts']['dated_news_tag_fi
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['switchableControllerActions']['newItems']['News->calendar'] = 'DatedNews Calendar';
 
 //Bei der neuen Action werden manche Flexformfelder nicht mehr benötigt
-//$GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['Hooks/BackendUtility.php']['updateFlexforms']['dated_news']
-//	= 'FalkRoeder\\DatedNews\\Hooks\\BackendUtility->updateFlexformsDatedNews';
+$GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['Hooks/BackendUtility.php']['updateFlexforms']['dated_news']
+	= 'FalkRoeder\\DatedNews\\Hooks\\BackendUtility->updateFlexformsDatedNews';
 
 

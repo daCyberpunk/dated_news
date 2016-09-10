@@ -16,9 +16,9 @@ class BackendUtility extends \GeorgRinger\News\Hooks\BackendUtility {
      * @var array
      */
     public $removedFieldsInCalendarView = [
-        'sDEF' => 'dateField,singleNews,previewHiddenRecords',
-        'additional' => '',
-        'template' => ''
+        'sDEF' => 'dateField,singleNews,previewHiddenRecords, orderBy, orderDirection',
+        'additional' => 'hidePagination,itemsPerPage,topNewsFirst',
+        'template' => 'template'
     ];
 
     /**
@@ -29,8 +29,7 @@ class BackendUtility extends \GeorgRinger\News\Hooks\BackendUtility {
     public function updateFlexformsDatedNews(&$params, &$reference) {
         if ($params['selectedView'] === 'News->calendar') {
             $removedFields = $this->removedFieldsInCalendarView;
-
-            $this->deleteFromStructure($dataStructure, $removedFields);
+            $this->deleteFromStructure($params['dataStructure'], $removedFields);
         }
         
     }

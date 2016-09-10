@@ -59,7 +59,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$item = $this->arguments['item'];
  		$strftime = $this->arguments['strftime'];
  		$url = $this->arguments['url'];
- 		$description = $this->arguments['description'];
+ 		$description = ($this->arguments['description'] != NULL ? $this->arguments['description'] : $item->getTeaser());
 
 
  		$title = $item->getTitle();
