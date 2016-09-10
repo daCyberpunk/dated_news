@@ -6,6 +6,7 @@ Extends the TYPO3 versatile news system extension tx_news with a calendar view
 
 1. TYPO3 CMS 7.6 or higher
 2. tx_news 4.0.0 or higher
+3. vhs 3.0.0 or higher
 
 
 ##INSTALLATION
