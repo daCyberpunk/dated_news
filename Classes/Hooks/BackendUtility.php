@@ -3,6 +3,11 @@ namespace FalkRoeder\DatedNews\Hooks;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Hook into \TYPO3\CMS\Backend\Utility\BackendUtility to change flexform behaviour
+ * depending on action selection
+ *
+ */
 class BackendUtility extends \GeorgRinger\News\Hooks\BackendUtility {
 
     /**
@@ -10,21 +15,22 @@ class BackendUtility extends \GeorgRinger\News\Hooks\BackendUtility {
      *
      * @var array
      */
-    public $removedFieldsInCalendarView = array(
+    public $removedFieldsInCalendarView = [
         'sDEF' => 'dateField,singleNews,previewHiddenRecords',
         'additional' => '',
         'template' => ''
-    );
+    ];
 
     /**
-     * @param array|string $params
+     * @param array $params
      * @param array $reference
+     * @return void
      */
-    public function updateFlexforms(&$params, &$reference) {
+    public function updateFlexformsDatedNews(&$params, &$reference) {
         if ($params['selectedView'] === 'News->calendar') {
             $removedFields = $this->removedFieldsInCalendarView;
 
-            $this->deleteFromStructure($params['dataStructure'], $removedFields);
+            $this->deleteFromStructure($dataStructure, $removedFields);
         }
         
     }

@@ -15,7 +15,7 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  *  the Free Software Foundation; either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  The GNU General Public License can be found at
+ *  The GNU General Public License can be found 	at
  *  http://www.gnu.org/copyleft/gpl.html.
  *
  *  This script is distributed in the hope that it will be useful,
@@ -33,9 +33,7 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
  * @package TYPO3
  * @subpackage dated_news
  * @author Falk Röder
- * @var TYPO3\CMS\Fluid\ViewHelpers\Format\CropViewHelper
- * @var TYPO3\CMS\Fluid\ViewHelpers\Format\HtmlViewHelper
- * @inject 
+ * @inject
  */
 class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
@@ -62,7 +60,6 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$strftime = $this->arguments['strftime'];
  		$url = $this->arguments['url'];
  		$description = $this->arguments['description'];
- 		$iterator = $this->arguments['iterator'];
 
 
  		$title = $item->getTitle();
@@ -119,7 +116,6 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		}
 
 		$string = <<<EOT
-			<script type='text/javascript'>
 				if(!newsCalendarEvent){
 					var newsCalendarEvent = [];
 				}
@@ -157,7 +153,6 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 						}
 					}
 				
-			</script>
 EOT;
 
 		return $string; 		

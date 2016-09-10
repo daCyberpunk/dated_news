@@ -1,8 +1,7 @@
 {namespace nc=FalkRoeder\DatedNews\ViewHelpers}
 {namespace n=Tx_News_ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
 
 <f:if condition="{newsItem.showincalendar}">
-
-    <nc:javascript.event url="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" iterator="{iterator}" item="{newsItem}" />
-
+        <v:asset.script content="{nc:javascript.event(url: '{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}', iterator:iterator, item: newsItem)}" name="dated_newsEvent{newsItem.uid}" dependencies="jquery" namedChunks="1"   standalone="1" overwrite="false" movable="true"/>
 </f:if>

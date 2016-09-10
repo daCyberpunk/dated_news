@@ -6,9 +6,9 @@ plugin.tx_news{
 		# cat = plugin.tx_news/calendar; type=options[qtip-shadow,qtip-bootstrap,qtip-youtube,qtip-tipsy,qtip-tipped,tip-jtools,qtip-cluetip]; label=choose a predefined tooltip style 
         tooltipPreStyle =
 		# cat = plugin.tx_news/calendar; type=options[lightness,darkness,blitzer,hotsneaks,humanity,redmond,smoothness,start,custom]; label=choose a predefined jQuery-ui theme for calendar
-        uiTheme = lightness
+        uiTheme = darkness
 		# cat = plugin.tx_news/calendar; type=string; label=choose a own jQuery-ui theme for calendar:uiTheme needs to be set to custom
-        uiThemeCustom = 
+        uiThemeCustom =
 
 	}
 }

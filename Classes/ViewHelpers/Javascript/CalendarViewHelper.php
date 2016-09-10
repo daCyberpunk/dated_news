@@ -63,8 +63,8 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 			$uiTheme = $uiThemeCustom;
 		}
 		if ($uiTheme != NULL) {
-			$GLOBALS['TSFE']->additionalHeaderData['news'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.min.css" media="all">';
-			$GLOBALS['TSFE']->additionalHeaderData['news3'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.theme.min.css" media="all">';
+			$GLOBALS['TSFE']->additionalHeaderData['dated_news'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.min.css" media="all">';
+			$GLOBALS['TSFE']->additionalHeaderData['dated_news1'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.theme.min.css" media="all">';
 		}
 
 		$lang = $GLOBALS['TSFE']->lang;
@@ -74,12 +74,11 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 		} else {
 			$twentyfourhour = "timeFormat: 'H(:mm)'";
 		}
-		$string = <<<EOT
-			<div id="calendar" class="fc-calendar-container"></div>
-			<script type='text/javascript'>
+		$container = '<div id="calendar" class="fc-calendar-container"></div>';
+		$js = <<<EOT
+			
 			
 			(function($) {
-				$(function() {
 					newsCalendar = $('#calendar').fullCalendar({
 						eventRender: function(event, element) {
 					        element.qtip({
@@ -99,7 +98,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 							    },
 					            content: function(ev, api){
 					            	var title = '<div class="qtip-title"><a href="'+event.uri+'" alt="go to event">'+event.title+'</a></div>';
-					            	var desc = '<div class="qtip-desc">'+event.description+'</div>';
+					            	var desc = event.description ? '<div class="qtip-desc">'+event.description+'</div>' : '' ;
 					            	var startDay = event.start.date() > 9 ? event.start.date() : '0'+event.start.date();
 					            	var startMonth = event.start.month().length > 8 ? (event.start.month() +1) : '0'+(event.start.month()+1);
 					            	if (event.end != null) {
@@ -186,7 +185,6 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 						if (!dnchecked.length) {
 							addAllEvents();
 						} else {
-							//wenn gecheckt dann add gecheckt
 							var added =[];
 							dnchecked.each(function(){
 								var filter = $(this).data('dn-filter');
@@ -205,13 +203,12 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 							
 						
 					})
-				});
 			})(jQuery);
 			jQuery.noConflict(true);
-			</script>
+			
 EOT;
 
-
-		return $string; 		
+		$this->templateVariableContainer->add('datedNewsCalendarJS', $js);
+		$this->templateVariableContainer->add('datedNewsCalendarHtml', $container);
 	}
 }

@@ -22,10 +22,10 @@
 				<source>Fulltime Event</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.textcolor">
-				<source>Text Color</source>
+				<source>Text Color (calendar view)</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.backgroundcolor">
-				<source>Background Color</source>
+				<source>Background Color (calendar view)</source>
 			</trans-unit>
 			<trans-unit id="tx_news_domain_model_news.tx_extbase_type.Tx_DatedNews_News">
 				<source>Dated News</source>

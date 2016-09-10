@@ -1,7 +1,8 @@
-{namespace n=Tx_News_ViewHelpers}
-{namespace nc=FalkRoeder\DatedNews\ViewHelpers}
-
-
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:n="http://typo3.org/ns/GeorgRinger/News/ViewHelpers"
+      xmlns:nc="http://typo3.org/ns/FalkRoeder/DatedNews/ViewHelpers"
+      xmlns:v="http://typo3.org/ns/FluidTYPO3/Vhs/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 <f:layout name="Calendar" />
 
 <f:section name="content">
@@ -12,8 +13,10 @@
                 <f:for each="{news}" as="newsItem" iteration="iterator">
                     <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator}" />
                 </f:for>
+                {nc:javascript.calendar(settings:settings)}
+                <f:format.raw>{datedNewsCalendarHtml}</f:format.raw>
+                <v:asset.script content="{datedNewsCalendarJS}" name="dated_newsCalendar" dependencies="jquery" namedChunks="1"   standalone="1" overwrite="false" movable="true"/>
 
-                <nc:javascript.calendar settings="{settings}" />
             </div>
         </f:then>
         <f:else>
@@ -25,3 +28,4 @@
     <!--TYPO3SEARCH_begin-->
 
 </f:section>
+</html>

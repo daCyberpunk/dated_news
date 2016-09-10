@@ -47,24 +47,20 @@ $tmp_dated_news_columns = array(
 		'exclude' => 0,
 		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.eventstart',
 		'config' => array(
-			'dbType' => 'datetime',
 			'type' => 'input',
-			'size' => 12,
+			'size' => 16,
+			'max' => 20,
 			'eval' => 'datetime',
-			'checkbox' => 0,
-			'default' => '0000-00-00 00:00:00'
 		),
 	),
 	'eventend' => array(
 		'exclude' => 0,
 		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.eventend',
 		'config' => array(
-			'dbType' => 'datetime',
 			'type' => 'input',
-			'size' => 12,
+			'size' => 16,
+			'max' => 20,
 			'eval' => 'datetime',
-			'checkbox' => 0,
-			'default' => '0000-00-00 00:00:00'
 		),
 	),
 	'eventlocation' => array(
@@ -76,18 +72,35 @@ $tmp_dated_news_columns = array(
 			'eval' => 'trim'
 		),
 	),
+	'eventtype' => array(
+		'exclude' => 0,
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.eventtype',
+		'config' => array(
+			'type' => 'select',
+			'renderType' => 'selectSingle',
+			'items' => [
+				['Event', 'Event'],
+				['Publication Event', 'PublicationEvent'],
+				['Exhibition', 'ExhibitionEvent'],
+				['Visual Arts Event', 'VisualArtsEvent'],
+			],
+			'size' => 1,
+			'maxitems' => 1,
+		),
+	),
 	'textcolor' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:test/Resources/Private/Language/locallang_db.xlf:tx_test_domain_model_news.textcolor',
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.textcolor',
 		'config' => array(
 			'type' => 'input',
 			'size' => 30,
 			'eval' => 'trim'
 		),
 	),
+	
 	'backgroundcolor' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:test/Resources/Private/Language/locallang_db.xlf:tx_test_domain_model_news.backgroundcolor',
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.backgroundcolor',
 		'config' => array(
 			'type' => 'input',
 			'size' => 30,
@@ -97,7 +110,20 @@ $tmp_dated_news_columns = array(
 );
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tx_news_domain_model_news',$tmp_dated_news_columns);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes("tx_news_domain_model_news",",--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news, showincalendar;;;;1-1-1, eventstart;;;;1-1-1, eventend;;;;1-1-1, fulltime;;;;1-1-1, eventlocation;;;;1-1-1, textcolor;;;;1-1-1, backgroundcolor;;;;1-1-1");
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+	"tx_news_domain_model_news",
+	",--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news, showincalendar;;;;1-1-1, eventstart;;;;1-1-1, eventend;;;;1-1-1, fulltime;;;;1-1-1, eventlocation;;;;1-1-1, eventtype;;;;1-1-1, textcolor;;;;1-1-1, backgroundcolor;;;;1-1-1"
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+	"tx_news_domain_model_news",
+	",--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.reasearch"
+);
+/*\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+	'tx_news_domain_model_news',
+	'paletteCore',
+	'thumbnailposition',
+	'after:istopnews'
+);*/
 
 
 $GLOBALS['TCA']['tx_news_domain_model_news']['columns'][$TCA['tx_news_domain_model_news']['ctrl']['type']]['config']['items'][] = array('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_news_domain_model_news.tx_extbase_type.Tx_DatedNews_News','Tx_DatedNews_News');
@@ -109,3 +135,4 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['columns'][$TCA['tx_news_domain_mod
     'tx_news_domain_model_news'
 );
 
+$GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['orderByNews'] .= ',eventstart';

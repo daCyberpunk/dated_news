@@ -2,43 +2,34 @@
 
 plugin.tx_news {
 	view {
-		templateRootPaths >
 		templateRootPaths {
-			0 = EXT:dated_news/Resources/Private/Templates/
-			1 = EXT:rwb_newsextended/Resources/Private/Templates/
-			2 = EXT:news/Resources/Private/Templates/
+			2 = EXT:dated_news/Resources/Private/Templates/
 		}
-		partialRootPaths >
 		partialRootPaths {
-			0 = EXT:dated_news/Resources/Private/Partials/
-			1 = EXT:rwb_newsextended/Resources/Private/Partials/
-			2 = EXT:news/Resources/Private/Partials/
+			2 = EXT:dated_news/Resources/Private/Partials/
 		}
-		layoutRootPaths >
 		layoutRootPaths {
-			0 = EXT:dated_news/Resources/Private/Layouts/
-			1 = EXT:rwb_newsextended/Resources/Private/Layouts/
-			2 = EXT:news/Resources/Private/Layouts/
+			2 = EXT:dated_news/Resources/Private/Layouts/
 		}
 	}
 
 
 	persistence {
 		classes {
-			GeorgRinger\News\Domain\Model\News {
-				subclasses {
-					# hier wichtig: index 0 überschreiben für die
-					# normale News-Ansicht
-					# 0 == Typ-Auswahl an News-Datensatz
-					0 = RWB\RwbNewsextended\Domain\Model\News
-				}
-			}
-			RWB\RwbNewsextended\Domain\Model\News {
-				mapping {
-					recordType = 0
-					tableName = tx_news_domain_model_news
-				}
-			}
+			#GeorgRinger\News\Domain\Model\News {
+			#	subclasses {
+			#		# hier wichtig: index 0 überschreiben für die
+			#		# normale News-Ansicht
+			#		# 0 == Typ-Auswahl an News-Datensatz
+			#		0 = RWB\RwbNewsextended\Domain\Model\News
+			#	}
+			#}
+			#RWB\RwbNewsextended\Domain\Model\News {
+			#	mapping {
+			#		recordType = 0
+			#		tableName = tx_news_domain_model_news
+			#	}
+			#}
 		}
 	}
 	settings {
@@ -46,7 +37,7 @@ plugin.tx_news {
 		tooltipPreStyle = {$plugin.tx_news.settings.tooltipPreStyle}
 		uiTheme = {$plugin.tx_news.settings.uiTheme}
 		uiThemeCustom = {$plugin.tx_news.settings.uiThemeCustom}
-
+		orderByAllowed = eventstart,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}
 }
 
