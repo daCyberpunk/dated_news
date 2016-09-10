@@ -4,9 +4,8 @@ Extends the TYPO3 versatile news system extension tx_news with a calendar view
 
 ##REQUIREMENTS:
 
-1. TYPO3 CMS 6.2 or higher
-2. tx_news 3.2.5 or higher
-3. jQuery and jQuery UI Javascript files (not shipped with this package)
+1. TYPO3 CMS 7.6 or higher
+2. tx_news 4.0.0 or higher
 
 
 ##INSTALLATION
@@ -46,40 +45,9 @@ uiThemeCustom | string | here you can write down the name of your own calendar t
 
 
 
-####Fluid Template
+####Frontend Plugin
 
-#####Basic Fluid
-
-The Extension adds a new option to the template Selector of the news frontend plugin with number 99 and simply called *calendar*. Soo just add the tx_news frontend plugin to the page you wish to see the calendar and configure it as usual. On tab *Template* you choose *calendar* as Template Layout. 
-
-Add following code to Templates/News/List.html
-
-    {namespace nc=FalkRoeder\DatedNews\ViewHelpers}
-
-    <f:if condition="{settings.templateLayout} == 99">  
-
-        <f:for each="{news}" as="newsItem" iteration="iterator">
-
-            <f:render partial="List/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator}" />
-
-        </f:for>
-
-        <nc:javascript.calendar settings="{settings}" />
-
-    </f:if> 
-
-
-Add a file named *CalendarItem.html* in folder *Partials/List* with following content:
-
-    {namespace nc=FalkRoeder\DatedNews\ViewHelpers}
-
-    {namespace n=Tx_News_ViewHelpers}
-
-    <f:if condition="{newsItem.showincalendar}">
-
-        <nc:javascript.event url="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" item="{newsItem}" />
-
-    </f:if>
+The Extension adds a new action to the news frontend plugin called "DatedNews Calendar". choose it. 
 
 
 #####Tag based Filtering
@@ -100,6 +68,8 @@ You just have to build a list of tag-items where every item has the class *dated
         </div>
     
     </f:if>
+
+An Example is already included. You just can choose the Template layout "taglist for filtering Calendarview" in the Template Tab of the frontend Plugin. 
 
 ###Add events
 
