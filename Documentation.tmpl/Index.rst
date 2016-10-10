@@ -8,13 +8,13 @@
 .. _start:
 
 =============================================================
-newscalendar
+dated_news
 =============================================================
 
 .. only:: html
 
 	:Classification:
-		news_calendar
+		dated_news
 
 	:Version:
 		|release|
@@ -25,7 +25,7 @@ newscalendar
 	:Description:
 
 	:Keywords:
-		comma,separated,list,of,keywords
+		calendar, news
 
 	:Copyright:
 		2015
@@ -53,12 +53,6 @@ newscalendar
 	:titlesonly:
 	:glob:
 
-	Introduction/Index
-	User/Index
+
 	Administrator/Index
-	Configuration/Index
-	Developer/Index
-	KnownProblems/Index
-	ToDoList/Index
 	ChangeLog/Index
-	Targets

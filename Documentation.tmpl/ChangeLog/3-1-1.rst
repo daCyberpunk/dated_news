@@ -1,0 +1,9 @@
+
+
+3.1.1 - 2016/10/06
+------------------
+
+::
+
+	* 2016-10-07 [BUG] Timezone setting reimplemented
+	* 2016-10-07 [BUG] Language setting for localisation reimplemented.

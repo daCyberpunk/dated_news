@@ -49,11 +49,14 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	* @return string the needed html markup inklusive javascript
 	*/
 	public function render() {
- 		$settings = $this->arguments['settings'];
+ 		$settings = $this->arguments['settings']['dated_news'];
  		$uiThemeCustom = $settings['uiThemeCustom'];
  		$uiTheme = $settings['uiTheme'];
  		$tooltipPreStyle = $settings['tooltipPreStyle'];
  		$twentyfourhour = $settings['twentyfourhour'];
+ 		$dateFormat = $settings['dateFormat'];
+ 		$timeFormat = $settings['timeFormat'];
+ 		$dateDevider = $settings['dateDevider'];
 
 
 
@@ -63,8 +66,8 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 			$uiTheme = $uiThemeCustom;
 		}
 		if ($uiTheme != NULL) {
-			$GLOBALS['TSFE']->additionalHeaderData['dated_news'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.min.css" media="all">';
-			$GLOBALS['TSFE']->additionalHeaderData['dated_news1'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.theme.min.css" media="all">';
+			$GLOBALS['TSFE']->additionalHeaderData['dated_news1'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.min.css" media="all">';
+			$GLOBALS['TSFE']->additionalHeaderData['dated_news2'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.theme.min.css" media="all">';
 		}
 
 		$lang = $GLOBALS['TSFE']->lang;
@@ -99,44 +102,32 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 					            content: function(ev, api){
 					            	var title = '<div class="qtip-title"><a href="'+event.uri+'" alt="go to event">'+event.title+'</a></div>';
 					            	var desc = event.description ? '<div class="qtip-desc">'+event.description+'</div>' : '' ;
-					            	var startDay = event.start.date() > 9 ? event.start.date() : '0'+event.start.date();
-					            	var startMonth = event.start.month().length > 8 ? (event.start.month() +1) : '0'+(event.start.month()+1);
-					            	if (event.end != null) {
-						            	var endDay = event.end.date() > 9 ? '&nbsp;- ' + event.end.date() : '&nbsp;- 0'+event.end.date();
-						            	var endMonth = event.end.month().length > 8 ? (event.end.month() +1) : '0'+(event.end.month()+1);
-						            	var endTime = event.end.hour()+':'+event.end.minute();
-					            	}
-					            		
+					            	var devider = '';
+					            	if (event.end != null) {devider = '&nbsp;$dateDevider '};
 					            	if (event.allDay === false) {
 					            		var start = '<div class="qtip-start">'
 					            			+'<b>'
-					            			+ startDay
-					            			+'.'
-					            			+startMonth
+					            			+ event.start.format('$dateFormat')
 					            			+'</b> '
-					            			+ event.start.hour()+':'+event.start.minute()
+					            			+ event.start.format('$timeFormat' )
+					            			+ devider
 					            			+'</div>';
 					            		var end = '<div class="qtip-end">'
 					            			+'<b>'
-					            			+ endDay
-					            			+'.'
-					            			+endMonth
+					            			+ event.end.format('$dateFormat')
 					            			+'</b> '
-					            			+ endTime
+					            			+ event.end.format('$timeFormat' )
 					            			+'</div>';
 					            	} else {
 										var start = '<div class="qtip-start">'
 						            		+'<b>'
-						            		+ startDay
-						            		+'.'
-						            		+startMonth
-						            		+'</b> '
+						            		+ event.start.format('$dateFormat')
+						            		+ '</b> '
+						            		+ devider
 						            		+'</div>';
 						            	var end = '<div class="qtip-end">'
 						            		+'<b>'
-						            		+ endDay
-						            		+'.'
-						            		+endMonth
+						            		+ event.end.format('$dateFormat')
 						            		+'</b> '
 						            		+'</div>';
 					            	}
@@ -149,13 +140,13 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 					            }
 					        });
 					    },
-				        lang: '$lang',
+				        locale: '$lang',
 				        height: 'auto',
 				        theme : 'true',
 						buttonIcons: true, // show the prev/next text
 						weekNumbers: false,
 
-			        	timezone : 'none',
+			        	timezone : 'local',
 			        	$tformat
 
 			    	})

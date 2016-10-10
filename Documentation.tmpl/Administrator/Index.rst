@@ -59,9 +59,30 @@ The Extension adds some new constants to the extension news which are configurab
 twentyfourhour
 """"""""""""""""""""
 
-:typoscript:`plugin.tx_news.settings.twentyfourhour =` :ref:`t3tsref:data-type-boolean`
+:typoscript:`plugin.tx_news.settings.dated_news.twentyfourhour =` :ref:`t3tsref:data-type-boolean`
 
 default: 1; if checked (default) the time in calendar will be shown in 24 hours format (e.g. 23:00); If not the 23:00 is changing to 11:00pm.
+
+dateFormat
+""""""""""""""""""""
+
+:typoscript:`plugin.tx_news.settings.dated_news.dateFormat =` :ref:`t3tsref:data-type-string`
+
+default: DD.MM; Formats the date in tooltip. use the format options accordingly moment.js
+
+timeFormat
+""""""""""""""""""""
+
+:typoscript:`plugin.tx_news.settings.dated_news.timeFormat =` :ref:`t3tsref:data-type-string`
+
+default: HH:mm; Formats the time in tooltip. use the format options accordingly moment.js
+
+dateDevider
+""""""""""""""""""""
+
+:typoscript:`plugin.tx_news.settings.dated_news.dateDevider =` :ref:`t3tsref:data-type-string`
+
+default: -; sets the devider between startdate and enddate in tooltip. can be any string such as "-" or "to"
 
 
 .. _settings-tooltipPreStyle:
@@ -69,7 +90,7 @@ default: 1; if checked (default) the time in calendar will be shown in 24 hours 
 tooltipPreStyle
 """""""""""""""
 
-:typoscript:`plugin.tx_news.settings.tooltipPreStyle =` :ref:`t3tsref:data-type-string`
+:typoscript:`plugin.tx_news.settings.dated_news.tooltipPreStyle =` :ref:`t3tsref:data-type-string`
 
 here you can choose some preconfigured styles for the tooltip which is shwon if you hover an event in calendar.
 
@@ -79,7 +100,7 @@ here you can choose some preconfigured styles for the tooltip which is shwon if 
 uiTheme
 """""""""""""""
 
-:typoscript:`plugin.tx_news.settings.uiTheme =` :ref:`t3tsref:data-type-string`
+:typoscript:`plugin.tx_news.settings.dated_news.uiTheme =` :ref:`t3tsref:data-type-string`
 
 here you can choose some preconfigured styles for the calendar (not the tooltips).
 These styles are jQuery Themes. For the option *custom* you need to set *uiThemeCustom* as well.
@@ -91,7 +112,7 @@ Please see *uiThemeCustom* for more information.
 uiThemeCustom
 """""""""""""""
 
-:typoscript:`plugin.tx_news.settings.uiThemeCustom =` :ref:`t3tsref:data-type-string`
+:typoscript:`plugin.tx_news.settings.dated_news.uiThemeCustom =` :ref:`t3tsref:data-type-string`
 
 here you can write down the name of your own calendar theme, maybe an other jQuery theme.
 The extension looks for an folder with this name in *typo3conf/ext/news_calendar/Resources/Public/CSS/jqueryThemes/* and there for the files *jquery-ui.css* and *jquery-ui.theme.css* to load. 
@@ -131,7 +152,7 @@ Add a file named *CalendarItem.html* in folder *Partials/List* with following co
 
     {namespace nc=FalkRoeder\DatedNews\ViewHelpers}
 
-    {namespace n=Tx_News_ViewHelpers}
+    {namespace n=GeorgRinger\News\ViewHelpers}
 
     <f:if condition="{newsItem.showincalendar}">
 

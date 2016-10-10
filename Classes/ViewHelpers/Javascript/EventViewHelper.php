@@ -100,6 +100,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 				throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('"' . $end . '" could not be parsed by DateTime constructor.', 1438925934);
 			}
 		}
+		
 		if ($strftime) {
 			$formattedStart = strftime('%Y-%m-%dT%H:%M:%S+00:00', $start->format('U'));
 			$formattedEnd = strftime('%Y-%m-%dT%H:%M:%S+00:00', $end->format('U'));
@@ -127,7 +128,6 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			            end: '$formattedEnd',
 			            className: 'Event_$uid',
 			            $description
-			            /*url: '$url'*/
 			            uri: '$url'
 			            $allDay
 			        }

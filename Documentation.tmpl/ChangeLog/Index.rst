@@ -3,14 +3,23 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
-
+.. include:: ../../Includes.txt
 
 .. _changelog:
 
 ChangeLog
-=========
+---------
 
-Providing a change log chapter is optional. You can also refer
-users to the ChangeLog file inside the extension or to some repository's
-commit listing.
+
+List of versions
+================
+
+.. toctree::
+   :maxdepth: 5
+   :titlesonly:
+   :glob:
+
+   2-0-4
+   3-0-0
+   3-1-0
+   3-1-1

@@ -1,0 +1,9 @@
+
+
+3.1.0 - 2016/10/06
+------------------
+
+::
+
+	* 2016-10-06 [BUG] removed leading zero in Date in tootltip from october to december.
+	* 2016-10-06 [FEATURE] made dateformat in tooltips configurable in typoscript

@@ -1,6 +1,6 @@
 
 plugin.tx_news{
-	settings{
+	settings.dated_news{
 		# cat=plugin.tx_news/calendar; type=boolean; label=time is shown in 24h format 
 		twentyfourhour = 1
 		# cat = plugin.tx_news/calendar; type=options[qtip-shadow,qtip-bootstrap,qtip-youtube,qtip-tipsy,qtip-tipped,tip-jtools,qtip-cluetip]; label=choose a predefined tooltip style 

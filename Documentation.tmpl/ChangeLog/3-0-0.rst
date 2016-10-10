@@ -1,0 +1,9 @@
+
+
+3.0.0 - 2016/10/06
+------------------
+
+::
+
+	* 2016-10-06 [BUG] moved JS to Footer
+	* 2016-10-06 [BUG] settings of dated_news moved to own section
