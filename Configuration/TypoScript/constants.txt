@@ -2,7 +2,7 @@
 plugin.tx_news{
 	settings.dated_news{
 		# cat=plugin.tx_news/calendar; type=boolean; label=time is shown in 24h format 
-		twentyfourhour = 1
+		twentyfourhour = 0
 		# cat = plugin.tx_news/calendar; type=options[qtip-shadow,qtip-bootstrap,qtip-youtube,qtip-tipsy,qtip-tipped,tip-jtools,qtip-cluetip]; label=choose a predefined tooltip style 
         tooltipPreStyle =
 		# cat = plugin.tx_news/calendar; type=options[lightness,darkness,blitzer,hotsneaks,humanity,redmond,smoothness,start,custom]; label=choose a predefined jQuery-ui theme for calendar

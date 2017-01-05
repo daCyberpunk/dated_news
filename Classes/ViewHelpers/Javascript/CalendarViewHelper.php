@@ -54,14 +54,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
  		$uiTheme = $settings['uiTheme'];
  		$tooltipPreStyle = $settings['tooltipPreStyle'];
  		$twentyfourhour = $settings['twentyfourhour'];
- 		$dateFormat = $settings['dateFormat'];
- 		$timeFormat = $settings['timeFormat'];
- 		$dateDevider = $settings['dateDevider'];
-
-
-
-
-
+		
 		if ($uiTheme === 'custom') {
 			$uiTheme = $uiThemeCustom;
 		}
@@ -73,14 +66,13 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 		$lang = $GLOBALS['TSFE']->lang;
 
 		if ($twentyfourhour === '0') {
-			$tformat = "timeFormat: 'h(:mm)'";
+			$tformat = "timeFormat: 'h:mm'";
 		} else {
-			$twentyfourhour = "timeFormat: 'H(:mm)'";
+			$tformat = "timeFormat: 'H:mm'";
 		}
 		$container = '<div id="calendar" class="fc-calendar-container"></div>';
+		
 		$js = <<<EOT
-			
-			
 			(function($) {
 					newsCalendar = $('#calendar').fullCalendar({
 						eventRender: function(event, element) {
@@ -100,49 +92,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 							        }
 							    },
 					            content: function(ev, api){
-					            	var title = '<div class="qtip-title"><a href="'+event.uri+'" alt="go to event">'+event.title+'</a></div>';
-					            	var desc = event.description ? '<div class="qtip-desc">'+event.description+'</div>' : '' ;
-					            	var devider = '';
-					            	if (event.end != null) {devider = '$dateDevider'};
-					            	if (event.allDay === false) {
-					            		var start = '<div class="qtip-start">'
-					            			+'<b>'
-					            			+ event.start.format('$dateFormat')
-					            			+'</b> '
-					            			+ event.start.format('$timeFormat' )
-					            			+ devider
-					            			+'</div>';
-					            		if (event.end != null) {
-											var end = '<div class="qtip-end">'
-												+'<b>'
-												+ event.end.format('$dateFormat')
-												+'</b> '
-												+ event.end.format('$timeFormat' )
-												+'</div>';
-					            		}
-					            		
-					            	} else {
-										var start = '<div class="qtip-start">'
-						            		+'<b>'
-						            		+ event.start.format('$dateFormat')
-						            		+ '</b> '
-						            		+ devider
-						            		+' </div>';
-						            	console.log(event.end)
-						            	if (event.end != null) {
-											var end = '<div class="qtip-end">'
-												+'<b>'
-												+ event.end.format('$dateFormat')
-												+'</b> '
-												+'</div>';
-										}
-					            	}
-
-					            	if (event.end != null) {
-					            		return title + start + end + desc;
-					            	} else {
-					            		return title + start + desc;
-					            	}
+									return event.qtip;
 					            }
 					        });
 					    },

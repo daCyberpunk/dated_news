@@ -1,0 +1,9 @@
+
+
+3.2.0 - 2017/01/05
+------------------
+
+::
+
+	* 2017-01-05 [BUG] configurable timeformat in Calendar (24hours) work now
+	* 2017-01-05 [IMPROVEMENT] Tooltip now is writable in Fluidtemplate

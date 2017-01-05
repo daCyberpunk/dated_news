@@ -38,9 +38,8 @@ plugin.tx_news {
 			tooltipPreStyle = {$plugin.tx_news.settings.dated_news.tooltipPreStyle}
 			uiTheme = {$plugin.tx_news.settings.dated_news.uiTheme}
 			uiThemeCustom = {$plugin.tx_news.settings.dated_news.uiThemeCustom}
-			dateFormat = DD.MM
-			timeFormat = HH.mm
-			dateDevider = -
+			dateFormat = d.m
+			timeFormat = H:i
 		}
 		orderByAllowed = eventstart,eventend,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}

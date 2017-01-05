@@ -58,8 +58,6 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 	public function render() {
  		$item = $this->arguments['item'];
  		$strftime = $this->arguments['strftime'];
- 		$url = $this->arguments['url'];
- 		$description = ($this->arguments['description'] != NULL ? $this->arguments['description'] : $item->getTeaser());
 
 
  		$title = $item->getTitle();
@@ -121,10 +119,9 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		if ($fulltime === TRUE) {
 			$allDay = ',allDay: true';
 		}
-		if ($description != NULL) {
-			$description = "description: '".trim(preg_replace('/\s+/', ' ', $description))."',";
-		}
 
+		$qtip = ',qtip: \'' . trim(preg_replace( "/\r|\n/", "", $this->renderChildren())) . '\'';
+		
 		$string = <<<EOT
 				if(!newsCalendarEvent){
 					var newsCalendarEvent = [];
@@ -135,12 +132,10 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			    	    title: '$title',
 			            start: '$formattedStart',
 			            end: '$formattedEnd',
-			            className: 'Event_$uid',
-			            $description
-			            uri: '$url'
+			            className: 'Event_$uid'
 			            $allDay
+			            $qtip 
 			        }
-
 			    ],
 			    color: '$color',
 			    textColor: '$textcolor'

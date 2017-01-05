@@ -13,7 +13,6 @@
             <div class="news-list-view">
                 <f:for each="{news}" as="newsItem" iteration="iterator">
                     <f:if condition="{newsItem.showincalendar} == 'TRUE'">
-
                         <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator}" />
                     </f:if>
                 </f:for>
