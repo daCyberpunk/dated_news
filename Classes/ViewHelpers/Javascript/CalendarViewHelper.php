@@ -103,7 +103,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 					            	var title = '<div class="qtip-title"><a href="'+event.uri+'" alt="go to event">'+event.title+'</a></div>';
 					            	var desc = event.description ? '<div class="qtip-desc">'+event.description+'</div>' : '' ;
 					            	var devider = '';
-					            	if (event.end != null) {devider = '&nbsp;$dateDevider '};
+					            	if (event.end != null) {devider = '$dateDevider'};
 					            	if (event.allDay === false) {
 					            		var start = '<div class="qtip-start">'
 					            			+'<b>'
@@ -112,24 +112,30 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 					            			+ event.start.format('$timeFormat' )
 					            			+ devider
 					            			+'</div>';
-					            		var end = '<div class="qtip-end">'
-					            			+'<b>'
-					            			+ event.end.format('$dateFormat')
-					            			+'</b> '
-					            			+ event.end.format('$timeFormat' )
-					            			+'</div>';
+					            		if (event.end != null) {
+											var end = '<div class="qtip-end">'
+												+'<b>'
+												+ event.end.format('$dateFormat')
+												+'</b> '
+												+ event.end.format('$timeFormat' )
+												+'</div>';
+					            		}
+					            		
 					            	} else {
 										var start = '<div class="qtip-start">'
 						            		+'<b>'
 						            		+ event.start.format('$dateFormat')
 						            		+ '</b> '
 						            		+ devider
-						            		+'</div>';
-						            	var end = '<div class="qtip-end">'
-						            		+'<b>'
-						            		+ event.end.format('$dateFormat')
-						            		+'</b> '
-						            		+'</div>';
+						            		+' </div>';
+						            	console.log(event.end)
+						            	if (event.end != null) {
+											var end = '<div class="qtip-end">'
+												+'<b>'
+												+ event.end.format('$dateFormat')
+												+'</b> '
+												+'</div>';
+										}
 					            	}
 
 					            	if (event.end != null) {

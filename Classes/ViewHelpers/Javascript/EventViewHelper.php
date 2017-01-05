@@ -70,7 +70,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$textcolor = $item->getTextcolor;
  		$uid = $item->getUid();
  		$tags = $item->getTags();
- 		
+
  		$i = 0;
  		foreach($tags as $key => $value) {
  			$i++;
@@ -93,20 +93,29 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 				throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('"' . $start . '" could not be parsed by DateTime constructor.', 1438925934);
 			}
 		}
-		if (!$end instanceof \DateTime) {
+
+		if (!$end instanceof \DateTime && $end !== NULL) {
 			try {
 				$end = new \DateTime($end);
 			} catch (\Exception $exception) {
 				throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('"' . $end . '" could not be parsed by DateTime constructor.', 1438925934);
 			}
 		}
-		
+
 		if ($strftime) {
 			$formattedStart = strftime('%Y-%m-%dT%H:%M:%S+00:00', $start->format('U'));
-			$formattedEnd = strftime('%Y-%m-%dT%H:%M:%S+00:00', $end->format('U'));
+			if($end !== NULL){
+				$formattedEnd = strftime('%Y-%m-%dT%H:%M:%S+00:00', $end->format('U'));
+			}
+
 		} else {
 			$formattedStart = date('%Y-%m-%dT%H:%M:%S+00:00', $start->format('U'));
-			$formattedEnd = date('%Y-%m-%dT%H:%M:%S+00:00', $end->format('U'));
+			if($end !== NULL){
+				$formattedEnd = date('%Y-%m-%dT%H:%M:%S+00:00', $end->format('U'));
+			}
+
+
+
 		}
 
 		if ($fulltime === TRUE) {

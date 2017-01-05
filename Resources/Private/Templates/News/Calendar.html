@@ -6,12 +6,16 @@
 <f:layout name="Calendar" />
 
 <f:section name="content">
+    
     <!--TYPO3SEARCH_end-->
     <f:if condition="{news}">
         <f:then>
             <div class="news-list-view">
                 <f:for each="{news}" as="newsItem" iteration="iterator">
-                    <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator}" />
+                    <f:if condition="{newsItem.showincalendar} == 'TRUE'">
+
+                        <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator}" />
+                    </f:if>
                 </f:for>
                 {nc:javascript.calendar(settings:settings)}
                 <f:format.raw>{datedNewsCalendarHtml}</f:format.raw>

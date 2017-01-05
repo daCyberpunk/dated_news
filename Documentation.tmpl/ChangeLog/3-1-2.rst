@@ -1,0 +1,9 @@
+
+
+3.1.2 - 2017/01/05
+------------------
+
+::
+
+	* 2017-01-05 [BUG] Doubled Type field in TCA removed
+	* 2017-01-05 [BUG] If no enddate is provided so no enddate is shown in tooltip.

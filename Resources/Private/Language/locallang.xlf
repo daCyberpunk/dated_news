@@ -15,6 +15,9 @@
 			<trans-unit id="tx_datednews_domain_model_news.eventlocation">
 				<source>Event Location</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.eventtype">
+				<source>Event Type</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.showincalendar">
 				<source>Show in Calendar</source>
 			</trans-unit>
