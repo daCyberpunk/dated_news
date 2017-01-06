@@ -1,49 +1,9 @@
 {namespace nc=FalkRoeder\DatedNews\ViewHelpers}
-{namespace n=GeorgRinger\News\ViewHelpers}
 {namespace v=FluidTYPO3\Vhs\ViewHelpers}
 
 
 <f:if condition="{newsItem.showincalendar}">
-    <f:if condition="{newsItem.uid} == 26">
-        <f:debug title="settings | CalendarItem.html:8" maxDepth="8" inline="FALSE" >{settings}</f:debug>
-        <f:debug title=" | CalendarItem.html:7" maxDepth="8" inline="FALSE" >{newsItem}</f:debug>
-    </f:if>
     <v:asset.script  name="dated_newsEvent{newsItem.uid}" dependencies="jquery" namedChunks="1"   standalone="1" overwrite="false" movable="true">
-        <nc:javascript.event iterator="iterator" item="{newsItem}">
-
-            <div class="qtip-content" id="qtip-8-content" aria-atomic="true">
-                <div class="qtip-title">
-                    <a href="{n:link(newsItem: newsItem, settings: settings, uriOnly: 1)}" alt="Link to {newsItem.title}">{newsItem.title}</a>
-                </div>
-                <div class="qtip-location">
-                    <span>{newsItem.eventlocation}</span>
-                </div>
-                <div class="qtip-start">
-                    <b><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventstart}</f:format.date></b>
-                    <f:format.date format="{settings.dated_news.timeFormat}">{newsItem.eventstart}</f:format.date>
-                </div>
-
-                <f:if condition="{newsItem.eventend}"> - </f:if>
-
-                <div class="qtip-end">
-                    <b><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventend}</f:format.date></b>
-                    <f:format.date format="{settings.dated_news.timeFormat}">{newsItem.eventend}</f:format.date>
-                </div>
-
-                <div class="qtip-desc">
-                    <f:if condition="{newsItem.description} == ''">
-                        <f:then>
-                            <f:format.html>{newsItem.teaser}</f:format.html>
-                        </f:then>
-                        <f:else>
-                            <f:format.html>{newsItem.description}</f:format.html>
-                        </f:else>
-                    </f:if>
-
-                </div>
-            </div>
-
-        </nc:javascript.event>
-
+        <nc:javascript.event iterator="iterator" item="{newsItem}" qtip="{v:render.template(file: 'EXT:dated_news/Resources/Private/Partials/Calendar/Qtip.html', variables: {settings: settings, newsItem: newsItem})}"/>
     </v:asset.script>
 </f:if>

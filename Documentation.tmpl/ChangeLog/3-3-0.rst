@@ -1,0 +1,10 @@
+
+
+3.2.0 - 2017/01/05
+------------------
+
+::
+
+	* 2017-01-06 [BUG] übersehene Debugausgabe entfernt
+	* 2017-01-06 [IMPROVEMENT] Moved Tooltip into seperate Partialfile
+	* 2017-01-06 [IMPROVEMENT] Documentation adapted

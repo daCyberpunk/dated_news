@@ -25,7 +25,6 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * EventViewHelper
@@ -43,9 +42,8 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 	* @return void
 	*/
 	public function initializeArguments() {
-		$this->registerArgument('url', 'mixed', 'url to detailview of event');
+		$this->registerArgument('qtip', 'string', 'rendered qtip Partial');
 		$this->registerArgument('strftime', 'bool', 'if true, the strftime is used instead of date()', FALSE, TRUE);
-		$this->registerArgument('description', 'string', 'description of event');
 		$this->registerArgument('item', 'mixed', 'newsitem');
 		$this->registerArgument('iterator', 'mixed', 'iterator');
 
@@ -58,8 +56,8 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 	public function render() {
  		$item = $this->arguments['item'];
  		$strftime = $this->arguments['strftime'];
-
-
+ 		$qtip = ',qtip: \'' . trim(preg_replace( "/\r|\n/", "", $this->arguments['qtip'])) . '\'';
+		
  		$title = $item->getTitle();
  		$start = $item->getEventstart();
  		$end = $item->getEventend();
@@ -68,7 +66,8 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$textcolor = $item->getTextcolor;
  		$uid = $item->getUid();
  		$tags = $item->getTags();
-
+		$filterTags = '';
+		
  		$i = 0;
  		foreach($tags as $key => $value) {
  			$i++;
@@ -111,17 +110,13 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			if($end !== NULL){
 				$formattedEnd = date('%Y-%m-%dT%H:%M:%S+00:00', $end->format('U'));
 			}
-
-
-
 		}
-
+		
+		$allDay = ',allDay: false';
 		if ($fulltime === TRUE) {
 			$allDay = ',allDay: true';
 		}
 
-		$qtip = ',qtip: \'' . trim(preg_replace( "/\r|\n/", "", $this->renderChildren())) . '\'';
-		
 		$string = <<<EOT
 				if(!newsCalendarEvent){
 					var newsCalendarEvent = [];
