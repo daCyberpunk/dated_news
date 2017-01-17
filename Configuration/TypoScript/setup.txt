@@ -35,11 +35,22 @@ plugin.tx_news {
 	settings{
 		dated_news {
 			twentyfourhour = {$plugin.tx_news.settings.dated_news.twentyfourhour}
+			minTime = {$plugin.tx_news.settings.dated_news.minTime}
+			maxTime = {$plugin.tx_news.settings.dated_news.maxTime}
+			allDaySlot = {$plugin.tx_news.settings.dated_news.allDaySlot}
 			tooltipPreStyle = {$plugin.tx_news.settings.dated_news.tooltipPreStyle}
 			uiTheme = {$plugin.tx_news.settings.dated_news.uiTheme}
 			uiThemeCustom = {$plugin.tx_news.settings.dated_news.uiThemeCustom}
 			dateFormat = d.m
 			timeFormat = H:i
+			#buttonsPosition = {$plugin.tx_news.settings.dated_news.buttonsPosition}
+			switchableViews = {$plugin.tx_news.settings.dated_news.switchableViews}
+			defaultView = {$plugin.tx_news.settings.dated_news.defaultView}
+			titlePosition = {$plugin.tx_news.settings.dated_news.titlePosition}
+			switchableViewsPosition = {$plugin.tx_news.settings.dated_news.switchableViewsPosition}
+			nextPosition = {$plugin.tx_news.settings.dated_news.nextPosition}
+			prevPosition = {$plugin.tx_news.settings.dated_news.prevPosition}
+			todayPosition = {$plugin.tx_news.settings.dated_news.todayPosition}
 		}
 		orderByAllowed = eventstart,eventend,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}

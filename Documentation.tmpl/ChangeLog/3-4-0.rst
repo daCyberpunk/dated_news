@@ -1,0 +1,9 @@
+
+
+3.4.0 - 2017/01/17
+------------------
+
+::
+
+	* 2017-01-17 [BUG] qtip Stylesheets completed.
+	* 2017-01-17 [FEATURE] added some usefull options to constants for fullcalendar.

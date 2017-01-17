@@ -1,14 +1,45 @@
+## Define custom categories and subcategories first
+# customcategory=datednews_design=Dated News: Design
+
+
+# customsubcategory=view=View
+# customsubcategory=buttons=Button Positions
+# customsubcategory=style=Style
+
 
 plugin.tx_news{
 	settings.dated_news{
-		# cat=plugin.tx_news/calendar; type=boolean; label=time is shown in 24h format 
-		twentyfourhour = 0
-		# cat = plugin.tx_news/calendar; type=options[qtip-shadow,qtip-bootstrap,qtip-youtube,qtip-tipsy,qtip-tipped,tip-jtools,qtip-cluetip]; label=choose a predefined tooltip style 
-        tooltipPreStyle =
-		# cat = plugin.tx_news/calendar; type=options[lightness,darkness,blitzer,hotsneaks,humanity,redmond,smoothness,start,custom]; label=choose a predefined jQuery-ui theme for calendar
-        uiTheme = darkness
-		# cat = plugin.tx_news/calendar; type=string; label=choose a own jQuery-ui theme for calendar:uiTheme needs to be set to custom
+		# cat = datednews_design/style/a; type=options[lightness,darkness,blitzer,hotsneaks,humanity,redmond,smoothness,start,custom]; label=choose a predefined jQuery-ui theme for calendar
+        uiTheme = lightness
+		# cat = datednews_design/style/b; type=string; label=choose a own jQuery-ui theme for calendar:uiTheme needs to be set to custom
         uiThemeCustom =
+		# cat = datednews_design/style/c; type=options[qtip-shadow,qtip-bootstrap,qtip-youtube,qtip-tipsy,qtip-tipped,tip-jtools,qtip-cluetip]; label=choose a predefined tooltip style
+		tooltipPreStyle =
+
+		#cat=datednews_design/view/a; type=options[month,agendaWeek,basicWeek,agendaDay,basicDay]; label=Default Calendar View
+		defaultView = month
+		#cat=datednews_design/view/b; type=string; label=List of views user can switch to: comma sperated list, please use always only agenda or basic options. f.e. bascicWeek OR agendaWeek. avalailable items: month,agendaWeek,basicWeek,agendaDay,basicDay
+		switchableViews =
+		# cat=datednews_design/view/c; type=boolean; label=time is shown in 24h format
+		twentyfourhour = 1
+		# cat=datednews_design/view/d; type=string; label=calendar Agenda View starts with time
+		minTime = 07:00:00
+		# cat=datednews_design/view/e; type=string; label=calendar Agenda View ends with time
+		maxTime = 18:00:00
+		# cat=datednews_design/view/f; type=boolean; label=Display the "all-day" slot: attention: allday Events will not shown up if slot is not available in agenda views.
+		allDaySlot = 1
+
+		#cat=datednews_design/buttons/a; type=options[Header Left=header_left,Header Center=header_center,Header Right=header_right, none]; label=Position of Calendartitle
+		titlePosition = header_left
+		#cat=datednews_design/buttons/b; type=options[Header Left=header_left,Header Center=header_center,Header Right=header_right, none]; label=Position of switch View Buttons
+		switchableViewsPosition = header_center
+		#cat=datednews_design/buttons/c; type=options[Header Left=header_left,Header Center=header_center,Header Right=header_right, none]; label=Position of prev button
+		prevPosition = header_right
+		#cat=datednews_design/buttons/d; type=options[Header Left=header_left,Header Center=header_center,Header Right=header_right, none]; label=Position of next button
+		nextPosition = header_right
+		#cat=datednews_design/buttons/e; type=options[Header Left=header_left,Header Center=header_center,Header Right=header_right, none]; label=Position of today button
+		todayPosition = header_right
+
 
 	}
 }

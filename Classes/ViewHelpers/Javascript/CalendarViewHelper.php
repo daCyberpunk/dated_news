@@ -53,8 +53,20 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
  		$uiThemeCustom = $settings['uiThemeCustom'];
  		$uiTheme = $settings['uiTheme'];
  		$tooltipPreStyle = $settings['tooltipPreStyle'];
+
+		$titlePosition = $settings['titlePosition'];
+		$switchableViewsPosition = $settings['switchableViewsPosition'];
+		$nextPosition = $settings['nextPosition'];
+		$todayPosition = $settings['todayPosition'];
+		$prevPosition = $settings['prevPosition'];
+
+		$switchableViews = $settings['switchableViews'];
+		$defaultView = 'defaultView: "'. $settings['defaultView'].'",';
  		$twentyfourhour = $settings['twentyfourhour'];
-		
+ 		$allDaySlot = 'allDaySlot:' . $settings['allDaySlot'] .',';
+ 		$minTime = 'minTime: "' . $settings['minTime']. '",';
+ 		$maxTime = 'maxTime: "' . $settings['maxTime']. '",';
+
 		if ($uiTheme === 'custom') {
 			$uiTheme = $uiThemeCustom;
 		}
@@ -70,15 +82,38 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 		} else {
 			$tformat = "timeFormat: 'H:mm'";
 		}
+
+		//generate js option for buttons positions
+		$positions = ['header' => ['left' => '','center' => '','right' => ''],'footer' => ['left' => '','center' => '','right' => '']];
+
+		$titlePositionArr = explode('_', $titlePosition);
+		$positions[$titlePositionArr[0]][$titlePositionArr[1]] .= 'title';
+		$prevPositionArr = explode('_', $prevPosition);
+		$positions[$prevPositionArr[0]][$prevPositionArr[1]] .= ', prev';
+		$nextPositionArr = explode('_', $nextPosition);
+		$positions[$nextPositionArr[0]][$nextPositionArr[1]] .= ', next';
+		$todayPositionArr = explode('_', $todayPosition);
+		$positions[$todayPositionArr[0]][$todayPositionArr[1]] .= ', today';
+		$switchableViewsPositionArr = explode('_', $switchableViewsPosition);
+		$positions[$switchableViewsPositionArr[0]][$switchableViewsPositionArr[1]] .= ', ' . $switchableViews;
+		$header = 'header: {left: "'.$positions['header']['left'].'", center: "'.$positions['header']['center'].'", right: "'.$positions['header']['right'].'"},';
+		$footer = 'footer: {left: "'.$positions['footer']['left'].'", center: "'.$positions['footer']['center'].'", right: "'.$positions['footer']['right'].'"},';
+
 		$container = '<div id="calendar" class="fc-calendar-container"></div>';
 		
 		$js = <<<EOT
 			(function($) {
 					newsCalendar = $('#calendar').fullCalendar({
+						$header
+						$footer
+						$defaultView
+						$minTime
+						$maxTime
+						$allDaySlot
 						eventRender: function(event, element) {
 					        element.qtip({
 				        		style: { 
-				        			classes: 'qtip-rounded, qtip-shadow, qtip-cluetip, $tooltipPreStyle' 
+				        			classes: 'qtip-rounded qtip-shadow qtip-cluetip $tooltipPreStyle' 
 				        		},
 					        	hide: {
 							        delay: 200,
@@ -101,7 +136,6 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 				        theme : 'true',
 						buttonIcons: true, // show the prev/next text
 						weekNumbers: false,
-
 			        	timezone : 'local',
 			        	$tformat
 
