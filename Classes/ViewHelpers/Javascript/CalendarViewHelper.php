@@ -50,95 +50,45 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	*/
 	public function render() {
  		$settings = $this->arguments['settings']['dated_news'];
- 		$uiThemeCustom = $settings['uiThemeCustom'];
- 		$uiTheme = $settings['uiTheme'];
- 		$tooltipPreStyle = $settings['tooltipPreStyle'];
 
-		$titlePosition = $settings['titlePosition'];
-		$switchableViewsPosition = $settings['switchableViewsPosition'];
-		$nextPosition = $settings['nextPosition'];
-		$todayPosition = $settings['todayPosition'];
-		$prevPosition = $settings['prevPosition'];
-
-		$switchableViews = $settings['switchableViews'];
+        //build all options
+        $headerFooter = $this->buildHeaderFooterOption(
+            $settings['titlePosition'],
+            $settings['switchableViewsPosition'],
+            $settings['nextPosition'],
+            $settings['prevPosition'],
+            $settings['todayPosition'],
+            $settings['switchableViews']
+            );
+        $eventRenderer = $this->buildEventRendererOption($settings['tooltipPreStyle']);
+        $timeFormat = $this->buildTimeFormatOption($settings['twentyfourhour']);
 		$defaultView = 'defaultView: "'. $settings['defaultView'].'",';
- 		$twentyfourhour = $settings['twentyfourhour'];
+        $lang = 'locale: "'.$GLOBALS['TSFE']->lang .'",';
  		$allDaySlot = 'allDaySlot:' . $settings['allDaySlot'] .',';
  		$minTime = 'minTime: "' . $settings['minTime']. '",';
  		$maxTime = 'maxTime: "' . $settings['maxTime']. '",';
 
-		if ($uiTheme === 'custom') {
-			$uiTheme = $uiThemeCustom;
-		}
-		if ($uiTheme != NULL) {
-			$GLOBALS['TSFE']->additionalHeaderData['dated_news1'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.min.css" media="all">';
-			$GLOBALS['TSFE']->additionalHeaderData['dated_news2'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.theme.min.css" media="all">';
-		}
+        $this->addJQueryUIThemeCSS($settings['uiThemeCustom'], $settings['uiTheme']);
 
-		$lang = $GLOBALS['TSFE']->lang;
 
-		if ($twentyfourhour === '0') {
-			$tformat = "timeFormat: 'h:mm'";
-		} else {
-			$tformat = "timeFormat: 'H:mm'";
-		}
-
-		//generate js option for buttons positions
-		$positions = ['header' => ['left' => '','center' => '','right' => ''],'footer' => ['left' => '','center' => '','right' => '']];
-
-		$titlePositionArr = explode('_', $titlePosition);
-		$positions[$titlePositionArr[0]][$titlePositionArr[1]] .= 'title';
-		$prevPositionArr = explode('_', $prevPosition);
-		$positions[$prevPositionArr[0]][$prevPositionArr[1]] .= ', prev';
-		$nextPositionArr = explode('_', $nextPosition);
-		$positions[$nextPositionArr[0]][$nextPositionArr[1]] .= ', next';
-		$todayPositionArr = explode('_', $todayPosition);
-		$positions[$todayPositionArr[0]][$todayPositionArr[1]] .= ', today';
-		$switchableViewsPositionArr = explode('_', $switchableViewsPosition);
-		$positions[$switchableViewsPositionArr[0]][$switchableViewsPositionArr[1]] .= ', ' . $switchableViews;
-		$header = 'header: {left: "'.$positions['header']['left'].'", center: "'.$positions['header']['center'].'", right: "'.$positions['header']['right'].'"},';
-		$footer = 'footer: {left: "'.$positions['footer']['left'].'", center: "'.$positions['footer']['center'].'", right: "'.$positions['footer']['right'].'"},';
-
-		$container = '<div id="calendar" class="fc-calendar-container"></div>';
-		
+        //complete javascript code
 		$js = <<<EOT
 			(function($) {
 					newsCalendar = $('#calendar').fullCalendar({
-						$header
-						$footer
+						$headerFooter[0]
+						$headerFooter[1]
 						$defaultView
 						$minTime
 						$maxTime
 						$allDaySlot
-						eventRender: function(event, element) {
-					        element.qtip({
-				        		style: { 
-				        			classes: 'qtip-rounded qtip-shadow qtip-cluetip $tooltipPreStyle' 
-				        		},
-					        	hide: {
-							        delay: 200,
-							        fixed: true, 
-							        effect: function() { $(this).fadeOut(250); }
-							    },
-							    position: {
-							        viewport: $(window),
-							        adjust: {
-							            method: 'flip'
-							        }
-							    },
-					            content: function(ev, api){
-									return event.qtip;
-					            }
-					        });
-					    },
-				        locale: '$lang',
+						$lang
+						$eventRenderer
 				        height: 'auto',
 				        theme : 'true',
 						buttonIcons: true, // show the prev/next text
 						weekNumbers: false,
 			        	timezone : 'local',
-			        	$tformat
-
+			        	$timeFormat
 			    	})
 					
 					function addAllEvents(){
@@ -189,6 +139,73 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 EOT;
 
 		$this->templateVariableContainer->add('datedNewsCalendarJS', $js);
-		$this->templateVariableContainer->add('datedNewsCalendarHtml', $container);
+		$this->templateVariableContainer->add('datedNewsCalendarHtml', '<div id="calendar" class="fc-calendar-container"></div>');
 	}
+
+    public function addJQueryUIThemeCSS($uiThemeCustom = '', $uiTheme){
+        if ($uiTheme === 'custom') {
+            $uiTheme = $uiThemeCustom;
+        }
+        if ($uiTheme != NULL) {
+            $GLOBALS['TSFE']->additionalHeaderData['dated_news1'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.min.css" media="all">';
+            $GLOBALS['TSFE']->additionalHeaderData['dated_news2'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.theme.min.css" media="all">';
+        }
+    }
+
+    public function buildTimeFormatOption($twentyfourhour){
+        if ($twentyfourhour === '0') {
+            $tformat = "timeFormat: 'h:mm'";
+        } else {
+            $tformat = "timeFormat: 'H:mm'";
+        }
+        return $tformat;
+    }
+    public function buildEventRendererOption($tooltipPreStyle){
+        $eventRenderer = <<<EOT
+            eventRender: function(event, element) {
+			    element.qtip({
+				    style: { 
+				        classes: 'qtip-rounded qtip-shadow qtip-cluetip $tooltipPreStyle' 
+				    },
+					hide: {
+					    delay: 200,
+						fixed: true, 
+						effect: function() { $(this).fadeOut(250); }
+					},
+					position: {
+					    viewport: $(window),
+						adjust: {
+						    method: 'flip'
+						}
+					},
+					content: function(ev, api){
+					    return event.qtip;
+					}
+				});
+			},
+EOT;
+    return $eventRenderer;
+    }
+
+    public function buildHeaderFooterOption($titlePosition,$switchableViewsPosition,$nextPosition,$prevPosition,$todayPosition,$switchableViews){
+        //generate js option for buttons positions
+        $positions = ['header' => ['left' => '','center' => '','right' => ''],'footer' => ['left' => '','center' => '','right' => '']];
+
+        $titlePositionArr = explode('_', $titlePosition);
+        $positions[$titlePositionArr[0]][$titlePositionArr[1]] .= 'title';
+        $prevPositionArr = explode('_', $prevPosition);
+        $positions[$prevPositionArr[0]][$prevPositionArr[1]] .= ', prev';
+        $nextPositionArr = explode('_', $nextPosition);
+        $positions[$nextPositionArr[0]][$nextPositionArr[1]] .= ', next';
+        $todayPositionArr = explode('_', $todayPosition);
+        $positions[$todayPositionArr[0]][$todayPositionArr[1]] .= ', today';
+        $switchableViewsPositionArr = explode('_', $switchableViewsPosition);
+        $positions[$switchableViewsPositionArr[0]][$switchableViewsPositionArr[1]] .= ', ' . $switchableViews;
+        $header = 'header: {left: "'.$positions['header']['left'].'", center: "'.$positions['header']['center'].'", right: "'.$positions['header']['right'].'"},';
+        $footer = 'footer: {left: "'.$positions['footer']['left'].'", center: "'.$positions['footer']['center'].'", right: "'.$positions['footer']['right'].'"},';
+
+        return array($header, $footer);
+    }
+
+
 }
