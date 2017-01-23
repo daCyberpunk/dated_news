@@ -1,0 +1,8 @@
+
+
+3.4.1 - 2017/01/23
+------------------
+
+::
+
+	* 2017-01-23 [BUG] Escaping quotes, doublequotes and backslashes for use in Javascript
