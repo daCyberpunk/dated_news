@@ -1,0 +1,27 @@
+
+<table class="tx-dated-news" >
+	<tr>
+		<td>
+			<f:translate key="tx_datednews_domain_model_news.eventstart" />
+		</td>
+		<td>
+		{news.eventstart -> f:format.date()}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_datednews_domain_model_news.eventend" />
+		</td>
+		<td>
+		{news.eventend -> f:format.date()}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_datednews_domain_model_news.eventlocation" />
+		</td>
+		<td>
+		{news.eventlocation}
+		</td>
+	</tr>
+</table>

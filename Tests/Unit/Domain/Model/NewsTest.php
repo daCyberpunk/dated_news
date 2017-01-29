@@ -1,11 +1,11 @@
 <?php
 
-namespace FR\NewsCalendar\Tests\Unit\Domain\Model;
+namespace FalkRoeder\DatedNews\Tests\Unit\Domain\Model;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2015 Falk Röder <mail@falk-roeder.de>
+ *  (c) 2017 Falk Röder <mail@falk-roeder.de>
  *
  *  All rights reserved
  *
@@ -27,31 +27,35 @@ namespace FR\NewsCalendar\Tests\Unit\Domain\Model;
  ***************************************************************/
 
 /**
- * Test case for class \FR\NewsCalendar\Domain\Model\News.
+ * Test case for class \FalkRoeder\DatedNews\Domain\Model\News.
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  * @author Falk Röder <mail@falk-roeder.de>
  */
-class NewsTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class NewsTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+{
 	/**
-	 * @var \FR\NewsCalendar\Domain\Model\News
+	 * @var \FalkRoeder\DatedNews\Domain\Model\News
 	 */
 	protected $subject = NULL;
 
-	protected function setUp() {
-		$this->subject = new \FR\NewsCalendar\Domain\Model\News();
+	public function setUp()
+	{
+		$this->subject = new \FalkRoeder\DatedNews\Domain\Model\News();
 	}
 
-	protected function tearDown() {
+	public function tearDown()
+	{
 		unset($this->subject);
 	}
 
 	/**
 	 * @test
 	 */
-	public function getEventstartReturnsInitialValueForDateTime() {
+	public function getEventstartReturnsInitialValueForDateTime()
+	{
 		$this->assertEquals(
 			NULL,
 			$this->subject->getEventstart()
@@ -61,7 +65,8 @@ class NewsTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setEventstartForDateTimeSetsEventstart() {
+	public function setEventstartForDateTimeSetsEventstart()
+	{
 		$dateTimeFixture = new \DateTime();
 		$this->subject->setEventstart($dateTimeFixture);
 
@@ -75,7 +80,8 @@ class NewsTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getEventendReturnsInitialValueForDateTime() {
+	public function getEventendReturnsInitialValueForDateTime()
+	{
 		$this->assertEquals(
 			NULL,
 			$this->subject->getEventend()
@@ -85,7 +91,8 @@ class NewsTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setEventendForDateTimeSetsEventend() {
+	public function setEventendForDateTimeSetsEventend()
+	{
 		$dateTimeFixture = new \DateTime();
 		$this->subject->setEventend($dateTimeFixture);
 
@@ -99,7 +106,8 @@ class NewsTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getEventlocationReturnsInitialValueForString() {
+	public function getEventlocationReturnsInitialValueForString()
+	{
 		$this->assertSame(
 			'',
 			$this->subject->getEventlocation()
@@ -109,7 +117,8 @@ class NewsTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setEventlocationForStringSetsEventlocation() {
+	public function setEventlocationForStringSetsEventlocation()
+	{
 		$this->subject->setEventlocation('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(

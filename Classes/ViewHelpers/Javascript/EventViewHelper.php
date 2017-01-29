@@ -57,17 +57,19 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$item = $this->arguments['item'];
  		$strftime = $this->arguments['strftime'];
  		$qtip = ',qtip: \'' . trim(preg_replace( "/\r|\n/", "", $this->arguments['qtip'])) . '\'';
-		
+
+
  		$title = $item->getTitle();
  		$start = $item->getEventstart();
  		$end = $item->getEventend();
  		$fulltime = $item->getFulltime();
- 		$color = $item->getBackgroundcolor;
- 		$textcolor = $item->getTextcolor;
+ 		$color = $item->getBackgroundcolor();
+ 		$textcolor = $item->getTextcolor();
  		$uid = $item->getUid();
  		$tags = $item->getTags();
 		$filterTags = '';
 		
+
  		$i = 0;
  		foreach($tags as $key => $value) {
  			$i++;

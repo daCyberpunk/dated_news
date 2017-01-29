@@ -14,6 +14,8 @@ $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['templateLayouts']['dated_news_tag_fi
 
 //neue Action Anlegen in Flexforms
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['switchableControllerActions']['newItems']['News->calendar'] = 'DatedNews Calendar';
+$GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['switchableControllerActions']['newItems']['News->createApplication'] = 'DatedNews create Application';
+$GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['switchableControllerActions']['newItems']['News->eventDetail'] = 'DatedNews Event Details';
 
 //Bei der neuen Action werden manche Flexformfelder nicht mehr benötigt
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['Hooks/BackendUtility.php']['updateFlexforms']['dated_news']

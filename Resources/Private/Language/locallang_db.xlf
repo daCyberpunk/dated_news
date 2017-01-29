@@ -24,15 +24,127 @@
 			<trans-unit id="tx_datednews_domain_model_news.fulltime">
 				<source>Fulltime Event</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.slots">
+				<source>Slots available</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.textcolor">
 				<source>Text Color (calendar view)</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.backgroundcolor">
 				<source>Background Color (calendar view)</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.price">
+				<source>Price</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.early_bird_price">
+				<source>Early Bird Price</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.locations">
+				<source>Locations</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.persons">
+				<source>Persons</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.application">
+				<source>Applications / Bookings</source>
+			</trans-unit>
 			<trans-unit id="tx_news_domain_model_news.tx_extbase_type.Tx_DatedNews_News">
 				<source>Dated News</source>
 			</trans-unit>
+
+
+
+			<trans-unit id="tx_datednews_domain_model_location">
+				<source>Location</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.address2">
+				<source>Address2</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.zip">
+				<source>Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.address">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.city">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.country">
+				<source>Country</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.phone">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.email">
+				<source>Email</source>
+			</trans-unit>
+			
+			
+			
+			<trans-unit id="tx_datednews_domain_model_person">
+				<source>Person</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.surname">
+				<source>Surname</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.email">
+				<source>Email</source>
+			</trans-unit>
+			
+			
+			
+			
+			<trans-unit id="tx_datednews_domain_model_application">
+				<source>Application</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.surname">
+				<source>Surname</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.events">
+				<source>Events</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.reserved_slots">
+				<source>Reserved Slots</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.address">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.address2">
+				<source>Address2</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.zip">
+				<source>Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.city">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.country">
+				<source>Country</source>
+			</trans-unit>
+
+
+
 		</body>
 	</file>
 </xliff>

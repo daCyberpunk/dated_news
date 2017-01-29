@@ -1,7 +1,6 @@
 <?php
 namespace FalkRoeder\DatedNews\Domain\Model;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,207 +29,484 @@ namespace FalkRoeder\DatedNews\Domain\Model;
 /**
  * News
  */
-class News extends \GeorgRinger\News\Domain\Model\News {
+class News extends \GeorgRinger\News\Domain\Model\News
+{
 
-	/**
-	 * showincalendar
-	 *
-	 * @var boolean
-	 */
-	protected $showincalendar = FALSE;
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application>
+     * 
+     */
+    protected $application;
+    
+    /**
+     * showincalendar
+     *
+     * @var boolean
+     */
+    protected $showincalendar = FALSE;
+    
+    /**
+     * fulltime
+     *
+     * @var boolean
+     */
+    protected $fulltime = FALSE;
+    
+    /**
+     * textcolor
+     *
+     * @var string
+     */
+    protected $textcolor = '';
+    
+    /**
+     * backgroundcolor
+     *
+     * @var string
+     */
+    protected $backgroundcolor = '';
+    
+    /**
+     * eventstart
+     *
+     * @var \DateTime
+     */
+    protected $eventstart = NULL;
+    
+    /**
+     * eventend
+     *
+     * @var \DateTime
+     */
+    protected $eventend = NULL;
+    
+    /**
+     * eventlocation
+     *
+     * @var string
+     */
+    protected $eventlocation = '';
 
-	/**
-	 * Returns the showincalendar
-	 *
-	 * @return boolean $showincalendar
-	 */
-	public function getShowincalendar() {
-		return $this->showincalendar;
-	}
+    /**
+     * slots
+     * 
+     * @var int
+     */
+    protected $slots;
 
-	/**
-	 * Sets the showincalendar
-	 *
-	 * @param boolean $showincalendar
-	 * @return void
-	 */
-	public function setShowincalendar($showincalendar) {
-		$this->showincalendar = $showincalendar;
-	}
+    /**
+     * slotsFree
+     *
+     * @var int
+     */
+    protected $slotsFree;
 
-	/**
-	 * Returns the boolean state of showincalendar
-	 *
-	 * @return boolean
-	 */
-	public function isShowincalendar() {
-		return $this->showincalendar;
-	}
+    /**
+     * price
+     *
+     * @var string
+     */
+    protected $price = '';
 
-	/**
-	 * fulltime
-	 *
-	 * @var boolean
-	 */
-	protected $fulltime = FALSE;
+    /**
+     * earlyBirdPrice
+     *
+     * @var string
+     */
+    protected $earlyBirdPrice = '';
 
-	/**
-	 * Returns the fulltime
-	 *
-	 * @return boolean $fulltime
-	 */
-	public function getFulltime() {
-		return $this->fulltime;
-	}
+    /**
+     * locations
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location>
+     * @lazy
+     */
+    protected $locations = null;
 
-	/**
-	 * Sets the fulltime
-	 *
-	 * @param boolean $fulltime
-	 * @return void
-	 */
-	public function setFulltime($fulltime) {
-		$this->fulltime = $fulltime;
-	}
+    /**
+     * persons
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Person>
+     * @lazy
+     */
+    protected $persons = null;
 
-	/**
-	 * Returns the boolean state of fulltime
-	 *
-	 * @return boolean
-	 */
-	public function isFulltime() {
-		return $this->fulltime;
-	}
+    
 
-	/**
-	 * eventstart
-	 *
-	 * @var \DateTime
-	 */
-	protected $eventstart = NULL;
+    /**
+     * Returns the price
+     *
+     * @return string $price
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
 
-	/**
-	 * eventend
-	 *
-	 * @var \DateTime
-	 */
-	protected $eventend = NULL;
+    /**
+     * Sets the price
+     *
+     * @param string $price
+     * @return void
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
 
-	/**
-	 * eventlocation
-	 *
-	 * @var string
-	 */
-	protected $eventlocation = '';
+    /**
+     * Returns the earlyBirdPrice
+     *
+     * @return string $earlyBirdPrice
+     */
+    public function getEarlyBirdPrice()
+    {
+        return $this->earlyBirdPrice;
+    }
 
-	/**
-	 * Returns the eventstart
-	 *
-	 * @return \DateTime $eventstart
-	 */
-	public function getEventstart() {
-		return $this->eventstart;
-	}
+    /**
+     * Sets the earlyBirdPrice
+     *
+     * @param string $earlyBirdPrice
+     * @return void
+     */
+    public function setEarlyBirdPrice($earlyBirdPrice)
+    {
+        $this->earlyBirdPrice = $earlyBirdPrice;
+    }
 
-	/**
-	 * Sets the eventstart
-	 *
-	 * @param \DateTime $eventstart
-	 * @return void
-	 */
-	public function setEventstart(\DateTime $eventstart) {
-		$this->eventstart = $eventstart;
-	}
+    /**
+     * Adds a Location
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Location $location
+     * @return void
+     */
+    public function addLocation(\FalkRoeder\DatedNews\Domain\Model\Location $location)
+    {
+        $this->locations->attach($location);
+    }
 
-	/**
-	 * Returns the eventend
-	 *
-	 * @return \DateTime $eventend
-	 */
-	public function getEventend() {
-		return $this->eventend;
-	}
+    /**
+     * Removes a Location
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Location $locationToRemove The Location to be removed
+     * @return void
+     */
+    public function removeLocation(\FalkRoeder\DatedNews\Domain\Model\Location $locationToRemove)
+    {
+        $this->locations->detach($locationToRemove);
+    }
 
-	/**
-	 * Sets the eventend
-	 *
-	 * @param \DateTime $eventend
-	 * @return void
-	 */
-	public function setEventend(\DateTime $eventend) {
-		$this->eventend = $eventend;
-	}
+    /**
+     * Returns the locations
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location> $locations
+     */
+    public function getLocations()
+    {
+        return $this->locations;
+    }
 
-	/**
-	 * Returns the eventlocation
-	 *
-	 * @return string $eventlocation
-	 */
-	public function getEventlocation() {
-		return $this->eventlocation;
-	}
+    /**
+     * Sets the locations
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location> $locations
+     * @return void
+     */
+    public function setLocations(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $locations)
+    {
+        $this->locations = $locations;
+    }
 
-	/**
-	 * Sets the eventlocation
-	 *
-	 * @param string $eventlocation
-	 * @return void
-	 */
-	public function setEventlocation($eventlocation) {
-		$this->eventlocation = $eventlocation;
-	}
+    /**
+     * Adds a Person
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Person $person
+     * @return void
+     */
+    public function addPerson(\FalkRoeder\DatedNews\Domain\Model\Person $person)
+    {
+        $this->persons->attach($person);
+    }
 
-		/**
-	 * textcolor
-	 *
-	 * @var string
-	 */
-	protected $textcolor = '';
+    /**
+     * Removes a Person
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Person $personToRemove The Person to be removed
+     * @return void
+     */
+    public function removePerson(\FalkRoeder\DatedNews\Domain\Model\Person $personToRemove)
+    {
+        $this->persons->detach($personToRemove);
+    }
 
-	/**
-	 * backgroundcolor
-	 *
-	 * @var string
-	 */
-	protected $backgroundcolor = '';
+    /**
+     * Returns the persons
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Person> $persons
+     */
+    public function getPersons()
+    {
+        return $this->persons;
+    }
 
-	/**
-	 * Returns the textcolor
-	 *
-	 * @return string $textcolor
-	 */
-	public function getTextcolor() {
-		return $this->textcolor;
-	}
+    /**
+     * Sets the persons
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Person> $persons
+     * @return void
+     */
+    public function setPersons(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $persons)
+    {
+        $this->persons = $persons;
+    }
+    
+    /**
+     * Returns the showincalendar
+     *
+     * @return boolean $showincalendar
+     */
+    public function getShowincalendar()
+    {
+        return $this->showincalendar;
+    }
+    
+    /**
+     * Sets the showincalendar
+     *
+     * @param boolean $showincalendar
+     * @return void
+     */
+    public function setShowincalendar($showincalendar)
+    {
+        $this->showincalendar = $showincalendar;
+    }
+    
+    /**
+     * Returns the boolean state of showincalendar
+     *
+     * @return boolean
+     */
+    public function isShowincalendar()
+    {
+        return $this->showincalendar;
+    }
+    
+    /**
+     * Returns the fulltime
+     *
+     * @return boolean $fulltime
+     */
+    public function getFulltime()
+    {
+        return $this->fulltime;
+    }
+    
+    /**
+     * Sets the fulltime
+     *
+     * @param boolean $fulltime
+     * @return void
+     */
+    public function setFulltime($fulltime)
+    {
+        $this->fulltime = $fulltime;
+    }
+    
+    /**
+     * Returns the boolean state of fulltime
+     *
+     * @return boolean
+     */
+    public function isFulltime()
+    {
+        return $this->fulltime;
+    }
+    
+    /**
+     * Returns the eventstart
+     *
+     * @return \DateTime $eventstart
+     */
+    public function getEventstart()
+    {
+        return $this->eventstart;
+    }
+    
+    /**
+     * Sets the eventstart
+     *
+     * @param \DateTime $eventstart
+     * @return void
+     */
+    public function setEventstart(\DateTime $eventstart)
+    {
+        $this->eventstart = $eventstart;
+    }
+    
+    /**
+     * Returns the eventend
+     *
+     * @return \DateTime $eventend
+     */
+    public function getEventend()
+    {
+        return $this->eventend;
+    }
+    
+    /**
+     * Sets the eventend
+     *
+     * @param \DateTime $eventend
+     * @return void
+     */
+    public function setEventend(\DateTime $eventend)
+    {
+        $this->eventend = $eventend;
+    }
+    
+    /**
+     * Returns the eventlocation
+     *
+     * @return string $eventlocation
+     */
+    public function getEventlocation()
+    {
+        return $this->eventlocation;
+    }
+    
+    /**
+     * Sets the eventlocation
+     *
+     * @param string $eventlocation
+     * @return void
+     */
+    public function setEventlocation($eventlocation)
+    {
+        $this->eventlocation = $eventlocation;
+    }
+    
+    /**
+     * Returns the textcolor
+     *
+     * @return string $textcolor
+     */
+    public function getTextcolor()
+    {
+        return $this->textcolor;
+    }
+    
+    /**
+     * Sets the textcolor
+     *
+     * @param string $textcolor
+     * @return void
+     */
+    public function setTextcolor($textcolor)
+    {
+        $this->textcolor = $textcolor;
+    }
 
-	/**
-	 * Sets the textcolor
-	 *
-	 * @param string $textcolor
-	 * @return void
-	 */
-	public function setTextcolor($textcolor) {
-		$this->textcolor = $textcolor;
-	}
+    /**
+     * Returns the slots
+     *
+     * @return int $slots
+     */
+    public function getSlots()
+    {
+        return $this->slots;
+    }
 
-	/**
-	 * Returns the backgroundcolor
-	 *
-	 * @return string $backgroundcolor
-	 */
-	public function getBackgroundcolor() {
-		return $this->backgroundcolor;
-	}
+    /**
+     * Sets the slots
+     *
+     * @param int $slots
+     * @return void
+     */
+    public function setSlots($slots)
+    {
+        $this->slots = $slots;
+    }
 
-	/**
-	 * Sets the backgroundcolor
-	 *
-	 * @param string $backgroundcolor
-	 * @return void
-	 */
-	public function setBackgroundcolor($backgroundcolor) {
-		$this->backgroundcolor = $backgroundcolor;
-	}
+    /**
+     * Sets the slotsFree
+     *
+     * @param int $slotsFree
+     * @return void
+     */
+    public function setSlotsFree($slotsFree)
+    {
+        $this->slotsFree = $slotsFree;
+    }
 
+    /**
+     * Returns the slotsFree
+     *
+     * @return int $slotsFree
+     */
+    public function getSlotsFree()
+    {
+        return $this->slotsFree;
+    }
+    
+    /**
+     * Returns the backgroundcolor
+     *
+     * @return string $backgroundcolor
+     */
+    public function getBackgroundcolor()
+    {
+        return $this->backgroundcolor;
+    }
+    
+    /**
+     * Sets the backgroundcolor
+     *
+     * @param string $backgroundcolor
+     * @return void
+     */
+    public function setBackgroundcolor($backgroundcolor)
+    {
+        $this->backgroundcolor = $backgroundcolor;
+    }
+
+    /**
+     * Adds a Application
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Application $application
+     * @return void
+     */
+    public function addApplication(\FalkRoeder\DatedNews\Domain\Model\Application $application) {
+        $this->application->attach($application);
+    }
+
+    /**
+     * Removes a Application
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Application $applicationToRemove The Application to be removed
+     * @return void
+     */
+    public function removeApplication(\FalkRoeder\DatedNews\Domain\Model\Application $applicationToRemove) {
+        $this->application->detach($applicationToRemove);
+    }
+
+    /**
+     * Returns the application
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application> $application
+     */
+    public function getApplication() {
+        return $this->application;
+    }
+
+    /**
+     * Sets the application
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application> $application
+     * @return void
+     */
+    public function setApplication(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $application) {
+        $this->application = $application;
+    }
 
 }

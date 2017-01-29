@@ -51,6 +51,12 @@ plugin.tx_news {
 			nextPosition = {$plugin.tx_news.settings.dated_news.nextPosition}
 			prevPosition = {$plugin.tx_news.settings.dated_news.prevPosition}
 			todayPosition = {$plugin.tx_news.settings.dated_news.todayPosition}
+			todayPosition = {$plugin.tx_news.settings.dated_news.todayPosition}
+			application {
+				senderMail = noreply@falk-roeder.de
+				senderName = RWB
+				notificationMail = mail@falk-roeder.de, falk.das@gmail.com
+			}
 		}
 		orderByAllowed = eventstart,eventend,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}
