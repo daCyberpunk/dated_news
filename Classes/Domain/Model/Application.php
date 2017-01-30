@@ -118,6 +118,34 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $country = '';
 
     /**
+     * costs
+     *
+     * @var string
+     */
+    protected $costs = '';
+
+    /**
+     * Returns the costs
+     *
+     * @return string $costs
+     */
+    public function getCosts()
+    {
+        return $this->costs;
+    }
+
+    /**
+     * Sets the costs
+     *
+     * @param string $costs
+     * @return void
+     */
+    public function setCosts($costs)
+    {
+        $this->costs = $costs;
+    }
+
+    /**
      * Returns the reservedSlots
      *
      * @return int $reservedSlots

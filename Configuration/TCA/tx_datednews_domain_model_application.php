@@ -26,7 +26,7 @@ return array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, name, surname, email, events',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, costs, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -206,6 +206,15 @@ return array(
 		'country' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.country',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'costs' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.costs',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,

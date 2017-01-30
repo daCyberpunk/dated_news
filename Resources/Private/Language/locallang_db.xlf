@@ -142,6 +142,9 @@
 			<trans-unit id="tx_datednews_domain_model_application.country">
 				<source>Country</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.costs">
+				<source>Costs</source>
+			</trans-unit>
 
 
 

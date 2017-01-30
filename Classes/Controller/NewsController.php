@@ -201,6 +201,19 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         if($this->applicationRepository->isFirstFormSubmission($newApplication->getFormTimestamp())){
             $newApplication->setTitle($news->getTitle()." - ".$newApplication->getName() . ', ' . $newApplication->getSurname());
             $newApplication->setPid($news->getPid());
+
+            //set total depending on eaither customer is an early bird or not
+            $earlybirdDate = clone $news->getEventstart();
+            $earlybirdDate->setTime(0,0,0)->sub(new \DateInterval('P'.$this->settings['dated_news']['application']['earlyBirdDays'].'D'));
+            $today = new \DateTime();
+            $today->setTime(0,0,0);
+
+            if($earlybirdDate >= $today) {
+                $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',','.',$news->getEarlyBirdPrice())));
+            } else {
+                $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',','.',$news->getPrice())));
+            }
+
             $newApplication->addEvent($news);
             $this->applicationRepository->add($newApplication);
 

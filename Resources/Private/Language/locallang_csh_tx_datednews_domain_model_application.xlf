@@ -36,6 +36,9 @@
 			<trans-unit id="country.description">
 				<source>country</source>
 			</trans-unit>
+			<trans-unit id="costs.description">
+				<source>costs</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
