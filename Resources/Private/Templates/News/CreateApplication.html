@@ -13,4 +13,62 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:section name="main">
     <f:flashMessages />
+    <table>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.events" extensionName="dated_news" /></td>
+            <td>{newsItem.title}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_news.eventstart"  extensionName="dated_news"/></td>
+            <td><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventstart}</f:format.date></td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_news.eventend"  extensionName="dated_news"/></td>
+            <td><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventend}</f:format.date></td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.surname"  extensionName="dated_news"/></td>
+            <td>{newApplication.surname}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.name"  extensionName="dated_news"/></td>
+            <td>{newApplication.name}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.company"  extensionName="dated_news"/></td>
+            <td>{newApplication.company}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.address"  extensionName="dated_news"/></td>
+            <td>{newApplication.address}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.address2"  extensionName="dated_news"/></td>
+            <td>{newApplication.address2}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.zip"  extensionName="dated_news"/></td>
+            <td>{newApplication.zip}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.city"  extensionName="dated_news"/></td>
+            <td>{newApplication.city}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.country"  extensionName="dated_news"/></td>
+            <td>{newApplication.country}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.email"  extensionName="dated_news"/></td>
+            <td>{newApplication.email}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.reserved_slots"  extensionName="dated_news"/></td>
+            <td>{newApplication.reservedSlots}</td>
+        </tr>
+        <tr>
+            <td><f:translate key="tx_datednews_domain_model_application.costs"  extensionName="dated_news"/></td>
+            <td>{newApplication.costs}</td>
+        </tr>
+    </table>
 </f:section>

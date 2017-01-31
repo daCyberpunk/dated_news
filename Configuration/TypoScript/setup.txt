@@ -13,25 +13,6 @@ plugin.tx_news {
 		}
 	}
 
-
-	persistence {
-		classes {
-			#GeorgRinger\News\Domain\Model\News {
-			#	subclasses {
-			#		# hier wichtig: index 0 überschreiben für die
-			#		# normale News-Ansicht
-			#		# 0 == Typ-Auswahl an News-Datensatz
-			#		0 = RWB\RwbNewsextended\Domain\Model\News
-			#	}
-			#}
-			#RWB\RwbNewsextended\Domain\Model\News {
-			#	mapping {
-			#		recordType = 0
-			#		tableName = tx_news_domain_model_news
-			#	}
-			#}
-		}
-	}
 	settings{
 		dated_news {
 			twentyfourhour = {$plugin.tx_news.settings.dated_news.twentyfourhour}
@@ -43,7 +24,6 @@ plugin.tx_news {
 			uiThemeCustom = {$plugin.tx_news.settings.dated_news.uiThemeCustom}
 			dateFormat = d.m
 			timeFormat = H:i
-			#buttonsPosition = {$plugin.tx_news.settings.dated_news.buttonsPosition}
 			switchableViews = {$plugin.tx_news.settings.dated_news.switchableViews}
 			defaultView = {$plugin.tx_news.settings.dated_news.defaultView}
 			titlePosition = {$plugin.tx_news.settings.dated_news.titlePosition}
@@ -52,12 +32,6 @@ plugin.tx_news {
 			prevPosition = {$plugin.tx_news.settings.dated_news.prevPosition}
 			todayPosition = {$plugin.tx_news.settings.dated_news.todayPosition}
 			todayPosition = {$plugin.tx_news.settings.dated_news.todayPosition}
-			application {
-				senderMail = noreply@falk-roeder.de
-				senderName = RWB
-				notificationMail = mail@falk-roeder.de, falk.das@gmail.com
-				earlyBirdDays = 2
-			}
 		}
 		orderByAllowed = eventstart,eventend,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}

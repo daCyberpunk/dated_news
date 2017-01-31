@@ -90,7 +90,6 @@
 					</f:link.page>
 				</div>
 			</f:if>
-<f:comment>
 	<f:if condition="{settings.detail.showSocialShareButtons}">
 		<f:comment>
 			<![CDATA[
@@ -114,7 +113,6 @@
 			</div>
 		</div>
 	</f:if>
-</f:comment>
 
 
 			<f:if condition="{settings.detail.disqusShortname}">
@@ -217,113 +215,116 @@
 					</div>
 				</f:if>
 			</div>
-			<f:if condition="{newsItem.slotsFree} > 0">
-				<f:then>
-					<f:form id="application-form" class="form-horizontal" noCacheHash="true" pageUid="30" action="" name="newApplication" object="{newApplication}" arguments="{news : newsItem ,newApplication: newApplication}" enctype="multipart/form-data">
-						<f:form.textfield class="form-control" type="hidden" property="formTimestamp" value="{formTimestamp}" size="40" required="required" />
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-							    <label class=""><f:translate key="tx_datednews_domain_model_application.title" extensionName="dated_news"/></label>
-							</div>
-						    <div class="col-sm-5">
-						        <f:form.textfield class="form-control" property="title" size="40" />
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-							    <label class=""><f:translate key="tx_datednews_domain_model_application.company" extensionName="dated_news"/></label>
-							</div>
-						    <div class="col-sm-5">
-						        <f:form.textfield class="form-control" property="company" size="40" required="required" />
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-								<label class=""><f:translate key="tx_datednews_domain_model_application.name" extensionName="dated_news"/></label>
-							</div>
-							<div class="col-sm-5">
-								<f:form.textfield class="form-control" property="name" size="40" required="required" />
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-								<label class=""><f:translate key="tx_datednews_domain_model_application.surname" extensionName="dated_news"/></label>
-							</div>
-							<div class="col-sm-5">
-								<f:form.textfield class="form-control" property="surname" size="40" required="required" />
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-							    <label class=""><f:translate key="tx_datednews_domain_model_application.address" extensionName="dated_news"/></label>
-							</div>
-						    <div class="col-sm-5">
-						        <f:form.textfield class="form-control" property="address" size="40" required="required" />
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-							    <label class=""><f:translate key="tx_datednews_domain_model_application.address2" extensionName="dated_news"/></label>
-							</div>
-						    <div class="col-sm-5">
-						        <f:form.textfield class="form-control" property="address2" size="40"  />
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-							    <label class=""><f:translate key="tx_datednews_domain_model_application.zip" extensionName="dated_news"/></label>
-							</div>
-						    <div class="col-sm-5">
-						        <f:form.textfield class="form-control" property="zip" size="40" required="required" />
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-							    <label class=""><f:translate key="tx_datednews_domain_model_application.city" extensionName="dated_news"/></label>
-							</div>
-						    <div class="col-sm-5">
-						        <f:form.textfield class="form-control" property="city" size="40" required="required" />
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-							    <label class=""><f:translate key="tx_datednews_domain_model_application.country" extensionName="dated_news"/></label>
-							</div>
-						    <div class="col-sm-5">
-						        <f:form.textfield class="form-control" property="country" size="40" required="required" />
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-								<label class=""><f:translate key="tx_datednews_domain_model_application.reserved_slots" extensionName="dated_news"/></label>
-							</div>
-							<div class="col-sm-5">
-								<f:form.select name="reservedSlots" options="{slotoptions}" optionValueField="key" optionLabelField="value" property="reservedSlots" />
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-3 control-label">
-								<label class=""><f:translate key="tx_datednews_domain_model_application.email" extensionName="dated_news"/></label>
-							</div>
-							<div class="col-sm-5">
-								<f:form.textfield class="form-control" type="email" property="email" size="40" required="required" />
-							</div>
-						</div>
-						<f:form.submit class="btn btn-primary" value="{f:translate(key:'tx_datednews_domain_model_application.submit', extensionName: 'dated_news')}" />
-						</br>
-						</br>
-						</br>
-						</br>
-						</br>
-					</f:form>
-				</f:then>
+			<f:if condition="{settings.applicationPid} == ''">
 				<f:else>
-					no booking more available
+					<f:if condition="{newsItem.slotsFree} > 0">
+						 <f:then>
+							 <f:form id="application-form" class="form-horizontal" noCacheHash="true" pageUid="{settings.applicationPid}" action="" name="newApplication" object="{newApplication}" arguments="{news : newsItem ,newApplication: newApplication}" enctype="multipart/form-data">
+								 <f:form.textfield class="form-control" type="hidden" property="formTimestamp" value="{formTimestamp}" size="40" required="required" />
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.title" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.textfield class="form-control" property="title" size="40" />
+									 </div>
+								 </div>
+
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.company" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.textfield class="form-control" property="company" size="40" required="required" />
+									 </div>
+								 </div>
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.name" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.textfield class="form-control" property="name" size="40" required="required" />
+									 </div>
+								 </div>
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.surname" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.textfield class="form-control" property="surname" size="40" required="required" />
+									 </div>
+								 </div>
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.address" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.textfield class="form-control" property="address" size="40" required="required" />
+									 </div>
+								 </div>
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.address2" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.textfield class="form-control" property="address2" size="40"  />
+									 </div>
+								 </div>
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.zip" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.textfield class="form-control" property="zip" size="40" required="required" />
+									 </div>
+								 </div>
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.city" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.textfield class="form-control" property="city" size="40" required="required" />
+									 </div>
+								 </div>
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.country" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.textfield class="form-control" property="country" size="40" required="required" />
+									 </div>
+								 </div>
+
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.reserved_slots" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.select name="reservedSlots" options="{slotoptions}" optionValueField="key" optionLabelField="value" property="reservedSlots" />
+									 </div>
+								 </div>
+								 <div class="form-group">
+									 <div class="col-sm-3 control-label">
+										 <label class=""><f:translate key="tx_datednews_domain_model_application.email" extensionName="dated_news"/></label>
+									 </div>
+									 <div class="col-sm-5">
+										 <f:form.textfield class="form-control" type="email" property="email" size="40" required="required" />
+									 </div>
+								 </div>
+								 <f:form.submit class="btn btn-primary" value="{f:translate(key:'tx_datednews_domain_model_application.submit', extensionName: 'dated_news')}" />
+								 </br>
+								 </br>
+								 </br>
+								 </br>
+								 </br>
+							 </f:form>
+						 </f:then>
+						 <f:else>
+							 no booking more available
+						 </f:else>
+					 </f:if>
 				</f:else>
 			</f:if>
-
 		</f:then>
 		<f:else>
 

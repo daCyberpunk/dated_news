@@ -1,0 +1,62 @@
+<application>
+    <ROOT>
+        <TCEforms>
+            <sheetTitle>Application / Booking</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+            <!-- Sender Mail -->
+            <settings.senderMail>
+                <TCEforms>
+                    <label>Sender Mail</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>30</size>
+                    </config>
+                </TCEforms>
+            </settings.senderMail>
+
+            <!-- Sender Mail -->
+            <settings.senderName>
+                <TCEforms>
+                    <label>Sender Name</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>30</size>
+                    </config>
+                </TCEforms>
+            </settings.senderName>
+
+            <!-- Notifcation Mail -->
+            <settings.notificationMail>
+                <TCEforms>
+                    <label>Admin Mails for notification, comma seperated</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>100</size>
+                    </config>
+                </TCEforms>
+            </settings.notificationMail>
+
+            <!-- earlyBirdDays -->
+            <settings.earlyBirdDays>
+                <TCEforms>
+                    <label>Early Bird Time in Days before Event</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>15</size>
+                    </config>
+                </TCEforms>
+            </settings.earlyBirdDays>
+
+        </el>
+    </ROOT>
+</application>

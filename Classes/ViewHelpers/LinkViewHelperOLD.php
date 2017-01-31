@@ -90,8 +90,7 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
             $configuration['parameter'] = $detailPid;
         }
 
-//        $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
-        $configuration['useCacheHash'] = 0;
+        $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
         $configuration['additionalParams'] .= '&tx_news_pi1[news]=' . $this->getNewsId($newsItem);
 
         if ((int)$tsSettings['link']['skipControllerAndAction'] !== 1) {

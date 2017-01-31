@@ -1,0 +1,184 @@
+<additional>
+    <ROOT>
+        <TCEforms>
+            <sheetTitle>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_tab.additional</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+
+            <!-- PID Single Page -->
+            <settings.detailPid>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.detailPid</label>
+                    <config>
+                        <type>group</type>
+                        <internal_type>db</internal_type>
+                        <allowed>pages</allowed>
+                        <size>1</size>
+                        <maxitems>1</maxitems>
+                        <minitems>0</minitems>
+                        <show_thumbs>1</show_thumbs>
+                        <wizards>
+                            <suggest>
+                                <type>suggest</type>
+                            </suggest>
+                        </wizards>
+                    </config>
+                </TCEforms>
+            </settings.detailPid>
+
+            <!-- PID Application/Booking Confirmation Page -->
+            <settings.applicationPid>
+                <TCEforms>
+                    <label>Page ID for Application / Booking confirmation</label>
+                    <config>
+                        <type>group</type>
+                        <internal_type>db</internal_type>
+                        <allowed>pages</allowed>
+                        <size>1</size>
+                        <maxitems>1</maxitems>
+                        <minitems>0</minitems>
+                        <show_thumbs>1</show_thumbs>
+                        <wizards>
+                            <suggest>
+                                <type>suggest</type>
+                            </suggest>
+                        </wizards>
+                    </config>
+                </TCEforms>
+            </settings.applicationPid>
+
+            <!-- PID Single Page -->
+            <settings.listPid>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.listPid</label>
+                    <config>
+                        <type>group</type>
+                        <internal_type>db</internal_type>
+                        <allowed>pages</allowed>
+                        <size>1</size>
+                        <maxitems>1</maxitems>
+                        <minitems>0</minitems>
+                        <show_thumbs>1</show_thumbs>
+                        <wizards>
+                            <suggest>
+                                <type>suggest</type>
+                            </suggest>
+                        </wizards>
+                    </config>
+                </TCEforms>
+            </settings.listPid>
+
+            <!-- PID Back -->
+            <settings.backPid>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.backPid</label>
+                    <config>
+                        <type>group</type>
+                        <internal_type>db</internal_type>
+                        <allowed>pages</allowed>
+                        <size>1</size>
+                        <maxitems>1</maxitems>
+                        <minitems>0</minitems>
+                        <show_thumbs>1</show_thumbs>
+                        <wizards>
+                            <suggest>
+                                <type>suggest</type>
+                            </suggest>
+                        </wizards>
+                    </config>
+                </TCEforms>
+            </settings.backPid>
+
+            <!-- Limit Start -->
+            <settings.limit>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.limit</label>
+                    <config>
+                        <type>input</type>
+                        <size>5</size>
+                        <eval>num</eval>
+                    </config>
+                </TCEforms>
+            </settings.limit>
+
+            <!-- Offset -->
+            <settings.offset>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.offset</label>
+                    <config>
+                        <type>input</type>
+                        <size>5</size>
+                        <eval>num</eval>
+                    </config>
+                </TCEforms>
+            </settings.offset>
+
+            <!-- Tags -->
+            <settings.tags>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.tags</label>
+                    <config>
+                        <type>group</type>
+                        <internal_type>db</internal_type>
+                        <allowed>tx_news_domain_model_tag</allowed>
+                        <size>3</size>
+                        <autoSizeMax>20</autoSizeMax>
+                        <minitems>0</minitems>
+                        <maxitems>99</maxitems>
+                    </config>
+                </TCEforms>
+            </settings.tags>
+
+            <!-- Hide pagination -->
+            <settings.hidePagination>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.hidePagination</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.hidePagination>
+
+            <settings.list.paginate.itemsPerPage>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.itemsPerPage</label>
+                    <config>
+                        <type>input</type>
+                        <size>2</size>
+                    </config>
+                </TCEforms>
+            </settings.list.paginate.itemsPerPage>
+
+            <!-- topNewsFirst -->
+            <settings.topNewsFirst>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.topNewsFirst</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.topNewsFirst>
+
+            <!-- only not displayed news -->
+            <settings.excludeAlreadyDisplayedNews>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.excludeAlreadyDisplayedNews</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.excludeAlreadyDisplayedNews>
+
+            <!-- disable overrideDemand -->
+            <settings.disableOverrideDemand>
+                <TCEforms>
+                    <label>LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_additional.disableOverrideDemand</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.disableOverrideDemand>
+        </el>
+    </ROOT>
+</additional>

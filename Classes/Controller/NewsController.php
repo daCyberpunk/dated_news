@@ -204,7 +204,10 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             //set total depending on eaither customer is an early bird or not
             $earlybirdDate = clone $news->getEventstart();
-            $earlybirdDate->setTime(0,0,0)->sub(new \DateInterval('P'.$this->settings['dated_news']['application']['earlyBirdDays'].'D'));
+            if($this->settings['earlyBirdDays'] != '') {
+                $earlybirdDate->setTime(0,0,0)->sub(new \DateInterval('P'.$this->settings['earlyBirdDays'].'D'));
+            }
+
             $today = new \DateTime();
             $today->setTime(0,0,0);
 
@@ -254,8 +257,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     public function sendMail(\GeorgRinger\News\Domain\Model\News $news, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication){
         // from
         $sender = array();
-        if (!empty($this->settings['dated_news']['application']['senderMail'])) {
-            $sender = (array($this->settings['dated_news']['application']['senderMail'] => $this->settings['dated_news']['application']['senderName']));
+        if (!empty($this->settings['senderMail'])) {
+            $sender = (array($this->settings['senderMail'] => $this->settings['senderName']));
         }
 
         //validate Mailadress of applyer
@@ -280,8 +283,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         //TS notification mail addresses
-        if (!empty($this->settings['dated_news']['application']['notificationMail'])) {
-            $tsmails = explode(',',$this->settings['dated_news']['application']['notificationMail']);
+        if (!empty($this->settings['notificationMail'])) {
+            $tsmails = explode(',',$this->settings['notificationMail']);
 
             foreach($tsmails as $tsmail) {
                 $to [] = array('email' => trim($tsmail),'name' => '');

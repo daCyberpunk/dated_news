@@ -146,6 +146,25 @@
 				<source>Costs</source>
 			</trans-unit>
 
+			<trans-unit id="flexforms_additional.applicationPid">
+				<source>Page ID for Application / Booking confirmation</source>
+			</trans-unit>
+			<trans-unit id="flexforms_tab.application">
+				<source>Application / Booking</source>
+			</trans-unit>
+			<trans-unit id="flexforms_application.senderMail">
+				<source>Sender Mail</source>
+			</trans-unit>
+			<trans-unit id="flexforms_application.senderName">
+				<source>Sender Name</source>
+			</trans-unit>
+			<trans-unit id="flexforms_application.notificationMail">
+				<source>Admin Mails for notification, comma seperated</source>
+			</trans-unit>
+			<trans-unit id="flexforms_application.earlyBirdDays">
+				<source>Early Bird Time in Days before Event</source>
+			</trans-unit>
+
 
 
 		</body>
