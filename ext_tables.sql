@@ -4,6 +4,7 @@
 CREATE TABLE tx_news_domain_model_news (
 
 	showincalendar tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	enable_application tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	fulltime tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	eventstart int(11) DEFAULT '0' NOT NULL,
 	eventend int(11) DEFAULT '0' NOT NULL,
@@ -42,6 +43,12 @@ CREATE TABLE tx_datednews_domain_model_application (
 	city varchar(255) DEFAULT '' NOT NULL,
 	country varchar(255) DEFAULT '' NOT NULL,
 	costs varchar(255) DEFAULT '' NOT NULL,
+	phone varchar(255) DEFAULT '' NOT NULL,
+	mobile varchar(255) DEFAULT '' NOT NULL,
+	taxid varchar(255) DEFAULT '' NOT NULL,
+	terms_accept tinyint(1) DEFAULT NULL,
+	message text NOT NULL,
+
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -155,6 +162,7 @@ CREATE TABLE tx_datednews_domain_model_person (
 	surname varchar(255) DEFAULT '' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
 	email varchar(255) DEFAULT '' NOT NULL,
+	images varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

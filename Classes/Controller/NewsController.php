@@ -202,26 +202,34 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $newApplication->setTitle($news->getTitle()." - ".$newApplication->getName() . ', ' . $newApplication->getSurname());
             $newApplication->setPid($news->getPid());
 
-            //set total depending on eaither customer is an early bird or not
-            $earlybirdDate = clone $news->getEventstart();
-            if($this->settings['earlyBirdDays'] != '') {
-                $earlybirdDate->setTime(0,0,0)->sub(new \DateInterval('P'.$this->settings['earlyBirdDays'].'D'));
-            }
+            //set total depending on either customer is an early bird or not and on earyBirdPrice is set
+            if($news->getEarlyBirdPrice() != '' && $this->settings['earlyBirdDays'] != '' && $this->settings['earlyBirdDays'] != '0'){
+                $earlybirdDate = clone $news->getEventstart();
+                if($this->settings['earlyBirdDays'] != '') {
+                    $earlybirdDate->setTime(0,0,0)->sub(new \DateInterval('P'.$this->settings['earlyBirdDays'].'D'));
+                }
 
-            $today = new \DateTime();
-            $today->setTime(0,0,0);
+                $today = new \DateTime();
+                $today->setTime(0,0,0);
 
-            if($earlybirdDate >= $today) {
-                $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',','.',$news->getEarlyBirdPrice())));
+                if($earlybirdDate >= $today) {
+                    $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',','.',$news->getEarlyBirdPrice())));
+                } else {
+                    $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',','.',$news->getPrice())));
+                }
             } else {
                 $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',','.',$news->getPrice())));
             }
+            
 
             $newApplication->addEvent($news);
             $this->applicationRepository->add($newApplication);
 
             $persistenceManager = GeneralUtility::makeInstance("TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager");
             $persistenceManager->persistAll();
+
+            // clearing cache of detailpage because otherwise free slots are not updated in view
+            $this->cacheService->clearPageCache($this->settings['detailPid']);
 
             $demand = $this->createDemandObjectFromSettings($this->settings);
             $demand->setActionAndClass(__METHOD__, __CLASS__);
@@ -240,7 +248,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
                 Cache::addCacheTagsByNewsRecords([$news]);
             }
-            $this->sendMail($news, $newApplication);
+            $this->sendMail($news, $newApplication, $this->settings);
         } else {
             $this->flashMessageService('applicationSendMessageAllreadySent','applicationSendMessageAllreadySentStatus','ERROR' );
         }
@@ -254,7 +262,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
      * @return void
      */
-    public function sendMail(\GeorgRinger\News\Domain\Model\News $news, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication){
+    public function sendMail(\GeorgRinger\News\Domain\Model\News $news, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $settings){
         // from
         $sender = array();
         if (!empty($this->settings['senderMail'])) {
@@ -272,14 +280,33 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $this->forward('eventDetail', NULL, NULL, array('news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication));
         }
 
+        //get filenames of flexform files to send to applyer
+        $cObj = $this->configurationManager->getContentObject();
+        $uid = $cObj->data['uid'];
+        $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
+        $fileObjects = $fileRepository->findByRelation('tt_content', 'tx_datednews', $uid);
+        $filenames = array();
+        if(is_array($fileObjects)){
+            foreach ($fileObjects as $file){
+                $filenames[] = $file->getOriginalFile()->getIdentifier();
+            }
+        }
+
+        //FAL files does not work with gridelements, so add possibility to add file paths to TS. see https://forge.typo3.org/issues/71436
+        $filesFormTS = explode(',', $this->settings['dated_news']['filesForMailToApplyer']);
+        foreach ($filesFormTS as $fileName) {
+            $filenames[] = trim($fileName);
+        }
 
         /** @var $to array Array to collect all the receipients */
         $to = array();
 
         //news Author
-        $authorEmail = $news->getAuthorEmail();
-        if (!empty($authorEmail)) {
-            $to [] = array('email' => $authorEmail,'name' => $news->getAuthor());
+        if($this->settings['notificateAuthor']){
+            $authorEmail = $news->getAuthorEmail();
+            if (!empty($authorEmail)) {
+                $to [] = array('email' => $authorEmail,'name' => $news->getAuthor());
+            }
         }
 
         //TS notification mail addresses
@@ -319,14 +346,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $recipientsBcc,
             $applyer,
             \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('news' => $news->getTitle())),
-            array('newApplication' => $newApplication, 'news' => $news)
+            array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
+            array()
         )) {
             $this->flashMessageService('applicationSendMessage','applicationSendStatus','OK' );
         } else {
             $this->flashMessageService('applicationSendMessageGeneralError','applicationSendStatusGeneralErrorStatus','ERROR' );
         }
 
-        // send email to authors and TS mail addresses
+        // send email Customer
         if (!$this->div->sendEmail(
             'MailApplicationApplyer',
             $applyer,
@@ -334,7 +362,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $recipientsBcc,
             $sender,
             \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('news' => $news->getTitle())),
-            array('newApplication' => $newApplication, 'news' => $news)
+            array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
+            $filenames
         )) {
             $this->flashMessageService('applicationSendMessageApplyerError','applicationSendStatusApplyerErrorStatus','ERROR' );
         }

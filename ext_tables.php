@@ -76,6 +76,14 @@ $tmp_dated_news_columns = array(
 			'default' => 0
 		)
 	),
+	'enable_application' => array(
+		'exclude' => 0,
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.enable_application',
+		'config' => array(
+			'type' => 'check',
+			'default' => 0
+		)
+	),
 	'fulltime' => array(
 		'exclude' => 0,
 		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.fulltime',
@@ -120,6 +128,7 @@ $tmp_dated_news_columns = array(
 			'type' => 'select',
 			'renderType' => 'selectSingle',
 			'items' => [
+				['is not an event', ''],
 				['Event', 'Event'],
 				['Publication Event', 'PublicationEvent'],
 				['Exhibition', 'ExhibitionEvent'],
@@ -265,6 +274,7 @@ $tmp_dated_news_columns = array(
 	"tx_news_domain_model_news",
 	",--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news, 
 	showincalendar;;;;1-1-1, 
+	enable_application;;;;1-1-1, 
 	eventstart;;;;1-1-1, 
 	eventend;;;;1-1-1, 
 	fulltime;;;;1-1-1, 
@@ -280,9 +290,8 @@ $tmp_dated_news_columns = array(
 	application;;;;1-1-1"
 );
 
-//$GLOBALS['TCA']['tx_news_domain_model_news']['columns'][$TCA['tx_news_domain_model_news']['ctrl']['type']]['config']['items'][] = array('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_news_domain_model_news.tx_extbase_type.Tx_DatedNews_News','Tx_DatedNews_News');
+$GLOBALS['TCA']['tx_news_domain_model_news']['columns'][$TCA['tx_news_domain_model_news']['ctrl']['type']]['config']['items'][] = array('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_news_domain_model_news.tx_extbase_type.Tx_DatedNews_News','Tx_DatedNews_News');
 //\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tx_news_domain_model_news', $GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'],'','after:' . $TCA['tx_news_domain_model_news']['ctrl']['label']);
-
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
     $_EXTKEY,
     'tx_news_domain_model_news'

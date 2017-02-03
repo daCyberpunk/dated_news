@@ -1,0 +1,14 @@
+{namespace n=GeorgRinger\News\ViewHelpers}
+
+<f:if condition="{settings.cssFile}">
+    <n:includeFile path="{settings.cssFile}" />
+</f:if>
+<div class="news news-single">
+    <div class="{f:if(condition: '{0: newsItem.eventtype} == {0: \'\'}', then: 'article', else: 'event')}"
+         itemscope="itemscope"
+         itemtype="http://schema.org/{f:if(condition: '{0: newsItem.eventtype} == {0: \'\'}', then: 'Article', else: '{newsItem.eventtype}')}">
+
+        <f:render section="content" />
+    </div>
+</div>
+

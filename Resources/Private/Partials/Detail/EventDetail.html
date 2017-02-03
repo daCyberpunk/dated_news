@@ -1,0 +1,126 @@
+<meta itemprop="url" content="{f:uri.page(addQueryString: 1, absolute: 1)}"/>
+<meta itemprop="startDate" content="{f:format.date(date:newsItem.eventstart, format:'Y-m-d\TH:i')}">
+<meta itemprop="endDate" content="{f:format.date(date:newsItem.eventend, format:'Y-m-d\TH:i')}">
+<meta itemprop="eventStatus" content="scheduled">
+
+<f:if condition="{newsItem.falMedia}">
+    <!-- fal media files -->
+        <f:for each="{newsItem.falMedia}" as="mediaElement" iteration="iter">
+             <f:if condition="{iter.isFirst}">
+                 <f:if condition="{mediaElement.originalResource.type} == 2">
+                     <meta itemprop="image" content="{f:uri.image(image: mediaElement, absolute: 1)}">
+                 </f:if>
+
+                 <f:if condition="{mediaElement.originalResource.type} == 5">
+                     <meta itemprop="image" content="{f:uri.image(image: mediaElement, absolute: 1)}">
+                 </f:if>
+             </f:if>
+        </f:for>
+</f:if>
+
+<div class="event-date">
+    <strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.eventtime" /></strong><br>
+    <f:if condition="{0: '{f:format.date(date: \'{newsItem.eventstart}\', format: \'d.m\')}'} == {0: '{f:format.date(date: \'{newsItem.eventend}\', format: \'d.m\')}'}">
+        <f:then>
+            <div class="event-date">
+                <f:format.date format="d.m.Y">{newsItem.eventstart}</f:format.date>
+            </div>
+            <div class="event-time">
+                <f:format.date format="H:i">{newsItem.eventstart}</f:format.date>
+                -
+                <f:format.date format="H:i">{newsItem.eventend}</f:format.date> Uhr
+            </div>
+        </f:then>
+        <f:else>
+            <f:format.date format="d.m.">{newsItem.eventstart}</f:format.date> - <f:format.date format="d.m.Y">{newsItem.eventend}</f:format.date>
+            <div class="event-time">
+                <f:format.date format="H:i">{newsItem.eventstart}</f:format.date>
+                -
+                <f:format.date format="H:i">{newsItem.eventend}</f:format.date> Uhr
+            </div>
+        </f:else>
+    </f:if>
+</div>
+<div class="event-costs">
+    <f:if condition="{newsItem.earlyBirdPrice} == ''">
+        <f:then>
+             <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                        <meta itemprop="url" content="{f:uri.page(addQueryString: 1, absolute: 1)}"/>
+						<link itemprop="availability" href="{f:uri.page(addQueryString: 1, absolute: 1)}" />
+                        <div class="event-price">
+							<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.price" /></strong>
+							<span class="event-price" itemprop="price" content="{newsItem.earlyBirdPrice}">{newsItem.price}</span><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.currency" />
+						</div>
+						<meta itemprop="priceCurrency" content="EUR" ></meta>
+						<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.slots" /></strong>
+					</span>
+        </f:then>
+        <f:else>
+             <span itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer">
+                        <meta itemprop="url" content="{f:uri.page(addQueryString: 1, absolute: 1)}"/>
+                        <link itemprop="availability" href="{f:uri.page(addQueryString: 1, absolute: 1)}" />
+						<div class="event-price">
+							<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.price" /></strong>
+							<span class="event-price" itemprop="highPrice" content="{newsItem.earlyBirdPrice}">{newsItem.price}</span><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.currency" />
+						</div>
+						<div class="earlybirdprice">
+							<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.early_bird_price" /></strong>
+							<span class="event-price" itemprop="lowPrice" content="{newsItem.earlyBirdPrice}">{newsItem.earlyBirdPrice}</span><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.currency" />
+						</div>
+
+						<meta itemprop="priceCurrency" content="EUR" ></meta>
+						<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.slots" /></strong>
+						<span itemprop="offerCount">{newsItem.slots}</span>
+					</span>
+        </f:else>
+    </f:if>
+</div>
+<div class="event-locations">
+    <strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.eventlocation" /></strong>
+    <f:for each="{newsItem.locations}" as="location">
+        <div itemprop="location" itemscope itemtype="http://schema.org/PostalAddress">
+            <span itemprop="name">{location.name}</span>
+            <div itemprop="streetAddress">
+                <span>{location.address}</span>
+                <f:if condition="{location.address2}"><br><span>{location.address2}</span></f:if>
+            </div>
+            <div>
+                <span itemprop="postalCode">{location.zip}</span>,<span itemprop="addressLocality">{location.city}</span>,
+            </div>
+            <span itemprop="addressCountry">{location.country}</span>
+        </div>
+    </f:for>
+</div>
+<div class="event-persons">
+    <strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.trainer" /></strong>
+    <f:for each="{newsItem.persons}" as="person" iteration="iterator">
+        <f:if condition="{iterator.isFirst}">
+            <f:then>
+                <div class="event-trainer" itemprop="director" itemscope itemtype="http://schema.org/Person">
+                    <f:for each="{person.images}" as="image">
+                        <div class="person-photo" >
+                            <f:image absolute="1" additionalAttributes="{itemprop: 'image'}" class="img-responsive" src="{image.originalResource.uid}" treatIdAsReference="1" maxWidth="100" />
+                        </div>
+                    </f:for>
+                    <div itemprop="name">{person.surname} {person.name}</div>
+                    <div itemprop="email">{person.email}</div>
+
+                </div>
+            </f:then>
+            <f:else>
+                <div class="event-trainer" itemprop="contributor" itemscope itemtype="http://schema.org/Person">
+                    <f:for each="{person.images}" as="image">
+                        <div class="person-photo" >
+                            <f:image absolute="1" additionalAttributes="{itemprop: 'image'}" class="img-responsive" src="{image.originalResource.uid}" treatIdAsReference="1" maxWidth="100" />
+                        </div>
+                    </f:for>
+                    <div itemprop="name">{person.surname} {person.name}</div>
+                    <div itemprop="email">{person.email}</div>
+                </div>
+            </f:else>
+        </f:if>
+
+
+    </f:for>
+
+</div>

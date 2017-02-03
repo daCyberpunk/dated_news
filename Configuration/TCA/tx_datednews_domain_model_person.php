@@ -24,10 +24,10 @@ return array(
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dated_news') . 'Resources/Public/Icons/tx_datednews_domain_model_person.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, surname, title, email',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, surname, title, email, images',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, surname, title, email, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, surname, title, email, images,  --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -151,6 +151,22 @@ return array(
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
+			),
+		),
+		'images' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:jobfaircc/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_person.images',
+			'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+				'images',
+				array(
+					'maxitems' => 1,
+					'foreign_match_fields' => array(
+						'fieldname' => 'images',
+						'tablenames' => 'tx_datednews_domain_model_person',
+						'table_local' => 'sys_file',
+					),
+				),
+				$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
 			),
 		),
 		

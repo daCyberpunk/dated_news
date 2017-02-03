@@ -44,6 +44,13 @@ class News extends \GeorgRinger\News\Domain\Model\News
      * @var boolean
      */
     protected $showincalendar = FALSE;
+
+    /**
+     * enableApplication
+     *
+     * @var boolean
+     */
+    protected $enableApplication = FALSE;
     
     /**
      * fulltime
@@ -79,7 +86,14 @@ class News extends \GeorgRinger\News\Domain\Model\News
      * @var \DateTime
      */
     protected $eventend = NULL;
-    
+
+    /**
+     * eventtype
+     *
+     * @var string
+     */
+    protected $eventtype = '';
+
     /**
      * eventlocation
      *
@@ -292,6 +306,38 @@ class News extends \GeorgRinger\News\Domain\Model\News
         return $this->showincalendar;
     }
     
+    
+    /**
+     * Returns the enableApplication
+     *
+     * @return boolean $enableApplication
+     */
+    public function getEnableApplication()
+    {
+        return $this->enableApplication;
+    }
+    
+    /**
+     * Sets the enableApplication
+     *
+     * @param boolean $enableApplication
+     * @return void
+     */
+    public function setEnableApplication($enableApplication)
+    {
+        $this->enableApplication = $enableApplication;
+    }
+    
+    /**
+     * Returns the boolean state of enableApplication
+     *
+     * @return boolean
+     */
+    public function isEnableApplication()
+    {
+        return $this->enableApplication;
+    }
+    
     /**
      * Returns the fulltime
      *
@@ -363,6 +409,27 @@ class News extends \GeorgRinger\News\Domain\Model\News
     public function setEventend(\DateTime $eventend)
     {
         $this->eventend = $eventend;
+    }
+
+    /**
+     * Returns the eventtype
+     *
+     * @return \DateTime $eventtype
+     */
+    public function getEventtype()
+    {
+        return $this->eventtype;
+    }
+
+    /**
+     * Sets the eventtype
+     *
+     * @param \DateTime $eventtype
+     * @return void
+     */
+    public function setEventtype(\DateTime $eventtype)
+    {
+        $this->eventtype = $eventtype;
     }
     
     /**

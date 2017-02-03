@@ -32,6 +32,7 @@ plugin.tx_news {
 			prevPosition = {$plugin.tx_news.settings.dated_news.prevPosition}
 			todayPosition = {$plugin.tx_news.settings.dated_news.todayPosition}
 			todayPosition = {$plugin.tx_news.settings.dated_news.todayPosition}
+			filesForMailToApplyer = /uploads/tx_datednews/aaaaaaaaaaaaa.pdf, /uploads/tx_datednews/bbbbbbbbbbbbb.pdf
 		}
 		orderByAllowed = eventstart,eventend,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}

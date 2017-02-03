@@ -62,7 +62,36 @@ class Person extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $email = '';
-    
+
+    /**
+     * images
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+     */
+    protected $images = null;
+
+    /**
+     * Returns the images
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> $images
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Sets the images
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> $images
+     * @return void
+     */
+    public function setImages($images)
+    {
+        $this->images = $images;
+    }
+
+
     /**
      * Returns the name
      *

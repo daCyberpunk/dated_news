@@ -144,6 +144,149 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->costs = $costs;
     }
+    
+    
+    /**
+     * termsAccept
+     *
+     * @var boolean
+     */
+    protected $termsAccept = '';
+
+    /**
+     * Returns the termsAccept
+     *
+     * @return boolean $termsAccept
+     */
+    public function getTermsAccept()
+    {
+        return $this->termsAccept;
+    }
+
+    /**
+     * Sets the termsAccept
+     *
+     * @param boolean $termsAccept
+     * @return void
+     */
+    public function setTermsAccept($termsAccept)
+    {
+        $this->termsAccept = $termsAccept;
+    }
+    
+     /**
+     * message
+     *
+     * @var string
+     */
+    protected $message = '';
+
+    /**
+     * Returns the message
+     *
+     * @return string $message
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * Sets the message
+     *
+     * @param string $message
+     * @return void
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+    
+    
+    /**
+     * taxid
+     *
+     * @var string
+     */
+    protected $taxid = '';
+
+    /**
+     * Returns the taxid
+     *
+     * @return string $taxid
+     */
+    public function getTaxid()
+    {
+        return $this->taxid;
+    }
+
+    /**
+     * Sets the taxid
+     *
+     * @param string $taxid
+     * @return void
+     */
+    public function setTaxid($taxid)
+    {
+        $this->taxid = $taxid;
+    }
+    
+    
+     /**
+     * mobile
+     *
+     * @var string
+     */
+    protected $mobile = '';
+
+    /**
+     * Returns the mobile
+     *
+     * @return string $mobile
+     */
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * Sets the mobile
+     *
+     * @param string $mobile
+     * @return void
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
+    }
+    
+    /**
+     * phone
+     *
+     * @var string
+     */
+    protected $phone = '';
+
+    /**
+     * Returns the phone
+     *
+     * @return string $phone
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Sets the phone
+     *
+     * @param string $phone
+     * @return void
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
 
     /**
      * Returns the reservedSlots

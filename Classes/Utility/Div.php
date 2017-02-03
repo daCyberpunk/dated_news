@@ -53,7 +53,7 @@ class Div {
 	 * @param \array $variables Variables for assignMultiple
 	 * @return \bool Mail was sent?
 	 */
-	public function sendEmail($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array()) {
+	public function sendEmail($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $fileNames) {
 
 		/** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
 		$emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
@@ -75,6 +75,13 @@ class Div {
 				->setSubject($subject)
 				->setCharset($GLOBALS['TSFE']->metaCharset)
 				->setBody($emailBodyObject->render(), 'text/html');
+
+		if ($fileNames && is_array($fileNames)) {
+			foreach ($fileNames as $fileName){
+				$email->attach(\Swift_Attachment::fromPath('fileadmin'. $fileName));
+			}
+
+		}
 
 		$email->send();
 

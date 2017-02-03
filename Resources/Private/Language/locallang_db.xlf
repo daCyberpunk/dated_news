@@ -13,13 +13,16 @@
 				<source>Event End</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventlocation">
-				<source>Event Location</source>
+				<source>Event Location (deprecated)</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventtype">
 				<source>Event Type (Structured Data -> Schema.org)</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.showincalendar">
 				<source>Show in Calendar</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.enable_application">
+				<source>User can book / Applicate</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.fulltime">
 				<source>Fulltime Event</source>
@@ -99,6 +102,9 @@
 			<trans-unit id="tx_datednews_domain_model_person.email">
 				<source>Email</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.images">
+				<source>Photo</source>
+			</trans-unit>
 			
 			
 			
@@ -144,6 +150,21 @@
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.costs">
 				<source>Costs</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.phone">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.mobile">
+				<source>Mobile</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.taxid">
+				<source>Tax Id</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.message">
+				<source>Message</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.terms_accept">
+				<source>Accept Terms</source>
 			</trans-unit>
 
 			<trans-unit id="flexforms_additional.applicationPid">

@@ -26,7 +26,7 @@ return array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, name, surname, email, events',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, costs, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -219,6 +219,51 @@ return array(
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
+			),
+		),
+		'phone' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.phone',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'mobile' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.mobile',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'taxid' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.taxid',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'message' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.message',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 60,
+				'rows' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'terms_accept' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.terms_accept',
+			'config' => array(
+				'type' => 'check',
+				'default' => '0'
 			),
 		),
 		

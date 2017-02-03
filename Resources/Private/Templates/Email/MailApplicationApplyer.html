@@ -10,11 +10,10 @@ Available variables:
 
 <f:section name="main">
     <p><b><f:translate key="tx_datednews_domain_model_application.email_introduction" extensionName="dated_news" />:</b></p>
-
     <table>
         <tr>
             <td><f:translate key="tx_datednews_domain_model_application.events" extensionName="dated_news" /></td>
-            <td>{news.title}</td>
+            <td><a href="{f:uri.page(pageUid:'{settings.detailPid}',absolute: 1,additionalParams:'{tx_news_pi1:{controller:\'News\',action:\'eventDetail\',news:news.uid}}')}">{news.title}</a></td>
         </tr>
         <tr>
             <td><f:translate key="tx_datednews_domain_model_news.eventstart"  extensionName="dated_news"/></td>

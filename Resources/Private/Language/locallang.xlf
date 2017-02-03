@@ -12,6 +12,9 @@
 			<trans-unit id="tx_datednews_domain_model_news.eventend">
 				<source>Event End</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.eventtime">
+				<source>Date / Time</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventlocation">
 				<source>Event Location</source>
 			</trans-unit>
@@ -19,10 +22,13 @@
 				<source>Event Type</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.slots">
-				<source>Slots</source>
+				<source>Free Places</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.showincalendar">
 				<source>Show in Calendar</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.enable_application">
+				<source>User can book / Applicate</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.fulltime">
 				<source>Fulltime Event</source>
@@ -39,11 +45,17 @@
 			<trans-unit id="tx_datednews_domain_model_news.early_bird_price">
 				<source>Early Bird Price</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.currency">
+				<source>€</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.locations">
 				<source>Locations</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.persons">
 				<source>Persons</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.trainer">
+				<source>Trainer</source>
 			</trans-unit>
 
 			<trans-unit id="tx_datednews_domain_model_location">
@@ -90,6 +102,9 @@
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.email">
 				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.images">
+				<source>Photo</source>
 			</trans-unit>
 			
 			
@@ -138,6 +153,21 @@
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.costs">
 				<source>Costs</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.phone">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.mobile">
+				<source>Mobile</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.taxid">
+				<source>Tax Id</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.message">
+				<source>Message</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.terms_accept">
+				<source>Accept Terms</source>
 			</trans-unit>
 
 			
