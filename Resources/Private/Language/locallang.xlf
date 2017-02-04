@@ -221,6 +221,30 @@
 			<trans-unit id="applicationSendMessageApplyerErrorStatus">
 				<source>Error!</source>
 			</trans-unit>
+
+
+			<!--Calendar-->
+			<trans-unit id="fullcalendar.today">
+				<source>Today</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.month">
+				<source>Month</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.week">
+				<source>Week</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.agendaWeek">
+				<source>Agenda Week</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.day">
+				<source>Day</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.agendaDay">
+				<source>Agenda Day</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.list">
+				<source>list</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

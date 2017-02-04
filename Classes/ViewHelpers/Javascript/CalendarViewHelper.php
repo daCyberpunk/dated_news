@@ -62,6 +62,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
             );
         $eventRenderer = $this->buildEventRendererOption($settings['tooltipPreStyle']);
         $timeFormat = $this->buildTimeFormatOption($settings['twentyfourhour']);
+        $buttonText = $this->getButtonText();
 		$defaultView = 'defaultView: "'. $settings['defaultView'].'",';
         $lang = 'locale: "'.$GLOBALS['TSFE']->lang .'",';
  		$allDaySlot = 'allDaySlot:' . $settings['allDaySlot'] .',';
@@ -83,6 +84,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 						$allDaySlot
 						$lang
 						$eventRenderer
+						$buttonText
 				        height: 'auto',
 				        theme : 'true',
 						buttonIcons: true, // show the prev/next text
@@ -141,6 +143,21 @@ EOT;
 		$this->templateVariableContainer->add('datedNewsCalendarJS', $js);
 		$this->templateVariableContainer->add('datedNewsCalendarHtml', '<div id="calendar" class="fc-calendar-container"></div>');
 	}
+
+    public function getButtonText(){
+        $extensionName = 'dated_news';
+        $key = 'fullcalendar.';
+        $today = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'today', $extensionName);
+        $month = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'month', $extensionName);
+        $week = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'week', $extensionName);
+        $agendaWeek = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'agendaWeek', $extensionName);
+        $day = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'day', $extensionName);
+        $agendaDay = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'agendaDay', $extensionName);
+        $list = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'list', $extensionName);
+
+        return "buttonText: {today:'".$today."',month:'".$month."',week:'".$week."',agendaWeek:'".$agendaWeek."',day:'".$day."',agendaDay:'".$agendaDay."',list:'".$list."'},";
+
+    }
 
     public function addJQueryUIThemeCSS($uiThemeCustom = '', $uiTheme){
         if ($uiTheme === 'custom') {
