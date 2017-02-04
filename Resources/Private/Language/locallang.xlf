@@ -16,7 +16,7 @@
 				<source>Date / Time</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventlocation">
-				<source>Event Location</source>
+				<source>Event Location(s)</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventtype">
 				<source>Event Type</source>
@@ -111,6 +111,9 @@
 			
 			<trans-unit id="tx_datednews_domain_model_application">
 				<source>Application</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.formlabel">
+				<source>Booking Form</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.name">
 				<source>Name</source>

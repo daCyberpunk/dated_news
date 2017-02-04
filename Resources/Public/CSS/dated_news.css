@@ -10,3 +10,45 @@ text-decoration: underline;
 .qtip-desc {
   margin-top: 10px;
 }
+
+.event-dates, .event-costs, .event-locations, .event-persons {
+  float:left;
+  width: 25%;
+}
+.event-dates, .event-costs, .event-location, .event-trainer {
+  margin-bottom:15px;
+}
+
+input + label, textarea + label {
+  position: absolute;
+  top: 7px;
+  right: 35px;
+}
+input + label, textarea + label, select + label {
+  font-weight:normal;
+}
+input:required + label::before, textarea:required + label::before {
+  content: "★ ";
+  color: red;
+}
+input:required + label::after, textarea:required + label::after {
+  content: "  ";
+}
+input:required:valid + label::after, textarea:required:valid + label::after {
+  content: " ✔";
+  color: green;
+}
+input:required:valid + label, textarea:required:valid + label{
+  right: 20px;
+}
+input:required:valid + label::before, textarea:required:valid + label::before {
+  content: "";
+}
+input[type="checkbox"] + label {
+  left: 50px;
+  right:inherit;
+}
+
+input[type="checkbox"]{
+  width: 20px;
+}

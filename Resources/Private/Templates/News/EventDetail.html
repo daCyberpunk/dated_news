@@ -86,7 +86,9 @@
 			<f:if condition="{newsItem.eventtype}">
 				<f:render partial="Detail/EventDetail" arguments="{_all}" />
 			</f:if>
-
+			<f:if condition="{newsItem.eventtype}">
+				<f:render partial="Detail/ApplicationForm" arguments="{_all}" />
+			</f:if>
 			<f:if condition="{settings.backPid}">
 				<!-- Link Back -->
 				<div class="news-backlink-wrap">
@@ -190,9 +192,7 @@
 					</div>
 				</f:if>
 			</div>
-			<f:if condition="{newsItem.eventtype}">
-				<f:render partial="Detail/ApplicationForm" arguments="{_all}" />
-			</f:if>
+
 		</f:then>
 		<f:else>
 
