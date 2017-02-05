@@ -1,3 +1,4 @@
+/*Qtip*/
 .qtip-title {
 text-decoration: underline;
   font-weight: bold;
@@ -10,7 +11,7 @@ text-decoration: underline;
 .qtip-desc {
   margin-top: 10px;
 }
-
+/*Eventdata in detailview*/
 .event-dates, .event-costs, .event-locations, .event-persons {
   float:left;
   width: 25%;
@@ -18,37 +19,49 @@ text-decoration: underline;
 .event-dates, .event-costs, .event-location, .event-trainer {
   margin-bottom:15px;
 }
-
-input + label, textarea + label {
+/*Tag List for filtering*/
+button.dated-news-filter.button.dn-checked {
+  color: #1C94CA;
+}
+/*Booking Form*/
+#application-form input + label,
+#application-form textarea + label {
   position: absolute;
   top: 7px;
   right: 35px;
 }
-input + label, textarea + label, select + label {
+#application-form input + label,
+#application-form textarea + label,
+#application-form select + label {
   font-weight:normal;
 }
-input:required + label::before, textarea:required + label::before {
+#application-form input:required + label::before,
+#application-form textarea:required + label::before {
   content: "★ ";
   color: red;
 }
-input:required + label::after, textarea:required + label::after {
+#application-form input:required + label::after,
+#application-form textarea:required + label::after {
   content: "  ";
 }
-input:required:valid + label::after, textarea:required:valid + label::after {
+#application-form input:required:valid + label::after,
+#application-form textarea:required:valid + label::after {
   content: " ✔";
   color: green;
 }
-input:required:valid + label, textarea:required:valid + label{
+#application-form input:required:valid + label,
+#application-form textarea:required:valid + label{
   right: 20px;
 }
-input:required:valid + label::before, textarea:required:valid + label::before {
+#application-form input:required:valid + label::before,
+#application-form textarea:required:valid + label::before {
   content: "";
 }
-input[type="checkbox"] + label {
+#application-form input[type="checkbox"] + label {
   left: 50px;
   right:inherit;
 }
 
-input[type="checkbox"]{
+#application-form input[type="checkbox"]{
   width: 20px;
 }
