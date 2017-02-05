@@ -46,6 +46,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		$this->registerArgument('strftime', 'bool', 'if true, the strftime is used instead of date()', FALSE, TRUE);
 		$this->registerArgument('item', 'mixed', 'newsitem');
 		$this->registerArgument('iterator', 'mixed', 'iterator');
+		$this->registerArgument('id', 'integer', 'Uid of Content Element');
 
 	}
 
@@ -57,7 +58,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$item = $this->arguments['item'];
  		$strftime = $this->arguments['strftime'];
  		$qtip = ',qtip: \'' . trim(preg_replace( "/\r|\n/", "", $this->arguments['qtip'])) . '\'';
-
+		$calendarUid = $this->arguments['id'];
 
  		$title = $item->getTitle();
  		$start = $item->getEventstart();
@@ -120,10 +121,13 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		}
 
 		$string = <<<EOT
-				if(!newsCalendarEvent){
-					var newsCalendarEvent = [];
+				if(!eventscal){
+					var eventscal= [];
 				}
-				newsCalendarEvent["Event_$uid"] = {
+				if(!eventscal.hasOwnProperty("newsCalendarEvent_$calendarUid")){
+					eventscal["newsCalendarEvent_$calendarUid"] = [];
+				}
+				eventscal["newsCalendarEvent_$calendarUid"]['Event_$uid'] = {
 			    events: [
 			        {
 			    	    title: '$title',

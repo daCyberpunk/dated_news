@@ -1,41 +1,58 @@
 {namespace n=GeorgRinger\News\ViewHelpers}
 <f:layout name="General" />
+<f:comment>
+	Thats an example.
+	in pageTS of rootpage you need to add:
+	tx_news.templateLayouts {
+		9999914 = Taglist for filtering Calendar id 14
+		9999916 = Taglist for filtering Calendar id 16
+	}
 
+	where 14 and 16 are the content element id's of the news plugins with the calendarview
+
+</f:comment>
 <f:section name="content">
-	<f:if condition="{settings.templateLayout} == 99999">
-		<f:then>
-			<f:if condition="{tags}">
-				<div class="button-group filters-button-group">
-					<f:for each="{tags}" as="tag">
-						<button class="dated-news-filter button" data-dn-filter="{tag.title}">{tag.title}</button>
-					</f:for>
-				</div>
-			</f:if>
-		</f:then>
-		<f:else>
-			<!--original von tx_news-->
-			<f:if condition="{tags}">
-				<ul class="news-tags">
-					<f:for each="{tags}" as="tag">
-						<li>
-							<f:if condition="{tag.uid} == {overwriteDemand.tags}">
-								<f:then>
-									<f:link.page title="{tag.title}" class="active" pageUid="{settings.listPid}" additionalParams="{tx_news_pi1:{overwriteDemand:{tags: tag}}}">
-										{tag.title}
-									</f:link.page>
-								</f:then>
-								<f:else>
-									<f:link.page title="{tag.title}" pageUid="{settings.listPid}" additionalParams="{tx_news_pi1:{overwriteDemand:{tags: tag}}}">
-										{tag.title}
-									</f:link.page>
-								</f:else>
-							</f:if>
+	<f:if condition="{settings.templateLayout} == 9999914">
+		<f:if condition="{tags}">
+			<div class="button-group filters-button-group">
+				<f:for each="{tags}" as="tag">
+					<button class="dated-news-filter button" data-dn-calendar="14" data-dn-filter="{tag.title}">{tag.title}</button>
+				</f:for>
+			</div>
+		</f:if>
+	</f:if>
+	<f:if condition="{settings.templateLayout} == 9999916">
+		<f:if condition="{tags}">
+			<div class="button-group filters-button-group">
+				<f:for each="{tags}" as="tag">
+					<button class="dated-news-filter button" data-dn-calendar="16" data-dn-filter="{tag.title}">{tag.title}</button>
+				</f:for>
+			</div>
+		</f:if>
+	</f:if>
+	<f:if condition="{settings.templateLayout} == ''">
+		<!--original von tx_news-->
+		<f:if condition="{tags}">
+			<ul class="news-tags">
+				<f:for each="{tags}" as="tag">
+					<li>
+						<f:if condition="{tag.uid} == {overwriteDemand.tags}">
+							<f:then>
+								<f:link.page title="{tag.title}" class="active" pageUid="{settings.listPid}" additionalParams="{tx_news_pi1:{overwriteDemand:{tags: tag}}}">
+									{tag.title}
+								</f:link.page>
+							</f:then>
+							<f:else>
+								<f:link.page title="{tag.title}" pageUid="{settings.listPid}" additionalParams="{tx_news_pi1:{overwriteDemand:{tags: tag}}}">
+									{tag.title}
+								</f:link.page>
+							</f:else>
+						</f:if>
 
-						</li>
-					</f:for>
-				</ul>
-			</f:if>
-		</f:else>
+					</li>
+				</f:for>
+			</ul>
+		</f:if>
 	</f:if>
 
 </f:section>

@@ -13,13 +13,12 @@
             <div class="news-list-view">
                 <f:for each="{news}" as="newsItem" iteration="iterator">
                     <f:if condition="{newsItem.showincalendar} == 'TRUE'">
-                        <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator}" />
+                        <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator, id:contentObjectData.uid}" />
                     </f:if>
                 </f:for>
-                {nc:javascript.calendar(settings:settings)}
+                {nc:javascript.calendar(settings:settings, id:contentObjectData.uid)}
                 <f:format.raw>{datedNewsCalendarHtml}</f:format.raw>
-                <v:asset.script content="{datedNewsCalendarJS}" name="dated_newsCalendar" dependencies="jquery" namedChunks="1"   standalone="1" overwrite="false" movable="true"/>
-
+                <v:asset.script content="{datedNewsCalendarJS}" name="dated_newsCalendar_{contentObjectData.uid}" dependencies="jquery" namedChunks="1"   standalone="1" overwrite="false" movable="true"/>
             </div>
         </f:then>
         <f:else>

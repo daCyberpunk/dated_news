@@ -42,6 +42,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	*/
 	public function initializeArguments() {
 		$this->registerArgument('settings', 'mixed', 'settings');
+		$this->registerArgument('id', 'integer', 'Uid of Content Element');
 	}
 
 	/**
@@ -50,6 +51,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	*/
 	public function render() {
  		$settings = $this->arguments['settings']['dated_news'];
+        $uid = $this->arguments['id'];
 
         //build all options
         $headerFooter = $this->buildHeaderFooterOption(
@@ -75,7 +77,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         //complete javascript code
 		$js = <<<EOT
 			(function($) {
-					newsCalendar = $('#calendar').fullCalendar({
+					newsCalendar_$uid = $('#calendar.calendar_$uid').fullCalendar({
 						$headerFooter[0]
 						$headerFooter[1]
 						$defaultView
@@ -92,56 +94,14 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 			        	timezone : 'local',
 			        	$timeFormat
 			    	})
-					
-					function addAllEvents(){
-						for (var key in newsCalendarEvent) {
-						  if (newsCalendarEvent.hasOwnProperty(key)) {
-							newsCalendar.fullCalendar( 'addEventSource', newsCalendarEvent[key] )	
-						  }
-						}
-					}
-					addAllEvents();
-					function removeAllEvents(){
-						for (var key in newsCalendarEvent) {
-						  if (newsCalendarEvent.hasOwnProperty(key)) {
-							newsCalendar.fullCalendar( 'removeEventSource', newsCalendarEvent[key] )	
-						  }
-						}
-					}
-
-					$('.dated-news-filter').on('click', function(){
-						removeAllEvents();
-						$(this).hasClass('dn-checked') ? $(this).removeClass('dn-checked') : $(this).addClass('dn-checked');
-						var dnchecked = $('.dated-news-filter.dn-checked');
-						// wenn nix gechecked dann alle adden
-						if (!dnchecked.length) {
-							addAllEvents();
-						} else {
-							var added =[];
-							dnchecked.each(function(){
-								var filter = $(this).data('dn-filter');
-								for (var key in newsCalendarTags[filter]) {
-							  		if (newsCalendarTags[filter].hasOwnProperty(key)) {
-							  			//make sure event wasn't added before
-							  			if (!added['Event_'+newsCalendarTags[filter][key]]) {
-											newsCalendar.fullCalendar( 'addEventSource', newsCalendarEvent['Event_'+newsCalendarTags[filter][key]] )	
-								  			added['Event_'+newsCalendarTags[filter][key]] = 1;
-							  			}
-							  		}
-								}		
-							}) 
-						}
-
-							
-						
-					})
+					addAllEvents(newsCalendar_$uid,"newsCalendarEvent_$uid");
 			})(jQuery);
-			jQuery.noConflict(true);
+			/*jQuery.noConflict(true);*/
 			
 EOT;
 
 		$this->templateVariableContainer->add('datedNewsCalendarJS', $js);
-		$this->templateVariableContainer->add('datedNewsCalendarHtml', '<div id="calendar" class="fc-calendar-container"></div>');
+		$this->templateVariableContainer->add('datedNewsCalendarHtml', '<div id="calendar" class="fc-calendar-container calendar_'.$uid.'"></div>');
 	}
 
     public function getButtonText(){
