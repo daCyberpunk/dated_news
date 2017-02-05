@@ -50,28 +50,38 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	* @return string the needed html markup inklusive javascript
 	*/
 	public function render() {
- 		$settings = $this->arguments['settings']['dated_news'];
+ 		$settings = $this->arguments['settings'];
+        $tsSettings = $settings['dated_news'];
         $uid = $this->arguments['id'];
 
         //build all options
         $headerFooter = $this->buildHeaderFooterOption(
-            $settings['titlePosition'],
-            $settings['switchableViewsPosition'],
-            $settings['nextPosition'],
-            $settings['prevPosition'],
-            $settings['todayPosition'],
+            $tsSettings['titlePosition'],
+            $tsSettings['switchableViewsPosition'],
+            $tsSettings['nextPosition'],
+            $tsSettings['prevPosition'],
+            $tsSettings['todayPosition'],
             $settings['switchableViews']
             );
-        $eventRenderer = $this->buildEventRendererOption($settings['tooltipPreStyle']);
-        $timeFormat = $this->buildTimeFormatOption($settings['twentyfourhour']);
+        $eventRenderer = $this->buildEventRendererOption($tsSettings['tooltipPreStyle']);
+        $timeFormat = $this->buildTimeFormatOption($tsSettings['twentyfourhour']);
         $buttonText = $this->getButtonText();
 		$defaultView = 'defaultView: "'. $settings['defaultView'].'",';
         $lang = 'locale: "'.$GLOBALS['TSFE']->lang .'",';
- 		$allDaySlot = 'allDaySlot:' . $settings['allDaySlot'] .',';
- 		$minTime = 'minTime: "' . $settings['minTime']. '",';
- 		$maxTime = 'maxTime: "' . $settings['maxTime']. '",';
 
-        $this->addJQueryUIThemeCSS($settings['uiThemeCustom'], $settings['uiTheme']);
+        $allDaySlot = 'allDaySlot:0,';
+        if($settings['allDaySlot']){
+            $allDaySlot = 'allDaySlot:' . $settings['allDaySlot'] .',';
+        }
+        $minTime ='';
+        if($settings['minTime']){
+            $minTime = 'minTime: "' . date('H:i:s',$settings['minTime']) . '",';
+        }
+        $maxTime ='';
+        if($settings['maxTime']) {
+            $maxTime = 'maxTime: "' . date('H:i:s', $settings['maxTime']) . '",';
+        }
+        $this->addJQueryUIThemeCSS($tsSettings['uiThemeCustom'], $tsSettings['uiTheme']);
 
 
         //complete javascript code
@@ -113,9 +123,12 @@ EOT;
         $agendaWeek = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'agendaWeek', $extensionName);
         $day = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'day', $extensionName);
         $agendaDay = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'agendaDay', $extensionName);
-        $list = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'list', $extensionName);
-
-        return "buttonText: {today:'".$today."',month:'".$month."',week:'".$week."',agendaWeek:'".$agendaWeek."',day:'".$day."',agendaDay:'".$agendaDay."',list:'".$list."'},";
+        $listYear = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'listYear', $extensionName);
+        $listMonth = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'listMonth', $extensionName);
+        $listWeek = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'listWeek', $extensionName);
+        $listDay = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'listDay', $extensionName);
+        
+        return "buttonText: {today:'".$today."',month:'".$month."',week:'".$week."',agendaWeek:'".$agendaWeek."',day:'".$day."',agendaDay:'".$agendaDay."',listYear:'".$listYear."',listMonth:'".$listMonth."',listWeek:'".$listWeek."',listDay:'".$listDay."'},";
 
     }
 

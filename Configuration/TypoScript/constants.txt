@@ -18,18 +18,8 @@ plugin.tx_news{
 		# cat = datednews_design/style/d; type=string; label=Stylesheet for dated news
 		cssFile = EXT:dated_news/Resources/Public/CSS/dated_news.css
 
-		#cat=datednews_design/view/a; type=options[month,agendaWeek,basicWeek,agendaDay,basicDay]; label=Default Calendar View
-		defaultView = month
-		#cat=datednews_design/view/b; type=string; label=List of views user can switch to: comma sperated list, please use always only agenda or basic options. f.e. bascicWeek OR agendaWeek. avalailable items: month,agendaWeek,basicWeek,agendaDay,basicDay
-		switchableViews =
 		# cat=datednews_design/view/c; type=boolean; label=time is shown in 24h format
 		twentyfourhour = 1
-		# cat=datednews_design/view/d; type=string; label=calendar Agenda View starts with time
-		minTime = 07:00:00
-		# cat=datednews_design/view/e; type=string; label=calendar Agenda View ends with time
-		maxTime = 18:00:00
-		# cat=datednews_design/view/f; type=boolean; label=Display the "all-day" slot: attention: allday Events will not shown up if slot is not available in agenda views.
-		allDaySlot = 1
 
 		#cat=datednews_design/buttons/a; type=options[Header Left=header_left,Header Center=header_center,Header Right=header_right, none]; label=Position of Calendartitle
 		titlePosition = header_left

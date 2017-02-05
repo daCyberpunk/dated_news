@@ -40,7 +40,11 @@ class FlexFormHook
             if ($selectedView === 'News->eventDetail') {
                 $dataStructArray['sheets']['additional'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/additional.xml';
             }
-            
+
+            if ($selectedView === 'News->calendar') {
+                $dataStructArray['sheets']['calendar'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/calendar.xml';
+            }
+
             $dataStructArray['sheets']['sDEF'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/settings.xml';
             
         }

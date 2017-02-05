@@ -245,8 +245,17 @@
 			<trans-unit id="fullcalendar.agendaDay">
 				<source>Agenda Day</source>
 			</trans-unit>
-			<trans-unit id="fullcalendar.list">
-				<source>list</source>
+			<trans-unit id="fullcalendar.listYear">
+				<source>List Year</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.listMonth">
+				<source>List Month</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.listWeek">
+				<source>List Week</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.listDay">
+				<source>List Day</source>
 			</trans-unit>
 		</body>
 	</file>

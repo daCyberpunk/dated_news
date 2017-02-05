@@ -1,0 +1,110 @@
+<application>
+    <ROOT>
+        <TCEforms>
+            <sheetTitle>Calendar View</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+            <!-- Switchable Views -->
+            <settings.switchableViews>
+                <TCEforms>
+                    <label>Switchable Views</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>30</size>
+                    </config>
+                </TCEforms>
+            </settings.switchableViews>
+
+            <!-- Default View -->
+            <settings.defaultView>
+                <TCEforms>
+                    <label>Default View</label>
+                    <config>
+                        <type>select</type>
+                        <renderType>selectSingle</renderType>
+                        <items>
+                            <numIndex index="0" type="array">
+                                <numIndex index="0">Month</numIndex>
+                                <numIndex index="1">month</numIndex>
+                            </numIndex>
+                            <numIndex index="1" type="array">
+                                <numIndex index="0">Agenda Week</numIndex>
+                                <numIndex index="1">agendaWeek</numIndex>
+                            </numIndex>
+                            <numIndex index="2" type="array">
+                                <numIndex index="0">Basic Week</numIndex>
+                                <numIndex index="1">basicWeek</numIndex>
+                            </numIndex>
+                            <numIndex index="3" type="array">
+                                <numIndex index="0">Agenda Day</numIndex>
+                                <numIndex index="1">agendaDay</numIndex>
+                            </numIndex>
+                            <numIndex index="4" type="array">
+                                <numIndex index="0">Basic Day</numIndex>
+                                <numIndex index="1">basicDay</numIndex>
+                            </numIndex>
+                            <numIndex index="5" type="array">
+                                <numIndex index="0">List Year</numIndex>
+                                <numIndex index="1">listYear</numIndex>
+                            </numIndex>
+                            <numIndex index="6" type="array">
+                                <numIndex index="0">List Month</numIndex>
+                                <numIndex index="1">listMonth</numIndex>
+                            </numIndex>
+                            <numIndex index="7" type="array">
+                                <numIndex index="0">List Week</numIndex>
+                                <numIndex index="1">listWeek</numIndex>
+                            </numIndex>
+                            <numIndex index="8" type="array">
+                                <numIndex index="0">List Day</numIndex>
+                                <numIndex index="1">listDay</numIndex>
+                            </numIndex>
+                        </items>
+
+                    </config>
+                </TCEforms>
+            </settings.defaultView>
+
+            <!--Allday Slot-->
+            <settings.allDaySlot>
+                <TCEforms>
+                    <label>Show All-Day-Slot</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.allDaySlot>
+
+            <!-- minTime -->
+            <settings.minTime>
+                <TCEforms>
+                    <label>Time when Calendar view starts</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <eval>time</eval>
+                        <size>30</size>
+                    </config>
+                </TCEforms>
+            </settings.minTime>
+
+            <!-- minTime -->
+            <settings.maxTime>
+                <TCEforms>
+                    <label>Time when Calendar view ends</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <eval>time</eval>
+                        <size>30</size>
+                    </config>
+                </TCEforms>
+            </settings.maxTime>
+        </el>
+    </ROOT>
+</application>
