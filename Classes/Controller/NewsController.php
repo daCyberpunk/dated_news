@@ -77,17 +77,66 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $news->setDescription(addslashes($news->getDescription()));
             $news->setBodytext(addslashes($news->getBodytext()));
         }
+    
 
         $assignedValues = array(
             'news' => $newsRecords,
             'overwriteDemand' => $overwriteDemand,
-            'demand' => $demand
+            'demand' => $demand,
         );
+
+        $filterValues = [];
+        
+        if($this->settings['showCategoryFilter'] === '1'){
+            $filterValues = array_merge($filterValues,$this->getCategoriesOfNews($newsRecords));
+
+        }
+
+        if($this->settings['showTagFilter'] === '1'){
+            $filterValues = array_merge($filterValues,$this->getTagsOfNews($newsRecords));
+        }
+        if(!empty($filterValues)){
+            $assignedValues['filterValues'] = $filterValues;
+        }
+
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CALENDAR_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
         Cache::addPageCacheTagsByDemandObject($demand);
     }
 
+    public function getCategoriesOfNews($newsRecords) {
+        $newsCategories = [];
+        foreach ($newsRecords as $news) {
+            if($news->isShowincalendar() === TRUE) {
+                $categories = $news->getCategories();
+                foreach ($categories as $category) {
+                    $title = $category->getTitle();
+                    if(!in_array($title, $newsCategories)){
+                        $newsCategories[] = $title;
+                    }
+                }
+            }
+        }
+        
+        return $newsCategories;
+    }
+
+    public function getTagsOfNews($newsRecords) {
+        $newsTags = [];
+        foreach ($newsRecords as $news) {
+            if($news->isShowincalendar() === TRUE) {
+                $tags = $news->getTags();
+                foreach ($tags as $tag) {
+                    $title = $tag->getTitle();
+                    if(!in_array($title, $newsTags)){
+                        $newsTags[] = $title;
+                    }
+                }
+            }
+        }
+
+        return $newsTags;
+    }
 
     /**
      * Single view of a news record

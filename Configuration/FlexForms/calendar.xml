@@ -78,6 +78,26 @@
                 </TCEforms>
             </settings.allDaySlot>
 
+            <!--Tag Filter-->
+            <settings.showTagFilter>
+                <TCEforms>
+                    <label>Show tags to filter</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.showTagFilter>
+
+            <!--Category Filter-->
+            <settings.showCategoryFilter>
+                <TCEforms>
+                    <label>Show Categories to filter</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.showCategoryFilter>
+
             <!-- minTime -->
             <settings.minTime>
                 <TCEforms>

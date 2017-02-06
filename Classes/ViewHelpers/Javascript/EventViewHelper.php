@@ -68,6 +68,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$textcolor = $item->getTextcolor();
  		$uid = $item->getUid();
  		$tags = $item->getTags();
+		$categories = $item->getCategories();
 		$filterTags = '';
 		
 
@@ -79,6 +80,15 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  			} else {
  				$filterTags .= ','.$value->getTitle();
  			}
+		}
+
+		foreach($categories as $key => $value) {
+			$i++;
+			if ($i === 1) {
+				$filterTags = $value->getTitle();
+			} else {
+				$filterTags .= ','.$value->getTitle();
+			}
 		}
 
 		if ($start === NULL || $uid === NULL) {
