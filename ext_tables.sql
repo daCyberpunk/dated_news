@@ -227,3 +227,11 @@ CREATE TABLE tx_datednews_news_person_mm (
 CREATE TABLE tx_datednews_domain_model_person (
 	categories int(11) unsigned DEFAULT '0' NOT NULL,
 );
+
+#
+# Extend table structure of table 'sys_category'
+#
+CREATE TABLE sys_category (
+  textcolor varchar(255) DEFAULT '' NOT NULL,
+	backgroundcolor varchar(255) DEFAULT '' NOT NULL,
+);

@@ -57,6 +57,14 @@
 
 
 
+			<trans-unit id="tx_datednews_domain_model_category.backgroundcolor">
+				<source>Background Color of related news in Calendar</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_category.textcolor">
+				<source>Text Color of related news in Calendar</source>
+			</trans-unit>
+
+
 			<trans-unit id="tx_datednews_domain_model_location">
 				<source>Location</source>
 			</trans-unit>

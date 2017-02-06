@@ -64,13 +64,31 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$start = $item->getEventstart();
  		$end = $item->getEventend();
  		$fulltime = $item->getFulltime();
- 		$color = $item->getBackgroundcolor();
- 		$textcolor = $item->getTextcolor();
  		$uid = $item->getUid();
  		$tags = $item->getTags();
 		$categories = $item->getCategories();
 		$filterTags = '';
-		
+
+		$color = trim($item->getBackgroundcolor());
+		$textcolor = trim($item->getTextcolor());
+		$categories = $item->getCategories();
+		if($color === '' ) {
+			foreach ($categories as $category) {
+				$tempColor = trim($category->getBackgroundcolor());
+				if($tempColor !== ''){
+					$color = $tempColor;
+				}
+			}
+		}
+		if($textcolor === '' ) {
+			foreach ($categories as $category) {
+				$tempColor = trim($category->getTextcolor());
+				if($tempColor !== ''){
+					$textcolor = $tempColor;
+				}
+			}
+		}
+
 
  		$i = 0;
  		foreach($tags as $key => $value) {

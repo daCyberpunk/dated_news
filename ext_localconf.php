@@ -5,6 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['classes']['Domain/Model/News'][] = 'dated_news';
+$GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['classes']['Domain/Model/Category'][] = 'dated_news';
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['classes']['Controller/NewsController'][] = 'dated_news';
 
 //Bei der neuen Action werden manche Flexformfelder nicht mehr benötigt
