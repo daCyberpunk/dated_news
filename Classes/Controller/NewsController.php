@@ -315,7 +315,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
     }
 
-        /**
+    /**
      * sendMail to applyer, admins and authors
      *
      * @param \GeorgRinger\News\Domain\Model\News $news news item
