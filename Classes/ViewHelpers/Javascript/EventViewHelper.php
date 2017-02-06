@@ -68,10 +68,9 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$tags = $item->getTags();
 		$categories = $item->getCategories();
 		$filterTags = '';
-
 		$color = trim($item->getBackgroundcolor());
 		$textcolor = trim($item->getTextcolor());
-		$categories = $item->getCategories();
+
 		if($color === '' ) {
 			foreach ($categories as $category) {
 				$tempColor = trim($category->getBackgroundcolor());
