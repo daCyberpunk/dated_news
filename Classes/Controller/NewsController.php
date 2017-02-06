@@ -199,8 +199,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         // prevents form submitted more than once
-        $alwaysSubmitfortest = 1;
-        if($alwaysSubmitfortest === 1 || $this->applicationRepository->isFirstFormSubmission($newApplication->getFormTimestamp())){
+        $alwaysSubmitfortest = TRUE;
+        if($alwaysSubmitfortest === TRUE || $this->applicationRepository->isFirstFormSubmission($newApplication->getFormTimestamp())){
 
             $newApplication->setPid($news->getPid());
             $newApplication->setHidden(TRUE);

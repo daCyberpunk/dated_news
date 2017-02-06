@@ -27,8 +27,29 @@
                 </TCEforms>
             </settings.detailPid>
 
-            <!-- PID Application/Booking Confirmation Page -->
+            <!-- PID Application/Booking Creation Page -->
             <settings.applicationPid>
+                <TCEforms>
+                    <label>Page ID for Application / Booking Creation</label>
+                    <config>
+                        <type>group</type>
+                        <internal_type>db</internal_type>
+                        <allowed>pages</allowed>
+                        <size>1</size>
+                        <maxitems>1</maxitems>
+                        <minitems>0</minitems>
+                        <show_thumbs>1</show_thumbs>
+                        <wizards>
+                            <suggest>
+                                <type>suggest</type>
+                            </suggest>
+                        </wizards>
+                    </config>
+                </TCEforms>
+            </settings.applicationPid>
+
+            <!-- PID Application/Booking Confirmation Page -->
+            <settings.confirmationPid>
                 <TCEforms>
                     <label>Page ID for Application / Booking confirmation</label>
                     <config>
@@ -46,7 +67,7 @@
                         </wizards>
                     </config>
                 </TCEforms>
-            </settings.applicationPid>
+            </settings.confirmationPid>
 
             <!-- PID Single Page -->
             <settings.listPid>
