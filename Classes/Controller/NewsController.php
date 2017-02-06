@@ -38,6 +38,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     const SIGNAL_NEWS_CALENDAR_ACTION = 'calendarAction';
     const SIGNAL_NEWS_EVENTDETAIL_ACTION = 'eventDetailAction';
     const SIGNAL_NEWS_CREATEAPPLICATION_ACTION = 'createApplicationAction';
+    const SIGNAL_NEWS_CONFIRMAPPLICATION_ACTION = 'confirmApplicationAction';
 
     /**
      * applicationRepository
@@ -198,9 +199,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         // prevents form submitted more than once
-        if($this->applicationRepository->isFirstFormSubmission($newApplication->getFormTimestamp())){
-            $newApplication->setTitle($news->getTitle()." - ".$newApplication->getName() . ', ' . $newApplication->getSurname());
+        $alwaysSubmitfortest = 1;
+        if($alwaysSubmitfortest === 1 || $this->applicationRepository->isFirstFormSubmission($newApplication->getFormTimestamp())){
+
             $newApplication->setPid($news->getPid());
+            $newApplication->setHidden(TRUE);
+
+            //set creationdate
+            $date = new \DateTime();
+            $newApplication->setCrdate($date->getTimestamp());
 
             //set total depending on either customer is an early bird or not and on earyBirdPrice is set
             if($news->getEarlyBirdPrice() != '' && $this->settings['earlyBirdDays'] != '' && $this->settings['earlyBirdDays'] != '0'){
@@ -225,11 +232,16 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $newApplication->addEvent($news);
             $this->applicationRepository->add($newApplication);
 
+
             $persistenceManager = GeneralUtility::makeInstance("TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager");
             $persistenceManager->persistAll();
+            $newApplication->setTitle($news->getTitle()." - ".$newApplication->getName() . ' ' . $newApplication->getSurname() . '-' . $newApplication->getUid());
+            $this->applicationRepository->update($newApplication);
+            $persistenceManager->persistAll();
 
-            // clearing cache of detailpage because otherwise free slots are not updated in view
-            $this->cacheService->clearPageCache($this->settings['detailPid']);
+            // clearing cache of detailpage and currentpage because otherwise free slots are not updated in view
+            // and the form is always sending the same if another booking is made
+            $this->cacheService->clearPageCache($this->settings['detailPid'], intval($GLOBALS['TSFE']->id));
 
             $demand = $this->createDemandObjectFromSettings($this->settings);
             $demand->setActionAndClass(__METHOD__, __CLASS__);
@@ -253,16 +265,64 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $this->flashMessageService('applicationSendMessageAllreadySent','applicationSendMessageAllreadySentStatus','ERROR' );
         }
     }
-    
-    
+
     /**
+     * action confirmApplication
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
+     * @return void
+     */
+    public function confirmApplicationAction(\FalkRoeder\DatedNews\Domain\Model\Application $newApplication)
+    {
+
+        $assignedValues = [];
+        if(is_null($newApplication)){
+            $this->flashMessageService('applicationNotFound','applicationNotFoundStatus','ERROR' );
+        } else {
+            //vor confirmation link validity check
+            $date = new \DateTime();
+            $hoursSinceBookingRequestSent = ($date->getTimestamp() - $newApplication->getCrdate()) / 3600;
+            
+            if($newApplication->isConfirmed() === TRUE){
+                //was allready confirmed
+                $this->flashMessageService('applicationAllreadyConfirmed','applicationAllreadyConfirmedStatus','INFO' );
+            } else if($this->settings['dated_news']['validDaysConfirmationLink'] * 24 < $hoursSinceBookingRequestSent){
+                //confirmation link not valid anymore
+                $this->flashMessageService('applicationConfirmationLinkUnvalid','applicationConfirmationLinkUnvalidStatus','ERROR' );
+            } else {
+                //confirm
+                $newApplication->setConfirmed(TRUE);
+                $newApplication->setHidden(FALSE);
+                $this->applicationRepository->update($newApplication);
+                $persistenceManager = GeneralUtility::makeInstance("TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager");
+                $persistenceManager->persistAll();
+                $events = $newApplication->getEvents();
+                $events->rewind();
+                $this->sendMail($events->current(), $newApplication, $this->settings, TRUE);
+                $assignedValues = [
+                    'newApplication' => $newApplication,
+                    'newsItem' => $events->current()
+                ];
+            }
+        }
+
+        // clearing cache of detailpage and currentpage because otherwise free slots are not updated in view
+        // and the form is always sending the same if another booking is made
+        $this->cacheService->clearPageCache($this->settings['detailPid'], intval($GLOBALS['TSFE']->id));
+        
+        $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CONFIRMAPPLICATION_ACTION, $assignedValues);
+        $this->view->assignMultiple($assignedValues);
+
+    }
+
+        /**
      * sendMail to applyer, admins and authors
      *
      * @param \GeorgRinger\News\Domain\Model\News $news news item
      * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
      * @return void
      */
-    public function sendMail(\GeorgRinger\News\Domain\Model\News $news, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $settings){
+    public function sendMail(\GeorgRinger\News\Domain\Model\News $news = NULL, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $settings, $confirmation = FALSE){
         // from
         $sender = array();
         if (!empty($this->settings['senderMail'])) {
@@ -281,82 +341,35 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         //get filenames of flexform files to send to applyer
-        $cObj = $this->configurationManager->getContentObject();
-        $uid = $cObj->data['uid'];
-        $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
-        $fileObjects = $fileRepository->findByRelation('tt_content', 'tx_datednews', $uid);
-        $filenames = array();
-        if(is_array($fileObjects)){
-            foreach ($fileObjects as $file){
-                $filenames[] = $file->getOriginalFile()->getIdentifier();
-            }
-        }
-
-        //FAL files does not work with gridelements, so add possibility to add file paths to TS. see https://forge.typo3.org/issues/71436
-        $filesFormTS = explode(',', $this->settings['dated_news']['filesForMailToApplyer']);
-        foreach ($filesFormTS as $fileName) {
-            $filenames[] = trim($fileName);
-        }
-
-        /** @var $to array Array to collect all the receipients */
-        $to = array();
-
-        //news Author
-        if($this->settings['notificateAuthor']){
-            $authorEmail = $news->getAuthorEmail();
-            if (!empty($authorEmail)) {
-                $to [] = array('email' => $authorEmail,'name' => $news->getAuthor());
-            }
-        }
-
-        //TS notification mail addresses
-        if (!empty($this->settings['notificationMail'])) {
-            $tsmails = explode(',',$this->settings['notificationMail']);
-
-            foreach($tsmails as $tsmail) {
-                $to [] = array('email' => trim($tsmail),'name' => '');
-            }
-        }
-
-        $recipients = array();
-        if (is_array($to)) {
-            foreach ($to as $pair) {
-                if (GeneralUtility::validEmail($pair['email'])) {
-                    if (trim($pair['name'])) {
-                        $recipients[$pair['email']] = $pair['name'];
-                    } else {
-                        $recipients[] = $pair['email'];
-                    }
+        if($confirmation === FALSE){
+            $cObj = $this->configurationManager->getContentObject();
+            $uid = $cObj->data['uid'];
+            $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
+            $fileObjects = $fileRepository->findByRelation('tt_content', 'tx_datednews', $uid);
+            $filenames = array();
+            if(is_array($fileObjects)){
+                foreach ($fileObjects as $file){
+                    $filenames[] = $file->getOriginalFile()->getIdentifier();
                 }
             }
+
+            //FAL files does not work with gridelements, so add possibility to add file paths to TS. see https://forge.typo3.org/issues/71436
+            $filesFormTS = explode(',', $this->settings['dated_news']['filesForMailToApplyer']);
+            foreach ($filesFormTS as $fileName) {
+                $filenames[] = trim($fileName);
+            }
+
+        } else {
+            $filenames = array();
         }
 
-        if (!count($recipients)) {
-            $this->flashMessageService('applicationSendMessageNoRecipients','applicationSendMessageNoRecipientsStatus','ERROR' );
-            $this->forward('eventDetail', NULL, NULL, array('news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication));
-        }
         $recipientsCc = array();
         $recipientsBcc = array();
 
-        // send email to authors and TS mail addresses
-        if ($this->div->sendEmail(
-            'MailApplicationNotification',
-            $recipients,
-            $recipientsCc,
-            $recipientsBcc,
-            $applyer,
-            \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('news' => $news->getTitle())),
-            array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
-            array()
-        )) {
-            $this->flashMessageService('applicationSendMessage','applicationSendStatus','OK' );
-        } else {
-            $this->flashMessageService('applicationSendMessageGeneralError','applicationSendStatusGeneralErrorStatus','ERROR' );
-        }
-
         // send email Customer
+        $customerMailTemplate = $confirmation === TRUE ? 'MailConfirmationApplyer' : 'MailApplicationApplyer';
         if (!$this->div->sendEmail(
-            'MailApplicationApplyer',
+            $customerMailTemplate,
             $applyer,
             $recipientsCc,
             $recipientsBcc,
@@ -366,6 +379,66 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $filenames
         )) {
             $this->flashMessageService('applicationSendMessageApplyerError','applicationSendStatusApplyerErrorStatus','ERROR' );
+        } else {
+            if($confirmation === FALSE) {
+                $this->flashMessageService('applicationSendMessage','applicationSendStatus','OK' );
+            }
+        }
+        
+        //Send to admins etc only when booking / application confirmed
+        if($confirmation === TRUE){
+            /** @var $to array Array to collect all the receipients */
+            $to = array();
+
+            //news Author
+            if($this->settings['notificateAuthor']){
+                $authorEmail = $news->getAuthorEmail();
+                if (!empty($authorEmail)) {
+                    $to [] = array('email' => $authorEmail,'name' => $news->getAuthor());
+                }
+            }
+
+            //Plugins notification mail addresses
+            if (!empty($this->settings['notificationMail'])) {
+                $tsmails = explode(',',$this->settings['notificationMail']);
+                foreach($tsmails as $tsmail) {
+                    $to [] = array('email' => trim($tsmail),'name' => '');
+                }
+            }
+
+            $recipients = array();
+            if (is_array($to)) {
+                foreach ($to as $pair) {
+                    if (GeneralUtility::validEmail($pair['email'])) {
+                        if (trim($pair['name'])) {
+                            $recipients[$pair['email']] = $pair['name'];
+                        } else {
+                            $recipients[] = $pair['email'];
+                        }
+                    }
+                }
+            }
+
+            if (!count($recipients)) {
+                $this->flashMessageService('applicationSendMessageNoRecipients','applicationSendMessageNoRecipientsStatus','ERROR' );
+                $this->forward('eventDetail', NULL, NULL, array('news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication));
+            }
+
+            // send email to authors and Plugins mail addresses
+            if ($this->div->sendEmail(
+                'MailApplicationNotification',
+                $recipients,
+                $recipientsCc,
+                $recipientsBcc,
+                $applyer,
+                \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('news' => $news->getTitle())),
+                array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
+                array()
+            )) {
+                $this->flashMessageService('applicationConfirmed','applicationConfirmedStatus','OK' );
+            } else {
+                $this->flashMessageService('applicationSendMessageGeneralError','applicationSendStatusGeneralErrorStatus','ERROR' );
+            }
         }
     }
 

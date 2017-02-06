@@ -2,7 +2,7 @@
 return array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application',
-		'label' => 'name',
+		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -26,13 +26,21 @@ return array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, name, surname, email, events',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, '),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, confirmed, '),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
 	),
 	'columns' => array(
-	
+		'crdate' => Array (
+			'exclude' => 1,
+			'label' => 'Creation date',
+			'config' => Array (
+				'type' => 'none',
+				'format' => 'date',
+				'eval' => 'date',
+			)
+		),
 		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
@@ -266,6 +274,15 @@ return array(
 				'default' => '0'
 			),
 		),
+		'confirmed' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.confirmed',
+			'config' => array(
+				'type' => 'check',
+				'default' => '0'
+			),
+		),
+		
 		
 	),
 );## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder

@@ -31,6 +31,7 @@ plugin.tx_news {
 			prevPosition = {$plugin.tx_news.settings.dated_news.prevPosition}
 			todayPosition = {$plugin.tx_news.settings.dated_news.todayPosition}
 			todayPosition = {$plugin.tx_news.settings.dated_news.todayPosition}
+			validDaysConfirmationLink = {$plugin.tx_news.settings.dated_news.validDaysConfirmationLink}
 		}
 		orderByAllowed = eventstart,eventend,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}

@@ -36,6 +36,10 @@ class FlexFormHook
             if ($selectedView === 'News->createApplication') {
                 $dataStructArray['sheets']['application'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/application.xml';
             }
+
+            if ($selectedView === 'News->confirmApplication') {
+                $dataStructArray['sheets']['confirmation'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/confirmation.xml';
+            }
             
             if ($selectedView === 'News->eventDetail') {
                 $dataStructArray['sheets']['additional'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/additional.xml';

@@ -34,6 +34,13 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
     
     /**
+     * crdate
+     *
+     * @var string
+     */
+    protected $crdate = '';
+    
+    /**
      * title
      *
      * @var string
@@ -144,7 +151,44 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->costs = $costs;
     }
+
+    /**
+     * confirmed
+     *
+     * @var boolean
+     */
+    protected $confirmed = FALSE;
     
+    /**
+     * Returns the confirmed
+     *
+     * @return boolean $confirmed
+     */
+    public function getConfirmed()
+    {
+        return $this->confirmed;
+    }
+
+    /**
+     * Sets the confirmed
+     *
+     * @param boolean $confirmed
+     * @return void
+     */
+    public function setConfirmed($confirmed)
+    {
+        $this->confirmed = $confirmed;
+    }
+
+    /**
+     * Returns the boolean state of confirmed
+     *
+     * @return boolean
+     */
+    public function isConfirmed()
+    {
+        return $this->confirmed;
+    }
     
     /**
      * termsAccept
@@ -358,6 +402,54 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects()
     {
         $this->events = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
+    
+    /**
+     * Returns the crdate
+     *
+     * @return string $crdate
+     */
+    public function getCrdate() {
+        return $this->crdate;
+    }
+
+    /**
+     * Sets the crdate
+     *
+     * @param string $crdate
+     * @return void
+     */
+    public function setCrdate($crdate) {
+        $this->crdate = $crdate;
+    }
+
+    /**
+     * Returns the hidden
+     *
+     * @return boolean $hidden
+     */
+    public function getHidden() {
+        return $this->hidden;
+    }
+
+    /**
+     * Sets the hidden
+     *
+     * @param boolean $hidden
+     * @return void
+     */
+    public function setHidden($hidden) {
+        $this->hidden = $hidden;
+    }
+
+    /**
+     * Returns the boolean state of hidden
+     *
+     * @return boolean
+     */
+    public function isHidden()
+    {
+        return $this->hidden;
     }
     
     /**

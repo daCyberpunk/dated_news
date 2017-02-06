@@ -1,0 +1,59 @@
+<confirmation>
+    <ROOT>
+        <TCEforms>
+            <sheetTitle>Email</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+            <!-- Sender Mail -->
+            <settings.senderMail>
+                <TCEforms>
+                    <label>Sender Mail</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>30</size>
+                    </config>
+                </TCEforms>
+            </settings.senderMail>
+
+            <!-- Sender Mail -->
+            <settings.senderName>
+                <TCEforms>
+                    <label>Sender Name</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>30</size>
+                    </config>
+                </TCEforms>
+            </settings.senderName>
+
+            <!-- Notifcation Mail -->
+            <settings.notificationMail>
+                <TCEforms>
+                    <label>Admin Mails for notification, comma seperated (only when booking / application is confirmed)</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>100</size>
+                    </config>
+                </TCEforms>
+            </settings.notificationMail>
+
+            <!-- Send Mail to news author if any -->
+            <settings.notificateAuthor>
+                <TCEforms>
+                    <label>Send Notification to Author</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.notificateAuthor>
+
+        </el>
+    </ROOT>
+</confirmation>

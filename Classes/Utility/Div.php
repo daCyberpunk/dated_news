@@ -78,9 +78,10 @@ class Div {
 
 		if ($fileNames && is_array($fileNames)) {
 			foreach ($fileNames as $fileName){
-				$email->attach(\Swift_Attachment::fromPath('fileadmin'. $fileName));
+				if(trim($fileName) != '') {
+					$email->attach(\Swift_Attachment::fromPath('fileadmin'. $fileName));
+				}
 			}
-
 		}
 
 		$email->send();

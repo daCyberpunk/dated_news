@@ -181,6 +181,15 @@
 			<trans-unit id="tx_datednews_domain_model_application.email_introduction">
 				<source>Following Application / Booking we have received from you:</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.expire_info">
+				<source>(This link expires in %s days)</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.email_introduction_confirmation">
+				<source>We thank you for confirming your booking to the following event:</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.demand_confirmation">
+				<source>Please click this link to confirm your booking </source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email_introductionAdmins">
 				<source>Following Application / Booking was received by the system:</source>
 			</trans-unit>
@@ -223,6 +232,30 @@
 			</trans-unit>
 			<trans-unit id="applicationSendMessageApplyerErrorStatus">
 				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="applicationConfirmationLinkUnvalid">
+				<source>The confirmation link is not available anymore. Please book again or contact the site administrator</source>
+			</trans-unit>
+			<trans-unit id="applicationConfirmationLinkUnvalidStatus">
+				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="applicationNotFound">
+				<source>TThe requested booking was not found in our system. Please contact the site administrator</source>
+			</trans-unit>
+			<trans-unit id="applicationNotFoundStatus">
+				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="applicationAllreadyConfirmed">
+				<source>The booking was allready confirmed</source>
+			</trans-unit>
+			<trans-unit id="applicationAllreadyConfirmedStatus">
+				<source>Info</source>
+			</trans-unit>
+			<trans-unit id="applicationConfirmed">
+				<source>The booking is confirmed. Thank you.</source>
+			</trans-unit>
+			<trans-unit id="applicationConfirmedStatus">
+				<source>Ok</source>
 			</trans-unit>
 
 

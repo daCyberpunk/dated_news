@@ -166,6 +166,9 @@
 			<trans-unit id="tx_datednews_domain_model_application.terms_accept">
 				<source>Accept Terms</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.confirmed">
+				<source>Per E-Mail-Link confirmed</source>
+			</trans-unit>
 
 			<trans-unit id="flexforms_additional.applicationPid">
 				<source>Page ID for Application / Booking confirmation</source>

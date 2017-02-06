@@ -47,6 +47,7 @@ CREATE TABLE tx_datednews_domain_model_application (
 	mobile varchar(255) DEFAULT '' NOT NULL,
 	taxid varchar(255) DEFAULT '' NOT NULL,
 	terms_accept tinyint(1) DEFAULT NULL,
+	confirmed tinyint(1) DEFAULT NULL,
 	message text NOT NULL,
 
 

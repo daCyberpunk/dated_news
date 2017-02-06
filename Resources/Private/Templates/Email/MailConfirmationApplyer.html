@@ -9,15 +9,8 @@ Available variables:
 {news} news object
 
 <f:section name="main">
-    <p><b><f:translate key="tx_datednews_domain_model_application.email_introduction" extensionName="dated_news" />:</b></p>
-    <p>
-        <a href="{f:uri.page(noCacheHash:1,pageUid:'16',absolute: 1,additionalParams:'{tx_news_pi1:{controller:\'News\',action:\'confirmApplicationAction\',newApplication:newApplication.uid,title:newApplication.title}}')}"><f:translate key="tx_datednews_domain_model_application.demand_confirmation" extensionName="dated_news" /></a>
-    </p>
-    <p>
-        <f:translate key="tx_datednews_domain_model_application.expire_info" extensionName="dated_news" arguments="{0: '{settings.dated_news.validDaysConfirmationLink}'}" />
-    </p>
-    </br>
-    </br>
+    <p><b><f:translate key="tx_datednews_domain_model_application.email_introduction_confirmation" extensionName="dated_news" />:</b></p>
+
     <table>
         <tr>
             <td><f:translate key="tx_datednews_domain_model_application.events" extensionName="dated_news" /></td>

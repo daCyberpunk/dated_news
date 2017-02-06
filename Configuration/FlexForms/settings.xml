@@ -38,6 +38,10 @@
                                 <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.news_datemenu</numIndex>
                                 <numIndex index="1">News->dateMenu</numIndex>
                             </numIndex>
+                            <numIndex index="8">
+                                <numIndex index="0">Confirm Application</numIndex>
+                                <numIndex index="1">News->confirmApplication</numIndex>
+                            </numIndex>
                             <numIndex index="14">
                                 <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.optgroup_search</numIndex>
                                 <numIndex index="1">--div--</numIndex>

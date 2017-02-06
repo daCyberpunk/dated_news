@@ -68,8 +68,9 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $reservedSlots = 0;
         foreach ($applications as $application) {
-
-            $reservedSlots = $reservedSlots + $application->getReservedSlots();
+            if($application->isConfirmed() === TRUE) {
+                $reservedSlots = $reservedSlots + $application->getReservedSlots();
+            }
         }
 
         return $reservedSlots;
@@ -110,6 +111,7 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
         return TRUE;
     }
+    
     
     
 }

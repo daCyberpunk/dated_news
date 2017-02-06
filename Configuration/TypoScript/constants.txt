@@ -32,6 +32,8 @@ plugin.tx_news{
 		#cat=datednews_design/buttons/e; type=options[Header Left=header_left,Header Center=header_center,Header Right=header_right, none]; label=Position of today button
 		todayPosition = header_right
 
+		validDaysConfirmationLink = 3
+
 
 	}
 }
