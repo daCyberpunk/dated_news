@@ -24,18 +24,6 @@
 			<trans-unit id="backgroundcolor.description">
 				<source>Give this event a different background color in calendar.</source>
 			</trans-unit>
-			<trans-unit id="price.description">
-				<source>price</source>
-			</trans-unit>
-			<trans-unit id="early_bird_price.description">
-				<source>earlyBirdPrice</source>
-			</trans-unit>
-			<trans-unit id="locations.description">
-				<source>locations</source>
-			</trans-unit>
-			<trans-unit id="persons.description">
-				<source>persons</source>
-			</trans-unit>
 		</body>
 	</file>
 </xliff>

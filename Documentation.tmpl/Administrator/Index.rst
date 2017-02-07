@@ -1,4 +1,4 @@
-﻿.. ==================================================
+.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -107,7 +107,7 @@ uiThemeCustom
 :typoscript:`plugin.tx_news.settings.dated_news.uiThemeCustom =` :ref:`t3tsref:data-type-string`
 
 here you can write down the name of your own calendar theme, maybe an other jQuery theme.
-The extension looks for an folder with this name in *typo3conf/ext/news_calendar/Resources/Public/CSS/jqueryThemes/* and there for the files *jquery-ui.css* and *jquery-ui.theme.css* to load.
+The extension looks for an folder with this name in *typo3conf/ext/news_calendar/Resources/Public/CSS/jqueryThemes/* and there for the files *jquery-ui.css* and *jquery-ui.theme.css* to load. 
 
 
 
@@ -122,14 +122,14 @@ You just have to build a list of tag-items where every item has the class *dated
     <f:if condition="{tags}">
 
         <div class="button-group filters-button-group">
-
+    
             <f:for each="{tags}" as="tag">
-
+    
                 <button class="dated-news-filter button" data-dn-filter="{tag.title}">{tag.title}</button>
-
+    
             </f:for>
-
+    
         </div>
-
+    
     </f:if>
 

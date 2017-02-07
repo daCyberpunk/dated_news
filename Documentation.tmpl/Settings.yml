@@ -8,7 +8,7 @@
 
 ---
 conf.py:
-  copyright: 2017
+  copyright: 2015
   project: newscalendar
   version: 0.01
   release: 0.01

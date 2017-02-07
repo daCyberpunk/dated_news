@@ -54,6 +54,16 @@
                 </TCEforms>
             </settings.notificateAuthor>
 
+            <!-- Send ICS Invitation to Customer -->
+            <settings.ics>
+                <TCEforms>
+                    <label>Send ICS Invitation to Customer</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.ics>
+
         </el>
     </ROOT>
 </confirmation>

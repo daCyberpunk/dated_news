@@ -1,9 +1,9 @@
 <?php
-namespace FalkRoeder\DatedNews\Tests\Unit\Controller;
+namespace FR\NewsCalendar\Tests\Unit\Controller;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2017 Falk Röder <mail@falk-roeder.de>
+ *  (c) 2015 Falk Röder <mail@falk-roeder.de>
  *  			
  *  All rights reserved
  *
@@ -25,37 +25,33 @@ namespace FalkRoeder\DatedNews\Tests\Unit\Controller;
  ***************************************************************/
 
 /**
- * Test case for class FalkRoeder\DatedNews\Controller\NewsController.
+ * Test case for class FR\NewsCalendar\Controller\NewsController.
  *
  * @author Falk Röder <mail@falk-roeder.de>
  */
-class NewsControllerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
-{
+class NewsControllerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \FalkRoeder\DatedNews\Controller\NewsController
+	 * @var \FR\NewsCalendar\Controller\NewsController
 	 */
 	protected $subject = NULL;
 
-	public function setUp()
-	{
-		$this->subject = $this->getMock('FalkRoeder\\DatedNews\\Controller\\NewsController', array('redirect', 'forward', 'addFlashMessage'), array(), '', FALSE);
+	protected function setUp() {
+		$this->subject = $this->getMock('FR\\NewsCalendar\\Controller\\NewsController', array('redirect', 'forward', 'addFlashMessage'), array(), '', FALSE);
 	}
 
-	public function tearDown()
-	{
+	protected function tearDown() {
 		unset($this->subject);
 	}
 
 	/**
 	 * @test
 	 */
-	public function listActionFetchesAllNewssFromRepositoryAndAssignsThemToView()
-	{
+	public function listActionFetchesAllNewssFromRepositoryAndAssignsThemToView() {
 
 		$allNewss = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array(), array(), '', FALSE);
 
-		$newsRepository = $this->getMock('FalkRoeder\\DatedNews\\Domain\\Repository\\NewsRepository', array('findAll'), array(), '', FALSE);
+		$newsRepository = $this->getMock('FR\\NewsCalendar\\Domain\\Repository\\NewsRepository', array('findAll'), array(), '', FALSE);
 		$newsRepository->expects($this->once())->method('findAll')->will($this->returnValue($allNewss));
 		$this->inject($this->subject, 'newsRepository', $newsRepository);
 
@@ -69,9 +65,8 @@ class NewsControllerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function showActionAssignsTheGivenNewsToView()
-	{
-		$news = new \FalkRoeder\DatedNews\Domain\Model\News();
+	public function showActionAssignsTheGivenNewsToView() {
+		$news = new \FR\NewsCalendar\Domain\Model\News();
 
 		$view = $this->getMock('TYPO3\\CMS\\Extbase\\Mvc\\View\\ViewInterface');
 		$this->inject($this->subject, 'view', $view);

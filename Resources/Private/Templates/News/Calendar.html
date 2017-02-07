@@ -13,21 +13,13 @@
             <div class="news-list-view">
                 <f:for each="{news}" as="newsItem" iteration="iterator">
                     <f:if condition="{newsItem.showincalendar} == 'TRUE'">
-                        <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator, id:contentObjectData.uid}" />
+                        <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator}" />
                     </f:if>
                 </f:for>
-                {nc:javascript.calendar(settings:settings, id:contentObjectData.uid)}
-
-                <f:if condition="{filterValues}">
-                    <div class="button-group filters-button-group">
-                        <f:for each="{filterValues}" as="value">
-                            <button class="dated-news-filter button" data-dn-calendar="{contentObjectData.uid}" data-dn-filter="{value}">{value}</button>
-                        </f:for>
-                    </div>
-                </f:if>
-
+                {nc:javascript.calendar(settings:settings)}
                 <f:format.raw>{datedNewsCalendarHtml}</f:format.raw>
-                <v:asset.script content="{datedNewsCalendarJS}" name="dated_newsCalendar_{contentObjectData.uid}" dependencies="jquery" namedChunks="1"   standalone="1" overwrite="false" movable="true"/>
+                <v:asset.script content="{datedNewsCalendarJS}" name="dated_newsCalendar" dependencies="jquery" namedChunks="1"   standalone="1" overwrite="false" movable="true"/>
+
             </div>
         </f:then>
         <f:else>

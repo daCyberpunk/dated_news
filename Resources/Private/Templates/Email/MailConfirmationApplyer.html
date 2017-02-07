@@ -10,7 +10,9 @@ Available variables:
 
 <f:section name="main">
     <p><b><f:translate key="tx_datednews_domain_model_application.email_introduction_confirmation" extensionName="dated_news" />:</b></p>
-
+    <f:if condition="{settings.ics} == 1">
+        <p><f:translate key="tx_datednews_domain_model_application.confirmation_icsinfo" extensionName="dated_news" /></p>
+    </f:if>
     <table>
         <tr>
             <td><f:translate key="tx_datednews_domain_model_application.events" extensionName="dated_news" /></td>

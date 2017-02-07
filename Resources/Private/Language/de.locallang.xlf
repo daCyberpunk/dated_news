@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2015-07-31T15:13:12Z" product-name="dated_news">
+		<header/>
+		<body>
+			<trans-unit id="tx_datednews_domain_model_news">
+				<source>News</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.eventstart">
+				<source>Event Start</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.eventend">
+				<source>Event Ende</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.eventtime">
+				<source>Datum / Zeit</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.eventlocation">
+				<source>Eventort</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.eventtype">
+				<source>Art des Events</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.slots">
+				<source>Freie Plätze</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.showincalendar">
+				<source>Im Kalender anzeigen</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.enable_application">
+				<source>Nutzer kann buchen</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.fulltime">
+				<source>Vollzeitveranstaltung</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.textcolor">
+				<source>Textfarbe</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.backgroundcolor">
+				<source>Hintergrundfarbe</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.price">
+				<source>Preis</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.early_bird_price">
+				<source>Preis Frühbucher</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.currency">
+				<source>€</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.locations">
+				<source>Veransatlungsorte</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.persons">
+				<source>Persons</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.trainer">
+				<source>Trainer</source>
+			</trans-unit>
+
+			<trans-unit id="tx_datednews_domain_model_location">
+				<source>Location</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.address2">
+				<source>Address2</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.zip">
+				<source>Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.address">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.city">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.country">
+				<source>Country</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.phone">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_location.email">
+				<source>Email</source>
+			</trans-unit>
+			
+			
+			
+			<trans-unit id="tx_datednews_domain_model_person">
+				<source>Person</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.surname">
+				<source>Surname</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_person.images">
+				<source>Photo</source>
+			</trans-unit>
+			
+			
+			
+			<trans-unit id="tx_datednews_domain_model_application">
+				<source>Application</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.formlabel">
+				<source>Booking Form</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.surname">
+				<source>Surname</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.events">
+				<source>Events</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.reserved_slots">
+				<source>Reserve Slots</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.submit">
+				<source>Submit</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.address">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.address2">
+				<source>Address2</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.zip">
+				<source>Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.city">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.country">
+				<source>Country</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.costs">
+				<source>Costs</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.phone">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.mobile">
+				<source>Mobile</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.taxid">
+				<source>Tax Id</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.message">
+				<source>Message</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.terms_accept">
+				<source>Accept Terms</source>
+			</trans-unit>
+
+			
+			
+			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject">
+				<source>Booking: %1$s</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.email_introduction">
+				<source>Following Application / Booking we have received from you:</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.expire_info">
+				<source>(This link expires in %s days)</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.email_introduction_confirmation">
+				<source>We thank you for confirming your booking to the following event:</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.demand_confirmation">
+				<source>Please click this link to confirm your booking </source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.email_introductionAdmins">
+				<source>Following Application / Booking was received by the system:</source>
+			</trans-unit>
+
+			
+			
+			<trans-unit id="applicationSendMessage">
+				<source>Your application / booking has been send with following details</source>
+			</trans-unit>
+			<trans-unit id="applicationSendStatus">
+				<source>Send!</source>
+			</trans-unit>
+
+			<trans-unit id="applicationSendMessageNoRecipients">
+				<source>There are no valid contacts for this offer. Please contact the site administrator</source>
+			</trans-unit>
+			<trans-unit id="applicationSendMessageNoRecipientsStatus">
+				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="applicationSendMessageNoApplyerEmail">
+				<source>Your given Mail Address is not valid</source>
+			</trans-unit>
+			<trans-unit id="applicationSendMessageNoApplyerEmailStatus">
+				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="applicationSendMessageAllreadySent">
+				<source>Your Booking request was allready transmitted.</source>
+			</trans-unit>
+			<trans-unit id="applicationSendMessageAllreadySentStatus">
+				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="applicationSendMessageGeneralError">
+				<source>There is an technical error. Please contact the site administrator</source>
+			</trans-unit>
+			<trans-unit id="applicationSendStatusGeneralErrorStatus">
+				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="applicationSendMessageApplyerError">
+				<source>The booking confirmation could not be sent to your address. Please contact the site administrator</source>
+			</trans-unit>
+			<trans-unit id="applicationSendMessageApplyerErrorStatus">
+				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="applicationConfirmationLinkUnvalid">
+				<source>The confirmation link is not available anymore. Please book again or contact the site administrator</source>
+			</trans-unit>
+			<trans-unit id="applicationConfirmationLinkUnvalidStatus">
+				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="applicationNotFound">
+				<source>TThe requested booking was not found in our system. Please contact the site administrator</source>
+			</trans-unit>
+			<trans-unit id="applicationNotFoundStatus">
+				<source>Error!</source>
+			</trans-unit>
+			<trans-unit id="applicationAllreadyConfirmed">
+				<source>The booking was allready confirmed</source>
+			</trans-unit>
+			<trans-unit id="applicationAllreadyConfirmedStatus">
+				<source>Info</source>
+			</trans-unit>
+			<trans-unit id="applicationConfirmed">
+				<source>The booking is confirmed. Thank you.</source>
+			</trans-unit>
+			<trans-unit id="applicationConfirmedStatus">
+				<source>Ok</source>
+			</trans-unit>
+
+
+			<!--Calendar-->
+			<trans-unit id="fullcalendar.today">
+				<source>Today</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.month">
+				<source>Month</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.week">
+				<source>Week</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.agendaWeek">
+				<source>Agenda Week</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.day">
+				<source>Day</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.agendaDay">
+				<source>Agenda Day</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.listYear">
+				<source>List Year</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.listMonth">
+				<source>List Month</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.listWeek">
+				<source>List Week</source>
+			</trans-unit>
+			<trans-unit id="fullcalendar.listDay">
+				<source>List Day</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

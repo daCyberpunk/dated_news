@@ -53,7 +53,7 @@ class Div {
 	 * @param \array $variables Variables for assignMultiple
 	 * @return \bool Mail was sent?
 	 */
-	public function sendEmail($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $fileNames) {
+	public function sendEmail($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $fileNames, $icsAttachment = array()) {
 
 		/** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
 		$emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
@@ -76,6 +76,7 @@ class Div {
 				->setCharset($GLOBALS['TSFE']->metaCharset)
 				->setBody($emailBodyObject->render(), 'text/html');
 
+
 		if ($fileNames && is_array($fileNames)) {
 			foreach ($fileNames as $fileName){
 				if(trim($fileName) != '') {
@@ -89,6 +90,61 @@ class Div {
 		return $email->isSent();
 	}
 
+
+	/**
+	 * Generate and send ICS Invitation
+	 *
+	 * @param \string Template file in Templates/Email/
+	 * @param \array $receiver Combination of Email => Name
+	 * @param \array $receiverCc Combination of Email => Name
+	 * @param \array $receiverBcc Combination of Email => Name
+	 * @param \array $sender Combination of Email => Name
+	 * @param \string $subject Mail subject
+	 * @param \array $variables Variables for assignMultiple
+	 * @return \bool Mail was sent?
+	 */
+	public function sendIcsInvitation($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $fileNames = array(), $icsAttachment = array()) {
+
+		/** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
+		$emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+		$emailBodyObject->setTemplatePathAndFilename($this->getTemplatePath('Email/' . $template . '.html'));
+		$emailBodyObject->setLayoutRootPaths(array(
+			'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Layouts'
+		));
+		$emailBodyObject->setPartialRootPaths(array(
+			'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Partials'
+		));
+		$emailBodyObject->assignMultiple($variables);
+
+		$email = $this->objectManager->get('TYPO3\\CMS\\Core\\Mail\\MailMessage');
+		$email
+			->setTo($receiver)
+			->setCc($receiverCc)
+			->setBcc($receiverBcc)
+			->setFrom($sender)
+			->setSubject($subject)
+			->setBody($icsAttachment['content'], 'text/calendar');
+
+		$headers = $email->getHeaders();
+		$headers->addTextHeader('Content-class', 'urn:content-classes:calendarmessage');
+		$type = $email->getHeaders()->get('Content-Type');
+		$type->setValue('text/calendar; method=REQUEST');
+		$type->setParameter('charset', 'UTF-8');
+
+		//might not be needed bc ICS invitation will be send
+		/*if(!empty($icsAttachment)){
+			$icsFile = \Swift_Attachment::newInstance()
+				->setFilename($icsAttachment['name'] . ".ics")
+				->setContentType('text/calendar;charset=UTF-8;name="' . $icsAttachment['name'] . '.ics"; method=REQUEST')
+				->setBody($icsAttachment['content'])
+				->setDisposition('attachment;filename=' . $icsAttachment['name'] . '.ics');
+			$email->attach($icsFile);
+		}*/
+
+		$email->send();
+
+		return $email->isSent();
+	}
 
 	/**
 	 * Return path and filename for a file
