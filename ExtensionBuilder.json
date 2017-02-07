@@ -69,6 +69,89 @@
                     "relations": []
                 }
             }
+        },
+        {
+            "config": {
+                "position": [
+                    708,
+                    155
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": false,
+                    "_default1_show": false,
+                    "_default2_new_create": false,
+                    "_default3_edit_update": false,
+                    "_default4_delete": false,
+                    "customActions": [
+                        ""
+                    ]
+                },
+                "name": "Application",
+                "objectsettings": {
+                    "addDeletedField": true,
+                    "addHiddenField": true,
+                    "addStarttimeEndtimeFields": false,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": true,
+                    "type": "Entity",
+                    "uid": "883757070169"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": false,
+                            "propertyIsRequired": true,
+                            "propertyName": "name",
+                            "propertyType": "String",
+                            "uid": "1376024260515"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": false,
+                            "propertyIsRequired": true,
+                            "propertyName": "surname",
+                            "propertyType": "String",
+                            "uid": "1450972969978"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": false,
+                            "propertyIsRequired": true,
+                            "propertyName": "email",
+                            "propertyType": "String",
+                            "uid": "835124833936"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": false,
+                            "relationDescription": "",
+                            "relationName": "events",
+                            "relationType": "zeroToMany",
+                            "relationWire": "[wired]",
+                            "uid": "509213746546"
+                        }
+                    ]
+                }
+            }
         }
     ],
     "properties": {
@@ -80,14 +163,16 @@
             "dependsOn": "typo3 => 6.2\n",
             "disableLocalization": false,
             "disableVersioning": false,
+            "skipGenerateDocumentationTemplate": false,
             "sourceLanguage": "en",
             "state": "alpha",
-            "targetVersion": "6.2",
+            "targetVersion": "7.6.0-7.6.99",
             "version": "0.01"
         },
         "extensionKey": "dated_news",
         "name": "Dated News",
         "originalExtensionKey": "dated_news",
+        "originalVendorName": "FalkRoeder",
         "persons": [
             {
                 "company": "",
@@ -109,10 +194,23 @@
         ],
         "vendorName": "FalkRoeder"
     },
-    "wires": [],
+    "wires": [
+        {
+            "src": {
+                "moduleId": 1,
+                "terminal": "relationWire_0",
+                "uid": "509213746546"
+            },
+            "tgt": {
+                "moduleId": 0,
+                "terminal": "SOURCES",
+                "uid": "832023814385"
+            }
+        }
+    ],
     "log": {
-        "last_modified": "2015-07-31 03:13",
-        "extension_builder_version": "6.2.0",
-        "be_user": " (2)"
+        "last_modified": "2017-01-21 07:08",
+        "extension_builder_version": "7.6.0",
+        "be_user": " (1)"
     }
 }

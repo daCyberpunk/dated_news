@@ -46,6 +46,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		$this->registerArgument('strftime', 'bool', 'if true, the strftime is used instead of date()', FALSE, TRUE);
 		$this->registerArgument('item', 'mixed', 'newsitem');
 		$this->registerArgument('iterator', 'mixed', 'iterator');
+		$this->registerArgument('id', 'integer', 'Uid of Content Element');
 
 	}
 
@@ -57,17 +58,37 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$item = $this->arguments['item'];
  		$strftime = $this->arguments['strftime'];
  		$qtip = ',qtip: \'' . trim(preg_replace( "/\r|\n/", "", $this->arguments['qtip'])) . '\'';
-		
+		$calendarUid = $this->arguments['id'];
+
  		$title = $item->getTitle();
  		$start = $item->getEventstart();
  		$end = $item->getEventend();
  		$fulltime = $item->getFulltime();
- 		$color = $item->getBackgroundcolor;
- 		$textcolor = $item->getTextcolor;
  		$uid = $item->getUid();
  		$tags = $item->getTags();
+		$categories = $item->getCategories();
 		$filterTags = '';
-		
+		$color = trim($item->getBackgroundcolor());
+		$textcolor = trim($item->getTextcolor());
+
+		if($color === '' ) {
+			foreach ($categories as $category) {
+				$tempColor = trim($category->getBackgroundcolor());
+				if($tempColor !== ''){
+					$color = $tempColor;
+				}
+			}
+		}
+		if($textcolor === '' ) {
+			foreach ($categories as $category) {
+				$tempColor = trim($category->getTextcolor());
+				if($tempColor !== ''){
+					$textcolor = $tempColor;
+				}
+			}
+		}
+
+
  		$i = 0;
  		foreach($tags as $key => $value) {
  			$i++;
@@ -76,6 +97,15 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  			} else {
  				$filterTags .= ','.$value->getTitle();
  			}
+		}
+
+		foreach($categories as $key => $value) {
+			$i++;
+			if ($i === 1) {
+				$filterTags = $value->getTitle();
+			} else {
+				$filterTags .= ','.$value->getTitle();
+			}
 		}
 
 		if ($start === NULL || $uid === NULL) {
@@ -118,10 +148,13 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		}
 
 		$string = <<<EOT
-				if(!newsCalendarEvent){
-					var newsCalendarEvent = [];
+				if(!eventscal){
+					var eventscal= [];
 				}
-				newsCalendarEvent["Event_$uid"] = {
+				if(!eventscal.hasOwnProperty("newsCalendarEvent_$calendarUid")){
+					eventscal["newsCalendarEvent_$calendarUid"] = [];
+				}
+				eventscal["newsCalendarEvent_$calendarUid"]['Event_$uid'] = {
 			    events: [
 			        {
 			    	    title: '$title',

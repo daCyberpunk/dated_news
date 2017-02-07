@@ -20,6 +20,8 @@ class BackendUtility extends \GeorgRinger\News\Hooks\BackendUtility {
         'additional' => 'hidePagination,itemsPerPage,topNewsFirst',
         'template' => 'template'
     ];
+    
+    
 
     /**
      * @param array $params
