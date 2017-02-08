@@ -20,6 +20,7 @@ plugin.tx_news {
 			uiTheme = {$plugin.tx_news.settings.dated_news.uiTheme}
 			uiThemeCustom = {$plugin.tx_news.settings.dated_news.uiThemeCustom}
 			dateFormat = d.m
+			columnDateFormat = ddd D.M
 			timeFormat = H:i
 			filesForMailToApplyer =
 			cssFile = {$plugin.tx_news.settings.dated_news.cssFile}

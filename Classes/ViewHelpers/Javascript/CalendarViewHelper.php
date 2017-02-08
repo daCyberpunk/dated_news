@@ -69,6 +69,17 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 		$defaultView = 'defaultView: "'. $settings['defaultView'].'",';
         $lang = 'locale: "'.$GLOBALS['TSFE']->lang .'",';
 
+        $flexformConfig = preg_replace( "/\r|\n/", "", $settings['additionalConfig'] );
+        if(trim($flexformConfig) !== '' && substr($flexformConfig, -1) !== ',') {
+            $flexformConfig = $flexformConfig .',';
+        }
+
+        if(trim($settings['aspectRatio']) !== '' && floatval($settings['aspectRatio']) != 0){
+            $aspectRatioHeight = 'aspectRatio: "' . floatval($settings['aspectRatio']) . '",';
+        } else {
+            $aspectRatioHeight = 'height: "auto",';
+        }
+
         $allDaySlot = 'allDaySlot:0,';
         if($settings['allDaySlot']){
             $allDaySlot = 'allDaySlot:' . $settings['allDaySlot'] .',';
@@ -87,6 +98,16 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         //complete javascript code
 		$js = <<<EOT
 			(function($) {
+			        var fixCalHeightsInAgendaviews = function(){
+			            if($('.fc-slats').length > 0) {
+                            var bottomContainerPos = $('#calendar')[0].getBoundingClientRect().bottom;
+                            var bottomTablePos = $('.fc-slats')[0].getBoundingClientRect().bottom;
+                            var bottomDifference = bottomContainerPos - bottomTablePos ;
+                            var currentHeight = $( ".fc-slats > table" ).css( "height");
+                            var newHeight = parseInt(currentHeight) + bottomDifference;
+                            $( ".fc-slats > table" ).css( "height", newHeight );
+			            }
+					}
 					newsCalendar_$uid = $('#calendar.calendar_$uid').fullCalendar({
 						$headerFooter[0]
 						$headerFooter[1]
@@ -97,14 +118,20 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 						$lang
 						$eventRenderer
 						$buttonText
-				        height: 'auto',
+						$columnFormat
+						$flexformConfig
+				        $aspectRatioHeight
 				        theme : 'true',
 						buttonIcons: true, // show the prev/next text
 						weekNumbers: false,
 			        	timezone : 'local',
+			        	viewRender: fixCalHeightsInAgendaviews,
 			        	$timeFormat
 			    	})
 					addAllEvents(newsCalendar_$uid,"newsCalendarEvent_$uid");
+					
+					
+					
 			})(jQuery);
 			/*jQuery.noConflict(true);*/
 			

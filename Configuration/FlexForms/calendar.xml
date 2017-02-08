@@ -125,6 +125,31 @@
                     </config>
                 </TCEforms>
             </settings.maxTime>
+
+            <!-- aspectRatio-->
+            <settings.aspectRatio>
+                <TCEforms>
+                    <label>aspectRatio</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>30</size>
+                    </config>
+                </TCEforms>
+            </settings.aspectRatio>
+
+            <!-- additional fullcalendar configuration -->
+            <settings.additionalConfig>
+                <TCEforms>
+                    <label>additional fullcalendar configuration</label>
+                    <config>
+                        <type>text</type>
+                        <cols>30</cols>
+                        <rows>10</rows>
+                    </config>
+                </TCEforms>
+            </settings.additionalConfig>
         </el>
     </ROOT>
 </application>

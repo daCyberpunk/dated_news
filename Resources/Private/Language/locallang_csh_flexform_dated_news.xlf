@@ -6,6 +6,12 @@
             <trans-unit id="settings.switchableViews.description" xml:space="preserve">
 				<source>write comma-separated list. choose from: month,agendaWeek,basicWeek,agendaDay,basicDay,listYear,listMonth,listWeek,listDay</source>
 			</trans-unit>
+            <trans-unit id="settings.additionalConfig.description" xml:space="preserve">
+				<source>write commaseparated additional fullcalendar Config which are not provided by plugin. See full list of options at fullcalendar.io. Example: columnFormat: "ddd D.M.",weekends:false</source>
+			</trans-unit>
+            <trans-unit id="settings.aspectRatio.description" xml:space="preserve">
+				<source>Determines the width-to-height aspect ratio of the calendar. Default: 1.35</source>
+			</trans-unit>
         </body>
 </file>
 </xliff>
