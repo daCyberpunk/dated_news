@@ -96,13 +96,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $filterValues = array_merge($filterValues,$this->getTagsOfNews($newsRecords));
         }
         if(!empty($filterValues)){
-            $assignedValues['filterValues'] = $filterValues;
+            $assignedValues['filterValues'] = $this->div->shuffle_assoc($filterValues);
         }
 
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CALENDAR_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
         Cache::addPageCacheTagsByDemandObject($demand);
     }
+
+    
 
     /**
      * Single view of a news record
@@ -556,8 +558,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $categories = $news->getCategories();
                 foreach ($categories as $category) {
                     $title = $category->getTitle();
-                    if(!in_array($title, $newsCategories)){
-                        $newsCategories[] = $title;
+                    $bgColor = $category->getBackgroundcolor();
+                    if(!array_key_exists($title, $newsCategories)){
+                        $newsCategories[$title] =[];
+                        $newsCategories[$title]['count'] = 1;
+                        if (trim($bgColor) !== '') {
+                            $newsCategories[$title]['color'] = $bgColor;
+                        } 
+                    } else {
+                        $newsCategories[$title]['count'] = $newsCategories[$title]['count'] +1;
                     }
                 }
             }
@@ -573,8 +582,11 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $tags = $news->getTags();
                 foreach ($tags as $tag) {
                     $title = $tag->getTitle();
-                    if(!in_array($title, $newsTags)){
-                        $newsTags[] = $title;
+                    if(!array_key_exists($title, $newsTags)){
+                        $newsTags[$title] =[];
+                        $newsTags[$title]['count'] = 1;
+                    } else {
+                        $newsTags[$title]['count'] = $newsTags[$title]['count'] +1;
                     }
                 }
             }

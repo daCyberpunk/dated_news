@@ -10,7 +10,7 @@
     <!--TYPO3SEARCH_end-->
     <f:if condition="{news}">
         <f:then>
-            <div class="news-list-view">
+            <div class="news-calendar-view">
                 <f:for each="{news}" as="newsItem" iteration="iterator">
                     <f:if condition="{newsItem.showincalendar} == 'TRUE'">
                         <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator, id:contentObjectData.uid}" />
@@ -18,16 +18,19 @@
                 </f:for>
                 {nc:javascript.calendar(settings:settings, id:contentObjectData.uid)}
 
-                <f:if condition="{filterValues}">
-                    <div class="button-group filters-button-group">
-                        <f:for each="{filterValues}" as="value">
-                            <button class="dated-news-filter button" data-dn-calendar="{contentObjectData.uid}" data-dn-filter="{value}">{value}</button>
-                        </f:for>
-                    </div>
-                </f:if>
 
                 <f:format.raw>{datedNewsCalendarHtml}</f:format.raw>
                 <v:asset.script content="{datedNewsCalendarJS}" name="dated_newsCalendar_{contentObjectData.uid}" dependencies="jquery" namedChunks="1"   standalone="1" overwrite="false" movable="true"/>
+                <f:if condition="{filterValues}">
+                    <ul class="tags button-group filters-button-group">
+                        <f:for each="{filterValues}" as="key" key="title">
+                            <li class="dated-news-filter button" data-dn-calendar="{contentObjectData.uid}" data-dn-filter="{title}">
+                                <span style="color: {key.color}">{title}<span>{key.count}</span></span>
+                            </li>
+
+                        </f:for>
+                    </ul>
+                </f:if>
             </div>
         </f:then>
         <f:else>
