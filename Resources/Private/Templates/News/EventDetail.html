@@ -84,6 +84,10 @@
 			</div>
 
 			<f:if condition="{newsItem.eventtype}">
+				<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.targetgroup" /></strong>
+				<f:format.html>{newsItem.targetgroup}</f:format.html>
+			</f:if>
+			<f:if condition="{newsItem.eventtype}">
 				<f:render partial="Detail/EventDetail" arguments="{_all}" />
 			</f:if>
 			<f:if condition="{newsItem.eventtype}">

@@ -130,6 +130,13 @@ class News extends \GeorgRinger\News\Domain\Model\News
     protected $earlyBirdPrice = '';
 
     /**
+     * targetgroup
+     *
+     * @var string
+     */
+    protected $targetgroup = '';
+    
+    /**
      * locations
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location>
@@ -166,6 +173,27 @@ class News extends \GeorgRinger\News\Domain\Model\News
     public function setPrice($price)
     {
         $this->price = $price;
+    }
+    
+    /**
+     * Returns the targetgroup
+     *
+     * @return string $targetgroup
+     */
+    public function getTargetgroup()
+    {
+        return $this->targetgroup;
+    }
+
+    /**
+     * Sets the targetgroup
+     *
+     * @param string $targetgroup
+     * @return void
+     */
+    public function setTargetgroup($targetgroup)
+    {
+        $this->targetgroup = $targetgroup;
     }
 
     /**

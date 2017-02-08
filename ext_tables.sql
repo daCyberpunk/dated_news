@@ -16,6 +16,7 @@ CREATE TABLE tx_news_domain_model_news (
 	slots int(11) unsigned DEFAULT '0' NOT NULL,
 	price varchar(255) DEFAULT '' NOT NULL,
 	early_bird_price varchar(255) DEFAULT '' NOT NULL,
+	targetgroup varchar(255) DEFAULT '' NOT NULL,
 	locations int(11) unsigned DEFAULT '0' NOT NULL,
 	persons int(11) unsigned DEFAULT '0' NOT NULL,
 

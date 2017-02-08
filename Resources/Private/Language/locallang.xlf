@@ -39,6 +39,9 @@
 			<trans-unit id="tx_datednews_domain_model_news.backgroundcolor">
 				<source>Background Color</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.targetgroup">
+				<source>Target Group</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.price">
 				<source>Price</source>
 			</trans-unit>

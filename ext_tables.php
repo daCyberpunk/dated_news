@@ -158,6 +158,15 @@ $tmp_dated_news_columns = array(
 			'eval' => 'trim'
 		),
 	),
+	'targetgroup' => array(
+		'exclude' => 0,
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.targetgroup',
+		'config' => array(
+			'type' => 'text',
+			'cols' => 60,
+			'rows' => 5
+		),
+	),
 	'slots' => array(
 		'exclude' => 0,
 		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.slots',
@@ -278,11 +287,11 @@ $tmp_dated_news_columns = array(
 	eventstart;;;;1-1-1, 
 	eventend;;;;1-1-1, 
 	fulltime;;;;1-1-1, 
-	eventlocation;;;;1-1-1, 
 	slots;;;;1-1-1, 
 	eventtype;;;;1-1-1, 
 	price;;;;1-1-1, 
-	early_bird_price;;;;1-1-1, 
+	early_bird_price;;;;1-1-1,
+	targetgroup;;;;1-1-1,
 	locations;;;;1-1-1, 
 	persons;;;;1-1-1, 
 	textcolor;;;;1-1-1, 
