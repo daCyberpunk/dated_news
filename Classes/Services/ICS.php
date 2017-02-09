@@ -51,8 +51,8 @@ class ICS {
         'location',
         'summary',
         'url',
-        'organizer',
-        'attendee'
+//        'organizer',
+//        'attendee'
     );
 
     public function __construct($props) {
@@ -102,15 +102,13 @@ class ICS {
 
         // Append properties
         foreach ($props as $k => $v) {
-            if($k !== 'ORGANIZER' && $k !== 'ATTENDEE' ){
-                $ics_props[] = "$k:$v";
-            }
+            $ics_props[] = "$k:$v";
         }
 
         // Build ICS properties - add footer
         $ics_props[] = 'END:VEVENT';
         $ics_props[] = 'END:VCALENDAR';
-        
+
         return $ics_props;
     }
 

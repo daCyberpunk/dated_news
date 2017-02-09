@@ -479,12 +479,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     'dtstart' => $news->getEventstart()->getTimestamp(),
                     'dtend' => $news->getEventEnd()->getTimestamp(),
                     'location' => $icsLocation,
-                    'description' => $news->getTeaser(),
                     'summary' => $newsTitle,
                     'organizer' => $this->settings['senderMail'],
                     'attendee' => $applyerMail
 
                 );
+                //add description only if teaser has not html in it, whats the case if RTE is enabled
+                if($news->getTeaser() == strip_tags($news->getTeaser())){
+                    $properties['description'] = $news->getTeaser();
+                }
                 $ics = new \FalkRoeder\DatedNews\Services\ICS($properties);
                 $icsAttachment = [
                     'content' => $ics->to_string(),
