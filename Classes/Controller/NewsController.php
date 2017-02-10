@@ -484,10 +484,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     'attendee' => $applyerMail
 
                 );
-                //add description only if teaser has not html in it, whats the case if RTE is enabled
-                if($news->getTeaser() == strip_tags($news->getTeaser())){
-                    $properties['description'] = $news->getTeaser();
+
+                //add description
+                $description = $this->getIcsDescription($news, $settings);
+                if($description !== FALSE){
+                    $properties['description'] = $description;
                 }
+
                 $ics = new \FalkRoeder\DatedNews\Services\ICS($properties);
                 $icsAttachment = [
                     'content' => $ics->to_string(),
@@ -513,8 +516,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     }
                 }
             }
-            
-            
         }
     }
 
@@ -596,6 +597,66 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         return $newsTags;
+    }
+
+    /**
+     * getIcsDescription
+     *
+     * @param \GeorgRinger\News\Domain\Model\News $news news item
+     * @param array $settings
+     * @return boolean|string
+     */
+    public function getIcsDescription(\GeorgRinger\News\Domain\Model\News $news, $settings) {
+        switch ($settings['icsDescriptionField']) {
+            case "Teaser":
+                if($news->getTeaser() == strip_tags($news->getTeaser())){
+                    return $news->getTeaser();
+                } else {
+                    return FALSE;
+                }
+                break;
+            case "Description":
+                if($news->getDescription() == strip_tags($news->getDescription())){
+                    return $news->getDescription();
+                } else {
+                    return FALSE;
+                }
+                break;
+            case "Url":
+                if($settings['detailPid']){
+                    $uriBuilder = $this->controllerContext->getUriBuilder();
+                    $uri = $uriBuilder
+                        ->reset()
+                        ->setTargetPageUid($settings['detailPid'])
+                        ->setUseCacheHash(TRUE)
+                        ->setArguments(array('tx_news_pi1' => array('controller' => 'News', 'action' => 'eventDetail', 'news' => $news->getUid())))
+                        ->setCreateAbsoluteUri(TRUE)
+                        ->buildFrontendUri();
+                    return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', array('url' => $uri));
+                } else {
+                    return FALSE;
+                }
+                break;
+            case "Custom":
+                if(trim($settings['icsDescriptionCustomField']) === '') {
+                    return FALSE;
+                } else {
+                    $func = 'get' . ucfirst(trim($settings['icsDescriptionCustomField']));
+                    if(method_exists($news, $func) === TRUE){
+                        $description = $news->{$func}();
+                        if(trim($description) != '' && $description != strip_tags($description)){
+                            return FALSE;
+                        } else {
+                            return $description;
+                        }
+                    } else {
+                        return FALSE;
+                    }
+                }
+                break;
+            default:
+                return FALSE;
+        }
     }
 
 }

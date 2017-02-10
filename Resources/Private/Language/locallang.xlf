@@ -199,6 +199,9 @@
 			<trans-unit id="tx_datednews_domain_model_application.demand_confirmation">
 				<source>Please click this link to confirm your booking </source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.ics_description">
+				<source>Invitation belongs to the booked event at: %1$s </source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email_introductionAdmins">
 				<source>Following Application / Booking was received by the system:</source>
 			</trans-unit>
