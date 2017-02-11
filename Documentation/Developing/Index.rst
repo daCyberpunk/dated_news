@@ -6,9 +6,9 @@
 .. include:: ../Includes.txt
 
 
-.. _developer:
+.. _developing:
 
-Developer Corner
+Developing
 ================
 
 Target group: **Developers**

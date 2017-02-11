@@ -49,10 +49,14 @@ dated_news
 	**Table of Contents**
 
 .. toctree::
-	:maxdepth: 5
-	:titlesonly:
-	:glob:
+    :maxdepth:3
+    :titlesonly:
 
 
-	Administrator/Index
-	ChangeLog/Index
+    Introduction/Index
+    Administrator/Index
+    Configuration/Index
+    Editing/Index
+    Developing/Index
+    ToDoList/Index
+    ChangeLog/Index
