@@ -1,0 +1,26 @@
+
+
+4.0.0 - 2017/02/13
+------------------
+
+::
+
+Version now comes with some breaking changes
+
+========== ====================== ======================================================
+Type       Affects                Description
+========== ====================== ======================================================
+!!!FEATURE News Item              Location Field removed and replaced with new locations field where several LOcations can be added with address data
+!!!FEATURE Plugin                 Filtering by taglist Partial removed. Filtering now is to activate in Plugin and can be done using categories and/pr tags. Template now is in Calendar.html
+!!!TASK    Plugin                 Extensions replaces the whole detail View Action of tx_news. Please see :ref:`eventdetail-view`
+!!!TASK    Configuration          Some Configurations moved from TypoScript to the FE Plugin. new options added
+!!!TASK    Dependencies           Extensions now depends to news 5.0+ and VHS 3.0+
+FEATURE    News Item              Add Persons to an event
+FEATURE    News Item              Added field Target Group
+FEATURE    News Item              Event now is pricable
+FEATURE    News Item              Event colors can now be defined in categories OR in news Event itself. Last one gets priority.
+FEATURE    News Item              Tab Event Data only is seen when in General Tab type is an event.
+FEATURE    Plugin                 Multiple Calendar on one page possible
+FEATURE    Plugin                 User can applicate / book for an event
+FEATURE    Translation            Buttons for switchable views now configurable in locallang
+========== ====================== ======================================================

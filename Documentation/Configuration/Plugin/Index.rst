@@ -64,6 +64,8 @@ Example::
 
 .. container:: detail-view
 
+.. _eventdetail-view:
+
 Detail View
 """"""""""""""""""""
 

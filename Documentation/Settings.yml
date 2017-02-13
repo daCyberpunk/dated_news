@@ -9,21 +9,27 @@
 ---
 conf.py:
   copyright: 2017
-  project: newscalendar
-  version: 0.01
-  release: 0.01
+  project: Dated News
+  version: 4.0
+  release: 4.0.0
   intersphinx_mapping:
     t3tsref:
     - http://docs.typo3.org/typo3cms/TyposcriptReference/
     - null
+    t3start:
+    - http://docs.typo3.org/typo3cms/GettingStartedTutorial/
+    - null
+    t3editors:
+    - http://docs.typo3.org/typo3cms/EditorsTutorial/
+    - null
   latex_documents:
   - - Index
-    - news_calendar.tex
-    - newscalendar
+    - dated\_news.tex
+    - Dated News
     - Falk Röder
     - manual
   latex_elements:
     papersize: a4paper
     pointsize: 10pt
-    preamble: \usepackage
+    preamble: \usepackage{lmodern}
 ...

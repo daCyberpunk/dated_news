@@ -12,15 +12,15 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Dated News',
-	'description' => 'Extends the TYPO3 versatile news system extension tx_news with a calendar view using fullcalendar.js',
+	'description' => 'Extends the TYPO3 versatile news system extension tx_news with a calendar view using fullcalendar.js and allows to book for the now pricable events',
 	'category' => 'fe',
 	'author' => 'Falk Röder',
 	'author_email' => 'mail@falk-roeder.de',
-	'state' => 'stable',
+	'state' => 'beta',
 	'internal' => '',
 	'uploadfolder' => '0',
 	'createDirs' => '',
-	'clearCacheOnLoad' => 0,
+	'clearCacheOnLoad' => 1,
 	'version' => '4.0.0',
 	'constraints' => array(
 		'depends' => array(
