@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Dated News',
-	'description' => 'Extends the TYPO3 versatile news system extension tx_news with a calendar view using fullcalendar.js and allows to book for the now pricable events',
+	'description' => 'Extends the TYPO3 versatile news system extension tx_news with a calendar view using fullcalendar.js/qtip.js and allows to book for the now pricable events',
 	'category' => 'fe',
 	'author' => 'Falk Röder',
 	'author_email' => 'mail@falk-roeder.de',
