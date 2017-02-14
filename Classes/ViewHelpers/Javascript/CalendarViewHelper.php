@@ -182,7 +182,7 @@ EOT;
             eventRender: function(event, element) {
 			    element.qtip({
 				    style: { 
-				        classes: 'qtip-rounded qtip-shadow qtip-cluetip $tooltipPreStyle' 
+				        classes: 'qtip-rounded qtip-shadow $tooltipPreStyle' 
 				    },
 					hide: {
 					    delay: 200,
