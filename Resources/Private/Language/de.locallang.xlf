@@ -235,7 +235,7 @@
 			
 			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject" approved="yes">
 				<source>Booking: %1$s</source>
-				<target state="translated">Buchung</target>
+				<target state="translated">Buchung %1$s</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email_introduction" approved="yes">
 				<source>Following Application / Booking we have received from you:</source>
@@ -318,7 +318,7 @@
 				<target state="translated">Fehler!</target>
 			</trans-unit>
 			<trans-unit id="applicationNotFound" approved="yes">
-				<source>TThe requested booking was not found in our system. Please contact the site administrator</source>
+				<source>The requested booking was not found in our system. Please contact the site administrator</source>
 				<target state="translated">Die angefragte Buchung wurde nicht gefunden. Bitte kontaktieren Sie den Seiteninhaber.</target>
 			</trans-unit>
 			<trans-unit id="applicationNotFoundStatus" approved="yes">

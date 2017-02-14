@@ -4,6 +4,6 @@
 
 <f:if condition="{newsItem.showincalendar}">
     <v:asset.script  name="dated_newsEvent{newsItem.uid}{id}" dependencies="jquery" namedChunks="1"   standalone="1" overwrite="false" movable="true">
-        <nc:javascript.event id="{id}" iterator="iterator" item="{newsItem}" qtip="{v:render.template(file: 'EXT:dated_news/Resources/Private/Partials/Calendar/Qtip.html', variables: {settings: settings, newsItem: newsItem})}"/>
+        <nc:javascript.event id="{id}" iterator="iterator" item="{newsItem}" detailPid="{settings.detailPid}" qtip="{v:render.template(file: 'EXT:dated_news/Resources/Private/Partials/Calendar/Qtip.html', variables: {settings: settings, newsItem: newsItem})}"/>
     </v:asset.script>
 </f:if>

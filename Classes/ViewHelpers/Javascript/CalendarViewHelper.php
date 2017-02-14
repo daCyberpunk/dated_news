@@ -63,7 +63,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
             $tsSettings['todayPosition'],
             $settings['switchableViews']
             );
-        $eventRenderer = $this->buildEventRendererOption($tsSettings['tooltipPreStyle']);
+        $eventRenderer = $this->buildEventRendererOption($tsSettings['tooltipPreStyle'], '.calendar_' . $uid);
         $timeFormat = $this->buildTimeFormatOption($tsSettings['twentyfourhour']);
         $buttonText = $this->getButtonText();
 		$defaultView = 'defaultView: "'. $settings['defaultView'].'",';
@@ -177,7 +177,7 @@ EOT;
         }
         return $tformat;
     }
-    public function buildEventRendererOption($tooltipPreStyle){
+    public function buildEventRendererOption($tooltipPreStyle, $calendarClass){
         $eventRenderer = <<<EOT
             eventRender: function(event, element) {
 			    element.qtip({
@@ -190,7 +190,7 @@ EOT;
 						effect: function() { $(this).fadeOut(250); }
 					},
 					position: {
-					    viewport: $(window),
+					    viewport: $("$calendarClass"),
 						adjust: {
 						    method: 'flip'
 						}

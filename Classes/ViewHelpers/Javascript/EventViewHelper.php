@@ -47,6 +47,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		$this->registerArgument('item', 'mixed', 'newsitem');
 		$this->registerArgument('iterator', 'mixed', 'iterator');
 		$this->registerArgument('id', 'integer', 'Uid of Content Element');
+		$this->registerArgument('detailPid', 'integer', 'PID of detailpage');
 
 	}
 
@@ -59,6 +60,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
  		$strftime = $this->arguments['strftime'];
  		$qtip = ',qtip: \'' . trim(preg_replace( "/\r|\n/", "", $this->arguments['qtip'])) . '\'';
 		$calendarUid = $this->arguments['id'];
+		$detailPid = $this->arguments['detailPid'];
 
  		$title = $item->getTitle();
  		$start = $item->getEventstart();
@@ -147,6 +149,19 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			$allDay = ',allDay: true';
 		}
 
+		$uri='';
+		if($detailPid){
+			$uriBuilder = $this->controllerContext->getUriBuilder();
+			$detailUri = $uriBuilder
+				->reset()
+				->setTargetPageUid($detailPid)
+				->setUseCacheHash(TRUE)
+				->setArguments(array('tx_news_pi1' => array('controller' => 'News', 'action' => 'eventDetail', 'news' => $item->getUid())))
+				->setCreateAbsoluteUri(TRUE)
+				->buildFrontendUri();
+			$uri = 'url: "' . $detailUri .'",';
+		}
+
 		$string = <<<EOT
 				if(!eventscal){
 					var eventscal= [];
@@ -158,6 +173,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			    events: [
 			        {
 			    	    title: '$title',
+			    	    $uri
 			            start: '$formattedStart',
 			            end: '$formattedEnd',
 			            className: 'Event_$uid'

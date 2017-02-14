@@ -41,3 +41,20 @@ $('.dated-news-filter').on('click', function(){
         });
     }
 });
+//disable qtip on devices smaller then 768px width and follow direct the url to an event on click
+$(document).on('click','a.fc-day-grid-event, .fc-content, a.fc-time-grid-event', function(e){
+    if(getViewport()['width'] > 767){
+        e.preventDefault();
+    } else {
+        $('[data-hasqtip]').qtip('hide').qtip('disable');
+    }
+});
+
+function getViewport() {
+    var e = window, a = 'inner';
+    if (!('innerWidth' in window )) {
+        a = 'client';
+        e = document.documentElement || document.body;
+    }
+    return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
+}

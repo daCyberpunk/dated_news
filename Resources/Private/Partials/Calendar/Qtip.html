@@ -18,14 +18,13 @@
         <b><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventend}</f:format.date></b>
         <f:format.date format="{settings.dated_news.timeFormat}">{newsItem.eventend}</f:format.date>
     </div>
-
     <div class="qtip-desc">
         <f:if condition="{newsItem.description} == ''">
             <f:then>
-                <f:format.html>{newsItem.teaser}</f:format.html>
+                <f:format.html>{newsItem.teaser -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}</f:format.html>
             </f:then>
             <f:else>
-                <f:format.html>{newsItem.description}</f:format.html>
+                <f:format.html>{newsItem.description -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}</f:format.html>
             </f:else>
         </f:if>
 
