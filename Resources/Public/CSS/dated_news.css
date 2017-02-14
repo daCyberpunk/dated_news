@@ -11,6 +11,12 @@ text-decoration: underline;
 .qtip-desc {
   margin-top: 10px;
 }
+
+.event-details, .event-booking-form {
+  width: 100%;
+  float: left;
+  margin-top: 30px;
+}
 /*Eventdata in detailview*/
 .event-dates, .event-costs, .event-locations, .event-persons {
   float:left;
@@ -162,6 +168,4 @@ text-decoration: underline;
 .fc .fc-toolbar>*>* {
   margin-left: 0em;
 }
-
-
 
