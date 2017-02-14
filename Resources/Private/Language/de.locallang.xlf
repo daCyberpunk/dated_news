@@ -1,297 +1,388 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version='1.0' encoding='utf-8'?>
 <xliff version="1.0">
 	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2015-07-31T15:13:12Z" product-name="dated_news">
 		<header/>
 		<body>
 			<trans-unit id="tx_datednews_domain_model_news">
 				<source>News</source>
+				<target>News</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventstart">
 				<source>Event Start</source>
+				<target>Veranstaltungsbeginn</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventend">
 				<source>Event Ende</source>
+				<target>Veranstaltungsende</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventtime">
-				<source>Datum / Zeit</source>
+				<source>Date / Time</source>
+				<target>Datum / Zeit</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventlocation">
-				<source>Eventort</source>
+				<source>Event Location</source>
+				<target>Eventort</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventtype">
-				<source>Art des Events</source>
+				<source>Type of Event</source>
+				<target>Art des Events</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.slots">
-				<source>Freie Plätze</source>
+				<source>Free slots</source>
+				<target>Freie Plätze</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.showincalendar">
-				<source>Im Kalender anzeigen</source>
+				<source>Show in calendar</source>
+				<target>Im Kalender anzeigen</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.enable_application">
-				<source>Nutzer kann buchen</source>
+			<trans-unit id="tx_datednews_domain_model_news.enable_application" approved="yes">
+				<source>User can book</source>
+				<target state="translated">Nutzer kann buchen</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.fulltime">
-				<source>Vollzeitveranstaltung</source>
+			<trans-unit id="tx_datednews_domain_model_news.fulltime" approved="yes">
+				<source>Fulltime Event</source>
+				<target state="translated">Vollzeitveranstaltung</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.textcolor">
-				<source>Textfarbe</source>
+			<trans-unit id="tx_datednews_domain_model_news.textcolor" approved="yes">
+				<source>text color</source>
+				<target state="translated">Textfarbe</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.backgroundcolor">
-				<source>Hintergrundfarbe</source>
+			<trans-unit id="tx_datednews_domain_model_news.backgroundcolor" approved="yes">
+				<source>background color</source>
+				<target state="translated">Hintergrundfarbe</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.targetgroup">
+			<trans-unit id="tx_datednews_domain_model_news.targetgroup" approved="yes">
 				<source>Target Group</source>
+				<target state="translated">Zielgruppe</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.price">
-				<source>Preis</source>
+			<trans-unit id="tx_datednews_domain_model_news.price" approved="yes">
+				<source>Price</source>
+				<target state="translated">Preis</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.early_bird_price">
-				<source>Preis Frühbucher</source>
+			<trans-unit id="tx_datednews_domain_model_news.early_bird_price" approved="yes">
+				<source>Early Bird Price</source>
+				<target state="translated">Preis Frühbucher</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.currency">
+			<trans-unit id="tx_datednews_domain_model_news.currency" approved="yes">
 				<source>€</source>
+				<target state="translated">€</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.locations">
-				<source>Veransatlungsorte</source>
+			<trans-unit id="tx_datednews_domain_model_news.locations" approved="yes">
+				<source>Event Locations</source>
+				<target state="translated">Veransatlungsorte</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.persons">
+			<trans-unit id="tx_datednews_domain_model_news.persons" approved="yes">
 				<source>Persons</source>
+				<target state="translated">Veranstalter</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.trainer">
+			<trans-unit id="tx_datednews_domain_model_news.trainer" approved="yes">
 				<source>Trainer</source>
+				<target state="translated">Dozenten</target>
 			</trans-unit>
 
-			<trans-unit id="tx_datednews_domain_model_location">
+			<trans-unit id="tx_datednews_domain_model_location" approved="yes">
 				<source>Location</source>
+				<target state="translated">Veranstaltungsort</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_location.name">
+			<trans-unit id="tx_datednews_domain_model_location.name" approved="yes">
 				<source>Name</source>
+				<target state="translated">Name</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_location.address2">
+			<trans-unit id="tx_datednews_domain_model_location.address2" approved="yes">
 				<source>Address2</source>
+				<target state="translated">Addresse 2</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_location.zip">
+			<trans-unit id="tx_datednews_domain_model_location.zip" approved="yes">
 				<source>Zip</source>
+				<target state="translated">PLZ</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_location.address">
+			<trans-unit id="tx_datednews_domain_model_location.address" approved="yes">
 				<source>Address</source>
+				<target state="translated">Adresse</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_location.city">
+			<trans-unit id="tx_datednews_domain_model_location.city" approved="yes">
 				<source>City</source>
+				<target state="translated">Stadt</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_location.country">
+			<trans-unit id="tx_datednews_domain_model_location.country" approved="yes">
 				<source>Country</source>
+				<target state="translated">Land</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_location.phone">
+			<trans-unit id="tx_datednews_domain_model_location.phone" approved="yes">
 				<source>Phone</source>
+				<target state="translated">Telefon</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_location.email">
+			<trans-unit id="tx_datednews_domain_model_location.email" approved="yes">
 				<source>Email</source>
+				<target state="translated">Email</target>
 			</trans-unit>
 			
 			
 			
-			<trans-unit id="tx_datednews_domain_model_person">
+			<trans-unit id="tx_datednews_domain_model_person" approved="yes">
 				<source>Person</source>
+				<target state="translated">Person</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_person.name">
+			<trans-unit id="tx_datednews_domain_model_person.name" approved="yes">
 				<source>Name</source>
+				<target state="translated">Name</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_person.surname">
+			<trans-unit id="tx_datednews_domain_model_person.surname" approved="yes">
 				<source>Surname</source>
+				<target state="translated">Vorname</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_person.title">
+			<trans-unit id="tx_datednews_domain_model_person.title" approved="yes">
 				<source>Title</source>
+				<target state="translated">Anrede</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_person.email">
+			<trans-unit id="tx_datednews_domain_model_person.email" approved="yes">
 				<source>Email</source>
+				<target state="translated">Email</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_person.images">
+			<trans-unit id="tx_datednews_domain_model_person.images" approved="yes">
 				<source>Photo</source>
+				<target state="translated">Foto</target>
 			</trans-unit>
 			
 			
 			
-			<trans-unit id="tx_datednews_domain_model_application">
+			<trans-unit id="tx_datednews_domain_model_application" approved="yes">
 				<source>Application</source>
+				<target state="translated">Buchung</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.formlabel">
+			<trans-unit id="tx_datednews_domain_model_application.formlabel" approved="yes">
 				<source>Booking Form</source>
+				<target state="translated">Buchungsformular</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.name">
+			<trans-unit id="tx_datednews_domain_model_application.name" approved="yes">
 				<source>Name</source>
+				<target state="translated">Name</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.title">
+			<trans-unit id="tx_datednews_domain_model_application.title" approved="yes">
 				<source>Title</source>
+				<target state="translated">Anrede</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.surname">
+			<trans-unit id="tx_datednews_domain_model_application.surname" approved="yes">
 				<source>Surname</source>
+				<target state="translated">Vorname</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.email">
+			<trans-unit id="tx_datednews_domain_model_application.email" approved="yes">
 				<source>Email</source>
+				<target state="translated">Email</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.events">
+			<trans-unit id="tx_datednews_domain_model_application.events" approved="yes">
 				<source>Events</source>
+				<target state="translated">Veranstaltungen</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.reserved_slots">
+			<trans-unit id="tx_datednews_domain_model_application.reserved_slots" approved="yes">
 				<source>Reserve Slots</source>
+				<target state="translated">Plätze reservieren</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.submit">
+			<trans-unit id="tx_datednews_domain_model_application.submit" approved="yes">
 				<source>Submit</source>
+				<target state="translated">Absenden</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.company">
+			<trans-unit id="tx_datednews_domain_model_application.company" approved="yes">
 				<source>Company</source>
+				<target state="translated">Unternehmen</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.address">
+			<trans-unit id="tx_datednews_domain_model_application.address" approved="yes">
 				<source>Address</source>
+				<target state="translated">Adresse</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.address2">
+			<trans-unit id="tx_datednews_domain_model_application.address2" approved="yes">
 				<source>Address2</source>
+				<target state="translated">Adresse 2</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.zip">
+			<trans-unit id="tx_datednews_domain_model_application.zip" approved="yes">
 				<source>Zip</source>
+				<target state="translated">PLZ</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.city">
+			<trans-unit id="tx_datednews_domain_model_application.city" approved="yes">
 				<source>City</source>
+				<target state="translated">Stadt</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.country">
+			<trans-unit id="tx_datednews_domain_model_application.country" approved="yes">
 				<source>Country</source>
+				<target state="translated">Land</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.costs">
+			<trans-unit id="tx_datednews_domain_model_application.costs" approved="yes">
 				<source>Costs</source>
+				<target state="translated">Kosten</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.phone">
+			<trans-unit id="tx_datednews_domain_model_application.phone" approved="yes">
 				<source>Phone</source>
+				<target state="translated">Telefon</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.mobile">
+			<trans-unit id="tx_datednews_domain_model_application.mobile" approved="yes">
 				<source>Mobile</source>
+				<target state="translated">Mobil</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.taxid">
+			<trans-unit id="tx_datednews_domain_model_application.taxid" approved="yes">
 				<source>Tax Id</source>
+				<target state="translated">Steuernummer</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.message">
+			<trans-unit id="tx_datednews_domain_model_application.message" approved="yes">
 				<source>Message</source>
+				<target state="translated">Nachricht</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.terms_accept">
+			<trans-unit id="tx_datednews_domain_model_application.terms_accept" approved="yes">
 				<source>Accept Terms</source>
+				<target state="translated">Hiermit akzeptiere ich die AGB</target>
 			</trans-unit>
 
 			
 			
-			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject">
+			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject" approved="yes">
 				<source>Booking: %1$s</source>
+				<target state="translated">Buchung</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.email_introduction">
+			<trans-unit id="tx_datednews_domain_model_application.email_introduction" approved="yes">
 				<source>Following Application / Booking we have received from you:</source>
+				<target state="translated">Folgende Buchung ist bei uns von Ihnen eingegangen</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.expire_info">
+			<trans-unit id="tx_datednews_domain_model_application.expire_info" approved="yes">
 				<source>(This link expires in %s days)</source>
+				<target state="translated">(Der Link ist %s Tage gültig)</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.email_introduction_confirmation">
+			<trans-unit id="tx_datednews_domain_model_application.email_introduction_confirmation" approved="yes">
 				<source>We thank you for confirming your booking to the following event:</source>
+				<target state="translated">Wir danken Ihnen für die Buchung folgenden Events:</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.demand_confirmation">
-				<source>Please click this link to confirm your booking </source>
+			<trans-unit id="tx_datednews_domain_model_application.demand_confirmation" approved="yes">
+				<source>Please click this link to confirm your booking</source>
+				<target state="translated">Bitte bestätigen Sie Ihre Buchung durch klick auf folgenden Link</target>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_application.email_introductionAdmins">
+			<trans-unit id="tx_datednews_domain_model_application.email_introductionAdmins" approved="yes">
 				<source>Following Application / Booking was received by the system:</source>
+				<target state="translated">Folgende Buchung ist eingegangen:</target>
 			</trans-unit>
 
 			
 			
-			<trans-unit id="applicationSendMessage">
+			<trans-unit id="applicationSendMessage" approved="yes">
 				<source>Your application / booking has been send with following details</source>
+				<target state="translated">Ihre Buchung wurde mit folgenden Details versand:</target>
 			</trans-unit>
-			<trans-unit id="applicationSendStatus">
+			<trans-unit id="applicationSendStatus" approved="yes">
 				<source>Send!</source>
+				<target state="translated">Gesendet!</target>
 			</trans-unit>
 
-			<trans-unit id="applicationSendMessageNoRecipients">
+			<trans-unit id="applicationSendMessageNoRecipients" approved="yes">
 				<source>There are no valid contacts for this offer. Please contact the site administrator</source>
+				<target state="translated">Es gibt keine gültigen Kontakte für dieses Angebot, bitte kontaktieren Sie den Seiteninhaber</target>
 			</trans-unit>
-			<trans-unit id="applicationSendMessageNoRecipientsStatus">
+			<trans-unit id="applicationSendMessageNoRecipientsStatus" approved="yes">
 				<source>Error!</source>
+				<target state="translated">Fehler!</target>
 			</trans-unit>
-			<trans-unit id="applicationSendMessageNoApplyerEmail">
+			<trans-unit id="applicationSendMessageNoApplyerEmail" approved="yes">
 				<source>Your given Mail Address is not valid</source>
+				<target state="translated">Die angegebene Email-Adresse ist nicht gültig</target>
 			</trans-unit>
-			<trans-unit id="applicationSendMessageNoApplyerEmailStatus">
+			<trans-unit id="applicationSendMessageNoApplyerEmailStatus" approved="yes">
 				<source>Error!</source>
+				<target state="translated">Fehler!</target>
 			</trans-unit>
-			<trans-unit id="applicationSendMessageAllreadySent">
+			<trans-unit id="applicationSendMessageAllreadySent" approved="yes">
 				<source>Your Booking request was allready transmitted.</source>
+				<target state="translated">Ihre Buchung wurde bereits versand.</target>
 			</trans-unit>
-			<trans-unit id="applicationSendMessageAllreadySentStatus">
+			<trans-unit id="applicationSendMessageAllreadySentStatus" approved="yes">
 				<source>Error!</source>
+				<target state="translated">Fehler!</target>
 			</trans-unit>
-			<trans-unit id="applicationSendMessageGeneralError">
+			<trans-unit id="applicationSendMessageGeneralError" approved="yes">
 				<source>There is an technical error. Please contact the site administrator</source>
+				<target state="translated">Ein technischer Fehler ist aufgetreten. Bitte kontaktieren Sie den Seiteninhaber.</target>
 			</trans-unit>
-			<trans-unit id="applicationSendStatusGeneralErrorStatus">
+			<trans-unit id="applicationSendStatusGeneralErrorStatus" approved="yes">
 				<source>Error!</source>
+				<target state="translated">Fehler!</target>
 			</trans-unit>
-			<trans-unit id="applicationSendMessageApplyerError">
+			<trans-unit id="applicationSendMessageApplyerError" approved="yes">
 				<source>The booking confirmation could not be sent to your address. Please contact the site administrator</source>
+				<target state="translated">Die Buchungsbestätigung konnte nicht zu ihrer Adresse versand werden. Bitte kontaktieren Sie den Seiteninhaber.</target>
 			</trans-unit>
-			<trans-unit id="applicationSendMessageApplyerErrorStatus">
+			<trans-unit id="applicationSendMessageApplyerErrorStatus" approved="yes">
 				<source>Error!</source>
+				<target state="translated">Fehler!</target>
 			</trans-unit>
-			<trans-unit id="applicationConfirmationLinkUnvalid">
+			<trans-unit id="applicationConfirmationLinkUnvalid" approved="yes">
 				<source>The confirmation link is not available anymore. Please book again or contact the site administrator</source>
+				<target state="translated">Der Bestätigungslink ist nicht mehr gültig. Bitte buchen Sie erneut oder kontaktieren Sie den Seiteninhaber.</target>
 			</trans-unit>
-			<trans-unit id="applicationConfirmationLinkUnvalidStatus">
+			<trans-unit id="applicationConfirmationLinkUnvalidStatus" approved="yes">
 				<source>Error!</source>
+				<target state="translated">Fehler!</target>
 			</trans-unit>
-			<trans-unit id="applicationNotFound">
+			<trans-unit id="applicationNotFound" approved="yes">
 				<source>TThe requested booking was not found in our system. Please contact the site administrator</source>
+				<target state="translated">Die angefragte Buchung wurde nicht gefunden. Bitte kontaktieren Sie den Seiteninhaber.</target>
 			</trans-unit>
-			<trans-unit id="applicationNotFoundStatus">
+			<trans-unit id="applicationNotFoundStatus" approved="yes">
 				<source>Error!</source>
+				<target state="translated">Fehler!</target>
 			</trans-unit>
-			<trans-unit id="applicationAllreadyConfirmed">
+			<trans-unit id="applicationAllreadyConfirmed" approved="yes">
 				<source>The booking was allready confirmed</source>
+				<target state="translated">Die Buchung wurde bereits bestätigt.</target>
 			</trans-unit>
-			<trans-unit id="applicationAllreadyConfirmedStatus">
+			<trans-unit id="applicationAllreadyConfirmedStatus" approved="yes">
 				<source>Info</source>
+				<target state="translated">Info</target>
 			</trans-unit>
-			<trans-unit id="applicationConfirmed">
+			<trans-unit id="applicationConfirmed" approved="yes">
 				<source>The booking is confirmed. Thank you.</source>
+				<target state="translated">Die Buchung ist bestätigt. Besten Dank.</target>
 			</trans-unit>
-			<trans-unit id="applicationConfirmedStatus">
+			<trans-unit id="applicationConfirmedStatus" approved="yes">
 				<source>Ok</source>
+				<target state="translated">Ok</target>
 			</trans-unit>
 
 
 			<!--Calendar-->
-			<trans-unit id="fullcalendar.today">
+			<trans-unit id="fullcalendar.today" approved="yes">
 				<source>Today</source>
+				<target state="translated">Heute</target>
 			</trans-unit>
-			<trans-unit id="fullcalendar.month">
+			<trans-unit id="fullcalendar.month" approved="yes">
 				<source>Month</source>
+				<target state="translated">Monat</target>
 			</trans-unit>
-			<trans-unit id="fullcalendar.week">
+			<trans-unit id="fullcalendar.week" approved="yes">
 				<source>Week</source>
+				<target state="translated">Woche</target>
 			</trans-unit>
 			<trans-unit id="fullcalendar.agendaWeek">
 				<source>Agenda Week</source>
+				<target>Agenda Woche</target>
 			</trans-unit>
-			<trans-unit id="fullcalendar.day">
+			<trans-unit id="fullcalendar.day" approved="yes">
 				<source>Day</source>
+				<target state="translated">Tag</target>
 			</trans-unit>
-			<trans-unit id="fullcalendar.agendaDay">
+			<trans-unit id="fullcalendar.agendaDay" approved="yes">
 				<source>Agenda Day</source>
+				<target state="translated">Agenda Tag</target>
 			</trans-unit>
-			<trans-unit id="fullcalendar.listYear">
+			<trans-unit id="fullcalendar.listYear" approved="yes">
 				<source>List Year</source>
+				<target state="translated">Jahresliste</target>
 			</trans-unit>
-			<trans-unit id="fullcalendar.listMonth">
+			<trans-unit id="fullcalendar.listMonth" approved="yes">
 				<source>List Month</source>
+				<target state="translated">Monatsliste</target>
 			</trans-unit>
-			<trans-unit id="fullcalendar.listWeek">
+			<trans-unit id="fullcalendar.listWeek" approved="yes">
 				<source>List Week</source>
+				<target state="translated">Wochenliste</target>
 			</trans-unit>
-			<trans-unit id="fullcalendar.listDay">
+			<trans-unit id="fullcalendar.listDay" approved="yes">
 				<source>List Day</source>
+				<target state="translated">Tagesliste</target>
 			</trans-unit>
 		</body>
 	</file>
