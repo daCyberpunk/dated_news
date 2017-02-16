@@ -25,6 +25,7 @@ plugin.tx_news {
 			filesForMailToApplyer =
 			cssFile = {$plugin.tx_news.settings.dated_news.cssFile}
 			includeJQuery = 0
+			jsFile = typo3conf/ext/dated_news/Resources/Public/JS/dated_news.js
 
 			titlePosition = {$plugin.tx_news.settings.dated_news.titlePosition}
 			switchableViewsPosition = {$plugin.tx_news.settings.dated_news.switchableViewsPosition}
@@ -47,7 +48,7 @@ plugin.tx_news {
 #	999 = TEXT
 #	999.value = <script src="/typo3conf/ext/dated_news/Resources/Public/JS/dated_news.js" type="text/javascript"></script>
 #}
-page.includeJSFooter.dated_news = typo3conf/ext/dated_news/Resources/Public/JS/dated_news.js
+#page.includeJSFooter.dated_news = typo3conf/ext/dated_news/Resources/Public/JS/dated_news.js
 #page.includeJS.xmoment = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lib/moment.min.js
 #page.includeJS.xfullcalendar = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.js
 #page.includeJS.xlangall = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lang-all.js

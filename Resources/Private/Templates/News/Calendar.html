@@ -1,7 +1,6 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:n="http://typo3.org/ns/GeorgRinger/News/ViewHelpers"
       xmlns:nc="http://typo3.org/ns/FalkRoeder/DatedNews/ViewHelpers"
-      xmlns:v="http://typo3.org/ns/FluidTYPO3/Vhs/ViewHelpers"
       data-namespace-typo3-fluid="true">
 <f:layout name="Calendar" />
 
@@ -16,11 +15,11 @@
                         <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator, id:contentObjectData.uid}" />
                     </f:if>
                 </f:for>
-                {nc:javascript.calendar(settings:settings, id:contentObjectData.uid)}
+                {nc:javascript.calendar(settings:settings, id:contentObjectData.uid, compress: false)}
 
 
-                <f:format.raw>{datedNewsCalendarHtml}</f:format.raw>
-                <v:asset.script content="{datedNewsCalendarJS}" name="dated_newsCalendar_{contentObjectData.uid}" dependencies="jquery" namedChunks="1"   standalone="1" overwrite="false" movable="true"/>
+
+
                 <f:if condition="{filterValues}">
                     <ul class="tags button-group filters-button-group">
                         <f:for each="{filterValues}" as="key" key="title">

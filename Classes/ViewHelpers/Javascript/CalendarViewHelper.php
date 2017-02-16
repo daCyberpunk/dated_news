@@ -25,7 +25,7 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * CalendarViewHelper
  * 
@@ -35,6 +35,45 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  */
 class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
+    /**
+     * @var \TYPO3\CMS\Core\Page\PageRenderer
+     */
+    protected $pageRenderer;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     */
+    protected $configurationManager;
+
+    /**
+     * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
+     */
+    public function injectPageRenderer(\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer) {
+        $this->pageRenderer = $pageRenderer;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+     * @return void
+     */
+    public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
+        $this->configurationManager = $configurationManager;
+    }
+
+
+    /**
+     * Returns TRUE if what we are outputting may be cached
+     *
+     * @return boolean
+     */
+    protected function isCached() {
+        $userObjType = $this->configurationManager->getContentObject()->getUserObjectType();
+        return ($userObjType !== \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::OBJECTTYPE_USER_INT);
+    }
+
+
+
+
 	/**
 	* Arguments initialization
 	*
@@ -43,6 +82,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	public function initializeArguments() {
 		$this->registerArgument('settings', 'mixed', 'settings');
 		$this->registerArgument('id', 'integer', 'Uid of Content Element');
+        $this->registerArgument('compress', 'boolean', 'Compress argument - see PageRenderer documentation', FALSE, TRUE);
 	}
 
 	/**
@@ -99,7 +139,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 		$js = <<<EOT
 			(function($) {
 			       
-					newsCalendar_$uid = $('#calendar.calendar_$uid').fullCalendar({
+					var newsCalendar_$uid = $('#calendar.calendar_$uid').fullCalendar({
 						$headerFooter[0]
 						$headerFooter[1]
 						$defaultView
@@ -137,8 +177,15 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 			
 EOT;
 
-		$this->templateVariableContainer->add('datedNewsCalendarJS', $js);
+        if ($this->isCached()) {
+            $this->pageRenderer->addFooterData('<script name="newsCalendar_'.$uid.'" type="text/javascript">'.$js.'</script>');
+        } else {
+            // additionalFooterData not possible in USER_INT
+            $GLOBALS['TSFE']->additionalFooterData[md5('dated_newsCalendar_' .$uid)] = GeneralUtility::wrapJS($js);
+        }
+
 		$this->templateVariableContainer->add('datedNewsCalendarHtml', '<div id="calendar" class="fc-calendar-container calendar_'.$uid.'"></div>');
+        return '<div id="calendar" class="fc-calendar-container calendar_'.$uid.'"></div>';
 	}
 
     public function getButtonText(){

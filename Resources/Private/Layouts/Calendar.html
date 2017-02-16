@@ -1,27 +1,11 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:n="http://typo3.org/ns/GeorgRinger/News/ViewHelpers"
-      xmlns:v="http://typo3.org/ns/FluidTYPO3/Vhs/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
 <f:if condition="{settings.cssFile}">
     <n:includeFile path="{settings.cssFile}" />
 </f:if>
 
-<f:if condition="{settings.dated_news.includeJQuery} == 1">
-    <v:asset.script path="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" name="jquery" external="1" namedChunks="1" group="dated_news"  standalone="1" overwrite="false"  movable="true"/>
-</f:if>
-
-<v:asset.script path="typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lib/moment.min.js" name="xmoment" dependencies="jquery" namedChunks="1" group="dated_news"  standalone="0" overwrite="false" movable="true"/>
-<v:asset.script path="typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.js" name="xfullcalendar" dependencies="jquery" namedChunks="1" group="dated_news"  standalone="0" overwrite="false" movable="true"/>
-<v:asset.script path="typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lang-all.js" name="xlangall" dependencies="jquery" namedChunks="1" group="dated_news"  standalone="0" overwrite="false" movable="true"/>
-<v:asset.script path="typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.js" name="xqtip" dependencies="jquery" namedChunks="1" group="dated_news"  standalone="0" overwrite="false" movable="true"/>
-
-
-<v:asset.style path="typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css" dependencies="normalizeDSFGrid" external="0" name="xfullcalendarcss" overwrite="0" namedChunks="1" standalone="1" />
-<v:asset.style path="typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css" dependencies="normalizeDSFGrid" external="0" name="xqtipcss" overwrite="0" namedChunks="1" standalone="1"  />
-<f:if condition="{settings.dated_news.cssFile}">
-    <v:asset.style path="{settings.dated_news.cssFile}" dependencies="normalizeDSFGrid" external="0" name="dated_news" overwrite="0" namedChunks="1" standalone="1" />
-</f:if>
 
 
 

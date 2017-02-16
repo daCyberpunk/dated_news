@@ -57,6 +57,18 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     protected $div;
 
     /**
+     * @var \TYPO3\CMS\Core\Page\PageRenderer
+     */
+    protected $pageRenderer;
+
+    /**
+     * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
+     */
+    public function injectPageRenderer(\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer) {
+        $this->pageRenderer = $pageRenderer;
+    }
+    
+    /**
      * Calendar view
      *
      * @param array $overwriteDemand
@@ -77,7 +89,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $news->setDescription(addslashes($news->getDescription()));
             $news->setBodytext(addslashes($news->getBodytext()));
         }
-    
+        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFile']);
+        $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
         $assignedValues = array(
             'news' => $newsRecords,
@@ -103,8 +116,54 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $this->view->assignMultiple($assignedValues);
         Cache::addPageCacheTagsByDemandObject($demand);
     }
-
     
+    public function addCalendarCss($pathToCss = ''){
+        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css" media="all">');
+        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css" media="all">');
+        $pathToCss = str_replace('EXT:','/typo3conf/ext/',$pathToCss);
+        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="'.$pathToCss.'" media="all">');
+      
+    }
+    public function addCalendarJSLibs($jquery = '0', $pathToJS = '' ){
+        if($jquery == "1"){
+            $this->pageRenderer->addJsFooterLibrary(
+                'jQuery',
+                'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js',
+                'text/javascript',
+                TRUE
+            );
+        }
+        $this->pageRenderer->addJsFooterLibrary(
+            'xmoment',
+            'typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lib/moment.min.js',
+            'text/javascript',
+            TRUE
+        );
+        $this->pageRenderer->addJsFooterLibrary(
+            'xfullcalendar',
+            'typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.js',
+            'text/javascript',
+            TRUE
+        );
+        $this->pageRenderer->addJsFooterLibrary(
+            'xlangall',
+            'typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lang-all.js',
+            'text/javascript',
+            TRUE
+        );
+        $this->pageRenderer->addJsFooterLibrary(
+            'xqtip',
+            'typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.js',
+            'text/javascript',
+            TRUE
+        );
+        $this->pageRenderer->addJsFooterLibrary(
+            'dated_news',
+            str_replace('EXT:','/typo3conf/ext/',$pathToJS),
+            'text/javascript',
+            TRUE
+        );
+    }
 
     /**
      * Single view of a news record

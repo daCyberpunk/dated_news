@@ -25,6 +25,8 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * EventViewHelper
@@ -35,6 +37,42 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  * @inject
  */
 class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+	
+	/**
+	 * @var \TYPO3\CMS\Core\Page\PageRenderer
+	 */
+	protected $pageRenderer;
+
+	/**
+	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+	 */
+	protected $configurationManager;
+
+	/**
+	 * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
+	 */
+	public function injectPageRenderer(\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer) {
+		$this->pageRenderer = $pageRenderer;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+	 * @return void
+	 */
+	public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
+		$this->configurationManager = $configurationManager;
+	}
+
+
+	/**
+	 * Returns TRUE if what we are outputting may be cached
+	 *
+	 * @return boolean
+	 */
+	protected function isCached() {
+		$userObjType = $this->configurationManager->getContentObject()->getUserObjectType();
+		return ($userObjType !== \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::OBJECTTYPE_USER_INT);
+	}
 
 	/**
 	* Arguments initialization
@@ -47,20 +85,20 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		$this->registerArgument('item', 'mixed', 'newsitem');
 		$this->registerArgument('iterator', 'mixed', 'iterator');
 		$this->registerArgument('id', 'integer', 'Uid of Content Element');
-		$this->registerArgument('detailPid', 'integer', 'PID of detailpage');
-
+		$this->registerArgument('settings', 'array', 'plugin settings');
+		$this->registerArgument('compress', 'boolean', 'Compress argument - see PageRenderer documentation', FALSE, TRUE);
 	}
 
 	/**
-	* @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $objects
-	* @return string the needed html markup inklusive javascript
-	*/
+	 *
+	 * @return void
+	 */
 	public function render() {
  		$item = $this->arguments['item'];
  		$strftime = $this->arguments['strftime'];
- 		$qtip = ',qtip: \'' . trim(preg_replace( "/\r|\n/", "", $this->arguments['qtip'])) . '\'';
+ 		$qtip = ',qtip: \'' . trim(preg_replace( "/\r|\n/", "", $this->renderQtip($this->arguments['settings'], $item))) . '\'';
 		$calendarUid = $this->arguments['id'];
-		$detailPid = $this->arguments['detailPid'];
+		$detailPid = $this->arguments['settings']['detailPid'];
 
  		$title = $item->getTitle();
  		$start = $item->getEventstart();
@@ -162,7 +200,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			$uri = 'url: "' . $detailUri .'",';
 		}
 
-		$string = <<<EOT
+		$js = <<<EOT
 				if(!eventscal){
 					var eventscal= [];
 				}
@@ -202,7 +240,42 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 					}
 				
 EOT;
+		if ($this->isCached()) {
+			$this->pageRenderer->addJsFooterInlineCode(
+				'dated_newsEvent' . $uid . $calendarUid,
+				$js,
+				$this->arguments['compress'],
+				false
+			);
+		} else {
+			// additionalFooterData not possible in USER_INT
+			$GLOBALS['TSFE']->additionalFooterData[md5('dated_newsEvent' . $uid . $calendarUid)] = GeneralUtility::wrapJS($js);
+		}
 
-		return $string; 		
+	}
+
+	/**
+	 *
+	 * @param $settings
+	 * @param $newsItem
+	 * @return string html output of Qtip.html
+	 */
+	public function renderQtip($settings, $newsItem){
+
+		/** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
+		$qtip = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+		$qtip->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Partials/Calendar/Qtip.html');
+		/*$qtip->setLayoutRootPaths(array(
+			'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Layouts'
+		));*/
+		$qtip->setPartialRootPaths(array(
+			'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Partials'
+		));
+		$assignedValues = [
+			'newsItem' => $newsItem,
+			'settings' => $settings
+		];
+		$qtip->assignMultiple($assignedValues);
+		return $qtip->render();
 	}
 }

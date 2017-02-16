@@ -1,15 +1,10 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:n="http://typo3.org/ns/GeorgRinger/News/ViewHelpers"
-      xmlns:v="http://typo3.org/ns/FluidTYPO3/Vhs/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
 <f:if condition="{settings.cssFile}">
     <n:includeFile path="{settings.cssFile}" />
 </f:if>
-<f:if condition="{settings.dated_news.cssFile}">
-    <v:asset.style path="{settings.dated_news.cssFile}" external="0" name="dated_news" overwrite="0" namedChunks="1" standalone="1" />
-</f:if>
-
 <div class="news news-single">
     <div class="{f:if(condition: '{0: newsItem.eventtype} == {0: \'\'}', then: 'article', else: 'article event')}"
          itemscope="itemscope"
