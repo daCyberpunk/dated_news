@@ -183,10 +183,10 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			    ],
 			    color: '$color',
 			    textColor: '$textcolor'
-			}
+			};
 				if(!newsCalendarTags){
 					var newsCalendarTags = [];
-				}
+				};
 
 				var tempTags = '$filterTags';
 					if(tempTags.length > 0){
