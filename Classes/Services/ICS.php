@@ -43,8 +43,9 @@ namespace FalkRoeder\DatedNews\Services;
 class ICS {
     const DT_FORMAT = 'Ymd\THis\Z';
 
-    protected $properties = array();
-    private $available_properties = array(
+    protected $properties = [];
+    
+    private $available_properties = [
         'description',
         'dtend',
         'dtstart',
@@ -53,12 +54,16 @@ class ICS {
         'url',
 //        'organizer',
 //        'attendee'
-    );
+    ];
 
     public function __construct($props) {
         $this->set($props);
     }
 
+    /**
+     * @param $key
+     * @param bool $val
+     */
     public function set($key, $val = false) {
         if (is_array($key)) {
             foreach ($key as $k => $v) {
@@ -71,14 +76,20 @@ class ICS {
         }
     }
 
+    /**
+     * @return string
+     */
     public function to_string() {
         $rows = $this->build_props();
         return implode("\r\n", $rows);
     }
 
+    /**
+     * @return array
+     */
     private function build_props() {
         // Build ICS properties - add header
-        $ics_props = array(
+        $ics_props = [
             'BEGIN:VCALENDAR',
             'PRODID:-//GourmetPortal//NONSGML rr//EN',
             'VERSION:2.0',
@@ -88,10 +99,10 @@ class ICS {
 //            'ATTENDEE;RSVP=TRUE;CN=Falk Roeder;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:mail@falk-roeder.de',
             'CALSCALE:GREGORIAN',
             'TRANSP:OPAQUE',
-        );
+        ];
 
         // Build ICS properties - add header
-        $props = array();
+        $props = [];
         foreach($this->properties as $k => $v) {
             $props[strtoupper($k . ($k === 'url' ? ';VALUE=URI' : ''))] = $v;
         }
@@ -112,6 +123,11 @@ class ICS {
         return $ics_props;
     }
 
+    /**
+     * @param $val
+     * @param bool $key
+     * @return mixed|string
+     */
     private function sanitize_val($val, $key = false) {
         switch($key) {
             case 'dtend':
@@ -132,12 +148,20 @@ class ICS {
         return $val;
     }
 
+    /**
+     * @param $timestamp
+     * @return string
+     */
     private function format_timestamp($timestamp) {
         $dt = new \DateTime();
         $dt->setTimestamp((int)$timestamp);
         return $dt->format(self::DT_FORMAT);
     }
 
+    /**
+     * @param $str
+     * @return mixed
+     */
     private function escape_string($str) {
         return preg_replace('/([\,;])/','\\\$1', $str);
     }

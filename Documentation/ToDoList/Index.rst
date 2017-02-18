@@ -22,6 +22,7 @@ To-Do list
     realUrl                      TASK                                  Better integration with realUrl concerning generating confirmation links and cHash use
     Integrate TYPO3 FE-User      FEATURE                               Persons / Trainer whatever should be taken from the TYPO3 Fe-User Table
     Frontend Editing             FEATURE                               Allow Frontend Editing of events for logged-in FE-User
+    Reserve slots                TASK                                  Slots should be reserved as long as confirmation link is valid
     ============================ ===================================== ======================================================
 
 

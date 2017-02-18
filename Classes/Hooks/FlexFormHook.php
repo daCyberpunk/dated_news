@@ -19,7 +19,7 @@ class FlexFormHook
             } else {
                 $flexformSelection = $row['pi_flexform'];
             }
-            
+            $selectedView= '';
             if (is_array($flexformSelection) && is_array($flexformSelection['data'])) {
                 $selectedView = $flexformSelection['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'];
                 if (!empty($selectedView)) {

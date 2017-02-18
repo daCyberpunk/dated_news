@@ -78,6 +78,16 @@
                 </TCEforms>
             </settings.allDaySlot>
 
+            <!--show qtips-->
+            <settings.qtips>
+                <TCEforms>
+                    <label>Show Qtip Popups</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.qtips>
+
             <!--Tag Filter-->
             <settings.showTagFilter>
                 <TCEforms>
@@ -97,6 +107,28 @@
                     </config>
                 </TCEforms>
             </settings.showCategoryFilter>
+
+            <!-- sorting of filterlist -->
+            <settings.sortingFilterlist>
+                <TCEforms>
+                    <label>Sorting Filterlist</label>
+                    <config>
+                        <type>select</type>
+                        <renderType>selectSingle</renderType>
+                        <items>
+                            <numIndex index="0" type="array">
+                                <numIndex index="0">Alphabeth</numIndex>
+                                <numIndex index="1">alphabet</numIndex>
+                            </numIndex>
+                            <numIndex index="1" type="array">
+                                <numIndex index="0">Shuffle</numIndex>
+                                <numIndex index="1">shuffle</numIndex>
+                            </numIndex>
+                        </items>
+
+                    </config>
+                </TCEforms>
+            </settings.sortingFilterlist>
 
             <!-- minTime -->
             <settings.minTime>

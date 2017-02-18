@@ -26,6 +26,8 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+
 /**
  * CalendarViewHelper
  * 
@@ -85,10 +87,11 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         $this->registerArgument('compress', 'boolean', 'Compress argument - see PageRenderer documentation', FALSE, TRUE);
 	}
 
-	/**
-	* @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $objects
-	* @return string the needed html markup inklusive javascript
-	*/
+    /**
+     * @return string the needed html markup inklusive javascript
+     * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException
+     * @internal param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $objects
+     */
 	public function render() {
  		$settings = $this->arguments['settings'];
         $tsSettings = $settings['dated_news'];
@@ -103,7 +106,12 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
             $tsSettings['todayPosition'],
             $settings['switchableViews']
             );
-        $eventRenderer = $this->buildEventRendererOption($tsSettings['tooltipPreStyle'], '.calendar_' . $uid);
+        $eventRenderer = '';
+        $hasQtips = '';
+        if($settings['qtips'] == '1') {
+            $hasQtips = 'has-qtips';
+            $eventRenderer = $this->buildEventRendererOption($tsSettings['tooltipPreStyle'], '.calendar_' . $uid);
+        }
         $timeFormat = $this->buildTimeFormatOption($tsSettings['twentyfourhour']);
         $buttonText = $this->getButtonText();
 		$defaultView = 'defaultView: "'. $settings['defaultView'].'",';
@@ -149,7 +157,6 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 						$lang
 						$eventRenderer
 						$buttonText
-						$columnFormat
 						$flexformConfig
 				        $aspectRatioHeight
 				        theme : 'true',
@@ -184,28 +191,35 @@ EOT;
             $GLOBALS['TSFE']->additionalFooterData[md5('dated_newsCalendar_' .$uid)] = GeneralUtility::wrapJS($js);
         }
 
-		$this->templateVariableContainer->add('datedNewsCalendarHtml', '<div id="calendar" class="fc-calendar-container calendar_'.$uid.'"></div>');
-        return '<div id="calendar" class="fc-calendar-container calendar_'.$uid.'"></div>';
+		$this->templateVariableContainer->add('datedNewsCalendarHtml', '<div id="calendar" class="fc-calendar-container '.$hasQtips.' calendar_'.$uid.'"></div>');
+        return '<div id="calendar" class="fc-calendar-container '.$hasQtips.' calendar_'.$uid.'"></div>';
 	}
 
+    /**
+     * @return string
+     */
     public function getButtonText(){
         $extensionName = 'dated_news';
         $key = 'fullcalendar.';
-        $today = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'today', $extensionName);
-        $month = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'month', $extensionName);
-        $week = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'week', $extensionName);
-        $agendaWeek = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'agendaWeek', $extensionName);
-        $day = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'day', $extensionName);
-        $agendaDay = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'agendaDay', $extensionName);
-        $listYear = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'listYear', $extensionName);
-        $listMonth = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'listMonth', $extensionName);
-        $listWeek = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'listWeek', $extensionName);
-        $listDay = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key .'listDay', $extensionName);
+        $today = LocalizationUtility::translate($key .'today', $extensionName);
+        $month = LocalizationUtility::translate($key .'month', $extensionName);
+        $week = LocalizationUtility::translate($key .'week', $extensionName);
+        $agendaWeek = LocalizationUtility::translate($key .'agendaWeek', $extensionName);
+        $day = LocalizationUtility::translate($key .'day', $extensionName);
+        $agendaDay = LocalizationUtility::translate($key .'agendaDay', $extensionName);
+        $listYear = LocalizationUtility::translate($key .'listYear', $extensionName);
+        $listMonth = LocalizationUtility::translate($key .'listMonth', $extensionName);
+        $listWeek = LocalizationUtility::translate($key .'listWeek', $extensionName);
+        $listDay = LocalizationUtility::translate($key .'listDay', $extensionName);
         
         return "buttonText: {today:'".$today."',month:'".$month."',week:'".$week."',agendaWeek:'".$agendaWeek."',day:'".$day."',agendaDay:'".$agendaDay."',listYear:'".$listYear."',listMonth:'".$listMonth."',listWeek:'".$listWeek."',listDay:'".$listDay."'},";
 
     }
 
+    /**
+     * @param string $uiThemeCustom
+     * @param $uiTheme
+     */
     public function addJQueryUIThemeCSS($uiThemeCustom = '', $uiTheme){
         if ($uiTheme === 'custom') {
             $uiTheme = $uiThemeCustom;
@@ -216,6 +230,10 @@ EOT;
         }
     }
 
+    /**
+     * @param $twentyfourhour
+     * @return string
+     */
     public function buildTimeFormatOption($twentyfourhour){
         if ($twentyfourhour === '0') {
             $tformat = "timeFormat: 'h:mm'";
@@ -224,6 +242,12 @@ EOT;
         }
         return $tformat;
     }
+
+    /**
+     * @param $tooltipPreStyle
+     * @param $calendarClass
+     * @return string
+     */
     public function buildEventRendererOption($tooltipPreStyle, $calendarClass){
         $eventRenderer = <<<EOT
             eventRender: function(event, element) {
@@ -251,9 +275,29 @@ EOT;
     return $eventRenderer;
     }
 
-    public function buildHeaderFooterOption($titlePosition,$switchableViewsPosition,$nextPosition,$prevPosition,$todayPosition,$switchableViews){
+    /**
+     * @param $titlePosition
+     * @param $switchableViewsPosition
+     * @param $nextPosition
+     * @param $prevPosition
+     * @param $todayPosition
+     * @param $switchableViews
+     * @return array
+     */
+    public function buildHeaderFooterOption($titlePosition, $switchableViewsPosition, $nextPosition, $prevPosition, $todayPosition, $switchableViews){
         //generate js option for buttons positions
-        $positions = ['header' => ['left' => '','center' => '','right' => ''],'footer' => ['left' => '','center' => '','right' => '']];
+        $positions = [
+            'header' => [
+                'left' => '',
+                'center' => '',
+                'right' => ''
+            ],
+            'footer' => [
+                'left' => '',
+                'center' => '',
+                'right' => ''
+            ]
+        ];
 
         $titlePositionArr = explode('_', $titlePosition);
         $positions[$titlePositionArr[0]][$titlePositionArr[1]] .= 'title';

@@ -691,12 +691,12 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->events;
     }
-    
+
     /**
      * Sets the events
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News> $events
-     * @return void
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $events
+     * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News> $events
      */
     public function setEvents(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $events)
     {

@@ -36,9 +36,9 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * @var array
      */
-    protected $defaultOrderings = array(
+    protected $defaultOrderings = [
         'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-    );
+    ];
 
     public function initializeObject() {
         $this->defaultQuerySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
@@ -85,7 +85,7 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function getApplicationsForNews($newsId)
     {
         $applications = $this->findAll();
-        $applicationsForNews = array();
+        $applicationsForNews = [];
         foreach ($applications as $key => $application) {
             $events = $application->getEvents();
             foreach ($events as $event){

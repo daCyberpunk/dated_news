@@ -10,7 +10,7 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
 	'title' => 'Dated News',
 	'description' => 'Extends the TYPO3 versatile news system extension tx_news with a calendar view using fullcalendar.js/qtip.js and allows to book for the now pricable events',
 	'category' => 'fe',
@@ -21,15 +21,15 @@ $EM_CONF[$_EXTKEY] = array(
 	'uploadfolder' => '0',
 	'createDirs' => '',
 	'clearCacheOnLoad' => 1,
-	'version' => '4.1.0',
-	'constraints' => array(
-		'depends' => array(
+	'version' => '4.2.0',
+	'constraints' => [
+		'depends' => [
 			'typo3' => '7.6.0-8.3.99',
 			'news' => '5.0.0-5.3.99',
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
-);
+		],
+		'conflicts' => [
+		],
+		'suggests' => [
+		],
+	],
+];

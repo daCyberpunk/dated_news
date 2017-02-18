@@ -252,8 +252,8 @@ class News extends \GeorgRinger\News\Domain\Model\News
     /**
      * Sets the locations
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location> $locations
-     * @return void
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $locations
+     * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location> $locations
      */
     public function setLocations(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $locations)
     {
@@ -295,8 +295,8 @@ class News extends \GeorgRinger\News\Domain\Model\News
     /**
      * Sets the persons
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Person> $persons
-     * @return void
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $persons
+     * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Person> $persons
      */
     public function setPersons(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $persons)
     {
@@ -597,8 +597,8 @@ class News extends \GeorgRinger\News\Domain\Model\News
     /**
      * Sets the application
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application> $application
-     * @return void
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $application
+     * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application> $application
      */
     public function setApplication(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $application) {
         $this->application = $application;

@@ -81,7 +81,6 @@ class LocationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      */
     public function createAction(\FalkRoeder\DatedNews\Domain\Model\Location $newLocation)
     {
-        $this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
         $this->locationRepository->add($newLocation);
         $this->redirect('list');
     }
@@ -106,7 +105,6 @@ class LocationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      */
     public function updateAction(\FalkRoeder\DatedNews\Domain\Model\Location $location)
     {
-        $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
         $this->locationRepository->update($location);
         $this->redirect('list');
     }
@@ -119,7 +117,6 @@ class LocationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      */
     public function deleteAction(\FalkRoeder\DatedNews\Domain\Model\Location $location)
     {
-        $this->addFlashMessage('The object was deleted. Please be aware that this action is publicly accessible unless you implement an access check. See http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
         $this->locationRepository->remove($location);
         $this->redirect('list');
     }

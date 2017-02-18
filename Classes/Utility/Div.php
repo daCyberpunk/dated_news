@@ -51,9 +51,10 @@ class Div {
 	 * @param \array $sender Combination of Email => Name
 	 * @param \string $subject Mail subject
 	 * @param \array $variables Variables for assignMultiple
+	 * @param $fileNames
 	 * @return \bool Mail was sent?
 	 */
-	public function sendEmail($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $fileNames, $icsAttachment = array()) {
+	public function sendEmail($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $fileNames) {
 
 		/** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
 		$emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
@@ -101,9 +102,10 @@ class Div {
 	 * @param \array $sender Combination of Email => Name
 	 * @param \string $subject Mail subject
 	 * @param \array $variables Variables for assignMultiple
+	 * @param array $icsAttachment
 	 * @return \bool Mail was sent?
 	 */
-	public function sendIcsInvitation($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $fileNames = array(), $icsAttachment = array()) {
+	public function sendIcsInvitation($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $icsAttachment = array()) {
 
 		/** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
 		$emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
@@ -175,12 +177,16 @@ class Div {
 		return $absolutePathAndFilename;
 	}
 
+	/**
+	 * @param $list
+	 * @return array
+     */
 	public function shuffle_assoc($list) {
 		if (!is_array($list)) return $list;
 
 		$keys = array_keys($list);
 		shuffle($keys);
-		$random = array();
+		$random = [];
 		foreach ($keys as $key)
 			$random[$key] = $list[$key];
 

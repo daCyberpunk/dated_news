@@ -50,11 +50,12 @@
              <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                         <meta itemprop="url" content="{f:uri.page(addQueryString: 1, absolute: 1)}"/>
 						<link itemprop="availability" href="{f:uri.page(addQueryString: 1, absolute: 1)}" />
+                        <meta itemprop="priceCurrency" content="EUR" />
                         <div class="event-price">
 							<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.price" /></strong>
 							<span class="event-price" itemprop="price" content="{newsItem.earlyBirdPrice}">{newsItem.price}</span><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.currency" />
 						</div>
-						<meta itemprop="priceCurrency" content="EUR" ></meta>
+
 						<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.slots" /></strong>
                         <span>{newsItem.slotsFree}</span>
 					</span>
@@ -72,7 +73,7 @@
 							<span class="event-price" itemprop="lowPrice" content="{newsItem.earlyBirdPrice}">{newsItem.earlyBirdPrice}</span><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.currency" />
 						</div>
 
-						<meta itemprop="priceCurrency" content="EUR" ></meta>
+						<meta itemprop="priceCurrency" content="EUR" />
 						<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.slots" /></strong>
 						<span itemprop="offerCount">{newsItem.slotsFree}</span>
 					</span>

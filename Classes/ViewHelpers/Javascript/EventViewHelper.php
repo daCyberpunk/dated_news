@@ -27,6 +27,7 @@ namespace FalkRoeder\DatedNews\ViewHelpers\Javascript;
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
 
 /**
  * EventViewHelper
@@ -91,6 +92,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 
 	/**
 	 *
+	 * @throws Exception
 	 * @return void
 	 */
 	public function render() {
@@ -149,7 +151,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		}
 
 		if ($start === NULL || $uid === NULL) {
-				return '';
+				return;
 		}
 
 		date_default_timezone_set('UTC');
@@ -157,7 +159,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			try {
 				$start = new \DateTime($start);
 			} catch (\Exception $exception) {
-				throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('"' . $start . '" could not be parsed by DateTime constructor.', 1438925934);
+				throw new Exception('"' . $start . '" could not be parsed by DateTime constructor.', 1438925934);
 			}
 		}
 
@@ -165,10 +167,10 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			try {
 				$end = new \DateTime($end);
 			} catch (\Exception $exception) {
-				throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('"' . $end . '" could not be parsed by DateTime constructor.', 1438925934);
+				throw new Exception('"' . $end . '" could not be parsed by DateTime constructor.', 1438925934);
 			}
 		}
-
+		$formattedEnd='';
 		if ($strftime) {
 			$formattedStart = strftime('%Y-%m-%dT%H:%M:%S+00:00', $start->format('U'));
 			if($end !== NULL){

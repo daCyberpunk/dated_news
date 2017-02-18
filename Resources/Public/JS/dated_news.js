@@ -41,14 +41,7 @@ $('.dated-news-filter').on('click', function(){
         });
     }
 });
-//disable qtip on devices smaller then 768px width and follow direct the url to an event on click
-$(document).on('click','a.fc-day-grid-event, .fc-content, a.fc-time-grid-event', function(e){
-    if(getViewport()['width'] > 767){
-        e.preventDefault();
-    } else {
-        $('[data-hasqtip]').qtip('hide').qtip('disable');
-    }
-});
+
 
 function getViewport() {
     var e = window, a = 'inner';
@@ -58,3 +51,35 @@ function getViewport() {
     }
     return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
 }
+
+function callAfterResize(callback) {
+    $(window).bind('resizeEnd', function () {
+        callback();
+    });
+
+    $(window).resize(function () {
+        if (this.resizeTO) clearTimeout(this.resizeTO);
+        this.resizeTO = setTimeout(function () {
+            $(this).trigger('resizeEnd');
+        }, 500)
+    });
+};
+function disableQtips(){
+    //disable qtip on devices smaller then 768px width and follow direct the url to an event on click
+    if(getViewport()['width'] > 767){
+        $('[data-hasqtip]').qtip('enable');
+    } else {
+        $('[data-hasqtip]').qtip('disable');
+    }
+};
+$(document).on('click','a.fc-day-grid-event, .fc-content, a.fc-time-grid-event', function(e){
+    if(getViewport()['width'] > 767){
+        if($(this).closest('.fc-calendar-container').hasClass('has-qtips')){
+            e.preventDefault();
+        }
+    } 
+});
+callAfterResize(function(){
+    disableQtips();
+});
+$(window).on('load',disableQtips);

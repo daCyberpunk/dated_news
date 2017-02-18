@@ -1,0 +1,17 @@
+
+4.1.0 - 2017/02/16
+------------------
+
+::
+
+Dependency removal
+
+========== ====================== ======================================================
+Type       Affects                Description
+========== ====================== ======================================================
+TASK                              Code Cleanup and improvements
+BUG        Errorhandling          set page not found handling to TYPO3 if no parameters are given to create or confirm action
+FEATURE    Qtips | Calendar       add option "show qtip" to plugin
+BUG        Qtips | Calendar       disable qtip on mobile works now as espected
+FEATURE    Filter | Calendar      Add option sorting of filterlist to plugin
+========== ====================== ======================================================

@@ -1,9 +1,6 @@
 <?php
 namespace FalkRoeder\DatedNews\Controller;
 
-use GeorgRinger\News\Utility\Cache;
-use GeorgRinger\News\Utility\Page;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
 /***************************************************************
  *
  *  Copyright notice
@@ -28,6 +25,10 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use GeorgRinger\News\Utility\Cache;
+use GeorgRinger\News\Utility\Page;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class FalkRoeder\DatedNews\Controller\NewsController
@@ -67,7 +68,41 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     public function injectPageRenderer(\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer) {
         $this->pageRenderer = $pageRenderer;
     }
-    
+
+    /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Property\Exception\TargetNotFoundException
+     */
+    public function initializeCreateApplicationAction(){
+        foreach ($this->arguments as $argument) {
+            $argumentName = $argument->getName();
+            if ($this->request->hasArgument($argumentName)) {
+                if($argumentName === 'newApplication' && $this->request->getArgument($argumentName) === '') {
+                    $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
+                } else {
+                    $argument->setValue($this->request->getArgument($argumentName));
+                }
+            } else {
+                $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
+            }
+        }
+    }
+
+    /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Property\Exception\TargetNotFoundException
+     */
+    public function initializeConfirmApplicationAction(){
+        foreach ($this->arguments as $argument) {
+            $argumentName = $argument->getName();
+            if ($this->request->hasArgument($argumentName)) {
+                $argument->setValue($this->request->getArgument($argumentName));
+            } else {
+                $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
+            }
+        }
+    }
+
     /**
      * Calendar view
      *
@@ -76,6 +111,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function calendarAction(array $overwriteDemand = null)
     {
+
         $demand = $this->createDemandObjectFromSettings($this->settings);
         $demand->setActionAndClass(__METHOD__, __CLASS__);
         if ($this->settings['disableOverrideDemand'] != 1 && $overwriteDemand !== null) {
@@ -89,80 +125,34 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $news->setDescription(addslashes($news->getDescription()));
             $news->setBodytext(addslashes($news->getBodytext()));
         }
-        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFile']);
+        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFile'], $this->settings['qtips']);
         $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
-        $assignedValues = array(
+        $assignedValues = [
             'news' => $newsRecords,
             'overwriteDemand' => $overwriteDemand,
             'demand' => $demand,
-        );
+        ];
 
         $filterValues = [];
-        
         if($this->settings['showCategoryFilter'] === '1'){
             $filterValues = array_merge($filterValues,$this->getCategoriesOfNews($newsRecords));
-
         }
-
         if($this->settings['showTagFilter'] === '1'){
             $filterValues = array_merge($filterValues,$this->getTagsOfNews($newsRecords));
         }
         if(!empty($filterValues)){
-            $assignedValues['filterValues'] = $this->div->shuffle_assoc($filterValues);
+            if ($this->settings['sortingFilterlist'] === 'shuffle'){
+                $assignedValues['filterValues'] = $this->div->shuffle_assoc($filterValues);
+            } else {
+                ksort($filterValues);
+                $assignedValues['filterValues'] = $filterValues;
+            }
         }
 
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CALENDAR_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
         Cache::addPageCacheTagsByDemandObject($demand);
-    }
-    
-    public function addCalendarCss($pathToCss = ''){
-        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css" media="all">');
-        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css" media="all">');
-        $pathToCss = str_replace('EXT:','/typo3conf/ext/',$pathToCss);
-        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="'.$pathToCss.'" media="all">');
-      
-    }
-    public function addCalendarJSLibs($jquery = '0', $pathToJS = '' ){
-        if($jquery == "1"){
-            $this->pageRenderer->addJsFooterLibrary(
-                'jQuery',
-                'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js',
-                'text/javascript',
-                TRUE
-            );
-        }
-        $this->pageRenderer->addJsFooterLibrary(
-            'xmoment',
-            'typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lib/moment.min.js',
-            'text/javascript',
-            TRUE
-        );
-        $this->pageRenderer->addJsFooterLibrary(
-            'xfullcalendar',
-            'typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.js',
-            'text/javascript',
-            TRUE
-        );
-        $this->pageRenderer->addJsFooterLibrary(
-            'xlangall',
-            'typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lang-all.js',
-            'text/javascript',
-            TRUE
-        );
-        $this->pageRenderer->addJsFooterLibrary(
-            'xqtip',
-            'typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.js',
-            'text/javascript',
-            TRUE
-        );
-        $this->pageRenderer->addJsFooterLibrary(
-            'dated_news',
-            str_replace('EXT:','/typo3conf/ext/',$pathToJS),
-            'text/javascript',
-            TRUE
-        );
     }
 
     /**
@@ -170,11 +160,11 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      *
      * @param \GeorgRinger\News\Domain\Model\News $news news item
      * @param int $currentPage current page for optional pagination
-     * @return void
+     * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
     public function eventDetailAction(\GeorgRinger\News\Domain\Model\News $news = null, $currentPage = 1, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
     {
-
         if (is_null($news)) {
             $previewNewsId = ((int)$this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
             if ($this->request->hasArgument('news_preview')) {
@@ -204,12 +194,12 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $demand = $this->createDemandObjectFromSettings($this->settings);
         $demand->setActionAndClass(__METHOD__, __CLASS__);
 
+        $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
         $applicationsCount = $this->applicationRepository->countReservedSlotsForNews($news->getUid());
 
-
         $news->setSlotsFree((int)$news->getSlots() - $applicationsCount);
-        $slotoptions = array();
+        $slotoptions = [];
         $i = 1;
         while ($i <= $news->getSlotsFree()) {
             $slotoption = new \stdClass();
@@ -219,7 +209,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $i++;
         }
 
-        
         $assignedValues = [
             'newsItem' => $news,
             'currentPage' => (int)$currentPage,
@@ -245,8 +234,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
      * @return void
      */
-    public function createApplicationAction(\GeorgRinger\News\Domain\Model\News $news, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication) {
-//        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($this->request->getArguments(),'NewsController:140');
+    public function createApplicationAction(\GeorgRinger\News\Domain\Model\News $news = null, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null) {
 
         if (is_null($news)) {
             $previewNewsId = ((int)$this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
@@ -275,8 +263,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         // prevents form submitted more than once
-        $alwaysSubmitfortest = FALSE;
-        if($alwaysSubmitfortest === TRUE || $this->applicationRepository->isFirstFormSubmission($newApplication->getFormTimestamp())){
+        if($this->applicationRepository->isFirstFormSubmission($newApplication->getFormTimestamp())){
 
             $newApplication->setPid($news->getPid());
             $newApplication->setHidden(TRUE);
@@ -303,11 +290,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             } else {
                 $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',','.',$news->getPrice())));
             }
-            
 
             $newApplication->addEvent($news);
             $this->applicationRepository->add($newApplication);
-
 
             $persistenceManager = GeneralUtility::makeInstance("TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager");
             $persistenceManager->persistAll();
@@ -317,14 +302,18 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             // clearing cache of detailpage and currentpage because otherwise free slots are not updated in view
             // and the form is always sending the same if another booking is made
-            $this->cacheService->clearPageCache($this->settings['detailPid'], intval($GLOBALS['TSFE']->id));
+            $this->cacheService->clearPageCache(
+                [
+                    $this->settings['detailPid'], 
+                    intval($GLOBALS['TSFE']->id)
+                ]
+            );
 
             $demand = $this->createDemandObjectFromSettings($this->settings);
             $demand->setActionAndClass(__METHOD__, __CLASS__);
 
             $assignedValues = [
                 'newsItem' => $news,
-                'currentPage' => (int)$currentPage,
                 'demand' => $demand,
                 'newApplication' => $newApplication
             ];
@@ -350,7 +339,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function confirmApplicationAction(\FalkRoeder\DatedNews\Domain\Model\Application $newApplication)
     {
-
         $assignedValues = [];
         if(is_null($newApplication)){
             $this->flashMessageService('applicationNotFound','applicationNotFoundStatus','ERROR' );
@@ -384,7 +372,12 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         // clearing cache of detailpage and currentpage because otherwise free slots are not updated in view
         // and the form is always sending the same if another booking is made
-        $this->cacheService->clearPageCache($this->settings['detailPid'], intval($GLOBALS['TSFE']->id));
+        $this->cacheService->clearPageCache(
+            [
+                $this->settings['detailPid'],
+                intval($GLOBALS['TSFE']->id)
+            ]
+        );
         
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CONFIRMAPPLICATION_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
@@ -392,16 +385,20 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     }
 
     /**
-     * sendMail to applyer, admins and authors
+     * sendMail to applyer, admins
+     * and authors and the ICS invitation
+     * if booking is confirmed
      *
      * @param \GeorgRinger\News\Domain\Model\News $news news item
      * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
-     * @return void
+     * @param $settings
+     * @param bool $confirmation
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
     public function sendMail(\GeorgRinger\News\Domain\Model\News $news = NULL, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $settings, $confirmation = FALSE){
 
         // from
-        $sender = array();
+        $sender = [];
         if (!empty($this->settings['senderMail'])) {
             $sender = (array($this->settings['senderMail'] => $this->settings['senderName']));
         }
@@ -409,9 +406,11 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         //validate Mailadress of applyer
         $applyerMail = $newApplication->getEmail();
 
-        $applyer = array();
+        $applyer = [];
         if (is_string($applyerMail) && GeneralUtility::validEmail($applyerMail)) {
-            $applyer = array($newApplication->getEmail() => $newApplication->getName() . ', ' . $newApplication->getSurname());
+            $applyer = [
+                $newApplication->getEmail() => $newApplication->getName() . ', ' . $newApplication->getSurname()
+            ];
         } else {
             $this->flashMessageService('applicationSendMessageNoApplyerEmail','applicationSendMessageNoApplyerEmailStatus','ERROR' );
             $this->forward('eventDetail', NULL, NULL, array('news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication));
@@ -421,9 +420,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         if($confirmation === FALSE){
             $cObj = $this->configurationManager->getContentObject();
             $uid = $cObj->data['uid'];
-            $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
+            $fileRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
             $fileObjects = $fileRepository->findByRelation('tt_content', 'tx_datednews', $uid);
-            $filenames = array();
+            $filenames = [];
             if(is_array($fileObjects)){
                 foreach ($fileObjects as $file){
                     $filenames[] = $file->getOriginalFile()->getIdentifier();
@@ -437,11 +436,11 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
 
         } else {
-            $filenames = array();
+            $filenames = [];
         }
 
-        $recipientsCc = array();
-        $recipientsBcc = array();
+        $recipientsCc = [];
+        $recipientsBcc = [];
 
         // send email Customer
         $customerMailTemplate = $confirmation === TRUE ? 'MailConfirmationApplyer' : 'MailApplicationApplyer';
@@ -467,13 +466,16 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         //Send to admins etc only when booking / application confirmed
         if($confirmation === TRUE){
             /** @var $to array Array to collect all the receipients */
-            $to = array();
+            $to = [];
 
             //news Author
             if($this->settings['notificateAuthor']){
                 $authorEmail = $news->getAuthorEmail();
                 if (!empty($authorEmail)) {
-                    $to [] = array('email' => $authorEmail,'name' => $news->getAuthor());
+                    $to [] = [
+                        'email' => $authorEmail,
+                        'name' => $news->getAuthor()
+                    ];
                 }
             }
 
@@ -481,11 +483,14 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             if (!empty($this->settings['notificationMail'])) {
                 $tsmails = explode(',',$this->settings['notificationMail']);
                 foreach($tsmails as $tsmail) {
-                    $to [] = array('email' => trim($tsmail),'name' => '');
+                    $to [] = [
+                        'email' => trim($tsmail),
+                        'name' => ''
+                    ];
                 }
             }
 
-            $recipients = array();
+            $recipients = [];
             if (is_array($to)) {
                 foreach ($to as $pair) {
                     if (GeneralUtility::validEmail($pair['email'])) {
@@ -534,15 +539,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     }
 
                 }
-                $properties = array(
+                $properties = [
                     'dtstart' => $news->getEventstart()->getTimestamp(),
-                    'dtend' => $news->getEventEnd()->getTimestamp(),
+                    'dtend' => $news->getEventend()->getTimestamp(),
                     'location' => $icsLocation,
                     'summary' => $newsTitle,
                     'organizer' => $this->settings['senderMail'],
                     'attendee' => $applyerMail
 
-                );
+                ];
 
                 //add description
                 $description = $this->getIcsDescription($news, $settings);
@@ -565,7 +570,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     array($senderMail => $this->settings['senderName']),
                     \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', array('news' => $news->getTitle())),
                     array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
-                    $filenames,
                     $icsAttachment
                 )) {
                     $this->flashMessageService('applicationSendMessageApplyerError','applicationSendStatusApplyerErrorStatus','ERROR' );
@@ -578,9 +582,81 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
     }
 
-
+    /**
+     * adds calendar and event detail specific default css
+     *
+     * @param string $pathToCss
+     */
+    public function addCalendarCss($pathToCss = ''){
+        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css" media="all">');
+        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css" media="all">');
+        $pathToCss = str_replace('EXT:','/typo3conf/ext/',$pathToCss);
+        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="'.$pathToCss.'" media="all">');
+    }
 
     /**
+     * adds calendar specific default js
+     * and if in typoscript settings set to true, also jQuery
+     *
+     * @param string $jquery
+     * @param string $pathToJS
+     */
+    public function addCalendarJSLibs($jquery = '0', $pathToJS = '', $qtips = '0'){
+        $libs = [
+            'jQuery' => 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js',
+            'xmoment' => 'fullcalendar/lib/moment.min.js',
+            'xfullcalendar' => 'fullcalendar/fullcalendar.min.js',
+            'xlangall' => 'fullcalendar/lang-all.js',
+            'xqtip' => 'qtip3/jquery.qtip.min.js',
+            'dated_news' => str_replace('EXT:','/typo3conf/ext/',$pathToJS)
+        ];
+        $extPluginPath = 'typo3conf/ext/dated_news/Resources/Public/Plugins/';
+        define('NEW_LINE', "\n");
+        $contents = [];
+        foreach ($libs as $name => $path) {
+            if($name == 'jQuery' && $jquery != "1") {
+                continue;
+            }
+            if($name !== 'jQuery' && $name != 'dated_news') {
+                $path = $extPluginPath . $path;
+            }
+            if($name !== 'jQuery') {
+                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($path);
+                continue;
+            }
+            /*jQuery*/
+            $this->pageRenderer->addJsFooterLibrary(
+                $name,
+                $path,
+                'text/javascript',
+                TRUE
+            );
+        }
+
+
+        //other libs
+        $file = 'typo3temp/dated_news.js';
+
+        if (!file_exists(PATH_site . $file)) {
+            // writeFileToTypo3tempDir() returns NULL on success (please double-read!)
+            $error = GeneralUtility::writeFileToTypo3tempDir(PATH_site . $file, implode($contents, NEW_LINE));
+            if ($error !== null) {
+                throw new \RuntimeException('Dated News JS file could not be written to ' . $file . '. Reason: ' . $error, 1487439381339);
+            }
+        }
+
+        $this->pageRenderer->addJsFooterLibrary(
+            'dated_news',
+            $file,
+            'text/javascript',
+            TRUE
+        );
+    }
+
+    /**
+     * adds needed flashmessages
+     * for informations to user
+     *
      * @param \string $messageKey
      * @param \string $statusKey
      * @param \string $level
@@ -614,6 +690,16 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         );
     }
 
+    /**
+     * takes categories of all
+     * news records shown in calendar and put them into a array
+     * also adds the colors which might be specified in
+     * category to the array to enable filtering of calendar items
+     * with colored buttons by category
+     *
+     * @param $newsRecords
+     * @return array
+     */
     public function getCategoriesOfNews($newsRecords) {
         $newsCategories = [];
         foreach ($newsRecords as $news) {
@@ -638,6 +724,14 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         return $newsCategories;
     }
 
+    /**
+     * takes tags of all
+     * news records shown in calendar
+     * and put them into a array to enable filtering of calendar items by tag
+     *
+     * @param $newsRecords
+     * @return array
+     */
     public function getTagsOfNews($newsRecords) {
         $newsTags = [];
         foreach ($newsRecords as $news) {
@@ -660,6 +754,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
     /**
      * getIcsDescription
+     *
+     * creates the ICS description for the
+     * invitation send to Customer
      *
      * @param \GeorgRinger\News\Domain\Model\News $news news item
      * @param array $settings
