@@ -169,3 +169,6 @@ text-decoration: underline;
   margin-left: 0em;
 }
 
+.fc-day-grid-event .fc-content {
+  white-space: inherit;
+}
