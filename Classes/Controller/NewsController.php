@@ -145,7 +145,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             if ($this->settings['sortingFilterlist'] === 'shuffle'){
                 $assignedValues['filterValues'] = $this->div->shuffle_assoc($filterValues);
             } else {
-                ksort($filterValues);
+                ksort($filterValues, SORT_LOCALE_STRING);
                 $assignedValues['filterValues'] = $filterValues;
             }
         }
