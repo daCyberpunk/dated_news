@@ -31,6 +31,90 @@
                 </TCEforms>
             </settings.senderName>
 
+            <!-- Notifcation Mail -->
+            <settings.notificationMail>
+                <TCEforms>
+                    <label>Admin Mails for notification, comma seperated (only when booking / application is confirmed)</label>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>100</size>
+                    </config>
+                </TCEforms>
+            </settings.notificationMail>
+
+            <!-- Send Mail to news author if any -->
+            <settings.notificateAuthor>
+                <TCEforms>
+                    <label>Send Notification to Author</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.notificateAuthor>
+
+            <!-- Send ICS Invitation to Customer -->
+            <settings.ics>
+                <TCEforms>
+                    <label>Send ICS Invitation to Customer</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.ics>
+
+            <!-- ICS description -->
+            <settings.icsDescriptionField>
+                <TCEforms>
+                    <label>FIeld to use for ICS Description</label>
+                    <onChange>reload</onChange>
+                    <config>
+                        <type>select</type>
+                        <items>
+                            <numIndex index="1">
+                                <numIndex index="0">None</numIndex>
+                                <numIndex index="1">false</numIndex>
+                            </numIndex>
+                            <numIndex index="2">
+                                <numIndex index="0">Teaser</numIndex>
+                                <numIndex index="1">Teaser</numIndex>
+                            </numIndex>
+                            <numIndex index="3">
+                                <numIndex index="0">Meta/Description</numIndex>
+                                <numIndex index="1">Description</numIndex>
+                            </numIndex>
+                            <numIndex index="4">
+                                <numIndex index="0">Locallang + Url</numIndex>
+                                <numIndex index="1">Url</numIndex>
+                            </numIndex>
+                            <numIndex index="5">
+                                <numIndex index="0">Custom News Item Field</numIndex>
+                                <numIndex index="1">Custom</numIndex>
+                            </numIndex>
+                        </items>
+                    </config>
+                </TCEforms>
+            </settings.icsDescriptionField>
+
+            <!-- ICS Desc Custom Field -->
+            <settings.icsDescriptionCustomField>
+                <TCEforms>
+                    <label>Field name of News Item to use for ICS Description</label>
+                    <displayCond>
+                        <AND>
+                            <numIndex index="0">FIELD:settings.icsDescriptionField:=:Custom</numIndex>
+                        </AND>
+                    </displayCond>
+                    <config>
+                        <checkbox>1</checkbox>
+                        <default></default>
+                        <type>input</type>
+                        <size>30</size>
+                    </config>
+                </TCEforms>
+            </settings.icsDescriptionCustomField>
+
             <!-- earlyBirdDays -->
             <settings.earlyBirdDays>
                 <TCEforms>

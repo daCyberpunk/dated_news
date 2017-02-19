@@ -4,7 +4,7 @@
             <div class="event-booking-form">
                 <f:if condition="{newsItem.slotsFree} > 0">
                     <f:then>
-                        <f:form id="application-form" class="form-horizontal" noCacheHash="true" pageUid="{settings.applicationPid}" action="" name="newApplication" object="{newApplication}" arguments="{news : newsItem ,newApplication: newApplication}" enctype="multipart/form-data">
+                        <f:form id="application-form" class="form-horizontal" noCacheHash="true" pageUid="{settings.applicationPid}" action="createApplication" name="newApplication" object="{newApplication}" arguments="{news : newsItem ,newApplication: newApplication}" enctype="multipart/form-data">
                             <label id="h2" form="application-form"><f:translate key="tx_datednews_domain_model_application.formlabel" extensionName="dated_news"/></label>
                             <f:form.textfield class="form-control" type="hidden" property="formTimestamp" value="{formTimestamp}" size="40" required="required" />
 

@@ -16,7 +16,7 @@
                         <items>
                             <numIndex index="1">
                                 <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.news_list</numIndex>
-                                <numIndex index="1">News->list;News->eventDetail</numIndex>
+                                <numIndex index="1">News->list;News->eventDetail;News->createApplication;News->confirmApplication</numIndex>
                             </numIndex>
                             <numIndex index="2">
                                 <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.news_listOnly</numIndex>

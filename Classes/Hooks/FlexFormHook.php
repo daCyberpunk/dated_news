@@ -39,7 +39,7 @@ class FlexFormHook
             }
 
             if ($selectedView === 'News->confirmApplication') {
-                $dataStructArray['sheets']['confirmation'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/confirmation.xml';
+                $dataStructArray['sheets']['confirmation'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/application.xml';
             }
             
             if ($selectedView === 'News->eventDetail') {
@@ -48,6 +48,11 @@ class FlexFormHook
 
             if ($selectedView === 'News->calendar') {
                 $dataStructArray['sheets']['calendar'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/calendar.xml';
+            }
+
+            if ($selectedView === 'News->list') {
+                $dataStructArray['sheets']['additional'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/additional.xml';
+                $dataStructArray['sheets']['confirmation'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/application.xml';
             }
 
             $dataStructArray['sheets']['sDEF'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/settings.xml';

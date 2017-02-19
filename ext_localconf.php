@@ -30,3 +30,5 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_befunc.php']['getFl
 		'News' => 'searchForm,searchResult,createApplication,confirmApplication',
 	]
 );
+
+//$GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['switchableControllerActions']['newItems']['News->eventDetail'] = 'A fobar action';
