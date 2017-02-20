@@ -21,5 +21,6 @@ Configuration
 
    TypoScript/Index
    Plugin/Index
+   RealUrl/Index
 
 

@@ -49,6 +49,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        //argument didn't exist in original viewhelper
+        $this->registerArgument('forceAbsoluteUrl', 'boolean', 'force absolute uri', false);
+    }
 
     /**
      * Generate the link configuration for the link to the news item
@@ -63,7 +69,6 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
         $tsSettings,
         array $configuration = []
     ) {
-
         if (!isset($configuration['parameter'])) {
             $detailPid = 0;
             $detailPidDeterminationMethods = GeneralUtility::trimExplode(',', $tsSettings['detailPidDetermination'],
@@ -88,9 +93,15 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
             $configuration['parameter'] = $detailPid;
         }
 
+        // missing in original Viewhelper
+        if($this->arguments['forceAbsoluteUrl']) {
+            $configuration['forceAbsoluteUrl'] = true;
+        }
+
         $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
         $configuration['additionalParams'] .= '&tx_news_pi1[news]=' . $this->getNewsId($newsItem);
 
+        // action is set to "detail" in original Viewhelper, but we overwiritten this action
         if ((int)$tsSettings['link']['skipControllerAndAction'] !== 1) {
             $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News' .
                 '&tx_news_pi1[action]=eventDetail';
@@ -110,6 +121,7 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
                 $configuration['additionalParams'] .= '&tx_news_pi1[year]=' . $dateTime->format($tsSettings['link']['hrDate']['year']);
             }
         }
+        
         return $configuration;
     }
 

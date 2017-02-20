@@ -10,6 +10,8 @@
 TypoScript
 =======================
 
+.. hint:: this extension changes the default configuration of plugin.tx_news.settings.detailPidDetermination to "categories, flexform, default" what makes sense if you set detailpages in categories.
+
 This page is divided into the following sections which are all configurable by using TypoScript:
 
 

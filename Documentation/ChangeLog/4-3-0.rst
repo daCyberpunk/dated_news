@@ -1,0 +1,14 @@
+4.3.0 - 2017/02/20
+------------------
+
+::
+
+Version changes might need to reconfigure some PLugins, adding some realurl config and reviewing your used linkviewhelper Fluid templates.
+
+========== ====================== ======================================================
+Type       Affects                Description
+========== ====================== ======================================================
+FEATURE    Link Building          Re-Implemented LinkViewhelper. This viewhelper changes the link viewhelper of tx_news and adds the parameter "foreAbsoluteUrl" to it and changes the action from detail to eventDetail, whats needed because of action overwrites. Whereever you use this viewhelper for linking to event details (<n:link ...) you have to switch this to nc:link... . In head of this fluidtemplate you have to add the namespace of course.
+TASK       Url Building           Added realurl Hook to get better confirmation links.
+TASK       Plugin Settings        Changed Plugin Settings so booking and creation can take place in same plugin. Added example RealUrl Config in Documentation. You need to set "What to display" again, wherever you allready use the Plugin as booking or confirmation plugin.
+========== ====================== ======================================================

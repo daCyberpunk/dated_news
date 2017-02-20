@@ -315,7 +315,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $assignedValues = [
                 'newsItem' => $news,
                 'demand' => $demand,
-                'newApplication' => $newApplication
+                'newApplication' => $newApplication,
+                'settings' => $this->settings
             ];
 
             $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CREATEAPPLICATION_ACTION, $assignedValues);
@@ -516,7 +517,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $recipientsBcc,
                 $applyer,
                 \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('news' => $news->getTitle())),
-                array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
+                array('newApplication' => $newApplication, 'news' => $news, 'settings' => $this->settings),
                 array()
             )) {
                 $this->flashMessageService('applicationConfirmed','applicationConfirmedStatus','OK' );
@@ -779,19 +780,22 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 }
                 break;
             case "Url":
-                if($settings['detailPid']){
-                    $uriBuilder = $this->controllerContext->getUriBuilder();
-                    $uri = $uriBuilder
-                        ->reset()
-                        ->setTargetPageUid($settings['detailPid'])
-                        ->setUseCacheHash(TRUE)
-                        ->setArguments(array('tx_news_pi1' => array('controller' => 'News', 'action' => 'eventDetail', 'news' => $news->getUid())))
-                        ->setCreateAbsoluteUri(TRUE)
-                        ->buildFrontendUri();
-                    return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', array('url' => $uri));
-                } else {
-                    return FALSE;
-                }
+                $uri = $this->getLinkToNewsItem($news, $settings);
+                return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', array('url' => $uri));
+
+//                if($settings['detailPid']){
+//                    $uriBuilder = $this->controllerContext->getUriBuilder();
+//                    $uri = $uriBuilder
+//                        ->reset()
+//                        ->setTargetPageUid($settings['detailPid'])
+//                        ->setUseCacheHash(TRUE)
+//                        ->setArguments(array('tx_news_pi1' => array('controller' => 'News', 'action' => 'eventDetail', 'news' => $news->getUid())))
+//                        ->setCreateAbsoluteUri(TRUE)
+//                        ->buildFrontendUri();
+//                    return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', array('url' => $uri));
+//                } else {
+//                    return FALSE;
+//                }
                 break;
             case "Custom":
                 if(trim($settings['icsDescriptionCustomField']) === '') {
@@ -813,6 +817,155 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             default:
                 return FALSE;
         }
+    }
+
+    /*
+     * following stuff is almost full copy of tx_news LinkViewhelper
+     * better solution needs to be found(?)
+     * maybe put it in an Utility Class and inject it in own LinkViewhelper?
+     * or inject LinkViewhelper directly here in Controller?
+     * */
+
+    /**
+     * @var array
+     */
+    protected $detailPidDeterminationCallbacks = [
+        'flexform' => 'getDetailPidFromFlexform',
+        'categories' => 'getDetailPidFromCategories',
+        'default' => 'getDetailPidFromDefaultDetailPid',
+    ];
+
+    /** @var $cObj ContentObjectRenderer */
+    protected $cObj;
+
+    /**
+     * Gets detailPid from categories of the given news item. First will be return.
+     *
+     * @param  array $settings
+     * @param  News $newsItem
+     * @return int
+     */
+    protected function getDetailPidFromCategories($settings, $newsItem)
+    {
+        $detailPid = 0;
+        if ($newsItem->getCategories()) {
+            foreach ($newsItem->getCategories() as $category) {
+                if ($detailPid = (int)$category->getSinglePid()) {
+                    break;
+                }
+            }
+        }
+        return $detailPid;
+    }
+
+    /**
+     * Gets detailPid from defaultDetailPid setting
+     *
+     * @param  array $settings
+     * @param  News $newsItem
+     * @return int
+     */
+    protected function getDetailPidFromDefaultDetailPid($settings, $newsItem)
+    {
+        return (int)$settings['defaultDetailPid'];
+    }
+
+    /**
+     * Gets detailPid from flexform of current plugin.
+     *
+     * @param  array $settings
+     * @param  News $newsItem
+     * @return int
+     */
+    protected function getDetailPidFromFlexform($settings, $newsItem)
+    {
+        return (int)$settings['detailPid'];
+    }
+
+    /**
+     * @param News $newsItem
+     * @return int
+     */
+    protected function getNewsId(\GeorgRinger\News\Domain\Model\News $newsItem)
+    {
+        $uid = $newsItem->getUid();
+        // If a user is logged in and not in live workspace
+        if ($GLOBALS['BE_USER'] && $GLOBALS['BE_USER']->workspace > 0) {
+            $record = \TYPO3\CMS\Backend\Utility\BackendUtility::getLiveVersionOfRecord('tx_news_domain_model_news',
+                $newsItem->getUid());
+            if ($record['uid']) {
+                $uid = $record['uid'];
+            }
+        }
+
+        return $uid;
+    }
+
+    /**
+     * Generate the link configuration for the link to the news item
+     *
+     * @param \GeorgRinger\News\Domain\Model\News $newsItem
+     * @param array $tsSettings
+     * @param array $configuration
+     * @return array
+     */
+    protected function getLinkToNewsItem(
+        \GeorgRinger\News\Domain\Model\News $newsItem,
+        $tsSettings,
+        array $configuration = []
+    ) {
+        if (!isset($configuration['parameter'])) {
+            $detailPid = 0;
+            $detailPidDeterminationMethods = GeneralUtility::trimExplode(',', $tsSettings['detailPidDetermination'],
+                true);
+
+            // if TS is not set, prefer flexform setting
+            if (!isset($tsSettings['detailPidDetermination'])) {
+                $detailPidDeterminationMethods[] = 'flexform';
+            }
+
+            foreach ($detailPidDeterminationMethods as $determinationMethod) {
+                if ($callback = $this->detailPidDeterminationCallbacks[$determinationMethod]) {
+                    if ($detailPid = call_user_func([$this, $callback], $tsSettings, $newsItem)) {
+                        break;
+                    }
+                }
+            }
+
+            if (!$detailPid) {
+                $detailPid = $GLOBALS['TSFE']->id;
+            }
+            $configuration['parameter'] = $detailPid;
+        }
+
+        $configuration['forceAbsoluteUrl'] = true;
+
+        $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
+        $configuration['additionalParams'] .= '&tx_news_pi1[news]=' . $this->getNewsId($newsItem);
+
+        // action is set to "detail" in original Viewhelper, but we overwiritten this action
+        if ((int)$tsSettings['link']['skipControllerAndAction'] !== 1) {
+            $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News' .
+                '&tx_news_pi1[action]=eventDetail';
+        }
+
+        // Add date as human readable
+        if ($tsSettings['link']['hrDate'] == 1 || $tsSettings['link']['hrDate']['_typoScriptNodeValue'] == 1) {
+            $dateTime = $newsItem->getDatetime();
+
+            if (!empty($tsSettings['link']['hrDate']['day'])) {
+                $configuration['additionalParams'] .= '&tx_news_pi1[day]=' . $dateTime->format($tsSettings['link']['hrDate']['day']);
+            }
+            if (!empty($tsSettings['link']['hrDate']['month'])) {
+                $configuration['additionalParams'] .= '&tx_news_pi1[month]=' . $dateTime->format($tsSettings['link']['hrDate']['month']);
+            }
+            if (!empty($tsSettings['link']['hrDate']['year'])) {
+                $configuration['additionalParams'] .= '&tx_news_pi1[year]=' . $dateTime->format($tsSettings['link']['hrDate']['year']);
+            }
+        }
+        $this->cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $url = $this->cObj->typoLink_URL($configuration);
+        return $url;
     }
 
 }
