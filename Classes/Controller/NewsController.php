@@ -531,14 +531,20 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $icsLocation = '';
                 $newsLocation = $news->getLocations();
                 $i= 0;
-                foreach ($newsLocation as $location){
-                    $i++;
-                    if($i ===1){
-                        $icsLocation .= $location->getName();
-                    } else {
-                        $icsLocation .= ', ' . $location->getName();
+                if(isset($newsLocation) && count($newsLocation) < 2) {
+                    foreach ($newsLocation as $location){
+                        $icsLocation .= $location->getName() . ', ' . $location->getAddress() . ', ' .$location->getZip() . ' ' . $location->getCity() . ', ' . $location->getCountry();
                     }
+                } else {
+                    foreach ($newsLocation as $location){
+                        $i++;
+                        if($i ===1){
+                            $icsLocation .= $location->getName();
+                        } else {
+                            $icsLocation .= ', ' . $location->getName();
+                        }
 
+                    }
                 }
                 $properties = [
                     'dtstart' => $news->getEventstart()->getTimestamp(),
