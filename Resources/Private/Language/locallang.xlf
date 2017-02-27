@@ -121,6 +121,18 @@
 			<trans-unit id="tx_datednews_domain_model_application.name">
 				<source>Name</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.mrs" approved="yes">
+				<source>Mrs.</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.mr" approved="yes">
+				<source>Mr.</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.dr" approved="yes">
+				<source>Dr.</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.prof" approved="yes">
+				<source>Prof.</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.title">
 				<source>Title</source>
 			</trans-unit>

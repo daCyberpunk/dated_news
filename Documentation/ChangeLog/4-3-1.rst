@@ -1,0 +1,13 @@
+4.3.1 - 2017/02/20
+------------------
+
+::
+
+Version changes might need to reconfigure some PLugins, adding some realurl config and reviewing your used linkviewhelper Fluid templates.
+
+========== ====================== ======================================================
+Type       Affects                Description
+========== ====================== ======================================================
+FEATURE    ICS                    ICS: If only one location set full address into ICS Invitation
+TASK       Language               Updated locallangs with better translations EN and DE
+========== ====================== ======================================================
