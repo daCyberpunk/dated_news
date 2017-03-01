@@ -595,10 +595,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param string $pathToCss
      */
     public function addCalendarCss($pathToCss = ''){
-        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css" media="all">');
-        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css" media="all">');
+        $this->pageRenderer->addCssFile('/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css');
+        $this->pageRenderer->addCssFile('/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css');
+//        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css" media="all">');
+//        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css" media="all">');
         $pathToCss = str_replace('EXT:','/typo3conf/ext/',$pathToCss);
-        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="'.$pathToCss.'" media="all">');
+        $this->pageRenderer->addCssFile($pathToCss);
+//        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="'.$pathToCss.'" media="all">');
     }
 
     /**
