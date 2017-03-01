@@ -39,23 +39,3 @@ plugin.tx_news {
 		orderByAllowed = eventstart,eventend,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}
 }
-[globalVar = GP:tx_news_pi1|newApplication|formTimestamp > 0]
-
-[global]
-
-
-
-#page.includeJS.jQuery = https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js
-#page.includeJS.jQuery.external = 1
-#page.footerData {
-#	999 = TEXT
-#	999.value = <script src="/typo3conf/ext/dated_news/Resources/Public/JS/dated_news.js" type="text/javascript"></script>
-#}
-#page.includeJSFooter.dated_news = typo3conf/ext/dated_news/Resources/Public/JS/dated_news.js
-#page.includeJS.xmoment = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lib/moment.min.js
-#page.includeJS.xfullcalendar = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.js
-#page.includeJS.xlangall = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/lang-all.js
-#page.includeJS.xqtip = typo3conf/ext/dated_news/Resources/Public/Plugins/qtip/qtip.js
-#page.includeCSS.xfullcalendar = typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css
-#page.includeCSS.xqtip = typo3conf/ext/dated_news/Resources/Public/Plugins/qtip/qtip.css
-#page.includeCSS.dated_news = typo3conf/ext/dated_news/Resources/Public/CSS/dated_news.css
