@@ -25,7 +25,7 @@
 				<source>User can book / Applicate</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.fulltime">
-				<source>Fulltime Event</source>
+				<source>AllDay Event</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.slots">
 				<source>Slots available</source>
