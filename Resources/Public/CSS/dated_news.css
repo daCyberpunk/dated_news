@@ -172,3 +172,5 @@ text-decoration: underline;
 .fc-day-grid-event .fc-content {
   white-space: inherit;
 }
+
+.ui-widget-header{border:1px solid #333;background:#333 url("images/ui-bg_gloss-wave_25_333333_500x100.png") 50% 50% repeat-x;color:#fff;font-weight:bold}
