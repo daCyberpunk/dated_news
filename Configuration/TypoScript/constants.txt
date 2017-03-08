@@ -35,6 +35,8 @@ plugin.tx_news{
 
 		#cat=datednews_application/; type=integer; label=Expiration time of confirmation link in days
 		validDaysConfirmationLink = 3
+		#cat=datednews_application/; type=integer; label=Fields for E-Mail-Subject
+		emailSubjectFields = title, locationname, eventstart
 
 
 	}

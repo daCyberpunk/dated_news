@@ -443,6 +443,43 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $recipientsCc = [];
         $recipientsBcc = [];
 
+        $subjectFields = explode(',',$this->settings['dated_news']['emailSubjectFields']);
+        
+        $subject ='';
+        $fieldIterator = 0;
+        foreach($subjectFields as $field) {
+            switch (trim($field)) {
+                case "title":
+                    if($fieldIterator > 0) {
+                        $subject .= ', ';
+                    }
+                    $subject .= $news->getTitle();
+                    break;
+                case "eventstart":
+                    $subject .= \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject_eventstart', 'dated_news');
+                    $subject .= $news->getEventstart()->format($this->settings['dated_news']['emailSubjectDateFormat']);
+                    break;
+                case "locationname":
+                    $newsLocation = $news->getLocations();
+                    $locationIterator= 0;
+                    if(isset($newsLocation)) {
+                        $subject .= \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject_locationname', 'dated_news');
+                        foreach ($newsLocation as $location){
+                            $locationIterator++;
+                            if($locationIterator === 1){
+                                $subject .= $location->getName();
+                            } else {
+                                $subject .= ', ' . $location->getName();
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+
+
+
         // send email Customer
         $customerMailTemplate = $confirmation === TRUE ? 'MailConfirmationApplyer' : 'MailApplicationApplyer';
         if (!$this->div->sendEmail(
@@ -451,7 +488,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $recipientsCc,
             $recipientsBcc,
             $sender,
-            \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('news' => $news->getTitle())),
+            \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('subject' => $subject)),
             array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
             $filenames
         )) {
@@ -516,7 +553,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $recipientsCc,
                 $recipientsBcc,
                 $applyer,
-                \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('news' => $news->getTitle())),
+                \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('subject' => $subject)),
                 array('newApplication' => $newApplication, 'news' => $news, 'settings' => $this->settings),
                 array()
             )) {
@@ -575,7 +612,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     $recipientsCc,
                     $recipientsBcc,
                     array($senderMail => $this->settings['senderName']),
-                    \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', array('news' => $news->getTitle())),
+                    \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', array('subject' => $subject)),
                     array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
                     $icsAttachment,
                     array(substr_replace($this->settings['senderMail'],'noreply',0,strpos($this->settings['senderMail'], '@')) => $this->settings['senderName'])

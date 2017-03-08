@@ -194,8 +194,16 @@
 				<source><![CDATA[I hereby confirm that I have read and accepted the <a href="/en/general-terms-and-conditions/" title="Read Terms">Terms and conditions</a> and the <a href="/en/revocation-policy/" title="Read revocation policy">revocation policy</a>.]]></source>
 			</trans-unit>
 
+
+
 			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject">
 				<source>Your registration: %1$s My Company</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject_eventstart">
+				<source> at </source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject_locationname">
+				<source> in </source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.invitation_subject">
 				<source>Invitation: %1$s | My Company</source>

@@ -260,6 +260,12 @@
 				<source>Registration: %1$s</source>
 				<target state="translated">Ihre Anmeldung %1$s | My Company</target>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject">
+				<source>Your registration: %1$s My Company</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject_eventstart">
+				<source>at</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.invitation_subject">
 				<source>Invitation: %1$s | My Company</source>
 				<target state="translated">Einladung: %1$s | My Company</target>
