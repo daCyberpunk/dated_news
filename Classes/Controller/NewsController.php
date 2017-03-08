@@ -553,7 +553,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $recipients,
                 $recipientsCc,
                 $recipientsBcc,
-                $applyer,
+                $sender,
                 \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('subject' => $subject)),
                 array('newApplication' => $newApplication, 'news' => $news, 'settings' => $this->settings),
                 array()
