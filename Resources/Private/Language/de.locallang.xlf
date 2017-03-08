@@ -36,7 +36,7 @@
 				<target>Im Kalender anzeigen</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.enable_application" approved="yes">
-				<source>User can book</source>
+				<source>User can register</source>
 				<target state="translated">Ist buchbar</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.fulltime" approved="yes">
@@ -65,7 +65,7 @@
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.currency" approved="yes">
 				<source>€</source>
-				<target state="translated">€</target>
+				<target state="translated">EUR</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.locations" approved="yes">
 				<source>Event Locations</source>
@@ -78,6 +78,9 @@
 			<trans-unit id="tx_datednews_domain_model_news.trainer" approved="yes">
 				<source>Trainer</source>
 				<target state="translated">Trainer</target>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.downloads">
+				<source>Download</source>
 			</trans-unit>
 
 			<trans-unit id="tx_datednews_domain_model_location" approved="yes">
@@ -151,7 +154,7 @@
 				<target state="translated">Anmeldung</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.formlabel" approved="yes">
-				<source>Booking Form</source>
+				<source>Registration Form</source>
 				<target state="translated">Anmeldeformular</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.name" approved="yes">
@@ -250,43 +253,71 @@
 			
 			
 			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject" approved="yes">
-				<source>Booking: %1$s</source>
-				<target state="translated">Anmeldung %1$s</target>
+				<source>Registration: %1$s</source>
+				<target state="translated">Ihre Anmeldung %1$s | My Company</target>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.invitation_subject">
+				<source>Invitation: %1$s | My Company</source>
+				<target state="translated">Einladung: %1$s | My Company</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email_introduction" approved="yes">
-				<source>We have received your booking for the following event:</source>
+				<source>We have received your registration for the following event:</source>
 				<target state="translated">Wir haben Ihre Anmeldung für die folgende Veranstaltung erhalten:</target>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.salutation">
+				<source>Dear Mr/Mrs.</source>
+				<target state="translated">Sehr geehrte/r Frau/Herr</target>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.vat_note">
+				<source>+VAT (if applicable)</source>
+				<target state="translated">+MwSt. (wenn zutreffend)</target>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.greeting">
+				<source><![CDATA[Please do not hesitate to contact us if you have any questions.</br></br>Kind regards,</br>Your My Company Team]]></source>
+				<target state="translated"><![CDATA[Bitte zögern Sie nicht uns zu kontaktieren falls Sie Fragen haben.</br></br>Mit freundlichen Grüßen,</br>Ihr My Company Team]]></target>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.confirmation_greeting">
+				<source><![CDATA[We will contact you shortly with more information on the event. Please do not hesitate to contact us if you have any questions.</br></br>Kind regards,</br>Your My Company Team]]></source>
+				<target state="translated"><![CDATA[Wir werden uns schon bald mit Ihnen bzgl. weiterer Informationen zur Veranstaltung in Kontakt setzen. Bitte zögern Sie nicht uns zu kontaktieren falls Sie Fragen haben.</br></br>Mit freundlichen Grüßen,</br>Ihr My Company Team]]></target>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.footer_contact">
+				<source><![CDATA[My Company  Signature</br>Managing director: Cheffe</br>Registration: Amtsgericht xxx / VAT ID: xxxxx </br>Phone +49 (000) 0000</br></br><a href="https://www.example.com/en/general-terms-and-conditions/">General Terms and Conditions</a> of My Company apply ]]></source>
+				<target state="translated"><![CDATA[My Company  Signatur</br>Managing director: Cheffe</br>Registration: xxx / Steuernummer: xxxx  </br>Tel +49 (000) 000</br>]]></target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.expire_info" approved="yes">
 				<source>(This link expires in %s days.)</source>
 				<target state="translated">(Der Link ist %s Tage gültig.)</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email_introduction_confirmation" approved="yes">
-				<source>We thank you for confirming your booking for the following event:</source>
+				<source>We thank you for confirming your registration for the following event:</source>
 				<target state="translated">Wir danken Ihnen für die Bestätigung Ihrer Anmeldung für die folgende Veranstaltung:</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.demand_confirmation" approved="yes">
-				<source>Please click this link to confirm your booking:</source>
-				<target state="translated">Bitte bestätigen Sie Ihre Anmeldung durch Klick auf folgenden Link:</target>
+				<source>Please click this link to confirm your registration:</source>
+				<target state="translated">Registrierung bestätigen</target>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.ics_description">
+            				<source>Invitation belongs to the event you registered for at: %1$s </source>
+            				<target state="translated">Einladung zu ihrer gebuchten Veranstaltung: %1$s </target>
+            </trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email_introductionAdmins" approved="yes">
-				<source>The following booking was received by the system:</source>
+				<source>The following registration was received by the system:</source>
 				<target state="translated">Die folgende Anmeldung ist im System eingegangen:</target>
 			</trans-unit>
 
 			
 			
 			<trans-unit id="applicationSendMessage" approved="yes">
-				<source>Your booking has been send with the following details:</source>
+				<source>Your registration has been send with the following details:</source>
 				<target state="translated">Ihre Anmeldung wurde mit folgenden Details versand:</target>
 			</trans-unit>
 			<trans-unit id="applicationSendStatus" approved="yes">
-				<source>Send!</source>
+				<source>Sent!</source>
 				<target state="translated">Gesendet!</target>
 			</trans-unit>
 
 			<trans-unit id="applicationSendMessageNoRecipients" approved="yes">
-				<source>There are no valid contacts for this event. Please contact us!.</source>
+				<source>There are no valid contacts for this event. Please contact us!</source>
 				<target state="translated">Für diese Veranstaltung wurden keine Kontaktpersonen hinterlegt. Bitte kontaktieren Sie uns!</target>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageNoRecipientsStatus" approved="yes">
@@ -294,7 +325,7 @@
 				<target state="translated">Fehler!</target>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageNoApplyerEmail" approved="yes">
-				<source>Your email address is not valid.</source>
+				<source>The email address you entered is not valid!</source>
 				<target state="translated">Die angegebene E-Mail-Adresse ist nicht gültig.</target>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageNoApplyerEmailStatus" approved="yes">
@@ -302,7 +333,7 @@
 				<target state="translated">Fehler!</target>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageAllreadySent" approved="yes">
-				<source>Your booking request has been already transmitted.</source>
+				<source>Your registration request has been already transmitted.</source>
 				<target state="translated">Ihre Anmeldung wurde bereits versandt.</target>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageAllreadySentStatus" approved="yes">
@@ -318,7 +349,7 @@
 				<target state="translated">Fehler!</target>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageApplyerError" approved="yes">
-				<source>The booking confirmation could not be sent to your email address. Please contact us!</source>
+				<source>The registration confirmation could not be sent to your email address. Please contact us!</source>
 				<target state="translated">Die Anmeldebestätigung konnte nicht an Ihre E-Mail-Adresse versendet werden. Bitte kontaktieren Sie uns!</target>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageApplyerErrorStatus" approved="yes">
@@ -326,7 +357,7 @@
 				<target state="translated">Fehler!</target>
 			</trans-unit>
 			<trans-unit id="applicationConfirmationLinkUnvalid" approved="yes">
-				<source>The confirmation link is not valid anymore. Please book again or contact us!</source>
+				<source>The confirmation link is not valid anymore. Please register again or contact us!</source>
 				<target state="translated">Der Bestätigungslink ist nicht mehr gültig. Bitte buchen Sie erneut oder kontaktieren Sie uns.</target>
 			</trans-unit>
 			<trans-unit id="applicationConfirmationLinkUnvalidStatus" approved="yes">
@@ -334,7 +365,7 @@
 				<target state="translated">Fehler!</target>
 			</trans-unit>
 			<trans-unit id="applicationNotFound" approved="yes">
-				<source>The requested booking was not found in our system. Please contact us!</source>
+				<source>The requested registration was not found in our system. Please contact us!</source>
 				<target state="translated">Ihre Anmeldung wurde im System nicht gefunden. Bitte kontaktieren Sie uns.</target>
 			</trans-unit>
 			<trans-unit id="applicationNotFoundStatus" approved="yes">
@@ -342,7 +373,7 @@
 				<target state="translated">Fehler!</target>
 			</trans-unit>
 			<trans-unit id="applicationAllreadyConfirmed" approved="yes">
-				<source>Your booking was already confirmed!</source>
+				<source>Your registration has already been confirmed!</source>
 				<target state="translated">Ihre Anmeldung wurde bereits bestätigt!</target>
 			</trans-unit>
 			<trans-unit id="applicationAllreadyConfirmedStatus" approved="yes">
@@ -350,7 +381,7 @@
 				<target state="translated">Info</target>
 			</trans-unit>
 			<trans-unit id="applicationConfirmed" approved="yes">
-				<source>Your booking is confirmed. Thank you!</source>
+				<source>Your registration has now been confirmed. Thank you!</source>
 				<target state="translated">Ihre Anmeldung ist hiermit bestätigt. Besten Dank!</target>
 			</trans-unit>
 			<trans-unit id="applicationConfirmedStatus" approved="yes">

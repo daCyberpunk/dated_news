@@ -1,6 +1,7 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:nc="http://typo3.org/ns/FalkRoeder/DatedNews/ViewHelpers"
       data-namespace-typo3-fluid="true">
+
 <f:layout name="Email" />
 
 Email / MailApplication
@@ -12,66 +13,87 @@ Available variables:
 {news} news object
 
 <f:section name="main">
-    <p><b><f:translate key="tx_datednews_domain_model_application.email_introduction_confirmation" extensionName="dated_news" />:</b></p>
-    <f:if condition="{settings.ics} == 1">
-        <p><f:translate key="tx_datednews_domain_model_application.confirmation_icsinfo" extensionName="dated_news" /></p>
-    </f:if>
-    <table>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.events" extensionName="dated_news" /></td>
-            <td><a href="{nc:link(newsItem: news, settings: settings, uriOnly: 1, forceAbsoluteUrl: 1)}">{news.title}</a></td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_news.eventstart"  extensionName="dated_news"/></td>
-            <td><f:format.date format="{settings.dated_news.dateFormat}">{news.eventstart}</f:format.date></td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_news.eventend"  extensionName="dated_news"/></td>
-            <td><f:format.date format="{settings.dated_news.dateFormat}">{news.eventend}</f:format.date></td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.surname"  extensionName="dated_news"/></td>
-            <td>{newApplication.surname}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.name"  extensionName="dated_news"/></td>
-            <td>{newApplication.name}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.company"  extensionName="dated_news"/></td>
-            <td>{newApplication.company}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.address"  extensionName="dated_news"/></td>
-            <td>{newApplication.address}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.address2"  extensionName="dated_news"/></td>
-            <td>{newApplication.address2}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.zip"  extensionName="dated_news"/></td>
-            <td>{newApplication.zip}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.city"  extensionName="dated_news"/></td>
-            <td>{newApplication.city}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.country"  extensionName="dated_news"/></td>
-            <td>{newApplication.country}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.email"  extensionName="dated_news"/></td>
-            <td>{newApplication.email}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.reserved_slots"  extensionName="dated_news"/></td>
-            <td>{newApplication.reservedSlots}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.costs"  extensionName="dated_news"/></td>
-            <td>{newApplication.costs}</td>
-        </tr>
-    </table>
+    <div style="margin:0 auto;max-width:800px;text-align: center;font-size:14px;">
+        <div style="font-size: 20px;font-weight: bold;margin-bottom: 20px;">
+            <f:translate key="tx_datednews_domain_model_application.salutation" extensionName="dated_news" /> {newApplication.surname} {newApplication.name},
+        </div>
+        <div>
+            <f:translate key="tx_datednews_domain_model_application.email_introduction_confirmation" extensionName="dated_news" />
+        </div>
+        <div style="margin-top:20px;margin-bottom: 20px;font-size:14px;">
+            <table style="margin: 0 auto;font-size:14px;">
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.events" extensionName="dated_news" /></td>
+                    <td style="text-align:left;padding-left: 5px;"><a href="{nc:link(newsItem: news, settings: settings, uriOnly: 1, forceAbsoluteUrl: 1)}">{news.title}</a></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_news.eventstart"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;"><f:format.date format="d.m.Y">{news.eventstart}</f:format.date></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_news.eventend"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;"><f:format.date format="d.m.Y">{news.eventend}</f:format.date></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.surname"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.surname}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.name"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.name}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.company"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.company}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.address"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.address}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.zip"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.zip}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.city"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.city}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.country"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.country}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.email"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.email}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.reserved_slots"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.reservedSlots}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.costs"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.costs} <f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.currency" /> <f:translate extensionName="dated_news" key="tx_datednews_domain_model_application.vat_note" /></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.message"  extensionName="dated_news"/></td>
+                    <td style="text-align:left;padding-left: 5px;">{newApplication.message}</td>
+                </tr>
+            </table>
+        </div>
+        <div  style="margin-bottom: 20px;font-size:14px;">
+            <f:translate extensionName="dated_news" key="tx_datednews_domain_model_application.confirmation_greeting" />
+        </div>
+        <div styles="margin-bottom:20px;font-size:14px;">
+            <table style="margin: 0 auto;font-size:14px;">
+                <tr>
+                    <td style="padding-right: 5px;">
+                        <img src="data:image/jpeg;base64,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" alt="">
+                    </td>
+                    <td style="text-align:left;padding-left: 5px;">
+                        <f:translate extensionName="dated_news" key="tx_datednews_domain_model_application.footer_contact" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </f:section>

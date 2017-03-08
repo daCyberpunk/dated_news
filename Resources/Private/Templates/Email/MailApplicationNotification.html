@@ -1,3 +1,7 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:nc="http://typo3.org/ns/FalkRoeder/DatedNews/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
 <f:layout name="Email" />
 
 Email / MailApplication
@@ -9,65 +13,69 @@ Available variables:
 {news} Job object
 
 <f:section name="main">
-    <p><b><f:translate key="tx_datednews_domain_model_application.email_introductionAdmins" extensionName="dated_news" />:</b></p>
+    <div>
+        <f:translate key="tx_datednews_domain_model_application.email_introductionAdmins" extensionName="dated_news" />
+    </div>
+    <div style="margin-top:20px;margin-bottom: 20px;font-size:14px;">
+        <table style="margin: 0 auto;font-size:14px;">
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.events" extensionName="dated_news" /></td>
+                <td style="text-align:left;padding-left: 5px;"><a href="{nc:link(newsItem: news, settings: settings, uriOnly: 1, forceAbsoluteUrl: 1)}">{news.title}</a></td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_news.eventstart"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;"><f:format.date format="d.m.Y">{news.eventstart}</f:format.date></td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_news.eventend"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;"><f:format.date format="d.m.Y">{news.eventend}</f:format.date></td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.surname"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.surname}</td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.name"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.name}</td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.company"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.company}</td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.address"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.address}</td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.zip"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.zip}</td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.city"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.city}</td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.country"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.country}</td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.email"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.email}</td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.reserved_slots"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.reservedSlots}</td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.costs"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.costs} <f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.currency" /> <f:translate extensionName="dated_news" key="tx_datednews_domain_model_application.vat_note" /></td>
+            </tr>
+            <tr>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.message"  extensionName="dated_news"/></td>
+                <td style="text-align:left;padding-left: 5px;">{newApplication.message}</td>
+            </tr>
+        </table>
+    </div>
 
-    <table>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.events" extensionName="dated_news" /></td>
-            <td>{news.title}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_news.eventstart"  extensionName="dated_news"/></td>
-            <td><f:format.date format="{settings.dated_news.dateFormat}">{news.eventstart}</f:format.date></td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_news.eventend"  extensionName="dated_news"/></td>
-            <td><f:format.date format="{settings.dated_news.dateFormat}">{news.eventend}</f:format.date></td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.surname"  extensionName="dated_news"/></td>
-            <td>{newApplication.surname}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.name"  extensionName="dated_news"/></td>
-            <td>{newApplication.name}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.company"  extensionName="dated_news"/></td>
-            <td>{newApplication.company}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.address"  extensionName="dated_news"/></td>
-            <td>{newApplication.address}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.address2"  extensionName="dated_news"/></td>
-            <td>{newApplication.address2}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.zip"  extensionName="dated_news"/></td>
-            <td>{newApplication.zip}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.city"  extensionName="dated_news"/></td>
-            <td>{newApplication.city}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.country"  extensionName="dated_news"/></td>
-            <td>{newApplication.country}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.email"  extensionName="dated_news"/></td>
-            <td>{newApplication.email}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.reserved_slots"  extensionName="dated_news"/></td>
-            <td>{newApplication.reservedSlots}</td>
-        </tr>
-        <tr>
-            <td><f:translate key="tx_datednews_domain_model_application.costs"  extensionName="dated_news"/></td>
-            <td>{newApplication.costs}</td>
-        </tr>
-    </table>
 
 </f:section>

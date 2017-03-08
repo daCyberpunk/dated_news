@@ -16,7 +16,7 @@
 				<source>Date / Time</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventlocation">
-				<source>Event Location(s)</source>
+				<source>Event Location</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventtype">
 				<source>Event Type</source>
@@ -28,7 +28,7 @@
 				<source>Show in Calendar</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.enable_application">
-				<source>User can book / Applicate</source>
+				<source>Users can register</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.fulltime">
 				<source>Fulltime Event</source>
@@ -59,6 +59,9 @@
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.trainer">
 				<source>Trainer</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.downloads">
+				<source>Download</source>
 			</trans-unit>
 
 			<trans-unit id="tx_datednews_domain_model_location">
@@ -116,7 +119,7 @@
 				<source>Application</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.formlabel">
-				<source>Booking Form</source>
+				<source>Registration Form</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.name">
 				<source>Name</source>
@@ -143,13 +146,13 @@
 				<source>Email</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.events">
-				<source>Events</source>
+				<source>Event</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.reserved_slots">
-				<source>Reserve Slots</source>
+				<source>Reserve seats</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.submit">
-				<source>Submit</source>
+				<source>Register</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.company">
 				<source>Company</source>
@@ -179,104 +182,117 @@
 				<source>Mobile</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.taxid">
-				<source>Tax Id</source>
+				<source>VAT Id</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.message">
 				<source>Message</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.terms_accept">
-				<source>Accept Terms</source>
+				<source><![CDATA[I hereby confirm that I have read and accepted the <a href="/en/general-terms-and-conditions/" title="Read Terms">Terms and conditions</a> and the <a href="/en/revocation-policy/" title="Read revocation policy">revocation policy</a>.]]></source>
 			</trans-unit>
 
-			
-			
 			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject">
-				<source>Booking: %1$s</source>
+				<source>Your registration: %1$s My Company</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.invitation_subject">
-				<source>Invitation: %1$s</source>
+				<source>Invitation: %1$s | My Company</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email_introduction">
-				<source>Following Application / Booking we have received from you:</source>
+				<source>We have received your registration for the following event:</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.salutation">
+				<source>Dear Mr/Mrs.</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.vat_note">
+				<source>+VAT (if applicable)</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.greeting">
+				<source><![CDATA[Please do not hesitate to contact us if you have any questions.</br></br>Kind regards,</br>Your My Company Team]]></source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.confirmation_greeting">
+				<source><![CDATA[We will contact you shortly with more information on the event. Please do not hesitate to contact us if you have any questions.</br></br>Kind regards,</br>Your My Company Team]]></source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.footer_contact">
+				<source><![CDATA[My Company  Signature</br>Managing director: Cheffe</br>Registration: Amtsgericht xxx / VAT ID: xxxxx </br>Phone +49 (000) 0000</br></br><a href="https://www.example.com/en/general-terms-and-conditions/">General Terms and Conditions</a> of My Company apply ]]></source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.expire_info">
-				<source>(This link expires in %s days)</source>
+				<source>(This link expires in %s days.)</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email_introduction_confirmation">
-				<source>We thank you for confirming your booking to the following event:</source>
+				<source>We thank you for confirming your registration for the following event:</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.confirmation_icsinfo">
 				<source>A Calendar Invitation is sent to you in sperate Mail.</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.demand_confirmation">
-				<source>Please click this link to confirm your booking </source>
+				<source>Confirm Registration</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.ics_description">
-				<source>Invitation belongs to the booked event at: %1$s </source>
+				<source>Invitation belongs to the event you registered for at: %1$s </source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email_introductionAdmins">
-				<source>Following Application / Booking was received by the system:</source>
+				<source>The following registration was received by the system:</source>
 			</trans-unit>
 
 			
 			
 			<trans-unit id="applicationSendMessage">
-				<source>Your application / booking has been send with following details</source>
+				<source>Your registration has been send with the following details:</source>
 			</trans-unit>
 			<trans-unit id="applicationSendStatus">
-				<source>Send!</source>
+				<source>Sent!</source>
 			</trans-unit>
 
 			<trans-unit id="applicationSendMessageNoRecipients">
-				<source>There are no valid contacts for this offer. Please contact the site administrator</source>
+				<source>There are no valid contacts for this event. Please contact us!</source>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageNoRecipientsStatus">
 				<source>Error!</source>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageNoApplyerEmail">
-				<source>Your given Mail Address is not valid</source>
+				<source>The email address you entered is not valid!</source>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageNoApplyerEmailStatus">
 				<source>Error!</source>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageAllreadySent">
-				<source>Your Booking request was allready transmitted.</source>
+				<source>Your registration request has been already transmitted.</source>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageAllreadySentStatus">
 				<source>Error!</source>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageGeneralError">
-				<source>There is an technical error. Please contact the site administrator</source>
+				<source>There is a technical error. Please contact us!</source>
 			</trans-unit>
 			<trans-unit id="applicationSendStatusGeneralErrorStatus">
 				<source>Error!</source>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageApplyerError">
-				<source>The booking confirmation could not be sent to your address. Please contact the site administrator</source>
+				<source>The registration confirmation could not be sent to your email address. Please contact us!</source>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageApplyerErrorStatus">
 				<source>Error!</source>
 			</trans-unit>
 			<trans-unit id="applicationConfirmationLinkUnvalid">
-				<source>The confirmation link is not available anymore. Please book again or contact the site administrator</source>
+				<source>The confirmation link is not valid anymore. Please register again or contact us!</source>
 			</trans-unit>
 			<trans-unit id="applicationConfirmationLinkUnvalidStatus">
 				<source>Error!</source>
 			</trans-unit>
 			<trans-unit id="applicationNotFound">
-				<source>TThe requested booking was not found in our system. Please contact the site administrator</source>
+				<source>The requested registration was not found in our system. Please contact us!</source>
 			</trans-unit>
 			<trans-unit id="applicationNotFoundStatus">
 				<source>Error!</source>
 			</trans-unit>
 			<trans-unit id="applicationAllreadyConfirmed">
-				<source>The booking was allready confirmed</source>
+				<source>Your registration has already been confirmed!</source>
 			</trans-unit>
 			<trans-unit id="applicationAllreadyConfirmedStatus">
 				<source>Info</source>
 			</trans-unit>
 			<trans-unit id="applicationConfirmed">
-				<source>The booking is confirmed. Thank you.</source>
+				<source>Your registration has now been confirmed. Thank you!</source>
 			</trans-unit>
 			<trans-unit id="applicationConfirmedStatus">
 				<source>Ok</source>
