@@ -568,7 +568,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     'name' => str_replace(' ','_',$newsTitle),
 
                 ];
-                $senderMail = substr_replace($this->settings['senderMail'],'noreply',0,strpos($this->settings['senderMail'], '@'));
+                $senderMail = $this->settings['senderMail'];
                 if (!$this->div->sendIcsInvitation(
                     'MailConfirmationApplyer',
                     $applyer,
@@ -577,7 +577,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     array($senderMail => $this->settings['senderName']),
                     \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', array('news' => $news->getTitle())),
                     array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
-                    $icsAttachment
+                    $icsAttachment,
+                    array(substr_replace($this->settings['senderMail'],'noreply',0,strpos($this->settings['senderMail'], '@')) => $this->settings['senderName'])
                 )) {
                     $this->flashMessageService('applicationSendMessageApplyerError','applicationSendStatusApplyerErrorStatus','ERROR' );
                 } else {
@@ -597,11 +598,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     public function addCalendarCss($pathToCss = ''){
         $this->pageRenderer->addCssFile('/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css');
         $this->pageRenderer->addCssFile('/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css');
-//        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css" media="all">');
-//        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css" media="all">');
         $pathToCss = str_replace('EXT:','/typo3conf/ext/',$pathToCss);
         $this->pageRenderer->addCssFile($pathToCss);
-//        $this->pageRenderer->addHeaderData('<link rel="stylesheet" type="text/css" href="'.$pathToCss.'" media="all">');
     }
 
     /**

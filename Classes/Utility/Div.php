@@ -95,17 +95,19 @@ class Div {
 	/**
 	 * Generate and send ICS Invitation
 	 *
-	 * @param \string Template file in Templates/Email/
+	 * @param $template
 	 * @param \array $receiver Combination of Email => Name
 	 * @param \array $receiverCc Combination of Email => Name
 	 * @param \array $receiverBcc Combination of Email => Name
+	 * @param \array $replyTo Combination of Email => Name
 	 * @param \array $sender Combination of Email => Name
 	 * @param \string $subject Mail subject
 	 * @param \array $variables Variables for assignMultiple
 	 * @param array $icsAttachment
-	 * @return \bool Mail was sent?
+	 * @return bool Mail was sent?
+	 * @internal param string $Template file in Templates/Email/
 	 */
-	public function sendIcsInvitation($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $icsAttachment = array()) {
+	public function sendIcsInvitation($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $icsAttachment = array(), $replyTo) {
 
 		/** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
 		$emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
@@ -123,6 +125,7 @@ class Div {
 			->setTo($receiver)
 			->setCc($receiverCc)
 			->setBcc($receiverBcc)
+			->setReplyTo($replyTo)
 			->setFrom($sender)
 			->setSubject($subject)
 			->setBody($icsAttachment['content'], 'text/calendar');
