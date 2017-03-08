@@ -192,7 +192,7 @@ EOT;
         }
 
 		$this->templateVariableContainer->add('datedNewsCalendarHtml', '<div id="calendar" class="fc-calendar-container '.$hasQtips.' calendar_'.$uid.'"></div>');
-        return '<div id="calendar" class="fc-calendar-container '.$hasQtips.' calendar_'.$uid.'"></div>';
+        return '<div id="calendar" data-qtipminwidth="' . $tsSettings['viewportMinWidthForTooltip'] . '" class="fc-calendar-container '.$hasQtips.' calendar_'.$uid.'"></div>';
 	}
 
     /**

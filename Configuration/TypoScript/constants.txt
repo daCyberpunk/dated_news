@@ -16,6 +16,8 @@ plugin.tx_news{
         uiThemeCustom =
 		# cat = datednews_design/style/c; type=options[qtip-shadow,qtip-bootstrap,qtip-youtube,qtip-tipsy,qtip-tipped,tip-jtools,qtip-cluetip]; label=choose a predefined tooltip style
 		tooltipPreStyle =
+		# cat = datednews_design/style/c; type=string; label=Min Width of viewport for showing tooltips in px
+		viewportMinWidthForTooltip = 500
 		# cat = datednews_design/style/d; type=string; label=Stylesheet for dated news
 		cssFile = EXT:dated_news/Resources/Public/CSS/dated_news.css
 

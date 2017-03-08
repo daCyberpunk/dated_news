@@ -18,6 +18,7 @@ plugin.tx_news {
 		dated_news {
 			twentyfourhour = {$plugin.tx_news.settings.dated_news.twentyfourhour}
 			tooltipPreStyle = {$plugin.tx_news.settings.dated_news.tooltipPreStyle}
+			viewportMinWidthForTooltip = {$plugin.tx_news.settings.dated_news.viewportMinWidthForTooltip}
 			uiTheme = {$plugin.tx_news.settings.dated_news.uiTheme}
 			uiThemeCustom = {$plugin.tx_news.settings.dated_news.uiThemeCustom}
 			dateFormat = d.m

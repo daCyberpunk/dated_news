@@ -66,14 +66,14 @@ function callAfterResize(callback) {
 };
 function disableQtips(){
     //disable qtip on devices smaller then 768px width and follow direct the url to an event on click
-    if(getViewport()['width'] > 767){
+    if(getViewport()['width'] > $('.fc-calendar-container').first().attr('data-qtipminwidth')){
         $('[data-hasqtip]').qtip('enable');
     } else {
         $('[data-hasqtip]').qtip('disable');
     }
 };
 $(document).on('click','a.fc-day-grid-event, .fc-content, a.fc-time-grid-event', function(e){
-    if(getViewport()['width'] > 767){
+    if(getViewport()['width'] > $('.fc-calendar-container').first().attr('data-qtipminwidth')){
         if($(this).closest('.fc-calendar-container').hasClass('has-qtips')){
             e.preventDefault();
         }
