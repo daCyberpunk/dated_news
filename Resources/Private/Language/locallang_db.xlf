@@ -45,6 +45,9 @@
 			<trans-unit id="tx_datednews_domain_model_news.early_bird_price">
 				<source>Early Bird Price</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.early_bird_date">
+				<source>Early Bird Date</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.locations">
 				<source>Locations</source>
 			</trans-unit>
@@ -198,9 +201,6 @@
 			</trans-unit>
 			<trans-unit id="flexforms_application.notificationMail">
 				<source>Admin Mails for notification, comma seperated</source>
-			</trans-unit>
-			<trans-unit id="flexforms_application.earlyBirdDays">
-				<source>Early Bird Time in Days before Event</source>
 			</trans-unit>
 
 

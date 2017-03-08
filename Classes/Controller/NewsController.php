@@ -208,13 +208,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $slotoptions[] = $slotoption;
             $i++;
         }
-
+        
+        
         $assignedValues = [
             'newsItem' => $news,
             'currentPage' => (int)$currentPage,
             'demand' => $demand,
             'newApplication' => $newApplication,
             'slotoptions' => $slotoptions,
+            
             'formTimestamp' => time() // for form reload and doubled submit prevention
         ];
 
@@ -273,11 +275,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $newApplication->setCrdate($date->getTimestamp());
 
             //set total depending on either customer is an early bird or not and on earyBirdPrice is set
-            if($news->getEarlyBirdPrice() != '' && $this->settings['earlyBirdDays'] != '' && $this->settings['earlyBirdDays'] != '0'){
-                $earlybirdDate = clone $news->getEventstart();
-                if($this->settings['earlyBirdDays'] != '') {
-                    $earlybirdDate->setTime(0,0,0)->sub(new \DateInterval('P'.$this->settings['earlyBirdDays'].'D'));
-                }
+            if($news->getEarlyBirdPrice() != '' && $news->getEarlyBirdDate() != '' && $news->getEarlyBirdDate() != '0'){
+                $earlybirdDate = clone $news->getEarlyBirdDate();
+                $earlybirdDate->setTime(0,0,0);
 
                 $today = new \DateTime();
                 $today->setTime(0,0,0);

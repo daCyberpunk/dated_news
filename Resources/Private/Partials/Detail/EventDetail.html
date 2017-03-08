@@ -66,12 +66,13 @@
                         <link itemprop="availability" href="{f:uri.page(addQueryString: 1, absolute: 1)}" />
 						<div class="event-price">
 							<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.price" /></strong>
-							<span class="event-price" itemprop="highPrice" content="{newsItem.earlyBirdPrice}">{newsItem.price}</span><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.currency" />
+							<span class="event-price" itemprop="highPrice" content="{newsItem.price}">{newsItem.price}</span><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.currency" />
 						</div>
 						<div class="earlybirdprice">
 							<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.early_bird_price" /></strong>
 							<span class="event-price" itemprop="lowPrice" content="{newsItem.earlyBirdPrice}">{newsItem.earlyBirdPrice}</span><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.currency" />
-						</div>
+						    <span><f:translate key="tx_datednews_domain_model_news.early_bird_date" extensionName="dated_news" arguments="{0: '{f:format.date(date:newsItem.earlyBirdDate, format:\'d.m.Y\')}'}" /></span>
+                        </div>
 
 						<meta itemprop="priceCurrency" content="EUR" />
 						<strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.slots" /></strong>

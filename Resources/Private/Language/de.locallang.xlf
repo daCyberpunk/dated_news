@@ -63,6 +63,10 @@
 				<source>Early Bird Price</source>
 				<target state="translated">Frühbucherpreis</target>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.early_bird_date">
+				<source>(available until %s )</source>
+				<target state="translated">(bis zum %s buchen)</target>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.currency" approved="yes">
 				<source>€</source>
 				<target state="translated">EUR</target>

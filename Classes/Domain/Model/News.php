@@ -128,6 +128,13 @@ class News extends \GeorgRinger\News\Domain\Model\News
      * @var string
      */
     protected $earlyBirdPrice = '';
+    
+    /**
+     * earlyBirdDate
+     *
+     * @var \DateTime
+     */
+    protected $earlyBirdDate = '';
 
     /**
      * targetgroup
@@ -215,6 +222,27 @@ class News extends \GeorgRinger\News\Domain\Model\News
     public function setEarlyBirdPrice($earlyBirdPrice)
     {
         $this->earlyBirdPrice = $earlyBirdPrice;
+    }
+    
+    /**
+     * Returns the earlyBirdDate
+     *
+     * @return string $earlyBirdDate
+     */
+    public function getEarlyBirdDate()
+    {
+        return $this->earlyBirdDate;
+    }
+
+    /**
+     * Sets the earlyBirdDate
+     *
+     * @param string $earlyBirdDate
+     * @return void
+     */
+    public function setEarlyBirdDate($earlyBirdDate)
+    {
+        $this->earlyBirdDate = $earlyBirdDate;
     }
 
     /**

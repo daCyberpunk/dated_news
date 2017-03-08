@@ -48,6 +48,9 @@
 			<trans-unit id="tx_datednews_domain_model_news.early_bird_price">
 				<source>Early Bird Price</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.early_bird_date">
+				<source>(available until %s )</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.currency">
 				<source>€</source>
 			</trans-unit>

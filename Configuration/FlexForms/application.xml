@@ -115,19 +115,6 @@
                 </TCEforms>
             </settings.icsDescriptionCustomField>
 
-            <!-- earlyBirdDays -->
-            <settings.earlyBirdDays>
-                <TCEforms>
-                    <label>Early Bird Time in Days before Event</label>
-                    <config>
-                        <checkbox>1</checkbox>
-                        <default></default>
-                        <type>input</type>
-                        <size>15</size>
-                    </config>
-                </TCEforms>
-            </settings.earlyBirdDays>
-
             <!-- files -->
             <settings.files>
                 <TCEforms>

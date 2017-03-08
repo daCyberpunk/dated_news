@@ -259,6 +259,21 @@ $tmp_dated_news_columns = [
 			],
 		],
 	],
+	'early_bird_date' => [
+		'exclude' => 0,
+		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.early_bird_date',
+		'config' => [
+			'type' => 'input',
+			'size' => 16,
+			'max' => 20,
+			'eval' => 'datetime',
+		],
+		'displayCond' => [
+			'AND' => [
+				'FIELD:eventtype:REQ:TRUE',
+			],
+		],
+	],
 	'locations' => [
 		'exclude' => 0,
 		'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.locations',
@@ -365,6 +380,7 @@ $tmp_dated_news_columns = [
 	slots;;;;1-1-1, 
 	price;;;;1-1-1, 
 	early_bird_price;;;;1-1-1,
+	early_bird_date;;;;1-1-1,
 	targetgroup;;;;1-1-1,
 	locations;;;;1-1-1, 
 	persons;;;;1-1-1, 
