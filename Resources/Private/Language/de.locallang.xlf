@@ -264,7 +264,12 @@
 				<source>Your registration: %1$s My Company</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject_eventstart">
-				<source>at</source>
+				<source> at </source>
+				<target state="translated"> am </target>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.notificationemail_subject_locationname">
+				<source> in </source>
+				<target state="translated"> in </target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.invitation_subject">
 				<source>Invitation: %1$s | My Company</source>

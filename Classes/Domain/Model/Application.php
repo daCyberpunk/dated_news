@@ -458,7 +458,34 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->hidden;
     }
-    
+
+    /**
+     * _languageUid
+     * @var int
+     */
+    protected $_languageUid;
+
+    /**
+     * Get sys language
+     *
+     * @return int
+     */
+    public function getSysLanguageUid()
+    {
+        return $this->_languageUid;
+    }
+
+    /**
+     * Set sys language
+     *
+     * @param int $sysLanguageUid
+     * @return void
+     */
+    public function setSysLanguageUid($sysLanguageUid)
+    {
+        $this->_languageUid = $sysLanguageUid;
+    }
+
     /**
      * Returns the title
      *

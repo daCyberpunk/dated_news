@@ -269,6 +269,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             $newApplication->setPid($news->getPid());
             $newApplication->setHidden(TRUE);
+            $newApplication->setSysLanguageUid($news->getSysLanguageUid());
 
             //set creationdate
             $date = new \DateTime();

@@ -29,7 +29,8 @@ class ApplicationPersistentObjectConverter extends PersistentObjectConverter {
             $query = $this->persistenceManager->createQueryForType($targetType);
             $query->getQuerySettings()
                 ->setIgnoreEnableFields(TRUE)
-                ->setRespectStoragePage(FALSE);
+                ->setRespectStoragePage(FALSE)
+                ->setRespectSysLanguage(FALSE);
             $constraints = $query->equals('uid', $identity);
             $object = $query->matching($constraints)->execute()->getFirst();
         } else {
