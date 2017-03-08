@@ -30,6 +30,7 @@ CREATE TABLE tx_datednews_domain_model_application (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
+	application_title varchar(255) DEFAULT '' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
 	name varchar(255) DEFAULT '' NOT NULL,
 	surname varchar(255) DEFAULT '' NOT NULL,

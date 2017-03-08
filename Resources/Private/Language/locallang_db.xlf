@@ -129,6 +129,9 @@
 			<trans-unit id="tx_datednews_domain_model_application.title">
 				<source>Title</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.applicationTitle">
+				<source>Applications</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.surname">
 				<source>Surname</source>
 			</trans-unit>

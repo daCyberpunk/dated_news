@@ -2,7 +2,7 @@
 return array(
 	'ctrl' => [
 		'title'	=> 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application',
-		'label' => 'title',
+		'label' => 'application_title',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -26,7 +26,7 @@ return array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, name, surname, email, events',
 	],
 	'types' => [
-		'1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, confirmed, '],
+		'1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, application_title, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, confirmed, '],
 	],
 	'palettes' => [
 		'1' => ['showitem' => ''],
@@ -104,6 +104,15 @@ return array(
 		'title' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.title',
+			'config' => [
+				'type' => 'input',
+				'size' => 100,
+				'eval' => 'trim,required'
+			],
+		],
+		'application_title' => [
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.applicationTitle',
 			'config' => [
 				'type' => 'input',
 				'size' => 100,

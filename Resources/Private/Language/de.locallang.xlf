@@ -265,8 +265,8 @@
 				<target state="translated">Wir haben Ihre Anmeldung für die folgende Veranstaltung erhalten:</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.salutation">
-				<source>Dear Mr/Mrs.</source>
-				<target state="translated">Sehr geehrte/r Frau/Herr</target>
+				<source>Dear</source>
+				<target state="translated">Sehr geehrte/r</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.vat_note">
 				<source>+VAT (if applicable)</source>

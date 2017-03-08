@@ -46,6 +46,13 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $title = '';
+
+    /**
+     * applicationTitle
+     *
+     * @var string
+     */
+    protected $applicationTitle = '';
     
     /**
      * name
@@ -469,6 +476,25 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setTitle($title) {
         $this->title = $title;
+    }
+
+    /**
+     * Returns the applicationTitle
+     *
+     * @return string $applicationTitle
+     */
+    public function getApplicationTitle() {
+        return $this->applicationTitle;
+    }
+
+    /**
+     * Sets the applicationTitle
+     *
+     * @param string $applicationTitle
+     * @return void
+     */
+    public function setApplicationTitle($applicationTitle) {
+        $this->applicationTitle = $applicationTitle;
     }
     
     /**

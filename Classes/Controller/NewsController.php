@@ -296,7 +296,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             $persistenceManager = GeneralUtility::makeInstance("TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager");
             $persistenceManager->persistAll();
-            $newApplication->setTitle($news->getTitle()." - ".$newApplication->getName() . ' ' . $newApplication->getSurname() . '-' . $newApplication->getUid());
+            $newApplication->setApplicationTitle($news->getTitle()." - ".$newApplication->getName() . ' ' . $newApplication->getSurname() . '-' . $newApplication->getUid());
             $this->applicationRepository->update($newApplication);
             $persistenceManager->persistAll();
 

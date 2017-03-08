@@ -201,7 +201,7 @@
 				<source>We have received your registration for the following event:</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.salutation">
-				<source>Dear Mr/Mrs.</source>
+				<source>Dear</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.vat_note">
 				<source>+VAT (if applicable)</source>
