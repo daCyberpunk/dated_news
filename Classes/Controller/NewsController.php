@@ -208,15 +208,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $slotoptions[] = $slotoption;
             $i++;
         }
-        
-        
+
+
         $assignedValues = [
             'newsItem' => $news,
             'currentPage' => (int)$currentPage,
             'demand' => $demand,
             'newApplication' => $newApplication,
             'slotoptions' => $slotoptions,
-            
+
             'formTimestamp' => time() // for form reload and doubled submit prevention
         ];
 
@@ -271,6 +271,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $newApplication->setHidden(TRUE);
             $newApplication->setSysLanguageUid($news->getSysLanguageUid());
 
+
             //set creationdate
             $date = new \DateTime();
             $newApplication->setCrdate($date->getTimestamp());
@@ -301,15 +302,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $this->applicationRepository->update($newApplication);
             $persistenceManager->persistAll();
 
-            // clearing cache of detailpage and currentpage because otherwise free slots are not updated in view
-            // and the form is always sending the same if another booking is made
-            $this->cacheService->clearPageCache(
-                [
-                    $this->settings['detailPid'], 
-                    intval($GLOBALS['TSFE']->id)
-                ]
-            );
-
             $demand = $this->createDemandObjectFromSettings($this->settings);
             $demand->setActionAndClass(__METHOD__, __CLASS__);
 
@@ -323,10 +315,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CREATEAPPLICATION_ACTION, $assignedValues);
             $this->view->assignMultiple($assignedValues);
 
-            Page::setRegisterProperties($this->settings['detail']['registerProperties'], $news);
-            if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
-                Cache::addCacheTagsByNewsRecords([$news]);
-            }
             $this->sendMail($news, $newApplication, $this->settings);
         } else {
             $this->flashMessageService('applicationSendMessageAllreadySent','applicationSendMessageAllreadySentStatus','ERROR' );
@@ -348,7 +336,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             //vor confirmation link validity check
             $date = new \DateTime();
             $hoursSinceBookingRequestSent = ($date->getTimestamp() - $newApplication->getCrdate()) / 3600;
-            
+
             if($newApplication->isConfirmed() === TRUE){
                 //was allready confirmed
                 $this->flashMessageService('applicationAllreadyConfirmed','applicationAllreadyConfirmedStatus','INFO' );
@@ -364,23 +352,18 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $persistenceManager->persistAll();
                 $events = $newApplication->getEvents();
                 $events->rewind();
-                $this->sendMail($events->current(), $newApplication, $this->settings, TRUE);
+                $news = $events->current();
+                $this->sendMail($news, $newApplication, $this->settings, TRUE);
                 $assignedValues = [
                     'newApplication' => $newApplication,
-                    'newsItem' => $events->current()
+                    'newsItem' => $news
                 ];
             }
         }
+        if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
+            GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('cache_pages')->flushByTag('tx_news_uid_' . $news->getUid());
+        }
 
-        // clearing cache of detailpage and currentpage because otherwise free slots are not updated in view
-        // and the form is always sending the same if another booking is made
-        $this->cacheService->clearPageCache(
-            [
-                $this->settings['detailPid'],
-                intval($GLOBALS['TSFE']->id)
-            ]
-        );
-        
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CONFIRMAPPLICATION_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
 
@@ -445,7 +428,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $recipientsBcc = [];
 
         $subjectFields = explode(',',$this->settings['dated_news']['emailSubjectFields']);
-        
+
         $subject ='';
         $fieldIterator = 0;
         foreach($subjectFields as $field) {
@@ -500,8 +483,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
 
-        
-        
+
+
         //Send to admins etc only when booking / application confirmed
         if($confirmation === TRUE){
             /** @var $to array Array to collect all the receipients */
@@ -562,7 +545,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             } else {
                 $this->flashMessageService('applicationSendMessageGeneralError','applicationSendStatusGeneralErrorStatus','ERROR' );
             }
-            
+
             if($this->settings['ics']){
                 //create ICS File and send invitation
                 $newsTitle = $news->getTitle();
@@ -759,7 +742,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                         $newsCategories[$title]['count'] = 1;
                         if (trim($bgColor) !== '') {
                             $newsCategories[$title]['color'] = $bgColor;
-                        } 
+                        }
                     } else {
                         $newsCategories[$title]['count'] = $newsCategories[$title]['count'] +1;
                     }
