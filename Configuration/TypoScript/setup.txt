@@ -42,3 +42,39 @@ plugin.tx_news {
 		orderByAllowed = eventstart,eventend,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}
 }
+lib.AJAXPrototype = PAGE
+lib.AJAXPrototype {
+	config {
+		xhtml_cleaning = 0
+		admPanel = 0
+		debug = 0
+		no_cache = 1
+		disableAllHeaderCode = 1
+		#additionalHeaders = Content-type:text/plain, utf-8
+		additionalHeaders = Content-type: application/json, utf-8
+		disablePrefixComment = 1
+	}
+}
+freeslots = PAGE
+freeslots < lib.AJAXPrototype
+freeslots {
+	typeNum = 6660666
+	10 = USER
+	10 {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		extensionName = News
+		pluginName = Pi1
+		vendorName = GeorgRinger
+		controller = News
+		switchableControllerActions {
+			News {
+				1 = freeslots
+			}
+		}
+		view < plugin.tx_news.view
+		persistence < plugin.tx_news.persistence
+		settings < plugin.tx_news.settings
+	}
+}
+
+page.includeJSFooter.getslots = typo3conf/ext/dated_news/Resources/Public/JS/getslots.js

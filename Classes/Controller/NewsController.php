@@ -370,6 +370,17 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     }
 
     /**
+     * Single view of a news record
+     *
+     * @param \GeorgRinger\News\Domain\Model\News $news news item
+     * @return string
+     */
+    public function freeslotsAction(\GeorgRinger\News\Domain\Model\News $news = null)
+    {
+        return json_encode((int)$news->getSlots() - $this->applicationRepository->countReservedSlotsForNews($news->getUid()));
+    }
+    
+    /**
      * sendMail to applyer, admins
      * and authors and the ICS invitation
      * if booking is confirmed

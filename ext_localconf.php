@@ -22,7 +22,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_befunc.php']['getFl
 	'GeorgRinger.news',
 	'Pi1',
 	[
-		'News' => 'list,detail,dateMenu,searchForm,searchResult,createApplication,confirmApplication',
+		'News' => 'list,detail,dateMenu,searchForm,searchResult,createApplication,confirmApplication,freeslots',
 		'Category' => 'list',
 		'Tag' => 'list',
 	],
