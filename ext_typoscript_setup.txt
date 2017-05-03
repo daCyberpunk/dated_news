@@ -1,0 +1,20 @@
+config.tx_extbase{
+    persistence{
+        classes{
+
+            GeorgRinger\News\Controller\NewsController {
+                subclasses {
+                    Tx_NewsController = FalkRoeder\DatedNews\Controller\NewsController
+                }
+            }
+
+        }
+    }
+}
+
+config.tx_extbase {
+    objects {
+        GeorgRinger\News\Controller\NewsController.className = FalkRoeder\DatedNews\Controller\NewsController
+        #SKYFILLERS\SfFilecollectionGallery\Service\FileCollectionService.className = FalkRoeder\Loctimize\Service\FileCollectionService
+    }
+}

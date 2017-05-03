@@ -1,6 +1,6 @@
 {namespace n=GeorgRinger\News\ViewHelpers}
 
-<f:layout name="EventDetail.html" />
+<f:layout name="Detail.html" />
 
 <!--
 	=====================
@@ -88,7 +88,7 @@
 				<f:format.html>{newsItem.targetgroup}</f:format.html>
 			</f:if>
 			<f:if condition="{newsItem.eventtype}">
-				<f:render partial="Detail/EventDetail" arguments="{_all}" />
+						 <f:render partial="Detail/EventDetails" arguments="{_all}" />
 			</f:if>
 			<f:if condition="{newsItem.eventtype}">
 				<f:render partial="Detail/ApplicationForm" arguments="{_all}" />

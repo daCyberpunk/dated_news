@@ -196,7 +196,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 				->reset()
 				->setTargetPageUid($detailPid)
 				->setUseCacheHash(TRUE)
-				->setArguments(array('tx_news_pi1' => array('controller' => 'News', 'action' => 'eventDetail', 'news' => $item->getUid())))
+				->setArguments(array('tx_news_pi1' => array('controller' => 'News', 'action' => 'detail', 'news' => $item->getUid())))
 				->setCreateAbsoluteUri(TRUE)
 				->buildFrontendUri();
 			$uri = 'url: "' . $detailUri .'",';

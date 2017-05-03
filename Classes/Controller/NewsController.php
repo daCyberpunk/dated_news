@@ -37,7 +37,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 {
 
     const SIGNAL_NEWS_CALENDAR_ACTION = 'calendarAction';
-    const SIGNAL_NEWS_EVENTDETAIL_ACTION = 'eventDetailAction';
     const SIGNAL_NEWS_CREATEAPPLICATION_ACTION = 'createApplicationAction';
     const SIGNAL_NEWS_CONFIRMAPPLICATION_ACTION = 'confirmApplicationAction';
 
@@ -163,8 +162,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
-    public function eventDetailAction(\GeorgRinger\News\Domain\Model\News $news = null, $currentPage = 1, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
-    {
+    public function detailAction(\GeorgRinger\News\Domain\Model\News $news = null, $currentPage = 1, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null) {
         if (is_null($news)) {
             $previewNewsId = ((int)$this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
             if ($this->request->hasArgument('news_preview')) {
@@ -220,7 +218,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'formTimestamp' => time() // for form reload and doubled submit prevention
         ];
 
-        $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_EVENTDETAIL_ACTION, $assignedValues);
+        $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_DETAIL_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
 
         Page::setRegisterProperties($this->settings['detail']['registerProperties'], $news);
@@ -228,6 +226,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             Cache::addCacheTagsByNewsRecords([$news]);
         }
     }
+
 
     /**
      * action createApplication
@@ -409,7 +408,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             ];
         } else {
             $this->flashMessageService('applicationSendMessageNoApplyerEmail','applicationSendMessageNoApplyerEmailStatus','ERROR' );
-            $this->forward('eventDetail', NULL, NULL, array('news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication));
+            $this->forward('detail', NULL, NULL, array('news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication));
         }
 
         //get filenames of flexform files to send to applyer
@@ -538,7 +537,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             if (!count($recipients)) {
                 $this->flashMessageService('applicationSendMessageNoRecipients','applicationSendMessageNoRecipientsStatus','ERROR' );
-                $this->forward('eventDetail', NULL, NULL, array('news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication));
+                $this->forward('detail', NULL, NULL, array('news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication));
             }
 
             // send email to authors and Plugins mail addresses
@@ -828,7 +827,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 //                        ->reset()
 //                        ->setTargetPageUid($settings['detailPid'])
 //                        ->setUseCacheHash(TRUE)
-//                        ->setArguments(array('tx_news_pi1' => array('controller' => 'News', 'action' => 'eventDetail', 'news' => $news->getUid())))
+//                        ->setArguments(array('tx_news_pi1' => array('controller' => 'News', 'action' => 'detail', 'news' => $news->getUid())))
 //                        ->setCreateAbsoluteUri(TRUE)
 //                        ->buildFrontendUri();
 //                    return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', array('url' => $uri));
@@ -985,7 +984,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         // action is set to "detail" in original Viewhelper, but we overwiritten this action
         if ((int)$tsSettings['link']['skipControllerAndAction'] !== 1) {
             $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News' .
-                '&tx_news_pi1[action]=eventDetail';
+                '&tx_news_pi1[action]=detail';
         }
 
         // Add date as human readable

@@ -42,7 +42,7 @@ class FlexFormHook
                 $dataStructArray['sheets']['confirmation'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/application.xml';
             }
             
-            if ($selectedView === 'News->eventDetail') {
+            if ($selectedView === 'News->detail') {
                 $dataStructArray['sheets']['additional'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/additional.xml';
             }
 

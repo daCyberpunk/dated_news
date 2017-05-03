@@ -17,7 +17,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <table>
             <tr>
                 <td><f:translate key="tx_datednews_domain_model_application.events" extensionName="dated_news" /></td>
-                <td><a target="_blank" href="{f:uri.page(pageUid:'{settings.detailPid}',absolute: 1,additionalParams:'{tx_news_pi1:{controller:\'News\',action:\'eventDetail\',news:newsItem.uid}}')}">{newsItem.title}</a></td>
+                <td><a target="_blank" href="{f:uri.page(pageUid:'{settings.detailPid}',absolute: 1,additionalParams:'{tx_news_pi1:{controller:\'News\',action:\'detail\',news:newsItem.uid}}')}">{newsItem.title}</a></td>
             </tr>
             <tr>
                 <td><f:translate key="tx_datednews_domain_model_news.eventstart"  extensionName="dated_news"/></td>

@@ -69,6 +69,7 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
         $tsSettings,
         array $configuration = []
     ) {
+        
         if (!isset($configuration['parameter'])) {
             $detailPid = 0;
             $detailPidDeterminationMethods = GeneralUtility::trimExplode(',', $tsSettings['detailPidDetermination'],
@@ -80,6 +81,7 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
             }
 
             foreach ($detailPidDeterminationMethods as $determinationMethod) {
+                
                 if ($callback = $this->detailPidDeterminationCallbacks[$determinationMethod]) {
                     if ($detailPid = call_user_func([$this, $callback], $tsSettings, $newsItem)) {
                         break;
@@ -101,10 +103,9 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
         $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
         $configuration['additionalParams'] .= '&tx_news_pi1[news]=' . $this->getNewsId($newsItem);
 
-        // action is set to "detail" in original Viewhelper, but we overwiritten this action
         if ((int)$tsSettings['link']['skipControllerAndAction'] !== 1) {
             $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News' .
-                '&tx_news_pi1[action]=eventDetail';
+                '&tx_news_pi1[action]=detail';
         }
 
         // Add date as human readable
