@@ -34,7 +34,7 @@ $json = file_get_contents(dirname(__FILE__) . '/../json/events.json');
 $input_arrays = json_decode($json, true);
 
 // Accumulate an output array of event data arrays.
-$output_arrays = array();
+$output_arrays = [];
 foreach ($input_arrays as $array) {
 
 	// Convert the input array into a useful Event object

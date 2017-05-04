@@ -142,7 +142,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
         if(!empty($filterValues)){
             if ($this->settings['sortingFilterlist'] === 'shuffle'){
-                $assignedValues['filterValues'] = $this->div->shuffle_assoc($filterValues);
+                $assignedValues['filterValues'] = $this->div->shuffleAssoc($filterValues);
             } else {
                 ksort($filterValues, SORT_LOCALE_STRING);
                 $assignedValues['filterValues'] = $filterValues;
@@ -395,7 +395,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         // from
         $sender = [];
         if (!empty($this->settings['senderMail'])) {
-            $sender = (array($this->settings['senderMail'] => $this->settings['senderName']));
+            $sender = ([$this->settings['senderMail'] => $this->settings['senderName']]);
         }
 
         //validate Mailadress of applyer
@@ -408,7 +408,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             ];
         } else {
             $this->flashMessageService('applicationSendMessageNoApplyerEmail','applicationSendMessageNoApplyerEmailStatus','ERROR' );
-            $this->forward('detail', NULL, NULL, array('news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication));
+            $this->forward('detail', NULL, NULL, ['news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication]);
         }
 
         //get filenames of flexform files to send to applyer
@@ -482,8 +482,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $recipientsCc,
             $recipientsBcc,
             $sender,
-            \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('subject' => $subject)),
-            array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
+            \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
+            ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
             $filenames
         )) {
             $this->flashMessageService('applicationSendMessageApplyerError','applicationSendStatusApplyerErrorStatus','ERROR' );
@@ -537,7 +537,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             if (!count($recipients)) {
                 $this->flashMessageService('applicationSendMessageNoRecipients','applicationSendMessageNoRecipientsStatus','ERROR' );
-                $this->forward('detail', NULL, NULL, array('news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication));
+                $this->forward('detail', NULL, NULL, ['news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication]);
             }
 
             // send email to authors and Plugins mail addresses
@@ -547,9 +547,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $recipientsCc,
                 $recipientsBcc,
                 $sender,
-                \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', array('subject' => $subject)),
-                array('newApplication' => $newApplication, 'news' => $news, 'settings' => $this->settings),
-                array()
+                \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
+                ['newApplication' => $newApplication, 'news' => $news, 'settings' => $this->settings],
+                []
             )) {
                 $this->flashMessageService('applicationConfirmed','applicationConfirmedStatus','OK' );
             } else {
@@ -605,11 +605,11 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     $applyer,
                     $recipientsCc,
                     $recipientsBcc,
-                    array($senderMail => $this->settings['senderName']),
-                    \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', array('subject' => $subject)),
-                    array('newApplication' => $newApplication, 'news' => $news, 'settings' => $settings),
+                    [$senderMail => $this->settings['senderName']],
+                    \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', ['subject' => $subject]),
+                    ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
                     $icsAttachment,
-                    array(substr_replace($this->settings['senderMail'],'noreply',0,strpos($this->settings['senderMail'], '@')) => $this->settings['senderName'])
+                    [substr_replace($this->settings['senderMail'],'noreply',0,strpos($this->settings['senderMail'], '@')) => $this->settings['senderName']]
                 )) {
                     $this->flashMessageService('applicationSendMessageApplyerError','applicationSendStatusApplyerErrorStatus','ERROR' );
                 } else {
@@ -680,7 +680,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             // writeFileToTypo3tempDir() returns NULL on success (please double-read!)
             $error = GeneralUtility::writeFileToTypo3tempDir(PATH_site . $file, implode($contents, NEW_LINE));
             if ($error !== null) {
-                throw new \RuntimeException('Dated News JS file could not be written to ' . $file . '. Reason: ' . $error, 1487439381339);
+                throw new \RuntimeException('Dated News JavaScript file could not be written to ' . $file . '. Reason: ' . $error, 1487439381339);
             }
         }
 
@@ -819,7 +819,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 break;
             case "Url":
                 $uri = $this->getLinkToNewsItem($news, $settings);
-                return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', array('url' => $uri));
+                return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', ['url' => $uri]);
 
 //                if($settings['detailPid']){
 //                    $uriBuilder = $this->controllerContext->getUriBuilder();

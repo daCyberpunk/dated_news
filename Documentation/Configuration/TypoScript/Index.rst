@@ -26,7 +26,7 @@ This page is divided into the following sections which are all configurable by u
    	uiThemeCustom_              :ref:`t3tsref:data-type-string`       empty
 	uiTheme_                    :ref:`t3tsref:data-type-string`       lightness
 	cssFile_                    :ref:`t3tsref:data-type-path`         EXT:dated_news/Resources/Public/CSS/dated_news.css
-	jsFile_                     :ref:`t3tsref:data-type-path`         EXT:dated_news/Resources/Public/JS/dated_news.js
+	jsFile_                     :ref:`t3tsref:data-type-path`         EXT:dated_news/Resources/Public/JavaScript/dated_news.js
 	titlePosition_              :ref:`t3tsref:data-type-string`       header_left
 	switchableViewsPosition_    :ref:`t3tsref:data-type-string`       header_center
 	prevPosition_               :ref:`t3tsref:data-type-string`       header_right

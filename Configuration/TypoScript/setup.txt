@@ -27,7 +27,7 @@ plugin.tx_news {
 			filesForMailToApplyer =
 			cssFile = {$plugin.tx_news.settings.dated_news.cssFile}
 			includeJQuery = 0
-			jsFile = typo3conf/ext/dated_news/Resources/Public/JS/dated_news.js
+			jsFile = typo3conf/ext/dated_news/Resources/Public/JavaScript/dated_news.js
 
 			titlePosition = {$plugin.tx_news.settings.dated_news.titlePosition}
 			switchableViewsPosition = {$plugin.tx_news.settings.dated_news.switchableViewsPosition}
@@ -77,4 +77,4 @@ freeslots {
 	}
 }
 
-page.includeJSFooter.getslots = typo3conf/ext/dated_news/Resources/Public/JS/getslots.js
+page.includeJSFooter.getslots = typo3conf/ext/dated_news/Resources/Public/JavaScript/getslots.js

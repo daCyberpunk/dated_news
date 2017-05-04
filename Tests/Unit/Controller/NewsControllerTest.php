@@ -39,7 +39,7 @@ class NewsControllerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
 	public function setUp()
 	{
-		$this->subject = $this->getMock('FalkRoeder\\DatedNews\\Controller\\NewsController', array('redirect', 'forward', 'addFlashMessage'), array(), '', FALSE);
+		$this->subject = $this->getMock('FalkRoeder\\DatedNews\\Controller\\NewsController', ['redirect', 'forward', 'addFlashMessage'], [], '', FALSE);
 	}
 
 	public function tearDown()
@@ -53,9 +53,9 @@ class NewsControllerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	public function listActionFetchesAllNewssFromRepositoryAndAssignsThemToView()
 	{
 
-		$allNewss = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array(), array(), '', FALSE);
+		$allNewss = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', [], [], '', FALSE);
 
-		$newsRepository = $this->getMock('FalkRoeder\\DatedNews\\Domain\\Repository\\NewsRepository', array('findAll'), array(), '', FALSE);
+		$newsRepository = $this->getMock('FalkRoeder\\DatedNews\\Domain\\Repository\\NewsRepository', ['findAll'], [], '', FALSE);
 		$newsRepository->expects($this->once())->method('findAll')->will($this->returnValue($allNewss));
 		$this->inject($this->subject, 'newsRepository', $newsRepository);
 

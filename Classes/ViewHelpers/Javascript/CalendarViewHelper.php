@@ -316,7 +316,7 @@ EOT;
         $header = 'header: {left: "'.$positions['header']['left'].'", center: "'.$positions['header']['center'].'", right: "'.$positions['header']['right'].'"},';
         $footer = 'footer: {left: "'.$positions['footer']['left'].'", center: "'.$positions['footer']['center'].'", right: "'.$positions['footer']['right'].'"},';
 
-        return array($header, $footer);
+        return [$header, $footer];
     }
 
 

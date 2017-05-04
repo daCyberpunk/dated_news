@@ -161,7 +161,7 @@ class ApplicationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	public function addEventToObjectStorageHoldingEvents()
 	{
 		$event = new \FalkRoeder\DatedNews\Domain\Model\News();
-		$eventsObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
+		$eventsObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', ['attach'], [], '', FALSE);
 		$eventsObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($event));
 		$this->inject($this->subject, 'events', $eventsObjectStorageMock);
 
@@ -174,7 +174,7 @@ class ApplicationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	public function removeEventFromObjectStorageHoldingEvents()
 	{
 		$event = new \FalkRoeder\DatedNews\Domain\Model\News();
-		$eventsObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
+		$eventsObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', ['detach'], [], '', FALSE);
 		$eventsObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($event));
 		$this->inject($this->subject, 'events', $eventsObjectStorageMock);
 

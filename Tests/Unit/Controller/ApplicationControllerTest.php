@@ -39,7 +39,7 @@ class ApplicationControllerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
 	public function setUp()
 	{
-		$this->subject = $this->getMock('FalkRoeder\\DatedNews\\Controller\\ApplicationController', array('redirect', 'forward', 'addFlashMessage'), array(), '', FALSE);
+		$this->subject = $this->getMock('FalkRoeder\\DatedNews\\Controller\\ApplicationController', ['redirect', 'forward', 'addFlashMessage'], [], '', FALSE);
 	}
 
 	public function tearDown()

@@ -196,7 +196,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 				->reset()
 				->setTargetPageUid($detailPid)
 				->setUseCacheHash(TRUE)
-				->setArguments(array('tx_news_pi1' => array('controller' => 'News', 'action' => 'detail', 'news' => $item->getUid())))
+				->setArguments(['tx_news_pi1' => ['controller' => 'News', 'action' => 'detail', 'news' => $item->getUid()]])
 				->setCreateAbsoluteUri(TRUE)
 				->buildFrontendUri();
 			$uri = 'url: "' . $detailUri .'",';
@@ -270,9 +270,9 @@ EOT;
 		/*$qtip->setLayoutRootPaths(array(
 			'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Layouts'
 		));*/
-		$qtip->setPartialRootPaths(array(
+		$qtip->setPartialRootPaths([
 			'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Partials'
-		));
+		]);
 		$assignedValues = [
 			'newsItem' => $newsItem,
 			'settings' => $settings

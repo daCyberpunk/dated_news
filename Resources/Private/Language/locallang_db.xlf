@@ -204,6 +204,11 @@
 			</trans-unit>
 
 
+			<trans-unit id="tx_dated_news.colorPick">
+				<source>Pick a color</source>
+			</trans-unit>
+
+
 
 		</body>
 	</file>

@@ -54,17 +54,18 @@ class Div {
 	 * @param $fileNames
 	 * @return \bool Mail was sent?
 	 */
-	public function sendEmail($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $fileNames) {
+	public function sendEmail($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = [], $fileNames)
+	{
 
 		/** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
 		$emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
 		$emailBodyObject->setTemplatePathAndFilename($this->getTemplatePath('Email/' . $template . '.html'));
-		$emailBodyObject->setLayoutRootPaths(array(
+		$emailBodyObject->setLayoutRootPaths([
 				'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Layouts'
-		));
-		$emailBodyObject->setPartialRootPaths(array(
+		]);
+		$emailBodyObject->setPartialRootPaths([
 				'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Partials'
-		));
+		]);
 		$emailBodyObject->assignMultiple($variables);
 
 		$email = $this->objectManager->get('TYPO3\\CMS\\Core\\Mail\\MailMessage');
@@ -107,17 +108,18 @@ class Div {
 	 * @return bool Mail was sent?
 	 * @internal param string $Template file in Templates/Email/
 	 */
-	public function sendIcsInvitation($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = array(), $icsAttachment = array(), $replyTo) {
+	public function sendIcsInvitation($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables = [], $icsAttachment = [], $replyTo)
+	{
 
 		/** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
 		$emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
 		$emailBodyObject->setTemplatePathAndFilename($this->getTemplatePath('Email/' . $template . '.html'));
-		$emailBodyObject->setLayoutRootPaths(array(
+		$emailBodyObject->setLayoutRootPaths([
 			'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Layouts'
-		));
-		$emailBodyObject->setPartialRootPaths(array(
+		]);
+		$emailBodyObject->setPartialRootPaths([
 			'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Partials'
-		));
+		]);
 		$emailBodyObject->assignMultiple($variables);
 
 		$email = $this->objectManager->get('TYPO3\\CMS\\Core\\Mail\\MailMessage');
@@ -160,7 +162,8 @@ class Div {
 	 * @param string $relativePathAndFilename e.g. Email/Name.html
 	 * @return string
 	 */
-	public function getTemplatePath($relativePathAndFilename) {
+	public function getTemplatePath($relativePathAndFilename)
+	{
 		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
 				ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
 				);
@@ -184,7 +187,8 @@ class Div {
 	 * @param $list
 	 * @return array
      */
-	public function shuffle_assoc($list) {
+	public function shuffleAssoc($list)
+	{
 		if (!is_array($list)) return $list;
 
 		$keys = array_keys($list);
