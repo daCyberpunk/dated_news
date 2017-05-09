@@ -4,8 +4,6 @@ if (!defined('TYPO3_MODE')) {
 }
 
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Dated News');
-
 if (!isset($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'])) {
     if (file_exists($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['dynamicConfigFile'])) {
         require_once($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['dynamicConfigFile']);
