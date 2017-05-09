@@ -9,20 +9,20 @@ DomReady.ready(function() {
         }
         requestItems[item.attr('data-dn-uid')].push(item.attr('data-dn-field'));
     });
-
-    $.ajax({
-        url: "?type=6660666&tx_news_pi1[action]=reloadFields&tx_news_pi1[requestItems]=" + JSON.stringify(requestItems),
-        contentType: "application/json",
-        success: function(data, s){
-            var result = JSON.parse(data);
-            elems.each(function(i, e){
-                var item = $(e);
-                if(result.hasOwnProperty(item.attr('data-dn-uid'))){
-                    if(result[item.attr('data-dn-uid')].hasOwnProperty(item.attr('data-dn-field'))){
-                        item.html(result[item.attr('data-dn-uid')][item.attr('data-dn-field')]);
+    if(elems.length) {
+        $.ajax({
+            url: "?type=6660666&tx_news_pi1[action]=reloadFields&tx_news_pi1[requestItems]=" + JSON.stringify(requestItems),
+            contentType: "application/json",
+            success: function(data, s){
+                elems.each(function(i, e){
+                    var item = $(e);
+                    if(data.hasOwnProperty(item.attr('data-dn-uid'))){
+                        if(data[item.attr('data-dn-uid')].hasOwnProperty(item.attr('data-dn-field'))){
+                            item.html(data[item.attr('data-dn-uid')][item.attr('data-dn-field')]);
+                        }
                     }
-                }
-            });
-        }
-    });
+                });
+            }
+        });
+    }
 });
