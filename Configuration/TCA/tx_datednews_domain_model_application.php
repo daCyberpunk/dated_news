@@ -19,13 +19,13 @@ return [
 
 		],
 		'searchFields' => 'name,surname,email,events,',
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dated_news') . 'Resources/Public/Icons/tx_datednews_domain_model_application.gif'
+		'iconfile' => 'EXT:dated_news/Resources/Public/Icons/tx_datednews_domain_model_application.gif'
 	],
 	'interface' => [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, name, surname, email, events',
 	],
 	'types' => [
-		'1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, application_title, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, confirmed, '],
+		'1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,--palette--;;1, application_title, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, confirmed, '],
 	],
 	'palettes' => [
 		'1' => ['showitem' => ''],

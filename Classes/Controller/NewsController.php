@@ -264,11 +264,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         // prevents form submitted more than once
-        if($this->applicationRepository->isFirstFormSubmission($newApplication->getFormTimestamp())){
+        $formTimestamp = $this->request->getArgument('newApplication')['formTimestamp'];
+        if($this->applicationRepository->isFirstFormSubmission($formTimestamp)){
 
             $newApplication->setPid($news->getPid());
             $newApplication->setHidden(TRUE);
             $newApplication->setSysLanguageUid($news->getSysLanguageUid());
+            $newApplication->setFormTimestamp($formTimestamp);
 
 
             //set creationdate
@@ -347,11 +349,16 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $newApplication->setConfirmed(TRUE);
                 $newApplication->setHidden(FALSE);
                 $this->applicationRepository->update($newApplication);
-                $persistenceManager = GeneralUtility::makeInstance("TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager");
-                $persistenceManager->persistAll();
+
                 $events = $newApplication->getEvents();
                 $events->rewind();
                 $news = $events->current();
+
+
+                $persistenceManager = $this->objectManager->get("TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager");
+                $persistenceManager->persistAll();
+
+
                 $this->sendMail($news, $newApplication, $this->settings, TRUE);
                 $assignedValues = [
                     'newApplication' => $newApplication,
@@ -368,17 +375,44 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
     }
 
+
+    
     /**
-     * Single view of a news record
+     * reloads Details of news via ajax
      *
      * @param \GeorgRinger\News\Domain\Model\News $news news item
+     * @param string requestItems
      * @return string
      */
-    public function freeslotsAction(\GeorgRinger\News\Domain\Model\News $news = null)
+    public function reloadFieldsAction()
     {
-        return json_encode((int)$news->getSlots() - $this->applicationRepository->countReservedSlotsForNews($news->getUid()));
+        
+        if ($this->request->hasArgument('requestItems')) {
+            $requestItems = json_decode($this->request->getArgument('requestItems'));
+            
+            $resultArray = array();
+            foreach ($requestItems as $uid => $fields) {
+                $resultArray[$uid] = array();
+                $item = $this->newsRepository->findByUid($uid);
+
+                foreach ($fields as $field) {
+                    $func = 'get' . ucfirst(trim($field));
+                    if(method_exists($item, $func) === TRUE){
+                        if($field === 'slotsFree'){
+                            $resultArray[$uid][$field] = ((int)$item->getSlots() - $this->applicationRepository->countReservedSlotsForNews($item->getUid()));
+                        } else {
+                            $resultArray[$uid][$field] = htmlentities($item->{$func}());
+                        }
+                    }
+                }
+            }
+            return json_encode($resultArray);
+        }
+        return FALSE;
     }
-    
+
+
+
     /**
      * sendMail to applyer, admins
      * and authors and the ICS invitation

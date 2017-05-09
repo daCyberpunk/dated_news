@@ -30,7 +30,7 @@ namespace FalkRoeder\DatedNews\Domain\Repository;
 /**
  * The repository for News
  */
-class NewsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class NewsRepository extends \GeorgRinger\News\Domain\Repository\NewsRepository
 {
 
     /**
@@ -40,7 +40,7 @@ class NewsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
     ];
 
-    
+   
     
     
 }

@@ -101,11 +101,7 @@
             <settings.icsDescriptionCustomField>
                 <TCEforms>
                     <label>Field name of News Item to use for ICS Description</label>
-                    <displayCond>
-                        <AND>
-                            <numIndex index="0">FIELD:settings.icsDescriptionField:=:Custom</numIndex>
-                        </AND>
-                    </displayCond>
+                    <displayCond><![CDATA[FIELD:settings.icsDescriptionField:=:Custom]]></displayCond>
                     <config>
                         <checkbox>1</checkbox>
                         <default></default>

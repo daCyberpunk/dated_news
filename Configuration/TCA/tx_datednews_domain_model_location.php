@@ -19,13 +19,13 @@ return [
 
 		],
 		'searchFields' => 'name,address2,zip,address,city,country,phone,email,',
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dated_news') . 'Resources/Public/Icons/tx_datednews_domain_model_location.gif'
+		'iconfile' => 'EXT:dated_news/Resources/Public/Icons/tx_datednews_domain_model_location.gif'
 	],
 	'interface' => [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, address2, zip, address, city, country, phone, email',
 	],
 	'types' => [
-		'1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, address, address2, zip, city, country, phone, email, '],
+		'1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,--palette--;;1, name, address, address2, zip, city, country, phone, email, '],
 	],
 	'palettes' => [
 		'1' => ['showitem' => ''],

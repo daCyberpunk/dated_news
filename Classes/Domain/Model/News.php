@@ -158,6 +158,9 @@ class News extends \GeorgRinger\News\Domain\Model\News
      * @lazy
      */
     protected $persons = null;
+    
+    
+
 
     
 

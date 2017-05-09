@@ -15,7 +15,10 @@
                         <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator, id:contentObjectData.uid}" />
                     </f:if>
                 </f:for>
-                {nc:javascript.calendar(settings:settings, id:contentObjectData.uid, compress: false)}
+                <f:format.raw>
+                    {nc:javascript.calendar(settings:settings, id:contentObjectData.uid, compress: false)}
+                </f:format.raw>
+
 
 
 

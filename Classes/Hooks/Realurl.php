@@ -36,6 +36,7 @@ class Realurl
     public function decodeSpURL_getSequence($params, $parent)
     {
         $value=$params['value'];
+//        $GLOBALS['BE_USER']->writelog(4, 0, 0, 'scheduler', print_r($params) , array());
 
         if ($params['decodeAlias']) {
             return $this->alias2id($params['value']);

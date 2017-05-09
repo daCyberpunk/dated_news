@@ -21,6 +21,9 @@
                         <wizards>
                             <suggest>
                                 <type>suggest</type>
+                                <default>
+                                    <searchWholePhrase>1</searchWholePhrase>
+                                </default>
                             </suggest>
                         </wizards>
                     </config>
@@ -42,6 +45,9 @@
                         <wizards>
                             <suggest>
                                 <type>suggest</type>
+                                <default>
+                                    <searchWholePhrase>1</searchWholePhrase>
+                                </default>
                             </suggest>
                         </wizards>
                     </config>
@@ -63,6 +69,9 @@
                         <wizards>
                             <suggest>
                                 <type>suggest</type>
+                                <default>
+                                    <searchWholePhrase>1</searchWholePhrase>
+                                </default>
                             </suggest>
                         </wizards>
                     </config>
@@ -84,6 +93,9 @@
                         <wizards>
                             <suggest>
                                 <type>suggest</type>
+                                <default>
+                                    <searchWholePhrase>1</searchWholePhrase>
+                                </default>
                             </suggest>
                         </wizards>
                     </config>
@@ -105,6 +117,9 @@
                         <wizards>
                             <suggest>
                                 <type>suggest</type>
+                                <default>
+                                    <searchWholePhrase>1</searchWholePhrase>
+                                </default>
                             </suggest>
                         </wizards>
                     </config>

@@ -18,7 +18,6 @@
             </f:if>
         </f:for>
     </f:if>
-
     <div class="event-dates">
         <strong><f:translate extensionName="dated_news" key="tx_datednews_domain_model_news.eventtime" /></strong><br>
         <f:if condition="{0: '{f:format.date(date: \'{newsItem.eventstart}\', format: \'d.m\')}'} == {0: '{f:format.date(date: \'{newsItem.eventend}\', format: \'d.m\')}'}">

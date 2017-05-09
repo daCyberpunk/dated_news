@@ -67,11 +67,7 @@ $tmp_dated_news_columns = [
                 ],
             ],
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'showincalendar' => [
         'exclude' => 0,
@@ -80,11 +76,7 @@ $tmp_dated_news_columns = [
             'type' => 'check',
             'default' => 0
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'enable_application' => [
         'exclude' => 0,
@@ -93,11 +85,7 @@ $tmp_dated_news_columns = [
             'type' => 'check',
             'default' => 0
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'fulltime' => [
         'exclude' => 0,
@@ -106,11 +94,7 @@ $tmp_dated_news_columns = [
             'type' => 'check',
             'default' => 0
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'eventstart' => [
         'exclude' => 0,
@@ -121,11 +105,7 @@ $tmp_dated_news_columns = [
             'max' => 20,
             'eval' => 'datetime',
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'eventend' => [
         'exclude' => 0,
@@ -136,11 +116,7 @@ $tmp_dated_news_columns = [
             'max' => 20,
             'eval' => 'datetime',
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'eventlocation' => [
         'exclude' => 0,
@@ -150,11 +126,7 @@ $tmp_dated_news_columns = [
             'size' => 30,
             'eval' => 'trim'
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'eventtype' => [
         'exclude' => 0,
@@ -174,6 +146,7 @@ $tmp_dated_news_columns = [
             'size' => 1,
             'maxitems' => 1,
         ],
+        'onChange' => 'reload'
     ],
     'textcolor' => [
         'exclude' => 0,
@@ -183,11 +156,7 @@ $tmp_dated_news_columns = [
             'size' => 30,
             'eval' => 'trim'
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'backgroundcolor' => [
         'exclude' => 0,
@@ -197,11 +166,7 @@ $tmp_dated_news_columns = [
             'size' => 30,
             'eval' => 'trim'
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'targetgroup' => [
         'exclude' => 0,
@@ -211,11 +176,7 @@ $tmp_dated_news_columns = [
             'cols' => 60,
             'rows' => 5
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'slots' => [
         'exclude' => 0,
@@ -225,11 +186,7 @@ $tmp_dated_news_columns = [
             'size' => 30,
             'eval' => 'trim'
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'price' => [
         'exclude' => 0,
@@ -239,11 +196,7 @@ $tmp_dated_news_columns = [
             'size' => 30,
             'eval' => 'trim'
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'early_bird_price' => [
         'exclude' => 0,
@@ -253,11 +206,7 @@ $tmp_dated_news_columns = [
             'size' => 30,
             'eval' => 'trim'
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'early_bird_date' => [
         'exclude' => 0,
@@ -268,11 +217,7 @@ $tmp_dated_news_columns = [
             'max' => 20,
             'eval' => 'datetime',
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'locations' => [
         'exclude' => 0,
@@ -314,11 +259,7 @@ $tmp_dated_news_columns = [
                 ],
             ],
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'persons' => [
         'exclude' => 1,
@@ -360,37 +301,33 @@ $tmp_dated_news_columns = [
                 ],
             ],
         ],
-        'displayCond' => [
-            'AND' => [
-                'FIELD:eventtype:REQ:TRUE',
-            ],
-        ],
-    ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
+    ]
 ];
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tx_news_domain_model_news',$tmp_dated_news_columns);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     "tx_news_domain_model_news",
     ",--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news, 
-	showincalendar;;;;1-1-1, 
-	enable_application;;;;1-1-1, 
-	eventstart;;;;1-1-1, 
-	eventend;;;;1-1-1, 
-	fulltime;;;;1-1-1, 
-	slots;;;;1-1-1, 
-	price;;;;1-1-1, 
-	early_bird_price;;;;1-1-1,
-	early_bird_date;;;;1-1-1,
-	targetgroup;;;;1-1-1,
-	locations;;;;1-1-1, 
-	persons;;;;1-1-1, 
-	textcolor;;;;1-1-1, 
-	backgroundcolor;;;;1-1-1, 
-	application;;;;1-1-1"
+	showincalendar, 
+	enable_application, 
+	eventstart, 
+	eventend, 
+	fulltime, 
+	slots, 
+	price, 
+	early_bird_price,
+	early_bird_date,
+	targetgroup,
+	locations, 
+	persons, 
+	textcolor, 
+	backgroundcolor, 
+	application"
 );
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes("tx_news_domain_model_news", 'eventtype;;;;1-1-1', '', 'after:istopnews');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes("tx_news_domain_model_news", 'eventtype', '', 'after:istopnews');
 
-$GLOBALS['TCA']['tx_news_domain_model_news']['columns'][$TCA['tx_news_domain_model_news']['ctrl']['type']]['config']['items'][] = ['LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_news_domain_model_news.tx_extbase_type.Tx_DatedNews_News','Tx_DatedNews_News'];
+//$GLOBALS['TCA']['tx_news_domain_model_news']['columns'][$TCA['tx_news_domain_model_news']['ctrl']['type']]['config']['items'][] = ['LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_news_domain_model_news.tx_extbase_type.Tx_DatedNews_News','Tx_DatedNews_News'];
 //\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
 //	$_EXTKEY,
 //	'tx_news_domain_model_news'
@@ -411,5 +348,3 @@ $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['orderByNews'] .= ',eventstart';
     'tt_content.pi_flexform.news_pi1.list',
     'EXT:dated_news/Resources/Private/Language/locallang_csh_flexform_dated_news.xlf'
 );
-
-$TCA['tx_news_domain_model_news']['ctrl']['requestUpdate'] = 'eventtype';

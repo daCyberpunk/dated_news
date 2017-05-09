@@ -1,12 +1,21 @@
 config.tx_extbase{
     persistence{
         classes{
-
             GeorgRinger\News\Controller\NewsController {
                 subclasses {
                     Tx_NewsController = FalkRoeder\DatedNews\Controller\NewsController
                 }
             }
+            #FalkRoeder\DatedNews\Domain\Model\News{
+            #    mapping {
+             #       tableName = tx_news_domain_model_news
+              #  }
+            #}
+            #FalkRoeder\DatedNews\Domain\Repository\NewsRepository {
+            #    subclasses {
+              #      Tx_NewsRepository = GeorgRinger\News\Domain\Repository\NewsRepository
+            #    }
+           # }
 
         }
     }
@@ -15,6 +24,6 @@ config.tx_extbase{
 config.tx_extbase {
     objects {
         GeorgRinger\News\Controller\NewsController.className = FalkRoeder\DatedNews\Controller\NewsController
-        #SKYFILLERS\SfFilecollectionGallery\Service\FileCollectionService.className = FalkRoeder\Loctimize\Service\FileCollectionService
+        #GeorgRinger\News\Domain\Repository\NewsRepository.className = FalkRoeder\DatedNews\Domain\Repository\NewsRepository
     }
 }

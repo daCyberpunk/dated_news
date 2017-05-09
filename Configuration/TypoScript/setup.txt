@@ -55,11 +55,13 @@ lib.AJAXPrototype {
 		disablePrefixComment = 1
 	}
 }
-freeslots = PAGE
-freeslots < lib.AJAXPrototype
-freeslots {
+# for checking free slots of events in list view
+
+ajaxDatednews = PAGE
+ajaxDatednews < lib.AJAXPrototype
+ajaxDatednews {
 	typeNum = 6660666
-	10 = USER
+	10 = USER_INT
 	10 {
 		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
 		extensionName = News
@@ -68,7 +70,7 @@ freeslots {
 		controller = News
 		switchableControllerActions {
 			News {
-				1 = freeslots
+				1 = reloadFields
 			}
 		}
 		view < plugin.tx_news.view
@@ -76,5 +78,12 @@ freeslots {
 		settings < plugin.tx_news.settings
 	}
 }
-
-page.includeJSFooter.getslots = typo3conf/ext/dated_news/Resources/Public/JavaScript/getslots.js
+page.includeJSLibs{
+	request = typo3conf/ext/dated_news/Resources/Public/JavaScript/reloadfields.js
+	request.forceOnTop = 1
+	request.async = 1
+	request.excludeFromConcatenation = 1
+}
+#page.includeJSFooter.getslots = typo3conf/ext/dated_news/Resources/Public/JavaScript/reloadfields.js
+#dont change this. Used for prevention of doublesending forms.
+page.includeJSFooter.timestamp = typo3conf/ext/dated_news/Resources/Public/JavaScript/timestamp.js

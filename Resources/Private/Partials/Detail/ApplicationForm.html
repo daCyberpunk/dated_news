@@ -4,9 +4,9 @@
             <div class="event-booking-form">
                 <f:if condition="{newsItem.slotsFree} > 0">
                     <f:then>
-                        <f:form id="application-form" class="form-horizontal" noCacheHash="true" pageUid="{settings.applicationPid}" action="createApplication" name="newApplication" object="{newApplication}" arguments="{news : newsItem ,newApplication: newApplication}" enctype="multipart/form-data">
+                        <f:form id="application-form" class="form-horizontal"  pageUid="{settings.applicationPid}" action="createApplication" name="newApplication" object="{newApplication}" arguments="{news : newsItem ,newApplication: newApplication}" enctype="multipart/form-data">
                             <label id="h2" form="application-form"><f:translate key="tx_datednews_domain_model_application.formlabel" extensionName="dated_news"/></label>
-                            <f:form.textfield class="form-control" type="hidden" property="formTimestamp" value="{formTimestamp}" size="40" required="required" />
+                            <f:form.textfield class="form-control" type="hidden" property="formTimestamp" value="" size="40" required="required" />
 
                             <fieldset>
                                 <div class="row">
@@ -114,7 +114,7 @@
                                             </div>
                                             <div class="col-xs-12">
                                                 <f:form.checkbox class="form-control" property="termsAccept" value="1" additionalAttributes="{required: 'required'}" />
-                                                <label class=""><f:translate key="tx_datednews_domain_model_application.terms_accept" extensionName="dated_news"/></label>
+                                                <label class=""><f:format.html><f:translate key="tx_datednews_domain_model_application.terms_accept" extensionName="dated_news"/></f:format.html></label>
 
                                             </div>
                                             <div class="col-xs-3">

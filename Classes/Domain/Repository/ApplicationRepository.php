@@ -105,6 +105,7 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function isFirstFormSubmission($tstamp)
     {
+
         $query = $this->createQuery();
         $query->getQuerySettings()->setIgnoreEnableFields(true);
         if( $query->matching($query->equals('form_timestamp', $tstamp))->execute()->count() > 0) {
