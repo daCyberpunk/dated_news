@@ -1,0 +1,27 @@
+{
+  "name": "falkroeder/dated_news",
+  "type": "typo3-cms-extension",
+  "description": "Dated News Extension",
+  "license": [
+    "GPL-2.0+"
+  ],
+  "keywords": [
+    "typo3",
+    "cms",
+    "news",
+    "Calendar",
+    "Events"
+  ],
+  "version": "5.0.0",
+  "require": {
+    "typo3/cms-core": ">=7.6.13",
+    "news": "5.3.0-6.0.99"
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "FalkRoeder\\DatedNews\\": "Classes/"
+    }
+  }
+}
