@@ -146,8 +146,7 @@ class FlexFormHook
             'flexformDS' => $dataStructArray
         ];
         return $identifier;
-
-
+        
     }
 
     /**
