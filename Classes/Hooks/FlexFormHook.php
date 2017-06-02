@@ -149,4 +149,16 @@ class FlexFormHook
 
 
     }
+
+    /**
+     *
+     * TYPO3 V8
+     *
+     * @param array $identifier identifier from getDataStructureIdentifierPreProcess hook
+     * @return array
+     */
+    public function parseDataStructureByIdentifierPreProcess(array $identifier)
+    {
+        return $identifier['flexformDS'];
+    }
 }
