@@ -74,7 +74,7 @@ class FlexFormHook
      * @param array $row The data row
      * @return array Identifier
      */
-    public function getDataStructureIdentifierPreProcess(array $fieldTca, string $tableName, string $fieldName, array $row): array
+    public function getDataStructureIdentifierPreProcess(array $fieldTca, string $tableName, string $fieldName, array $row)
     {
 
         if ($tableName === 'tt_content' && $row['CType'] === 'list' && $row['list_type'] === 'news_pi1') {
