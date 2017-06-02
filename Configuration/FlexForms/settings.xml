@@ -26,22 +26,12 @@
                                 <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.news_detail</numIndex>
                                 <numIndex index="1">News->detail</numIndex>
                             </numIndex>
-                            <numIndex index="4">
-                                <numIndex index="0">Calendar View</numIndex>
-                                <numIndex index="1">News->calendar</numIndex>
-                            </numIndex>
-                            <numIndex index="5">
-                                <numIndex index="0">Created Application</numIndex>
-                                <numIndex index="1">News->createApplication;News->confirmApplication</numIndex>
-                            </numIndex>
+
                             <numIndex index="6">
                                 <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.news_datemenu</numIndex>
                                 <numIndex index="1">News->dateMenu</numIndex>
                             </numIndex>
-                            <numIndex index="8">
-                                <numIndex index="0">Confirm Application</numIndex>
-                                <numIndex index="1">News->confirmApplication</numIndex>
-                            </numIndex>
+
                             <numIndex index="14">
                                 <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.optgroup_search</numIndex>
                                 <numIndex index="1">--div--</numIndex>
@@ -65,6 +55,30 @@
                             <numIndex index="21">
                                 <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.tag_list</numIndex>
                                 <numIndex index="1">Tag->list</numIndex>
+                            </numIndex>
+                            <numIndex index="22">
+                                <numIndex index="0">LLL:EXT:dated_news/Resources/Private/Language/locallang.xlf:flexforms_general.mode.optgroup_datednews</numIndex>
+                                <numIndex index="1">--div--</numIndex>
+                            </numIndex>
+                            <numIndex index="4">
+                                <numIndex index="0">Calendar View</numIndex>
+                                <numIndex index="1">News->calendar</numIndex>
+                            </numIndex>
+                            <numIndex index="23">
+                                <numIndex index="0">LLL:EXT:dated_news/Resources/Private/Language/locallang.xlf:flexforms_general.mode.news_list</numIndex>
+                                <numIndex index="1">News->list;News->eventDetail</numIndex>
+                            </numIndex>
+                            <numIndex index="24">
+                                <numIndex index="0">LLL:EXT:dated_news/Resources/Private/Language/locallang.xlf:flexforms_general.mode.news_detail</numIndex>
+                                <numIndex index="1">News->eventDetail</numIndex>
+                            </numIndex>
+                            <numIndex index="5">
+                                <numIndex index="0">Created Application</numIndex>
+                                <numIndex index="1">News->createApplication;News->confirmApplication</numIndex>
+                            </numIndex>
+                            <numIndex index="8">
+                                <numIndex index="0">Confirm Application</numIndex>
+                                <numIndex index="1">News->confirmApplication</numIndex>
                             </numIndex>
                         </items>
                     </config>

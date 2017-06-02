@@ -1,0 +1,17 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:n="http://typo3.org/ns/GeorgRinger/News/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:if condition="{settings.cssFile}">
+    <n:includeFile path="{settings.cssFile}" />
+</f:if>
+<div class="news news-single" >
+
+    <div class="{f:if(condition: '{0: newsItem.eventtype} == {0: \'\'}', then: 'article', else: 'article event')}"
+         itemscope="itemscope"
+         itemtype="http://schema.org/{f:if(condition: '{0: newsItem.eventtype} == {0: \'\'}', then: 'Article', else: '{newsItem.eventtype}')}">
+
+        <f:render section="content" />
+    </div>
+</div>
+

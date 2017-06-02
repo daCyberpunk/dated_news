@@ -6,6 +6,15 @@
 			<trans-unit id="tx_datednews_domain_model_news">
 				<source>News</source>
 			</trans-unit>
+			<trans-unit id="flexforms_general.mode.optgroup_datednews">
+				<source>Dated News</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.mode.news_list">
+				<source>List / Detail</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.mode.news_detail">
+				<source>Detail</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventstart">
 				<source>Event Start</source>
 			</trans-unit>
