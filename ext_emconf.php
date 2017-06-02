@@ -9,6 +9,7 @@
  * Only the data in the array - anything else is removed by next write.
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
+
 $EM_CONF[$_EXTKEY] = [
 	'title' => 'Dated News',
 	'description' => 'Extends the TYPO3 versatile news system extension tx_news with a calendar view using fullcalendar.js/qtip.js and allows to book for the now pricable events',
