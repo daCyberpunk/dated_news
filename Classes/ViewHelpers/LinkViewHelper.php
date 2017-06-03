@@ -2,7 +2,7 @@
 
 namespace FalkRoeder\DatedNews\ViewHelpers;
 
-/**
+/*
  * This file is part of the TYPO3 CMS project.
  *
  * It is free software; you can redistribute it and/or modify it under
@@ -17,7 +17,7 @@ namespace FalkRoeder\DatedNews\ViewHelpers;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * ViewHelper to render links from news records to detail view or page
+ * ViewHelper to render links from news records to detail view or page.
  *
  * # Example: Basic link
  * <code>
@@ -45,7 +45,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * <output>
  * The uri is returned
  * </output>
- *
  */
 class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
 {
@@ -57,11 +56,12 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
     }
 
     /**
-     * Generate the link configuration for the link to the news item
+     * Generate the link configuration for the link to the news item.
      *
      * @param \GeorgRinger\News\Domain\Model\News $newsItem
-     * @param array $tsSettings
-     * @param array $configuration
+     * @param array                               $tsSettings
+     * @param array                               $configuration
+     *
      * @return array
      */
     protected function getLinkToNewsItem(
@@ -69,7 +69,6 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
         $tsSettings,
         array $configuration = []
     ) {
-        
         if (!isset($configuration['parameter'])) {
             $detailPid = 0;
             $detailPidDeterminationMethods = GeneralUtility::trimExplode(',', $tsSettings['detailPidDetermination'],
@@ -81,7 +80,6 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
             }
 
             foreach ($detailPidDeterminationMethods as $determinationMethod) {
-                
                 if ($callback = $this->detailPidDeterminationCallbacks[$determinationMethod]) {
                     if ($detailPid = call_user_func([$this, $callback], $tsSettings, $newsItem)) {
                         break;
@@ -96,15 +94,15 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
         }
 
         // missing in original Viewhelper
-        if($this->arguments['forceAbsoluteUrl']) {
+        if ($this->arguments['forceAbsoluteUrl']) {
             $configuration['forceAbsoluteUrl'] = true;
         }
 
         $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
-        $configuration['additionalParams'] .= '&tx_news_pi1[news]=' . $this->getNewsId($newsItem);
+        $configuration['additionalParams'] .= '&tx_news_pi1[news]='.$this->getNewsId($newsItem);
 
-        if ((int)$tsSettings['link']['skipControllerAndAction'] !== 1) {
-            $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News' .
+        if ((int) $tsSettings['link']['skipControllerAndAction'] !== 1) {
+            $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News'.
                 '&tx_news_pi1[action]=detail';
         }
 
@@ -113,18 +111,16 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
             $dateTime = $newsItem->getDatetime();
 
             if (!empty($tsSettings['link']['hrDate']['day'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[day]=' . $dateTime->format($tsSettings['link']['hrDate']['day']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[day]='.$dateTime->format($tsSettings['link']['hrDate']['day']);
             }
             if (!empty($tsSettings['link']['hrDate']['month'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[month]=' . $dateTime->format($tsSettings['link']['hrDate']['month']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[month]='.$dateTime->format($tsSettings['link']['hrDate']['month']);
             }
             if (!empty($tsSettings['link']['hrDate']['year'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[year]=' . $dateTime->format($tsSettings['link']['hrDate']['year']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[year]='.$dateTime->format($tsSettings['link']['hrDate']['year']);
             }
         }
-        
+
         return $configuration;
     }
-
-    
 }

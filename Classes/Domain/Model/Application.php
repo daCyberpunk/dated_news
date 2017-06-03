@@ -1,6 +1,6 @@
 <?php
-namespace FalkRoeder\DatedNews\Domain\Model;
 
+namespace FalkRoeder\DatedNews\Domain\Model;
 
 /***************************************************************
  *
@@ -28,118 +28,117 @@ namespace FalkRoeder\DatedNews\Domain\Model;
  ***************************************************************/
 
 /**
- * Application
+ * Application.
  */
 class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-    
     /**
-     * crdate
+     * crdate.
      *
      * @var string
      */
     protected $crdate = '';
-    
+
     /**
-     * title
+     * title.
      *
      * @var string
      */
     protected $title = '';
 
     /**
-     * applicationTitle
+     * applicationTitle.
      *
      * @var string
      */
     protected $applicationTitle = '';
-    
+
     /**
-     * name
+     * name.
      *
      * @var string
      */
     protected $name = '';
-    
+
     /**
-     * surname
+     * surname.
      *
      * @var string
      */
     protected $surname = '';
-    
+
     /**
-     * email
+     * email.
      *
      * @var string
      */
     protected $email = '';
 
     /**
-     * reservedSlots
+     * reservedSlots.
      *
      * @var int
      */
     protected $reservedSlots;
 
     /**
-     * formTimestamp
+     * formTimestamp.
      *
      * @var int
      */
     protected $formTimestamp;
 
     /**
-     * company
+     * company.
      *
      * @var string
      */
     protected $company = '';
 
     /**
-     * address
+     * address.
      *
      * @var string
      */
     protected $address = '';
 
     /**
-     * address2
+     * address2.
      *
      * @var string
      */
     protected $address2 = '';
 
     /**
-     * zip
+     * zip.
      *
      * @var string
      */
     protected $zip = '';
 
     /**
-     * city
+     * city.
      *
      * @var string
      */
     protected $city = '';
 
     /**
-     * country
+     * country.
      *
      * @var string
      */
     protected $country = '';
 
     /**
-     * costs
+     * costs.
      *
      * @var string
      */
     protected $costs = '';
 
     /**
-     * Returns the costs
+     * Returns the costs.
      *
      * @return string $costs
      */
@@ -149,9 +148,10 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the costs
+     * Sets the costs.
      *
      * @param string $costs
+     *
      * @return void
      */
     public function setCosts($costs)
@@ -160,16 +160,16 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * confirmed
+     * confirmed.
      *
-     * @var boolean
+     * @var bool
      */
-    protected $confirmed = FALSE;
-    
+    protected $confirmed = false;
+
     /**
-     * Returns the confirmed
+     * Returns the confirmed.
      *
-     * @return boolean $confirmed
+     * @return bool $confirmed
      */
     public function getConfirmed()
     {
@@ -177,9 +177,10 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the confirmed
+     * Sets the confirmed.
      *
-     * @param boolean $confirmed
+     * @param bool $confirmed
+     *
      * @return void
      */
     public function setConfirmed($confirmed)
@@ -188,26 +189,26 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the boolean state of confirmed
+     * Returns the boolean state of confirmed.
      *
-     * @return boolean
+     * @return bool
      */
     public function isConfirmed()
     {
         return $this->confirmed;
     }
-    
+
     /**
-     * termsAccept
+     * termsAccept.
      *
-     * @var boolean
+     * @var bool
      */
     protected $termsAccept = '';
 
     /**
-     * Returns the termsAccept
+     * Returns the termsAccept.
      *
-     * @return boolean $termsAccept
+     * @return bool $termsAccept
      */
     public function getTermsAccept()
     {
@@ -215,25 +216,26 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the termsAccept
+     * Sets the termsAccept.
      *
-     * @param boolean $termsAccept
+     * @param bool $termsAccept
+     *
      * @return void
      */
     public function setTermsAccept($termsAccept)
     {
         $this->termsAccept = $termsAccept;
     }
-    
-     /**
-     * message
+
+    /**
+     * message.
      *
      * @var string
      */
     protected $message = '';
 
     /**
-     * Returns the message
+     * Returns the message.
      *
      * @return string $message
      */
@@ -243,26 +245,26 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the message
+     * Sets the message.
      *
      * @param string $message
+     *
      * @return void
      */
     public function setMessage($message)
     {
         $this->message = $message;
     }
-    
-    
+
     /**
-     * taxid
+     * taxid.
      *
      * @var string
      */
     protected $taxid = '';
 
     /**
-     * Returns the taxid
+     * Returns the taxid.
      *
      * @return string $taxid
      */
@@ -272,26 +274,26 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the taxid
+     * Sets the taxid.
      *
      * @param string $taxid
+     *
      * @return void
      */
     public function setTaxid($taxid)
     {
         $this->taxid = $taxid;
     }
-    
-    
-     /**
-     * mobile
+
+    /**
+     * mobile.
      *
      * @var string
      */
     protected $mobile = '';
 
     /**
-     * Returns the mobile
+     * Returns the mobile.
      *
      * @return string $mobile
      */
@@ -301,25 +303,26 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the mobile
+     * Sets the mobile.
      *
      * @param string $mobile
+     *
      * @return void
      */
     public function setMobile($mobile)
     {
         $this->mobile = $mobile;
     }
-    
+
     /**
-     * phone
+     * phone.
      *
      * @var string
      */
     protected $phone = '';
 
     /**
-     * Returns the phone
+     * Returns the phone.
      *
      * @return string $phone
      */
@@ -329,9 +332,10 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the phone
+     * Sets the phone.
      *
      * @param string $phone
+     *
      * @return void
      */
     public function setPhone($phone)
@@ -340,7 +344,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the reservedSlots
+     * Returns the reservedSlots.
      *
      * @return int $reservedSlots
      */
@@ -350,18 +354,19 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the reservedSlots
+     * Sets the reservedSlots.
      *
      * @param int $reservedSlots
+     *
      * @return void
      */
     public function setReservedSlots($reservedSlots)
     {
         $this->reservedSlots = $reservedSlots;
     }
-    
+
     /**
-     * Returns the formTimestamp
+     * Returns the formTimestamp.
      *
      * @return int $formTimestamp
      */
@@ -371,38 +376,39 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the formTimestamp
+     * Sets the formTimestamp.
      *
      * @param int $formTimestamp
+     *
      * @return void
      */
     public function setFormTimestamp($formTimestamp)
     {
         $this->formTimestamp = $formTimestamp;
     }
-    
+
     /**
-     * events
+     * events.
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News>
      * @cascade remove
      */
     protected $events = null;
-    
+
     /**
-     * __construct
+     * __construct.
      */
     public function __construct()
     {
         //Do not remove the next line: It would break the functionality
         $this->initStorageObjects();
     }
-    
+
     /**
      * Initializes all ObjectStorage properties
      * Do not modify this method!
      * It will be rewritten on each save in the extension builder
-     * You may modify the constructor of this class instead
+     * You may modify the constructor of this class instead.
      *
      * @return void
      */
@@ -410,49 +416,55 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->events = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
-    
+
     /**
-     * Returns the crdate
+     * Returns the crdate.
      *
      * @return string $crdate
      */
-    public function getCrdate() {
+    public function getCrdate()
+    {
         return $this->crdate;
     }
 
     /**
-     * Sets the crdate
+     * Sets the crdate.
      *
      * @param string $crdate
+     *
      * @return void
      */
-    public function setCrdate($crdate) {
+    public function setCrdate($crdate)
+    {
         $this->crdate = $crdate;
     }
 
     /**
-     * Returns the hidden
+     * Returns the hidden.
      *
-     * @return boolean $hidden
+     * @return bool $hidden
      */
-    public function getHidden() {
+    public function getHidden()
+    {
         return $this->hidden;
     }
 
     /**
-     * Sets the hidden
+     * Sets the hidden.
      *
-     * @param boolean $hidden
+     * @param bool $hidden
+     *
      * @return void
      */
-    public function setHidden($hidden) {
+    public function setHidden($hidden)
+    {
         $this->hidden = $hidden;
     }
 
     /**
-     * Returns the boolean state of hidden
+     * Returns the boolean state of hidden.
      *
-     * @return boolean
+     * @return bool
      */
     public function isHidden()
     {
@@ -460,13 +472,14 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * _languageUid
+     * _languageUid.
+     *
      * @var int
      */
     protected $_languageUid;
 
     /**
-     * Get sys language
+     * Get sys language.
      *
      * @return int
      */
@@ -476,9 +489,10 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Set sys language
+     * Set sys language.
      *
      * @param int $sysLanguageUid
+     *
      * @return void
      */
     public function setSysLanguageUid($sysLanguageUid)
@@ -487,45 +501,51 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the title
+     * Returns the title.
      *
      * @return string $title
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
     /**
-     * Sets the title
+     * Sets the title.
      *
      * @param string $title
+     *
      * @return void
      */
-    public function setTitle($title) {
+    public function setTitle($title)
+    {
         $this->title = $title;
     }
 
     /**
-     * Returns the applicationTitle
+     * Returns the applicationTitle.
      *
      * @return string $applicationTitle
      */
-    public function getApplicationTitle() {
+    public function getApplicationTitle()
+    {
         return $this->applicationTitle;
     }
 
     /**
-     * Sets the applicationTitle
+     * Sets the applicationTitle.
      *
      * @param string $applicationTitle
+     *
      * @return void
      */
-    public function setApplicationTitle($applicationTitle) {
+    public function setApplicationTitle($applicationTitle)
+    {
         $this->applicationTitle = $applicationTitle;
     }
-    
+
     /**
-     * Returns the name
+     * Returns the name.
      *
      * @return string $name
      */
@@ -533,20 +553,21 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->name;
     }
-    
+
     /**
-     * Sets the name
+     * Sets the name.
      *
      * @param string $name
+     *
      * @return void
      */
     public function setName($name)
     {
         $this->name = $name;
     }
-    
+
     /**
-     * Returns the surname
+     * Returns the surname.
      *
      * @return string $surname
      */
@@ -554,20 +575,21 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->surname;
     }
-    
+
     /**
-     * Sets the surname
+     * Sets the surname.
      *
      * @param string $surname
+     *
      * @return void
      */
     public function setSurname($surname)
     {
         $this->surname = $surname;
     }
-    
+
     /**
-     * Returns the email
+     * Returns the email.
      *
      * @return string $email
      */
@@ -575,11 +597,12 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->email;
     }
-    
+
     /**
-     * Sets the email
+     * Sets the email.
      *
      * @param string $email
+     *
      * @return void
      */
     public function setEmail($email)
@@ -588,7 +611,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the company
+     * Returns the company.
      *
      * @return string $company
      */
@@ -598,9 +621,10 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the company
+     * Sets the company.
      *
      * @param string $company
+     *
      * @return void
      */
     public function setCompany($company)
@@ -609,7 +633,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the address
+     * Returns the address.
      *
      * @return string $address
      */
@@ -619,9 +643,10 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the address
+     * Sets the address.
      *
      * @param string $address
+     *
      * @return void
      */
     public function setAddress($address)
@@ -630,7 +655,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the address2
+     * Returns the address2.
      *
      * @return string $address2
      */
@@ -640,9 +665,10 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the address2
+     * Sets the address2.
      *
      * @param string $address2
+     *
      * @return void
      */
     public function setAddress2($address2)
@@ -651,7 +677,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the zip
+     * Returns the zip.
      *
      * @return string $zip
      */
@@ -661,9 +687,10 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the zip
+     * Sets the zip.
      *
      * @param string $zip
+     *
      * @return void
      */
     public function setZip($zip)
@@ -672,7 +699,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the city
+     * Returns the city.
      *
      * @return string $city
      */
@@ -682,9 +709,10 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the city
+     * Sets the city.
      *
      * @param string $city
+     *
      * @return void
      */
     public function setCity($city)
@@ -693,7 +721,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the country
+     * Returns the country.
      *
      * @return string $country
      */
@@ -703,40 +731,43 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the country
+     * Sets the country.
      *
      * @param string $country
+     *
      * @return void
      */
     public function setCountry($country)
     {
         $this->country = $country;
     }
-    
+
     /**
-     * Adds a News
+     * Adds a News.
      *
      * @param \GeorgRinger\News\Domain\Model\News $event
+     *
      * @return void
      */
     public function addEvent(\GeorgRinger\News\Domain\Model\News $event)
     {
         $this->events->attach($event);
     }
-    
+
     /**
-     * Removes a News
+     * Removes a News.
      *
      * @param \GeorgRinger\News\Domain\Model\News $eventToRemove The News to be removed
+     *
      * @return void
      */
     public function removeEvent(\GeorgRinger\News\Domain\Model\News $eventToRemove)
     {
         $this->events->detach($eventToRemove);
     }
-    
+
     /**
-     * Returns the events
+     * Returns the events.
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News> $events
      */
@@ -746,16 +777,14 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the events
+     * Sets the events.
      *
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $events
+     *
      * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News> $events
      */
     public function setEvents(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $events)
     {
         $this->events = $events;
     }
-
-   
-
 }

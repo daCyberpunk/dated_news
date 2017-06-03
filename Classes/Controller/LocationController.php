@@ -1,6 +1,6 @@
 <?php
-namespace FalkRoeder\DatedNews\Controller;
 
+namespace FalkRoeder\DatedNews\Controller;
 
 /***************************************************************
  *
@@ -28,21 +28,20 @@ namespace FalkRoeder\DatedNews\Controller;
  ***************************************************************/
 
 /**
- * LocationController
+ * LocationController.
  */
 class LocationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-
     /**
-     * locationRepository
+     * locationRepository.
      *
      * @var \FalkRoeder\DatedNews\Domain\Repository\LocationRepository
      * @inject
      */
-    protected $locationRepository = NULL;
-    
+    protected $locationRepository = null;
+
     /**
-     * action list
+     * action list.
      *
      * @return void
      */
@@ -51,32 +50,33 @@ class LocationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $locations = $this->locationRepository->findAll();
         $this->view->assign('locations', $locations);
     }
-    
+
     /**
-     * action show
+     * action show.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Location $location
+     *
      * @return void
      */
     public function showAction(\FalkRoeder\DatedNews\Domain\Model\Location $location)
     {
         $this->view->assign('location', $location);
     }
-    
+
     /**
-     * action new
+     * action new.
      *
      * @return void
      */
     public function newAction()
     {
-        
     }
-    
+
     /**
-     * action create
+     * action create.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Location $newLocation
+     *
      * @return void
      */
     public function createAction(\FalkRoeder\DatedNews\Domain\Model\Location $newLocation)
@@ -84,23 +84,25 @@ class LocationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $this->locationRepository->add($newLocation);
         $this->redirect('list');
     }
-    
+
     /**
-     * action edit
+     * action edit.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Location $location
      * @ignorevalidation $location
+     *
      * @return void
      */
     public function editAction(\FalkRoeder\DatedNews\Domain\Model\Location $location)
     {
         $this->view->assign('location', $location);
     }
-    
+
     /**
-     * action update
+     * action update.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Location $location
+     *
      * @return void
      */
     public function updateAction(\FalkRoeder\DatedNews\Domain\Model\Location $location)
@@ -108,11 +110,12 @@ class LocationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $this->locationRepository->update($location);
         $this->redirect('list');
     }
-    
+
     /**
-     * action delete
+     * action delete.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Location $location
+     *
      * @return void
      */
     public function deleteAction(\FalkRoeder\DatedNews\Domain\Model\Location $location)
@@ -120,5 +123,4 @@ class LocationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $this->locationRepository->remove($location);
         $this->redirect('list');
     }
-
 }

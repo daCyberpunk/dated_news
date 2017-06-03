@@ -1,4 +1,5 @@
 <?php
+
 namespace FalkRoeder\DatedNews\Domain\Model;
 
 /***************************************************************
@@ -27,124 +28,122 @@ namespace FalkRoeder\DatedNews\Domain\Model;
  ***************************************************************/
 
 /**
- * News
+ * News.
  */
 class News extends \GeorgRinger\News\Domain\Model\News
 {
-
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application>
-     * 
      */
     protected $application;
-    
-    /**
-     * showincalendar
-     *
-     * @var boolean
-     */
-    protected $showincalendar = FALSE;
 
     /**
-     * enableApplication
+     * showincalendar.
      *
-     * @var boolean
+     * @var bool
      */
-    protected $enableApplication = FALSE;
-    
+    protected $showincalendar = false;
+
     /**
-     * fulltime
+     * enableApplication.
      *
-     * @var boolean
+     * @var bool
      */
-    protected $fulltime = FALSE;
-    
+    protected $enableApplication = false;
+
     /**
-     * textcolor
+     * fulltime.
+     *
+     * @var bool
+     */
+    protected $fulltime = false;
+
+    /**
+     * textcolor.
      *
      * @var string
      */
     protected $textcolor = '';
-    
+
     /**
-     * backgroundcolor
+     * backgroundcolor.
      *
      * @var string
      */
     protected $backgroundcolor = '';
-    
-    /**
-     * eventstart
-     *
-     * @var \DateTime
-     */
-    protected $eventstart = NULL;
-    
-    /**
-     * eventend
-     *
-     * @var \DateTime
-     */
-    protected $eventend = NULL;
 
     /**
-     * eventtype
+     * eventstart.
+     *
+     * @var \DateTime
+     */
+    protected $eventstart = null;
+
+    /**
+     * eventend.
+     *
+     * @var \DateTime
+     */
+    protected $eventend = null;
+
+    /**
+     * eventtype.
      *
      * @var string
      */
     protected $eventtype = '';
 
     /**
-     * eventlocation
+     * eventlocation.
      *
      * @var string
      */
     protected $eventlocation = '';
 
     /**
-     * slots
-     * 
+     * slots.
+     *
      * @var int
      */
     protected $slots;
 
     /**
-     * slotsFree
+     * slotsFree.
      *
      * @var int
      */
     protected $slotsFree;
 
     /**
-     * price
+     * price.
      *
      * @var string
      */
     protected $price = '';
 
     /**
-     * earlyBirdPrice
+     * earlyBirdPrice.
      *
      * @var string
      */
     protected $earlyBirdPrice = '';
-    
+
     /**
-     * earlyBirdDate
+     * earlyBirdDate.
      *
      * @var \DateTime
      */
     protected $earlyBirdDate = '';
 
     /**
-     * targetgroup
+     * targetgroup.
      *
      * @var string
      */
     protected $targetgroup = '';
-    
+
     /**
-     * locations
+     * locations.
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location>
      * @lazy
@@ -152,20 +151,15 @@ class News extends \GeorgRinger\News\Domain\Model\News
     protected $locations = null;
 
     /**
-     * persons
+     * persons.
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Person>
      * @lazy
      */
     protected $persons = null;
-    
-    
-
-
-    
 
     /**
-     * Returns the price
+     * Returns the price.
      *
      * @return string $price
      */
@@ -175,18 +169,19 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the price
+     * Sets the price.
      *
      * @param string $price
+     *
      * @return void
      */
     public function setPrice($price)
     {
         $this->price = $price;
     }
-    
+
     /**
-     * Returns the targetgroup
+     * Returns the targetgroup.
      *
      * @return string $targetgroup
      */
@@ -196,9 +191,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the targetgroup
+     * Sets the targetgroup.
      *
      * @param string $targetgroup
+     *
      * @return void
      */
     public function setTargetgroup($targetgroup)
@@ -207,7 +203,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the earlyBirdPrice
+     * Returns the earlyBirdPrice.
      *
      * @return string $earlyBirdPrice
      */
@@ -217,18 +213,19 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the earlyBirdPrice
+     * Sets the earlyBirdPrice.
      *
      * @param string $earlyBirdPrice
+     *
      * @return void
      */
     public function setEarlyBirdPrice($earlyBirdPrice)
     {
         $this->earlyBirdPrice = $earlyBirdPrice;
     }
-    
+
     /**
-     * Returns the earlyBirdDate
+     * Returns the earlyBirdDate.
      *
      * @return string $earlyBirdDate
      */
@@ -238,9 +235,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the earlyBirdDate
+     * Sets the earlyBirdDate.
      *
      * @param string $earlyBirdDate
+     *
      * @return void
      */
     public function setEarlyBirdDate($earlyBirdDate)
@@ -249,9 +247,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Adds a Location
+     * Adds a Location.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Location $location
+     *
      * @return void
      */
     public function addLocation(\FalkRoeder\DatedNews\Domain\Model\Location $location)
@@ -260,9 +259,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Removes a Location
+     * Removes a Location.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Location $locationToRemove The Location to be removed
+     *
      * @return void
      */
     public function removeLocation(\FalkRoeder\DatedNews\Domain\Model\Location $locationToRemove)
@@ -271,7 +271,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the locations
+     * Returns the locations.
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location> $locations
      */
@@ -281,9 +281,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the locations
+     * Sets the locations.
      *
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $locations
+     *
      * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location> $locations
      */
     public function setLocations(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $locations)
@@ -292,9 +293,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Adds a Person
+     * Adds a Person.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Person $person
+     *
      * @return void
      */
     public function addPerson(\FalkRoeder\DatedNews\Domain\Model\Person $person)
@@ -303,9 +305,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Removes a Person
+     * Removes a Person.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Person $personToRemove The Person to be removed
+     *
      * @return void
      */
     public function removePerson(\FalkRoeder\DatedNews\Domain\Model\Person $personToRemove)
@@ -314,7 +317,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the persons
+     * Returns the persons.
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Person> $persons
      */
@@ -324,112 +327,115 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the persons
+     * Sets the persons.
      *
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $persons
+     *
      * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Person> $persons
      */
     public function setPersons(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $persons)
     {
         $this->persons = $persons;
     }
-    
+
     /**
-     * Returns the showincalendar
+     * Returns the showincalendar.
      *
-     * @return boolean $showincalendar
+     * @return bool $showincalendar
      */
     public function getShowincalendar()
     {
         return $this->showincalendar;
     }
-    
+
     /**
-     * Sets the showincalendar
+     * Sets the showincalendar.
      *
-     * @param boolean $showincalendar
+     * @param bool $showincalendar
+     *
      * @return void
      */
     public function setShowincalendar($showincalendar)
     {
         $this->showincalendar = $showincalendar;
     }
-    
+
     /**
-     * Returns the boolean state of showincalendar
+     * Returns the boolean state of showincalendar.
      *
-     * @return boolean
+     * @return bool
      */
     public function isShowincalendar()
     {
         return $this->showincalendar;
     }
-    
-    
+
     /**
-     * Returns the enableApplication
+     * Returns the enableApplication.
      *
-     * @return boolean $enableApplication
+     * @return bool $enableApplication
      */
     public function getEnableApplication()
     {
         return $this->enableApplication;
     }
-    
+
     /**
-     * Sets the enableApplication
+     * Sets the enableApplication.
      *
-     * @param boolean $enableApplication
+     * @param bool $enableApplication
+     *
      * @return void
      */
     public function setEnableApplication($enableApplication)
     {
         $this->enableApplication = $enableApplication;
     }
-    
+
     /**
-     * Returns the boolean state of enableApplication
+     * Returns the boolean state of enableApplication.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnableApplication()
     {
         return $this->enableApplication;
     }
-    
+
     /**
-     * Returns the fulltime
+     * Returns the fulltime.
      *
-     * @return boolean $fulltime
+     * @return bool $fulltime
      */
     public function getFulltime()
     {
         return $this->fulltime;
     }
-    
+
     /**
-     * Sets the fulltime
+     * Sets the fulltime.
      *
-     * @param boolean $fulltime
+     * @param bool $fulltime
+     *
      * @return void
      */
     public function setFulltime($fulltime)
     {
         $this->fulltime = $fulltime;
     }
-    
+
     /**
-     * Returns the boolean state of fulltime
+     * Returns the boolean state of fulltime.
      *
-     * @return boolean
+     * @return bool
      */
     public function isFulltime()
     {
         return $this->fulltime;
     }
-    
+
     /**
-     * Returns the eventstart
+     * Returns the eventstart.
      *
      * @return \DateTime $eventstart
      */
@@ -437,20 +443,21 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         return $this->eventstart;
     }
-    
+
     /**
-     * Sets the eventstart
+     * Sets the eventstart.
      *
      * @param \DateTime $eventstart
+     *
      * @return void
      */
     public function setEventstart(\DateTime $eventstart)
     {
         $this->eventstart = $eventstart;
     }
-    
+
     /**
-     * Returns the eventend
+     * Returns the eventend.
      *
      * @return \DateTime $eventend
      */
@@ -458,11 +465,12 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         return $this->eventend;
     }
-    
+
     /**
-     * Sets the eventend
+     * Sets the eventend.
      *
      * @param \DateTime $eventend
+     *
      * @return void
      */
     public function setEventend(\DateTime $eventend)
@@ -471,7 +479,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the eventtype
+     * Returns the eventtype.
      *
      * @return \DateTime $eventtype
      */
@@ -481,18 +489,19 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the eventtype
+     * Sets the eventtype.
      *
      * @param \DateTime $eventtype
+     *
      * @return void
      */
     public function setEventtype(\DateTime $eventtype)
     {
         $this->eventtype = $eventtype;
     }
-    
+
     /**
-     * Returns the eventlocation
+     * Returns the eventlocation.
      *
      * @return string $eventlocation
      */
@@ -500,20 +509,21 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         return $this->eventlocation;
     }
-    
+
     /**
-     * Sets the eventlocation
+     * Sets the eventlocation.
      *
      * @param string $eventlocation
+     *
      * @return void
      */
     public function setEventlocation($eventlocation)
     {
         $this->eventlocation = $eventlocation;
     }
-    
+
     /**
-     * Returns the textcolor
+     * Returns the textcolor.
      *
      * @return string $textcolor
      */
@@ -521,11 +531,12 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         return $this->textcolor;
     }
-    
+
     /**
-     * Sets the textcolor
+     * Sets the textcolor.
      *
      * @param string $textcolor
+     *
      * @return void
      */
     public function setTextcolor($textcolor)
@@ -534,7 +545,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the slots
+     * Returns the slots.
      *
      * @return int $slots
      */
@@ -544,9 +555,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the slots
+     * Sets the slots.
      *
      * @param int $slots
+     *
      * @return void
      */
     public function setSlots($slots)
@@ -555,9 +567,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the slotsFree
+     * Sets the slotsFree.
      *
      * @param int $slotsFree
+     *
      * @return void
      */
     public function setSlotsFree($slotsFree)
@@ -566,7 +579,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the slotsFree
+     * Returns the slotsFree.
      *
      * @return int $slotsFree
      */
@@ -574,9 +587,9 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         return $this->slotsFree;
     }
-    
+
     /**
-     * Returns the backgroundcolor
+     * Returns the backgroundcolor.
      *
      * @return string $backgroundcolor
      */
@@ -584,11 +597,12 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         return $this->backgroundcolor;
     }
-    
+
     /**
-     * Sets the backgroundcolor
+     * Sets the backgroundcolor.
      *
      * @param string $backgroundcolor
+     *
      * @return void
      */
     public function setBackgroundcolor($backgroundcolor)
@@ -597,42 +611,48 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Adds a Application
+     * Adds a Application.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Application $application
+     *
      * @return void
      */
-    public function addApplication(\FalkRoeder\DatedNews\Domain\Model\Application $application) {
+    public function addApplication(\FalkRoeder\DatedNews\Domain\Model\Application $application)
+    {
         $this->application->attach($application);
     }
 
     /**
-     * Removes a Application
+     * Removes a Application.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Application $applicationToRemove The Application to be removed
+     *
      * @return void
      */
-    public function removeApplication(\FalkRoeder\DatedNews\Domain\Model\Application $applicationToRemove) {
+    public function removeApplication(\FalkRoeder\DatedNews\Domain\Model\Application $applicationToRemove)
+    {
         $this->application->detach($applicationToRemove);
     }
 
     /**
-     * Returns the application
+     * Returns the application.
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application> $application
      */
-    public function getApplication() {
+    public function getApplication()
+    {
         return $this->application;
     }
 
     /**
-     * Sets the application
+     * Sets the application.
      *
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $application
+     *
      * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application> $application
      */
-    public function setApplication(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $application) {
+    public function setApplication(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $application)
+    {
         $this->application = $application;
     }
-
 }

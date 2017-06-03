@@ -1,6 +1,6 @@
 <?php
-namespace FalkRoeder\DatedNews\Domain\Repository;
 
+namespace FalkRoeder\DatedNews\Domain\Repository;
 
 /***************************************************************
  *
@@ -28,27 +28,28 @@ namespace FalkRoeder\DatedNews\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for Applications
+ * The repository for Applications.
  */
 class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-
     /**
      * @var array
      */
     protected $defaultOrderings = [
-        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
     ];
 
-    public function initializeObject() {
+    public function initializeObject()
+    {
         $this->defaultQuerySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-        $this->defaultQuerySettings->setRespectStoragePage(FALSE);
+        $this->defaultQuerySettings->setRespectStoragePage(false);
     }
 
     /**
-     * get number of applications allready sent to a specific news event
+     * get number of applications allready sent to a specific news event.
      *
      * @param int $newsId id of news record
+     *
      * @return int
      */
     public function countApplicationsForNews($newsId)
@@ -57,9 +58,10 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     /**
-     * get number of reserved Slots for a specific news event
+     * get number of reserved Slots for a specific news event.
      *
      * @param int $newsId id of news record
+     *
      * @return int
      */
     public function countReservedSlotsForNews($newsId)
@@ -68,7 +70,7 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $reservedSlots = 0;
         foreach ($applications as $application) {
-            if($application->isConfirmed() === TRUE) {
+            if ($application->isConfirmed() === true) {
                 $reservedSlots = $reservedSlots + $application->getReservedSlots();
             }
         }
@@ -77,9 +79,10 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     /**
-     * get all applications allready sent to a specific news event
+     * get all applications allready sent to a specific news event.
      *
      * @param int $newsId id of news record
+     *
      * @return QueryResultInterface|array
      */
     public function getApplicationsForNews($newsId)
@@ -88,32 +91,31 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $applicationsForNews = [];
         foreach ($applications as $key => $application) {
             $events = $application->getEvents();
-            foreach ($events as $event){
-                if($event->getUid() === $newsId) {
+            foreach ($events as $event) {
+                if ($event->getUid() === $newsId) {
                     $applicationsForNews[] = $application;
                 }
             }
         }
+
         return $applicationsForNews;
     }
 
     /**
-     * checks if form allready submited using a timestamp sent with the form
+     * checks if form allready submited using a timestamp sent with the form.
      *
      * @param int $tstamp timestamp of form
-     * @return boolean
+     *
+     * @return bool
      */
     public function isFirstFormSubmission($tstamp)
     {
-
         $query = $this->createQuery();
         $query->getQuerySettings()->setIgnoreEnableFields(true);
-        if( $query->matching($query->equals('form_timestamp', $tstamp))->execute()->count() > 0) {
-            return FALSE;
+        if ($query->matching($query->equals('form_timestamp', $tstamp))->execute()->count() > 0) {
+            return false;
         }
-        return TRUE;
+
+        return true;
     }
-    
-    
-    
 }

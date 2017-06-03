@@ -1,6 +1,6 @@
 <?php
-namespace FalkRoeder\DatedNews\Domain\Model;
 
+namespace FalkRoeder\DatedNews\Domain\Model;
 
 /***************************************************************
  *
@@ -28,50 +28,49 @@ namespace FalkRoeder\DatedNews\Domain\Model;
  ***************************************************************/
 
 /**
- * Person
+ * Person.
  */
 class Person extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-
     /**
-     * name
+     * name.
      *
      * @var string
      * @validate NotEmpty
      */
     protected $name = '';
-    
+
     /**
-     * surname
+     * surname.
      *
      * @var string
      * @validate NotEmpty
      */
     protected $surname = '';
-    
+
     /**
-     * title
+     * title.
      *
      * @var string
      */
     protected $title = '';
-    
+
     /**
-     * email
+     * email.
      *
      * @var string
      */
     protected $email = '';
 
     /**
-     * images
+     * images.
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
      */
     protected $images = null;
 
     /**
-     * Returns the images
+     * Returns the images.
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> $images
      */
@@ -81,9 +80,10 @@ class Person extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the images
+     * Sets the images.
      *
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> $images
+     *
      * @return void
      */
     public function setImages($images)
@@ -91,9 +91,8 @@ class Person extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->images = $images;
     }
 
-
     /**
-     * Returns the name
+     * Returns the name.
      *
      * @return string $name
      */
@@ -101,20 +100,21 @@ class Person extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->name;
     }
-    
+
     /**
-     * Sets the name
+     * Sets the name.
      *
      * @param string $name
+     *
      * @return void
      */
     public function setName($name)
     {
         $this->name = $name;
     }
-    
+
     /**
-     * Returns the surname
+     * Returns the surname.
      *
      * @return string $surname
      */
@@ -122,20 +122,21 @@ class Person extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->surname;
     }
-    
+
     /**
-     * Sets the surname
+     * Sets the surname.
      *
      * @param string $surname
+     *
      * @return void
      */
     public function setSurname($surname)
     {
         $this->surname = $surname;
     }
-    
+
     /**
-     * Returns the title
+     * Returns the title.
      *
      * @return string $title
      */
@@ -143,20 +144,21 @@ class Person extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->title;
     }
-    
+
     /**
-     * Sets the title
+     * Sets the title.
      *
      * @param string $title
+     *
      * @return void
      */
     public function setTitle($title)
     {
         $this->title = $title;
     }
-    
+
     /**
-     * Returns the email
+     * Returns the email.
      *
      * @return string $email
      */
@@ -164,16 +166,16 @@ class Person extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->email;
     }
-    
+
     /**
-     * Sets the email
+     * Sets the email.
      *
      * @param string $email
+     *
      * @return void
      */
     public function setEmail($email)
     {
         $this->email = $email;
     }
-
 }

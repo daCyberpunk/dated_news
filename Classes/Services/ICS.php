@@ -1,5 +1,7 @@
 <?php
+
 namespace FalkRoeder\DatedNews\Services;
+
 /**
  * ICS.php
  * =======
@@ -39,12 +41,12 @@ namespace FalkRoeder\DatedNews\Services;
  *   A url to attach to the the event. Make sure to add the protocol (http://
  *   or https://).
  */
-
-class ICS {
+class ICS
+{
     const DT_FORMAT = 'Ymd\THis\Z';
 
     protected $properties = [];
-    
+
     private $available_properties = [
         'description',
         'dtend',
@@ -56,7 +58,8 @@ class ICS {
 //        'attendee'
     ];
 
-    public function __construct($props) {
+    public function __construct($props)
+    {
         $this->set($props);
     }
 
@@ -64,7 +67,8 @@ class ICS {
      * @param $key
      * @param bool $val
      */
-    public function set($key, $val = false) {
+    public function set($key, $val = false)
+    {
         if (is_array($key)) {
             foreach ($key as $k => $v) {
                 $this->set($k, $v);
@@ -79,15 +83,18 @@ class ICS {
     /**
      * @return string
      */
-    public function to_string() {
+    public function to_string()
+    {
         $rows = $this->build_props();
+
         return implode("\r\n", $rows);
     }
 
     /**
      * @return array
      */
-    private function build_props() {
+    private function build_props()
+    {
         // Build ICS properties - add header
         $ics_props = [
             'BEGIN:VCALENDAR',
@@ -103,8 +110,8 @@ class ICS {
 
         // Build ICS properties - add header
         $props = [];
-        foreach($this->properties as $k => $v) {
-            $props[strtoupper($k . ($k === 'url' ? ';VALUE=URI' : ''))] = $v;
+        foreach ($this->properties as $k => $v) {
+            $props[strtoupper($k.($k === 'url' ? ';VALUE=URI' : ''))] = $v;
         }
 
         // Set some default values
@@ -126,10 +133,12 @@ class ICS {
     /**
      * @param $val
      * @param bool $key
+     *
      * @return mixed|string
      */
-    private function sanitize_val($val, $key = false) {
-        switch($key) {
+    private function sanitize_val($val, $key = false)
+    {
+        switch ($key) {
             case 'dtend':
             case 'dtstamp':
             case 'dtstart':
@@ -150,19 +159,24 @@ class ICS {
 
     /**
      * @param $timestamp
+     *
      * @return string
      */
-    private function format_timestamp($timestamp) {
+    private function format_timestamp($timestamp)
+    {
         $dt = new \DateTime();
-        $dt->setTimestamp((int)$timestamp);
+        $dt->setTimestamp((int) $timestamp);
+
         return $dt->format(self::DT_FORMAT);
     }
 
     /**
      * @param $str
+     *
      * @return mixed
      */
-    private function escape_string($str) {
-        return preg_replace('/([\,;])/','\\\$1', $str);
+    private function escape_string($str)
+    {
+        return preg_replace('/([\,;])/', '\\\$1', $str);
     }
 }

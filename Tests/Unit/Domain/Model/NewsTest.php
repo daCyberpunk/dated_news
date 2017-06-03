@@ -31,100 +31,99 @@ namespace FalkRoeder\DatedNews\Tests\Unit\Domain\Model;
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
  * @author Falk Röder <mail@falk-roeder.de>
  */
 class NewsTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 {
-	/**
-	 * @var \FalkRoeder\DatedNews\Domain\Model\News
-	 */
-	protected $subject = NULL;
+    /**
+     * @var \FalkRoeder\DatedNews\Domain\Model\News
+     */
+    protected $subject = null;
 
-	public function setUp()
-	{
-		$this->subject = new \FalkRoeder\DatedNews\Domain\Model\News();
-	}
+    public function setUp()
+    {
+        $this->subject = new \FalkRoeder\DatedNews\Domain\Model\News();
+    }
 
-	public function tearDown()
-	{
-		unset($this->subject);
-	}
+    public function tearDown()
+    {
+        unset($this->subject);
+    }
 
-	/**
-	 * @test
-	 */
-	public function getEventstartReturnsInitialValueForDateTime()
-	{
-		$this->assertEquals(
-			NULL,
-			$this->subject->getEventstart()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getEventstartReturnsInitialValueForDateTime()
+    {
+        $this->assertEquals(
+            null,
+            $this->subject->getEventstart()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setEventstartForDateTimeSetsEventstart()
-	{
-		$dateTimeFixture = new \DateTime();
-		$this->subject->setEventstart($dateTimeFixture);
+    /**
+     * @test
+     */
+    public function setEventstartForDateTimeSetsEventstart()
+    {
+        $dateTimeFixture = new \DateTime();
+        $this->subject->setEventstart($dateTimeFixture);
 
-		$this->assertAttributeEquals(
-			$dateTimeFixture,
-			'eventstart',
-			$this->subject
-		);
-	}
+        $this->assertAttributeEquals(
+            $dateTimeFixture,
+            'eventstart',
+            $this->subject
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function getEventendReturnsInitialValueForDateTime()
-	{
-		$this->assertEquals(
-			NULL,
-			$this->subject->getEventend()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getEventendReturnsInitialValueForDateTime()
+    {
+        $this->assertEquals(
+            null,
+            $this->subject->getEventend()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setEventendForDateTimeSetsEventend()
-	{
-		$dateTimeFixture = new \DateTime();
-		$this->subject->setEventend($dateTimeFixture);
+    /**
+     * @test
+     */
+    public function setEventendForDateTimeSetsEventend()
+    {
+        $dateTimeFixture = new \DateTime();
+        $this->subject->setEventend($dateTimeFixture);
 
-		$this->assertAttributeEquals(
-			$dateTimeFixture,
-			'eventend',
-			$this->subject
-		);
-	}
+        $this->assertAttributeEquals(
+            $dateTimeFixture,
+            'eventend',
+            $this->subject
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function getEventlocationReturnsInitialValueForString()
-	{
-		$this->assertSame(
-			'',
-			$this->subject->getEventlocation()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getEventlocationReturnsInitialValueForString()
+    {
+        $this->assertSame(
+            '',
+            $this->subject->getEventlocation()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setEventlocationForStringSetsEventlocation()
-	{
-		$this->subject->setEventlocation('Conceived at T3CON10');
+    /**
+     * @test
+     */
+    public function setEventlocationForStringSetsEventlocation()
+    {
+        $this->subject->setEventlocation('Conceived at T3CON10');
 
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'eventlocation',
-			$this->subject
-		);
-	}
+        $this->assertAttributeEquals(
+            'Conceived at T3CON10',
+            'eventlocation',
+            $this->subject
+        );
+    }
 }

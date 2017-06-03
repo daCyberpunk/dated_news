@@ -1,10 +1,12 @@
 <?php
+
 namespace FalkRoeder\DatedNews\Tests\Unit\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2017 Falk Röder <mail@falk-roeder.de>
- *  			
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,20 +33,18 @@ namespace FalkRoeder\DatedNews\Tests\Unit\Controller;
  */
 class ApplicationControllerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 {
+    /**
+     * @var \FalkRoeder\DatedNews\Controller\ApplicationController
+     */
+    protected $subject = null;
 
-	/**
-	 * @var \FalkRoeder\DatedNews\Controller\ApplicationController
-	 */
-	protected $subject = NULL;
+    public function setUp()
+    {
+        $this->subject = $this->getMock('FalkRoeder\\DatedNews\\Controller\\ApplicationController', ['redirect', 'forward', 'addFlashMessage'], [], '', false);
+    }
 
-	public function setUp()
-	{
-		$this->subject = $this->getMock('FalkRoeder\\DatedNews\\Controller\\ApplicationController', ['redirect', 'forward', 'addFlashMessage'], [], '', FALSE);
-	}
-
-	public function tearDown()
-	{
-		unset($this->subject);
-	}
-
+    public function tearDown()
+    {
+        unset($this->subject);
+    }
 }
