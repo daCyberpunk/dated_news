@@ -77,7 +77,7 @@
 				<f:cObject typoscriptObjectPath="lib.tx_news.contentElementRendering">{newsItem.contentElementIdList}</f:cObject>
 			</f:if>
 
-			<f:render partial="Detail/FalMediaContainer" arguments="{media: newsItem.falMedia, settings:settings}" />
+			<f:render partial="Detail/MediaContainer" arguments="{media: newsItem.falMedia, settings:settings}" />
 
 			<!-- main text -->
 			<div class="news-text-wrap" itemprop="{f:if(condition: '{0: newsItem.eventtype} == {0: \'\'}', then: 'articleBody', else: 'description')}">
