@@ -1,6 +1,6 @@
 <?php
-namespace FalkRoeder\DatedNews\Domain\Repository;
 
+namespace FalkRoeder\DatedNews\Domain\Repository;
 
 /***************************************************************
  *
@@ -28,10 +28,8 @@ namespace FalkRoeder\DatedNews\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for Locations
+ * The repository for Locations.
  */
 class LocationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-
-    
 }

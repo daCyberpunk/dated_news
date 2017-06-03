@@ -1,6 +1,6 @@
 <?php
-namespace FalkRoeder\DatedNews\Domain\Repository;
 
+namespace FalkRoeder\DatedNews\Domain\Repository;
 
 /***************************************************************
  *
@@ -28,16 +28,14 @@ namespace FalkRoeder\DatedNews\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for Persons
+ * The repository for Persons.
  */
 class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-
     /**
      * @var array
      */
     protected $defaultOrderings = [
-        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
     ];
-
 }

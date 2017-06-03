@@ -1,6 +1,6 @@
 <?php
-namespace FalkRoeder\DatedNews\Domain\Model;
 
+namespace FalkRoeder\DatedNews\Domain\Model;
 
 /***************************************************************
  *
@@ -28,70 +28,69 @@ namespace FalkRoeder\DatedNews\Domain\Model;
  ***************************************************************/
 
 /**
- * Location
+ * Location.
  */
 class Location extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-
     /**
-     * name
+     * name.
      *
      * @var string
      * @validate NotEmpty
      */
     protected $name = '';
-    
+
     /**
-     * address2
+     * address2.
      *
      * @var string
      */
     protected $address2 = '';
-    
+
     /**
-     * zip
+     * zip.
      *
      * @var string
      */
     protected $zip = '';
-    
+
     /**
-     * address
+     * address.
      *
      * @var string
      */
     protected $address = '';
-    
+
     /**
-     * city
+     * city.
      *
      * @var string
      */
     protected $city = '';
-    
+
     /**
-     * country
+     * country.
      *
      * @var string
      */
     protected $country = '';
-    
+
     /**
-     * phone
+     * phone.
      *
      * @var string
      */
     protected $phone = '';
-    
+
     /**
-     * email
+     * email.
      *
      * @var string
      */
     protected $email = '';
-    
+
     /**
-     * Returns the name
+     * Returns the name.
      *
      * @return string $name
      */
@@ -99,20 +98,21 @@ class Location extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->name;
     }
-    
+
     /**
-     * Sets the name
+     * Sets the name.
      *
      * @param string $name
+     *
      * @return void
      */
     public function setName($name)
     {
         $this->name = $name;
     }
-    
+
     /**
-     * Returns the address2
+     * Returns the address2.
      *
      * @return string $address2
      */
@@ -120,20 +120,21 @@ class Location extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->address2;
     }
-    
+
     /**
-     * Sets the address2
+     * Sets the address2.
      *
      * @param string $address2
+     *
      * @return void
      */
     public function setAddress2($address2)
     {
         $this->address2 = $address2;
     }
-    
+
     /**
-     * Returns the zip
+     * Returns the zip.
      *
      * @return string $zip
      */
@@ -141,20 +142,21 @@ class Location extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->zip;
     }
-    
+
     /**
-     * Sets the zip
+     * Sets the zip.
      *
      * @param string $zip
+     *
      * @return void
      */
     public function setZip($zip)
     {
         $this->zip = $zip;
     }
-    
+
     /**
-     * Returns the address
+     * Returns the address.
      *
      * @return string $address
      */
@@ -162,20 +164,21 @@ class Location extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->address;
     }
-    
+
     /**
-     * Sets the address
+     * Sets the address.
      *
      * @param string $address
+     *
      * @return void
      */
     public function setAddress($address)
     {
         $this->address = $address;
     }
-    
+
     /**
-     * Returns the city
+     * Returns the city.
      *
      * @return string $city
      */
@@ -183,20 +186,21 @@ class Location extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->city;
     }
-    
+
     /**
-     * Sets the city
+     * Sets the city.
      *
      * @param string $city
+     *
      * @return void
      */
     public function setCity($city)
     {
         $this->city = $city;
     }
-    
+
     /**
-     * Returns the country
+     * Returns the country.
      *
      * @return string $country
      */
@@ -204,20 +208,21 @@ class Location extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->country;
     }
-    
+
     /**
-     * Sets the country
+     * Sets the country.
      *
      * @param string $country
+     *
      * @return void
      */
     public function setCountry($country)
     {
         $this->country = $country;
     }
-    
+
     /**
-     * Returns the phone
+     * Returns the phone.
      *
      * @return string $phone
      */
@@ -225,20 +230,21 @@ class Location extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->phone;
     }
-    
+
     /**
-     * Sets the phone
+     * Sets the phone.
      *
      * @param string $phone
+     *
      * @return void
      */
     public function setPhone($phone)
     {
         $this->phone = $phone;
     }
-    
+
     /**
-     * Returns the email
+     * Returns the email.
      *
      * @return string $email
      */
@@ -246,16 +252,16 @@ class Location extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->email;
     }
-    
+
     /**
-     * Sets the email
+     * Sets the email.
      *
      * @param string $email
+     *
      * @return void
      */
     public function setEmail($email)
     {
         $this->email = $email;
     }
-
 }

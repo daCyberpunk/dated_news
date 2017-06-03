@@ -1,6 +1,6 @@
 <?php
-namespace FalkRoeder\DatedNews\Controller;
 
+namespace FalkRoeder\DatedNews\Controller;
 
 /***************************************************************
  *
@@ -28,27 +28,24 @@ namespace FalkRoeder\DatedNews\Controller;
  ***************************************************************/
 
 /**
- * ApplicationController
+ * ApplicationController.
  */
 class ApplicationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-
     /**
-     * applicationRepository
+     * applicationRepository.
      *
      * @var \FalkRoeder\DatedNews\Domain\Repository\ApplicationRepository
      * @inject
      */
-    protected $applicationRepository = NULL;
-    
+    protected $applicationRepository = null;
+
     /**
-     * action
+     * action.
      *
      * @return void
      */
     public function Action()
     {
-        
     }
-
 }

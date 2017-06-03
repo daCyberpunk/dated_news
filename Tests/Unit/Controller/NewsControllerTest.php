@@ -1,10 +1,12 @@
 <?php
+
 namespace FalkRoeder\DatedNews\Tests\Unit\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
  *  (c) 2017 Falk Röder <mail@falk-roeder.de>
- *  			
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,52 +33,50 @@ namespace FalkRoeder\DatedNews\Tests\Unit\Controller;
  */
 class NewsControllerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 {
+    /**
+     * @var \FalkRoeder\DatedNews\Controller\NewsController
+     */
+    protected $subject = null;
 
-	/**
-	 * @var \FalkRoeder\DatedNews\Controller\NewsController
-	 */
-	protected $subject = NULL;
+    public function setUp()
+    {
+        $this->subject = $this->getMock('FalkRoeder\\DatedNews\\Controller\\NewsController', ['redirect', 'forward', 'addFlashMessage'], [], '', false);
+    }
 
-	public function setUp()
-	{
-		$this->subject = $this->getMock('FalkRoeder\\DatedNews\\Controller\\NewsController', ['redirect', 'forward', 'addFlashMessage'], [], '', FALSE);
-	}
+    public function tearDown()
+    {
+        unset($this->subject);
+    }
 
-	public function tearDown()
-	{
-		unset($this->subject);
-	}
+    /**
+     * @test
+     */
+    public function listActionFetchesAllNewssFromRepositoryAndAssignsThemToView()
+    {
+        $allNewss = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', [], [], '', false);
 
-	/**
-	 * @test
-	 */
-	public function listActionFetchesAllNewssFromRepositoryAndAssignsThemToView()
-	{
+        $newsRepository = $this->getMock('FalkRoeder\\DatedNews\\Domain\\Repository\\NewsRepository', ['findAll'], [], '', false);
+        $newsRepository->expects($this->once())->method('findAll')->will($this->returnValue($allNewss));
+        $this->inject($this->subject, 'newsRepository', $newsRepository);
 
-		$allNewss = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', [], [], '', FALSE);
+        $view = $this->getMock('TYPO3\\CMS\\Extbase\\Mvc\\View\\ViewInterface');
+        $view->expects($this->once())->method('assign')->with('newss', $allNewss);
+        $this->inject($this->subject, 'view', $view);
 
-		$newsRepository = $this->getMock('FalkRoeder\\DatedNews\\Domain\\Repository\\NewsRepository', ['findAll'], [], '', FALSE);
-		$newsRepository->expects($this->once())->method('findAll')->will($this->returnValue($allNewss));
-		$this->inject($this->subject, 'newsRepository', $newsRepository);
+        $this->subject->listAction();
+    }
 
-		$view = $this->getMock('TYPO3\\CMS\\Extbase\\Mvc\\View\\ViewInterface');
-		$view->expects($this->once())->method('assign')->with('newss', $allNewss);
-		$this->inject($this->subject, 'view', $view);
+    /**
+     * @test
+     */
+    public function showActionAssignsTheGivenNewsToView()
+    {
+        $news = new \FalkRoeder\DatedNews\Domain\Model\News();
 
-		$this->subject->listAction();
-	}
+        $view = $this->getMock('TYPO3\\CMS\\Extbase\\Mvc\\View\\ViewInterface');
+        $this->inject($this->subject, 'view', $view);
+        $view->expects($this->once())->method('assign')->with('news', $news);
 
-	/**
-	 * @test
-	 */
-	public function showActionAssignsTheGivenNewsToView()
-	{
-		$news = new \FalkRoeder\DatedNews\Domain\Model\News();
-
-		$view = $this->getMock('TYPO3\\CMS\\Extbase\\Mvc\\View\\ViewInterface');
-		$this->inject($this->subject, 'view', $view);
-		$view->expects($this->once())->method('assign')->with('news', $news);
-
-		$this->subject->showAction($news);
-	}
+        $this->subject->showAction($news);
+    }
 }

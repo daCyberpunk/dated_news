@@ -1,4 +1,5 @@
 <?php
+
 namespace FalkRoeder\DatedNews\Domain\Model;
 
 /***************************************************************
@@ -27,29 +28,26 @@ namespace FalkRoeder\DatedNews\Domain\Model;
  ***************************************************************/
 
 /**
- * Category
+ * Category.
  */
 class Category extends \GeorgRinger\News\Domain\Model\Category
 {
-    
     /**
-     * textcolor
+     * textcolor.
      *
      * @var string
      */
     protected $textcolor = '';
-    
+
     /**
-     * backgroundcolor
+     * backgroundcolor.
      *
      * @var string
      */
     protected $backgroundcolor = '';
-    
 
-    
     /**
-     * Returns the textcolor
+     * Returns the textcolor.
      *
      * @return string $textcolor
      */
@@ -57,11 +55,12 @@ class Category extends \GeorgRinger\News\Domain\Model\Category
     {
         return $this->textcolor;
     }
-    
+
     /**
-     * Sets the textcolor
+     * Sets the textcolor.
      *
      * @param string $textcolor
+     *
      * @return void
      */
     public function setTextcolor($textcolor)
@@ -69,10 +68,8 @@ class Category extends \GeorgRinger\News\Domain\Model\Category
         $this->textcolor = $textcolor;
     }
 
-
-    
     /**
-     * Returns the backgroundcolor
+     * Returns the backgroundcolor.
      *
      * @return string $backgroundcolor
      */
@@ -80,18 +77,16 @@ class Category extends \GeorgRinger\News\Domain\Model\Category
     {
         return $this->backgroundcolor;
     }
-    
+
     /**
-     * Sets the backgroundcolor
+     * Sets the backgroundcolor.
      *
      * @param string $backgroundcolor
+     *
      * @return void
      */
     public function setBackgroundcolor($backgroundcolor)
     {
         $this->backgroundcolor = $backgroundcolor;
     }
-
-
-
 }

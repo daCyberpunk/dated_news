@@ -11,25 +11,25 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = [
-	'title' => 'Dated News',
-	'description' => 'Extends the TYPO3 versatile news system extension tx_news with a calendar view using fullcalendar.js/qtip.js and allows to book for the now pricable events',
-	'category' => 'fe',
-	'author' => 'Falk Röder',
-	'author_email' => 'mail@falk-roeder.de',
-	'state' => 'stable',
-	'internal' => '',
-	'uploadfolder' => '0',
-	'createDirs' => '',
-	'clearCacheOnLoad' => 1,
-	'version' => '5.0.0',
-	'constraints' => [
-		'depends' => [
-			'typo3' => '7.6.13-8.7.99',
-			'news' => '5.3.0-6.0.99',
-		],
-		'conflicts' => [
-		],
-		'suggests' => [
-		],
-	],
+    'title'            => 'Dated News',
+    'description'      => 'Extends the TYPO3 versatile news system extension tx_news with a calendar view using fullcalendar.js/qtip.js and allows to book for the now pricable events',
+    'category'         => 'fe',
+    'author'           => 'Falk Röder',
+    'author_email'     => 'mail@falk-roeder.de',
+    'state'            => 'stable',
+    'internal'         => '',
+    'uploadfolder'     => '0',
+    'createDirs'       => '',
+    'clearCacheOnLoad' => 1,
+    'version'          => '5.0.0',
+    'constraints'      => [
+        'depends' => [
+            'typo3' => '7.6.13-8.7.99',
+            'news'  => '5.3.0-6.0.99',
+        ],
+        'conflicts' => [
+        ],
+        'suggests' => [
+        ],
+    ],
 ];

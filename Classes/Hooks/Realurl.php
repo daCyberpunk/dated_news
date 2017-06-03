@@ -13,29 +13,28 @@
  */
 
 namespace FalkRoeder\DatedNews\Hooks;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * RealURL auto-configuration and segment decoder.
  *
  * @category    Hooks
- * @package     TYPO3
- * @subpackage  dated_news
  */
 class Realurl
 {
-
     /**
      * This methods will "eat" every remaining segment in the URL to make it part
      * of the requested document.
      *
      * @param $params
      * @param $parent
+     *
      * @return string
+     *
      * @internal param array $parameters
      */
     public function decodeSpURL_getSequence($params, $parent)
     {
-        $value=$params['value'];
+        $value = $params['value'];
 //        $GLOBALS['BE_USER']->writelog(4, 0, 0, 'scheduler', print_r($params) , array());
 
         if ($params['decodeAlias']) {
@@ -45,16 +44,16 @@ class Realurl
         }
     }
 
-    public function id2alias($value) {
-        if($value == ''){
-            $value =  'event';
+    public function id2alias($value)
+    {
+        if ($value == '') {
+            $value = 'event';
         }
-        if($value > 0){
+        if ($value > 0) {
             $titleHash = $this->getApplicationMd5($value);
-            $hashArray = str_split($titleHash,8);
+            $hashArray = str_split($titleHash, 8);
 
-            $value = $hashArray[0] . $value . $hashArray[1];
-
+            $value = $hashArray[0].$value.$hashArray[1];
         }
 
         return $value;
@@ -68,21 +67,23 @@ class Realurl
         return $value;
     }
 
-
-    protected function getMd5HashParts(){
+    protected function getMd5HashParts()
+    {
         $hash = md5('booking');
-        return str_split($hash,8);
+
+        return str_split($hash, 8);
     }
 
-    protected function getApplicationMd5($uid){
+    protected function getApplicationMd5($uid)
+    {
         $db = $this->getDatabaseConnection();
         $mysqli = new \mysqli($db['host'], $db['username'], $db['password'], $db['database']);
-        $sql = "SELECT title FROM tx_datednews_domain_model_application WHERE uid=" . $uid;
-        $result = $mysqli->query($sql) or die ('db-query failed ' . 1487571690984);
+        $sql = 'SELECT title FROM tx_datednews_domain_model_application WHERE uid='.$uid;
+        $result = $mysqli->query($sql) or die('db-query failed '. 1487571690984);
 
-        if($result){
+        if ($result) {
             // Cycle through results
-            while ($row = $result->fetch_object()){
+            while ($row = $result->fetch_object()) {
                 return md5($row->title);
             }
         }
@@ -97,5 +98,4 @@ class Realurl
     {
         return $GLOBALS['TYPO3_CONF_VARS']['DB'];
     }
-
 }

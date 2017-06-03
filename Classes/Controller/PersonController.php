@@ -1,6 +1,6 @@
 <?php
-namespace FalkRoeder\DatedNews\Controller;
 
+namespace FalkRoeder\DatedNews\Controller;
 
 /***************************************************************
  *
@@ -28,21 +28,20 @@ namespace FalkRoeder\DatedNews\Controller;
  ***************************************************************/
 
 /**
- * PersonController
+ * PersonController.
  */
 class PersonController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-
     /**
-     * personRepository
+     * personRepository.
      *
      * @var \FalkRoeder\DatedNews\Domain\Repository\PersonRepository
      * @inject
      */
-    protected $personRepository = NULL;
-    
+    protected $personRepository = null;
+
     /**
-     * action list
+     * action list.
      *
      * @return void
      */
@@ -51,32 +50,33 @@ class PersonController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $persons = $this->personRepository->findAll();
         $this->view->assign('persons', $persons);
     }
-    
+
     /**
-     * action show
+     * action show.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Person $person
+     *
      * @return void
      */
     public function showAction(\FalkRoeder\DatedNews\Domain\Model\Person $person)
     {
         $this->view->assign('person', $person);
     }
-    
+
     /**
-     * action new
+     * action new.
      *
      * @return void
      */
     public function newAction()
     {
-        
     }
-    
+
     /**
-     * action create
+     * action create.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Person $newPerson
+     *
      * @return void
      */
     public function createAction(\FalkRoeder\DatedNews\Domain\Model\Person $newPerson)
@@ -84,23 +84,25 @@ class PersonController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->personRepository->add($newPerson);
         $this->redirect('list');
     }
-    
+
     /**
-     * action edit
+     * action edit.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Person $person
      * @ignorevalidation $person
+     *
      * @return void
      */
     public function editAction(\FalkRoeder\DatedNews\Domain\Model\Person $person)
     {
         $this->view->assign('person', $person);
     }
-    
+
     /**
-     * action update
+     * action update.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Person $person
+     *
      * @return void
      */
     public function updateAction(\FalkRoeder\DatedNews\Domain\Model\Person $person)
@@ -108,11 +110,12 @@ class PersonController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->personRepository->update($person);
         $this->redirect('list');
     }
-    
+
     /**
-     * action delete
+     * action delete.
      *
      * @param \FalkRoeder\DatedNews\Domain\Model\Person $person
+     *
      * @return void
      */
     public function deleteAction(\FalkRoeder\DatedNews\Domain\Model\Person $person)
@@ -120,5 +123,4 @@ class PersonController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->personRepository->remove($person);
         $this->redirect('list');
     }
-
 }

@@ -31,154 +31,152 @@ namespace FalkRoeder\DatedNews\Tests\Unit\Domain\Model;
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
  * @author Falk Röder <mail@falk-roeder.de>
  */
 class ApplicationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 {
-	/**
-	 * @var \FalkRoeder\DatedNews\Domain\Model\Application
-	 */
-	protected $subject = NULL;
+    /**
+     * @var \FalkRoeder\DatedNews\Domain\Model\Application
+     */
+    protected $subject = null;
 
-	public function setUp()
-	{
-		$this->subject = new \FalkRoeder\DatedNews\Domain\Model\Application();
-	}
+    public function setUp()
+    {
+        $this->subject = new \FalkRoeder\DatedNews\Domain\Model\Application();
+    }
 
-	public function tearDown()
-	{
-		unset($this->subject);
-	}
+    public function tearDown()
+    {
+        unset($this->subject);
+    }
 
-	/**
-	 * @test
-	 */
-	public function getNameReturnsInitialValueForString()
-	{
-		$this->assertSame(
-			'',
-			$this->subject->getName()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getNameReturnsInitialValueForString()
+    {
+        $this->assertSame(
+            '',
+            $this->subject->getName()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setNameForStringSetsName()
-	{
-		$this->subject->setName('Conceived at T3CON10');
+    /**
+     * @test
+     */
+    public function setNameForStringSetsName()
+    {
+        $this->subject->setName('Conceived at T3CON10');
 
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'name',
-			$this->subject
-		);
-	}
+        $this->assertAttributeEquals(
+            'Conceived at T3CON10',
+            'name',
+            $this->subject
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function getSurnameReturnsInitialValueForString()
-	{
-		$this->assertSame(
-			'',
-			$this->subject->getSurname()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getSurnameReturnsInitialValueForString()
+    {
+        $this->assertSame(
+            '',
+            $this->subject->getSurname()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setSurnameForStringSetsSurname()
-	{
-		$this->subject->setSurname('Conceived at T3CON10');
+    /**
+     * @test
+     */
+    public function setSurnameForStringSetsSurname()
+    {
+        $this->subject->setSurname('Conceived at T3CON10');
 
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'surname',
-			$this->subject
-		);
-	}
+        $this->assertAttributeEquals(
+            'Conceived at T3CON10',
+            'surname',
+            $this->subject
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function getEmailReturnsInitialValueForString()
-	{
-		$this->assertSame(
-			'',
-			$this->subject->getEmail()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getEmailReturnsInitialValueForString()
+    {
+        $this->assertSame(
+            '',
+            $this->subject->getEmail()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setEmailForStringSetsEmail()
-	{
-		$this->subject->setEmail('Conceived at T3CON10');
+    /**
+     * @test
+     */
+    public function setEmailForStringSetsEmail()
+    {
+        $this->subject->setEmail('Conceived at T3CON10');
 
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'email',
-			$this->subject
-		);
-	}
+        $this->assertAttributeEquals(
+            'Conceived at T3CON10',
+            'email',
+            $this->subject
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function getEventsReturnsInitialValueForNews()
-	{
-		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$this->assertEquals(
-			$newObjectStorage,
-			$this->subject->getEvents()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getEventsReturnsInitialValueForNews()
+    {
+        $newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->assertEquals(
+            $newObjectStorage,
+            $this->subject->getEvents()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setEventsForObjectStorageContainingNewsSetsEvents()
-	{
-		$event = new \FalkRoeder\DatedNews\Domain\Model\News();
-		$objectStorageHoldingExactlyOneEvents = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$objectStorageHoldingExactlyOneEvents->attach($event);
-		$this->subject->setEvents($objectStorageHoldingExactlyOneEvents);
+    /**
+     * @test
+     */
+    public function setEventsForObjectStorageContainingNewsSetsEvents()
+    {
+        $event = new \FalkRoeder\DatedNews\Domain\Model\News();
+        $objectStorageHoldingExactlyOneEvents = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $objectStorageHoldingExactlyOneEvents->attach($event);
+        $this->subject->setEvents($objectStorageHoldingExactlyOneEvents);
 
-		$this->assertAttributeEquals(
-			$objectStorageHoldingExactlyOneEvents,
-			'events',
-			$this->subject
-		);
-	}
+        $this->assertAttributeEquals(
+            $objectStorageHoldingExactlyOneEvents,
+            'events',
+            $this->subject
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function addEventToObjectStorageHoldingEvents()
-	{
-		$event = new \FalkRoeder\DatedNews\Domain\Model\News();
-		$eventsObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', ['attach'], [], '', FALSE);
-		$eventsObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($event));
-		$this->inject($this->subject, 'events', $eventsObjectStorageMock);
+    /**
+     * @test
+     */
+    public function addEventToObjectStorageHoldingEvents()
+    {
+        $event = new \FalkRoeder\DatedNews\Domain\Model\News();
+        $eventsObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', ['attach'], [], '', false);
+        $eventsObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($event));
+        $this->inject($this->subject, 'events', $eventsObjectStorageMock);
 
-		$this->subject->addEvent($event);
-	}
+        $this->subject->addEvent($event);
+    }
 
-	/**
-	 * @test
-	 */
-	public function removeEventFromObjectStorageHoldingEvents()
-	{
-		$event = new \FalkRoeder\DatedNews\Domain\Model\News();
-		$eventsObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', ['detach'], [], '', FALSE);
-		$eventsObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($event));
-		$this->inject($this->subject, 'events', $eventsObjectStorageMock);
+    /**
+     * @test
+     */
+    public function removeEventFromObjectStorageHoldingEvents()
+    {
+        $event = new \FalkRoeder\DatedNews\Domain\Model\News();
+        $eventsObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', ['detach'], [], '', false);
+        $eventsObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($event));
+        $this->inject($this->subject, 'events', $eventsObjectStorageMock);
 
-		$this->subject->removeEvent($event);
-
-	}
+        $this->subject->removeEvent($event);
+    }
 }
