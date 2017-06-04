@@ -29,19 +29,17 @@ $tmp_dated_news_columns = [
         'exclude' => 1,
         'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.application',
         'config'  => [
-            'config'  => [
-                'type'          => 'inline',
-                'foreign_table' => 'tx_datednews_domain_model_application',
-                'MM'            => 'tx_datednews_news_application_mm',
-                'maxitems'          => 9999,
-                'appearance'        => [
-                    'collapseAll'                     => 1,
-                    'levelLinksPosition'              => 'top',
-                    'showSynchronizationLink'         => 1,
-                    'showPossibleLocalizationRecords' => 1,
-                    'useSortable'                     => 1,
-                    'showAllLocalizationLink'         => 1,
-                ],
+            'type'          => 'inline',
+            'foreign_table' => 'tx_datednews_domain_model_application',
+            'MM'            => 'tx_datednews_news_application_mm',
+            'maxitems'          => 9999,
+            'appearance'        => [
+                'collapseAll'                     => 1,
+                'levelLinksPosition'              => 'top',
+                'showSynchronizationLink'         => 1,
+                'showPossibleLocalizationRecords' => 1,
+                'useSortable'                     => 1,
+                'showAllLocalizationLink'         => 1,
             ],
         ],
         'displayCond' => 'FIELD:eventtype:REQ:TRUE',
@@ -281,26 +279,36 @@ $tmp_dated_news_columns = [
         'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
 ];
+$GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_general'] = array(
+    'showitem' => 'showincalendar,enable_application,textcolor,backgroundcolor'
+);
+$GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_time'] = array(
+    'showitem' => 'eventstart,eventend,fulltime'
+);
+$GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_slotsprices'] = array(
+    'showitem' => 'slots,price,early_bird_price,early_bird_date'
+);
+$GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_targetgroup'] = array(
+    'showitem' => 'targetgroup'
+);
+$GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_additionals'] = array(
+    'showitem' => 'locations,persons'
+);
+$GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_applications'] = array(
+    'showitem' => 'application'
+);
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tx_news_domain_model_news', $tmp_dated_news_columns);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'tx_news_domain_model_news',
-    ',--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news, 
-	showincalendar, 
-	enable_application, 
-	eventstart, 
-	eventend, 
-	fulltime, 
-	slots, 
-	price, 
-	early_bird_price,
-	early_bird_date,
-	targetgroup,
-	locations, 
-	persons, 
-	textcolor, 
-	backgroundcolor, 
-	application'
+    ',--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news,
+    --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_general;tx_datednews_general,
+    --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_time;tx_datednews_time,
+    --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_targetgroup;tx_datednews_targetgroup,
+    --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_slotsprices;tx_datednews_slotsprices,
+    --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_additionals;tx_datednews_additionals,
+    --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_applications;tx_datednews_applications,
+	'
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tx_news_domain_model_news', 'eventtype', '', 'after:istopnews');
 
