@@ -29,39 +29,18 @@ $tmp_dated_news_columns = [
         'exclude' => 1,
         'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.application',
         'config'  => [
-            'type'          => 'select',
-            'renderType'    => 'selectMultipleSideBySide',
-            'foreign_table' => 'tx_datednews_domain_model_application',
-            'MM'            => 'tx_datednews_news_application_mm',
-            'size'          => 5,
-            'autoSizeMax'   => 30,
-            'maxitems'      => 9999,
-            'multiple'      => 0,
-            'wizards'       => [
-                '_PADDING'  => 1,
-                '_VERTICAL' => 1,
-                'edit'      => [
-                    'type'   => 'popup',
-                    'title'  => 'LLL:EXT:lang/locallang_tca.xlf:be_users.usergroup_edit_title',
-                    'module' => [
-                        'name' => 'wizard_edit',
-                    ],
-                    'popup_onlyOpenIfSelected' => 1,
-                    'icon'                     => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_edit.gif',
-                    'JSopenParams'             => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-                ],
-                'add' => [
-                    'type'   => 'script',
-                    'title'  => 'Create new',
-                    'icon'   => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_add.gif',
-                    'params' => [
-                        'table'    => 'tx_datednews_domain_model_application',
-                        'pid'      => '###CURRENT_PID###',
-                        'setValue' => 'prepend',
-                    ],
-                    'module' => [
-                        'name' => 'wizard_add',
-                    ],
+            'config'  => [
+                'type'          => 'inline',
+                'foreign_table' => 'tx_datednews_domain_model_application',
+                'MM'            => 'tx_datednews_news_application_mm',
+                'maxitems'          => 9999,
+                'appearance'        => [
+                    'collapseAll'                     => 1,
+                    'levelLinksPosition'              => 'top',
+                    'showSynchronizationLink'         => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'useSortable'                     => 1,
+                    'showAllLocalizationLink'         => 1,
                 ],
             ],
         ],
