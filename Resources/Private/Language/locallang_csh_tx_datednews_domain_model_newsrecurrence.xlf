@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-06-04T18:04:33Z" product-name="dated_news">
+		<header/>
+		<body>
+			<trans-unit id="eventstart.description">
+				<source>eventstart</source>
+			</trans-unit>
+			<trans-unit id="eventend.description">
+				<source>eventend</source>
+			</trans-unit>
+			<trans-unit id="eventlocation.description">
+				<source>eventlocation</source>
+			</trans-unit>
+			<trans-unit id="bodytext.description">
+				<source>bodytext</source>
+			</trans-unit>
+			<trans-unit id="teaser.description">
+				<source>teaser</source>
+			</trans-unit>
+			<trans-unit id="parent_event.description">
+				<source>parentEvent</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

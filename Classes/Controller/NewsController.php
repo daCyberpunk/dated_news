@@ -202,8 +202,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $applicationsCount = $this->applicationRepository->countReservedSlotsForNews($news->getUid());
 
         $news->setSlotsFree((int) $news->getSlots() - $applicationsCount);
-
-        //todo move slotoptions generation to VH
         $slotoptions = [];
         $i = 1;
         while ($i <= $news->getSlotsFree()) {

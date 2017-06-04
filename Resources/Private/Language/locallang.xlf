@@ -76,6 +76,82 @@
 				<source>Download</source>
 			</trans-unit>
 
+			<trans-unit id="tx_datednews_domain_model_news.recurrence">
+				<source>Recurrence</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.recurrence_type">
+				<source>Recurrence Type</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.recurrence_until">
+				<source>Recurrence Until</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.recurrence_count">
+				<source>X</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_type">
+				<source>Ud Type</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_daily_everycount">
+				<source>Ud Daily Everycount</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_weekly_everycount">
+				<source>Ud Weekly Everycount</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_weekly_weekdays">
+				<source>Ud Weekly Weekdays</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_base">
+				<source>Ud Monthly Base</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_perday">
+				<source>Ud Monthly Perday</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_perday_weekdays">
+				<source>Ud Monthly Perday Weekdays</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_perdate_day">
+				<source>Ud Monthly Perdate Day</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_perdate_lastday">
+				<source>Ud Monthly Perdate Lastday</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_everycount">
+				<source>Ud Monthly Everycount</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_yearly_everycount">
+				<source>Ud Yearly Everycount</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_yearly_perday">
+				<source>Ud Yearly Perday</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_yearly_perday_weekdays">
+				<source>Ud Yearly Perday Weekdays</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_news.ud_yearly_perday_month">
+				<source>Ud Yearly Perday Month</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_newsrecurrence">
+				<source>News Recurrence</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_newsrecurrence.eventstart">
+				<source>Eventstart</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_newsrecurrence.eventend">
+				<source>Eventend</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_newsrecurrence.eventlocation">
+				<source>Eventlocation</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_newsrecurrence.bodytext">
+				<source>Bodytext</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_newsrecurrence.teaser">
+				<source>Teaser</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_newsrecurrence.parent_event">
+				<source>Parent Event</source>
+			</trans-unit>
+
 			<trans-unit id="tx_datednews_domain_model_location">
 				<source>Location</source>
 			</trans-unit>

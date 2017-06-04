@@ -143,6 +143,132 @@ class News extends \GeorgRinger\News\Domain\Model\News
     protected $targetgroup = '';
 
     /**
+     * recurrence
+     *
+     * @var int
+     */
+    protected $recurrence = 0;
+
+    /**
+     * recurrenceType
+     *
+     * @var int
+     */
+    protected $recurrenceType = 0;
+
+    /**
+     * recurrenceUntil
+     *
+     * @var \DateTime
+     */
+    protected $recurrenceUntil = null;
+
+    /**
+     * recurrenceCount
+     *
+     * @var int
+     */
+    protected $recurrenceCount = 0;
+
+    /**
+     * udType
+     *
+     * @var int
+     */
+    protected $udType = 0;
+
+    /**
+     * udDailyEverycount
+     *
+     * @var int
+     */
+    protected $udDailyEverycount = 0;
+
+    /**
+     * udWeeklyEverycount
+     *
+     * @var int
+     */
+    protected $udWeeklyEverycount = 0;
+
+    /**
+     * udWeeklyWeekdays
+     *
+     * @var int
+     */
+    protected $udWeeklyWeekdays = 0;
+
+    /**
+     * udMonthlyBase
+     *
+     * @var int
+     */
+    protected $udMonthlyBase = 0;
+
+    /**
+     * udMonthlyPerday
+     *
+     * @var int
+     */
+    protected $udMonthlyPerday = 0;
+
+    /**
+     * udMonthlyPerdayWeekdays
+     *
+     * @var int
+     */
+    protected $udMonthlyPerdayWeekdays = 0;
+
+    /**
+     * udMonthlyPerdateDay
+     *
+     * @var int
+     */
+    protected $udMonthlyPerdateDay = 0;
+
+    /**
+     * udMonthlyPerdateLastday
+     *
+     * @var int
+     */
+    protected $udMonthlyPerdateLastday = 0;
+
+    /**
+     * udMonthlyEverycount
+     *
+     * @var int
+     */
+    protected $udMonthlyEverycount = 0;
+
+    /**
+     * udYearlyEverycount
+     *
+     * @var int
+     */
+    protected $udYearlyEverycount = 0;
+
+    /**
+     * udYearlyPerday
+     *
+     * @var int
+     */
+    protected $udYearlyPerday = 0;
+
+    /**
+     * udYearlyPerdayWeekdays
+     *
+     * @var int
+     */
+    protected $udYearlyPerdayWeekdays = 0;
+
+    /**
+     * udYearlyPerdayMonth
+     *
+     * @var int
+     */
+    protected $udYearlyPerdayMonth = 0;
+
+    /**
      * locations.
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location>
@@ -654,5 +780,383 @@ class News extends \GeorgRinger\News\Domain\Model\News
     public function setApplication(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $application)
     {
         $this->application = $application;
+    }
+
+    /**
+     * Returns the recurrence
+     *
+     * @return int $recurrence
+     */
+    public function getRecurrence()
+    {
+        return $this->recurrence;
+    }
+
+    /**
+     * Sets the recurrence
+     *
+     * @param int $recurrence
+     * @return void
+     */
+    public function setRecurrence($recurrence)
+    {
+        $this->recurrence = $recurrence;
+    }
+
+    /**
+     * Returns the recurrenceType
+     *
+     * @return int $recurrenceType
+     */
+    public function getRecurrenceType()
+    {
+        return $this->recurrenceType;
+    }
+
+    /**
+     * Sets the recurrenceType
+     *
+     * @param int $recurrenceType
+     * @return void
+     */
+    public function setRecurrenceType($recurrenceType)
+    {
+        $this->recurrenceType = $recurrenceType;
+    }
+
+    /**
+     * Returns the recurrenceUntil
+     *
+     * @return \DateTime $recurrenceUntil
+     */
+    public function getRecurrenceUntil()
+    {
+        return $this->recurrenceUntil;
+    }
+
+    /**
+     * Sets the recurrenceUntil
+     *
+     * @param \DateTime $recurrenceUntil
+     * @return void
+     */
+    public function setRecurrenceUntil(\DateTime $recurrenceUntil)
+    {
+        $this->recurrenceUntil = $recurrenceUntil;
+    }
+
+    /**
+     * Returns the recurrenceCount
+     *
+     * @return int $recurrenceCount
+     */
+    public function getRecurrenceCount()
+    {
+        return $this->recurrenceCount;
+    }
+
+    /**
+     * Sets the recurrenceCount
+     *
+     * @param int $recurrenceCount
+     * @return void
+     */
+    public function setRecurrenceCount($recurrenceCount)
+    {
+        $this->recurrenceCount = $recurrenceCount;
+    }
+
+    /**
+     * Returns the udType
+     *
+     * @return int $udType
+     */
+    public function getUdType()
+    {
+        return $this->udType;
+    }
+
+    /**
+     * Sets the udType
+     *
+     * @param int $udType
+     * @return void
+     */
+    public function setUdType($udType)
+    {
+        $this->udType = $udType;
+    }
+
+    /**
+     * Returns the udDailyEverycount
+     *
+     * @return int $udDailyEverycount
+     */
+    public function getUdDailyEverycount()
+    {
+        return $this->udDailyEverycount;
+    }
+
+    /**
+     * Sets the udDailyEverycount
+     *
+     * @param int $udDailyEverycount
+     * @return void
+     */
+    public function setUdDailyEverycount($udDailyEverycount)
+    {
+        $this->udDailyEverycount = $udDailyEverycount;
+    }
+
+    /**
+     * Returns the udWeeklyEverycount
+     *
+     * @return int $udWeeklyEverycount
+     */
+    public function getUdWeeklyEverycount()
+    {
+        return $this->udWeeklyEverycount;
+    }
+
+    /**
+     * Sets the udWeeklyEverycount
+     *
+     * @param int $udWeeklyEverycount
+     * @return void
+     */
+    public function setUdWeeklyEverycount($udWeeklyEverycount)
+    {
+        $this->udWeeklyEverycount = $udWeeklyEverycount;
+    }
+
+    /**
+     * Returns the udWeeklyWeekdays
+     *
+     * @return int $udWeeklyWeekdays
+     */
+    public function getUdWeeklyWeekdays()
+    {
+        return $this->udWeeklyWeekdays;
+    }
+
+    /**
+     * Sets the udWeeklyWeekdays
+     *
+     * @param int $udWeeklyWeekdays
+     * @return void
+     */
+    public function setUdWeeklyWeekdays($udWeeklyWeekdays)
+    {
+        $this->udWeeklyWeekdays = $udWeeklyWeekdays;
+    }
+
+    /**
+     * Returns the udMonthlyBase
+     *
+     * @return int $udMonthlyBase
+     */
+    public function getUdMonthlyBase()
+    {
+        return $this->udMonthlyBase;
+    }
+
+    /**
+     * Sets the udMonthlyBase
+     *
+     * @param int $udMonthlyBase
+     * @return void
+     */
+    public function setUdMonthlyBase($udMonthlyBase)
+    {
+        $this->udMonthlyBase = $udMonthlyBase;
+    }
+
+    /**
+     * Returns the udMonthlyPerday
+     *
+     * @return int $udMonthlyPerday
+     */
+    public function getUdMonthlyPerday()
+    {
+        return $this->udMonthlyPerday;
+    }
+
+    /**
+     * Sets the udMonthlyPerday
+     *
+     * @param int $udMonthlyPerday
+     * @return void
+     */
+    public function setUdMonthlyPerday($udMonthlyPerday)
+    {
+        $this->udMonthlyPerday = $udMonthlyPerday;
+    }
+
+    /**
+     * Returns the udMonthlyPerdayWeekdays
+     *
+     * @return int $udMonthlyPerdayWeekdays
+     */
+    public function getUdMonthlyPerdayWeekdays()
+    {
+        return $this->udMonthlyPerdayWeekdays;
+    }
+
+    /**
+     * Sets the udMonthlyPerdayWeekdays
+     *
+     * @param int $udMonthlyPerdayWeekdays
+     * @return void
+     */
+    public function setUdMonthlyPerdayWeekdays($udMonthlyPerdayWeekdays)
+    {
+        $this->udMonthlyPerdayWeekdays = $udMonthlyPerdayWeekdays;
+    }
+
+    /**
+     * Returns the udMonthlyPerdateDay
+     *
+     * @return int $udMonthlyPerdateDay
+     */
+    public function getUdMonthlyPerdateDay()
+    {
+        return $this->udMonthlyPerdateDay;
+    }
+
+    /**
+     * Sets the udMonthlyPerdateDay
+     *
+     * @param int $udMonthlyPerdateDay
+     * @return void
+     */
+    public function setUdMonthlyPerdateDay($udMonthlyPerdateDay)
+    {
+        $this->udMonthlyPerdateDay = $udMonthlyPerdateDay;
+    }
+
+    /**
+     * Returns the udMonthlyPerdateLastday
+     *
+     * @return int $udMonthlyPerdateLastday
+     */
+    public function getUdMonthlyPerdateLastday()
+    {
+        return $this->udMonthlyPerdateLastday;
+    }
+
+    /**
+     * Sets the udMonthlyPerdateLastday
+     *
+     * @param int $udMonthlyPerdateLastday
+     * @return void
+     */
+    public function setUdMonthlyPerdateLastday($udMonthlyPerdateLastday)
+    {
+        $this->udMonthlyPerdateLastday = $udMonthlyPerdateLastday;
+    }
+
+    /**
+     * Returns the udMonthlyEverycount
+     *
+     * @return int $udMonthlyEverycount
+     */
+    public function getUdMonthlyEverycount()
+    {
+        return $this->udMonthlyEverycount;
+    }
+
+    /**
+     * Sets the udMonthlyEverycount
+     *
+     * @param int $udMonthlyEverycount
+     * @return void
+     */
+    public function setUdMonthlyEverycount($udMonthlyEverycount)
+    {
+        $this->udMonthlyEverycount = $udMonthlyEverycount;
+    }
+
+    /**
+     * Returns the udYearlyEverycount
+     *
+     * @return int $udYearlyEverycount
+     */
+    public function getUdYearlyEverycount()
+    {
+        return $this->udYearlyEverycount;
+    }
+
+    /**
+     * Sets the udYearlyEverycount
+     *
+     * @param int $udYearlyEverycount
+     * @return void
+     */
+    public function setUdYearlyEverycount($udYearlyEverycount)
+    {
+        $this->udYearlyEverycount = $udYearlyEverycount;
+    }
+
+    /**
+     * Returns the udYearlyPerday
+     *
+     * @return int $udYearlyPerday
+     */
+    public function getUdYearlyPerday()
+    {
+        return $this->udYearlyPerday;
+    }
+
+    /**
+     * Sets the udYearlyPerday
+     *
+     * @param int $udYearlyPerday
+     * @return void
+     */
+    public function setUdYearlyPerday($udYearlyPerday)
+    {
+        $this->udYearlyPerday = $udYearlyPerday;
+    }
+
+    /**
+     * Returns the udYearlyPerdayWeekdays
+     *
+     * @return int $udYearlyPerdayWeekdays
+     */
+    public function getUdYearlyPerdayWeekdays()
+    {
+        return $this->udYearlyPerdayWeekdays;
+    }
+
+    /**
+     * Sets the udYearlyPerdayWeekdays
+     *
+     * @param int $udYearlyPerdayWeekdays
+     * @return void
+     */
+    public function setUdYearlyPerdayWeekdays($udYearlyPerdayWeekdays)
+    {
+        $this->udYearlyPerdayWeekdays = $udYearlyPerdayWeekdays;
+    }
+
+    /**
+     * Returns the udYearlyPerdayMonth
+     *
+     * @return int $udYearlyPerdayMonth
+     */
+    public function getUdYearlyPerdayMonth()
+    {
+        return $this->udYearlyPerdayMonth;
+    }
+
+    /**
+     * Sets the udYearlyPerdayMonth
+     *
+     * @param int $udYearlyPerdayMonth
+     * @return void
+     */
+    public function setUdYearlyPerdayMonth($udYearlyPerdayMonth)
+    {
+        $this->udYearlyPerdayMonth = $udYearlyPerdayMonth;
     }
 }

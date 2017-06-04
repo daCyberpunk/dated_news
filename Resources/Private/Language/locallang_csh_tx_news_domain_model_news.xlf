@@ -36,6 +36,61 @@
 			<trans-unit id="persons.description">
 				<source>persons</source>
 			</trans-unit>
+
+			<trans-unit id="recurrence.description">
+				<source>recurrence</source>
+			</trans-unit>
+			<trans-unit id="recurrence_type.description">
+				<source>recurrenceType</source>
+			</trans-unit>
+			<trans-unit id="recurrence_until.description">
+				<source>recurrenceUntil</source>
+			</trans-unit>
+			<trans-unit id="recurrence_count.description">
+				<source>recurrenceCount</source>
+			</trans-unit>
+			<trans-unit id="ud_type.description">
+				<source>udType</source>
+			</trans-unit>
+			<trans-unit id="ud_daily_everycount.description">
+				<source>udDailyEverycount</source>
+			</trans-unit>
+			<trans-unit id="ud_weekly_everycount.description">
+				<source>udWeeklyEverycount</source>
+			</trans-unit>
+			<trans-unit id="ud_weekly_weekdays.description">
+				<source>udWeeklyWeekdays</source>
+			</trans-unit>
+			<trans-unit id="ud_monthly_base.description">
+				<source>udMonthlyBase</source>
+			</trans-unit>
+			<trans-unit id="ud_monthly_perday.description">
+				<source>udMonthlyPerday</source>
+			</trans-unit>
+			<trans-unit id="ud_monthly_perday_weekdays.description">
+				<source>udMonthlyPerdayWeekdays</source>
+			</trans-unit>
+			<trans-unit id="ud_monthly_perdate_day.description">
+				<source>udMonthlyPerdateDay</source>
+			</trans-unit>
+			<trans-unit id="ud_monthly_perdate_lastday.description">
+				<source>udMonthlyPerdateLastday</source>
+			</trans-unit>
+			<trans-unit id="ud_monthly_everycount.description">
+				<source>udMonthlyEverycount</source>
+			</trans-unit>
+			<trans-unit id="ud_yearly_everycount.description">
+				<source>udYearlyEverycount</source>
+			</trans-unit>
+			<trans-unit id="ud_yearly_perday.description">
+				<source>udYearlyPerday</source>
+			</trans-unit>
+			<trans-unit id="ud_yearly_perday_weekdays.description">
+				<source>udYearlyPerdayWeekdays</source>
+			</trans-unit>
+			<trans-unit id="ud_yearly_perday_month.description">
+				<source>udYearlyPerdayMonth</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
