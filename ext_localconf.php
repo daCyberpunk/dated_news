@@ -20,10 +20,6 @@ if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
         = \FalkRoeder\DatedNews\Hooks\FlexFormHook::class;
 }
 
-// Using Hook to inject own Javascript in Backend
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/template.php']['preHeaderRenderHook'][]
-    = \FalkRoeder\DatedNews\Hooks\PreHeaderRenderHook::class;
-
 
 //register TypeConverter for mapping also hidden applications in controller actions
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('FalkRoeder\\DatedNews\\Property\\TypeConverters\\ApplicationPersistentObjectConverter');

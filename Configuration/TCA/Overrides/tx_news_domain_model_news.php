@@ -23,8 +23,23 @@ if (!isset($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'])) {
     ];
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tx_news_domain_model_news', $tempColumns, 1);
 }
+// Extension manager configuration
+$configuration = \GeorgRinger\News\Utility\EmConfiguration::getSettings();
 
 $tmp_dated_news_columns = [
+    'js' => [
+        'exclude' => 0,
+        'label' => '',
+        'config' => array (
+            'type' => 'user',
+            'size' => '0',
+            'userFunc' => 'FalkRoeder\\DatedNews\\Tca\\Tca->injectJs',
+            'parameters' => array(
+                'color' => 'blue'
+            )
+        ),
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
+    ],
     'application' => [
         'exclude' => 1,
         'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.application',
@@ -299,6 +314,7 @@ $tmp_dated_news_columns = [
             'maxitems' => 1,
             'eval' => ''
         ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'recurrence_type' => [
         'exclude' => false,
@@ -307,13 +323,15 @@ $tmp_dated_news_columns = [
             'type' => 'select',
             'renderType' => 'selectSingle',
             'items' => [
-                ['up to date', 0],
-                ['create X events', 1],
+                ['-- choose --', 0],
+                ['create events until', 1],
+                ['create specific number of events', 2],
             ],
             'size' => 1,
             'maxitems' => 1,
             'eval' => ''
         ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'recurrence_until' => [
         'exclude' => false,
@@ -323,8 +341,9 @@ $tmp_dated_news_columns = [
             'type' => 'input',
             'size' => 12,
             'eval' => 'datetime',
+            'default' => mktime(date('H'),date('i'),0,date('m'),date('d'),date('Y'))
         ],
-        'displayCond' => 'FIELD:recurrence_type:=:0',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'recurrence_count' => [
         'exclude' => false,
@@ -340,10 +359,10 @@ $tmp_dated_news_columns = [
             'default' => 1,
             'slider' => [
                 'step' => 1,
-                'width' => 365,
+                'width' => 100,
             ],
         ],
-        'displayCond' => 'FIELD:recurrence_type:=:1',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     
     'ud_type' => [
@@ -363,7 +382,7 @@ $tmp_dated_news_columns = [
             'maxitems' => 1,
             'eval' => ''
         ],
-        'displayCond' => 'FIELD:recurrence:>:6',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
 
     'ud_daily_everycount' => [
@@ -380,11 +399,11 @@ $tmp_dated_news_columns = [
             'default' => 1,
             'slider' => [
                 'step' => 1,
-                'width' => 364,
+                'width' => 100,
             ],
 
         ],
-        'displayCond' => 'FIELD:ud_type:=:1',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
 
     'ud_weekly_everycount' => [
@@ -401,10 +420,10 @@ $tmp_dated_news_columns = [
             'default' => 1,
             'slider' => [
                 'step' => 1,
-                'width' => 51,
+                'width' => 100,
             ],
         ],
-        'displayCond' => 'FIELD:ud_type:=:2',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'ud_weekly_weekdays' => [
         'exclude' => false,
@@ -422,7 +441,7 @@ $tmp_dated_news_columns = [
             ],
             'cols' => 'inline',
         ],
-        'displayCond' => 'FIELD:ud_type:=:2',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
 
     'ud_monthly_base' => [
@@ -432,14 +451,34 @@ $tmp_dated_news_columns = [
             'type' => 'select',
             'renderType' => 'selectSingle',
             'items' => [
-                ['per day', 0],
-                ['per date', 0],
+                ['-- choose --', 0],
+                ['per day', 1],
+                ['per date', 2],
             ],
             'size' => 1,
             'maxitems' => 1,
             'eval' => ''
         ],
-        'displayCond' => 'FIELD:ud_type:=:3',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
+    ],
+    'ud_monthly_everycount' => [
+        'exclude' => false,
+        'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_monthly_everycount',
+        'config' => [
+            'type' => 'input',
+            'size' => 4,
+            'eval' => 'int',
+            'range' => [
+                'lower' => 1,
+                'upper' => 11,
+            ],
+            'default' => 1,
+            'slider' => [
+                'step' => 1,
+                'width' => 100,
+            ],
+        ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'ud_monthly_perday' => [
         'exclude' => false,
@@ -456,7 +495,7 @@ $tmp_dated_news_columns = [
             ],
             'cols' => 'inline',
         ],
-        'displayCond' => 'FIELD:ud_type:=:3',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'ud_monthly_perday_weekdays' => [
         'exclude' => false,
@@ -477,7 +516,7 @@ $tmp_dated_news_columns = [
             'maxitems' => 1,
             'eval' => ''
         ],
-        'displayCond' => 'FIELD:ud_type:=:3',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'ud_monthly_perdate_day' => [
         'exclude' => false,
@@ -519,7 +558,7 @@ $tmp_dated_news_columns = [
             ],
             'cols' => 'inline',
         ],
-        'displayCond' => 'FIELD:ud_type:=:3',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'ud_monthly_perdate_lastday' => [
         'exclude' => false,
@@ -530,27 +569,9 @@ $tmp_dated_news_columns = [
                 [ 'last day of month', 1 ],
             ],
         ],
-        'displayCond' => 'FIELD:ud_type:=:3',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
-    'ud_monthly_everycount' => [
-        'exclude' => false,
-        'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_monthly_everycount',
-        'config' => [
-            'type' => 'input',
-            'size' => 4,
-            'eval' => 'int',
-            'range' => [
-                'lower' => 1,
-                'upper' => 11,
-            ],
-            'default' => 1,
-            'slider' => [
-                'step' => 1,
-                'width' => 11,
-            ],
-        ],
-        'displayCond' => 'FIELD:ud_type:=:3',
-    ],
+
 
     'ud_yearly_everycount' => [
         'exclude' => false,
@@ -566,10 +587,10 @@ $tmp_dated_news_columns = [
             'default' => 1,
             'slider' => [
                 'step' => 1,
-                'width' => 10,
+                'width' => 100,
             ],
         ],
-        'displayCond' => 'FIELD:ud_type:=:4',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'ud_yearly_perday' => [
         'exclude' => false,
@@ -583,11 +604,11 @@ $tmp_dated_news_columns = [
                 [ '4th', 3 ],
                 [ '5th', 4 ],
                 [ 'last', 5 ],
-                [ 'every', 6 ],
+                [ 'every day', 6 ],
             ],
             'cols' => 'inline',
         ],
-        'displayCond' => 'FIELD:ud_type:=:4',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'ud_yearly_perday_weekdays' => [
         'exclude' => false,
@@ -608,7 +629,7 @@ $tmp_dated_news_columns = [
             'maxitems' => 1,
             'eval' => ''
         ],
-        'displayCond' => 'FIELD:ud_type:=:4',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
     'ud_yearly_perday_month' => [
         'exclude' => false,
@@ -634,7 +655,7 @@ $tmp_dated_news_columns = [
             'maxitems' => 1,
             'eval' => ''
         ],
-        'displayCond' => 'FIELD:ud_type:=:4',
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
 
     'newsrecurrence' => [
@@ -661,6 +682,9 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_additiona
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_applications'] = array(
     'showitem' => 'application,newsrecurrence'
 );
+$GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_js'] = array(
+    'showitem' => 'js'
+);
 
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_recurrence'] = array(
     'showitem' => 'recurrence,recurrence_type,recurrence_until,recurrence_count'
@@ -675,7 +699,7 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_weekly'] 
     'showitem' => 'ud_weekly_everycount,ud_weekly_weekdays'
 );
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_monthly'] = array(
-    'showitem' => 'ud_monthly_base,ud_monthly_perday,ud_monthly_perday_weekdays,ud_monthly_perdate_day,ud_monthly_perdate_lastday,ud_monthly_everycount'
+    'showitem' => 'ud_monthly_base,ud_monthly_everycount,ud_monthly_perday,ud_monthly_perday_weekdays,ud_monthly_perdate_day,ud_monthly_perdate_lastday'
 );
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_yearly'] = array(
     'showitem' => 'ud_yearly_everycount,ud_yearly_perday,ud_yearly_perday_weekdays,ud_yearly_perday_month'
@@ -699,6 +723,7 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_yearly'] 
     --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_weekly;tx_datednews_weekly,
     --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_monthly;tx_datednews_monthly,
     --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_yearly;tx_datednews_yearly,
+    --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_yearly;tx_datednews_js,
 	'
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tx_news_domain_model_news', 'eventtype', '', 'after:istopnews');

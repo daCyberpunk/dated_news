@@ -70,53 +70,45 @@
 			<trans-unit id="tx_datednews_domain_model_news.recurrence_type">
 				<source>Recurrence Type</source>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.recurrence_until">
-				<source>Recurrence Until</source>
-			</trans-unit>
+
 			<trans-unit id="tx_datednews_domain_model_news.recurrence_count">
-				<source>X</source>
+				<source>Number of Events</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.ud_type">
-				<source>Ud Type</source>
+				<source>Recurring Schema</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.ud_daily_everycount">
-				<source>Ud Daily Everycount</source>
+				<source>Every n days</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.ud_weekly_everycount">
-				<source>Ud Weekly Everycount</source>
+				<source>Every n weeks</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.ud_weekly_weekdays">
-				<source>Ud Weekly Weekdays</source>
+				<source>on</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_base">
 				<source>Ud Monthly Base</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_perday">
-				<source>Ud Monthly Perday</source>
+				<source>on</source>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_perday_weekdays">
-				<source>Ud Monthly Perday Weekdays</source>
-			</trans-unit>
+
 			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_perdate_day">
-				<source>Ud Monthly Perdate Day</source>
+				<source>Days of month</source>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_perdate_lastday">
-				<source>Ud Monthly Perdate Lastday</source>
-			</trans-unit>
+
 			<trans-unit id="tx_datednews_domain_model_news.ud_monthly_everycount">
-				<source>Ud Monthly Everycount</source>
+				<source>Every n months</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.ud_yearly_everycount">
-				<source>Ud Yearly Everycount</source>
+				<source>Every n years</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.ud_yearly_perday">
 				<source>Ud Yearly Perday</source>
 			</trans-unit>
-			<trans-unit id="tx_datednews_domain_model_news.ud_yearly_perday_weekdays">
-				<source>Ud Yearly Perday Weekdays</source>
-			</trans-unit>
+
 			<trans-unit id="tx_datednews_domain_model_news.ud_yearly_perday_month">
-				<source>Ud Yearly Perday Month</source>
+				<source>in</source>
 			</trans-unit>
 			<trans-unit id="tx_news_domain_model_news.tx_extbase_type.Tx_NewsRecurrences_News">
 				<source>Dated News News</source>
@@ -138,6 +130,9 @@
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_newsrecurrence.teaser">
 				<source>Teaser</source>
+			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_newsrecurrence.modified">
+				<source>Modified</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_newsrecurrence.parent_event">
 				<source>Parent Event</source>

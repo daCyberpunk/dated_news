@@ -25,7 +25,7 @@ CREATE TABLE tx_news_domain_model_news (
 
 	recurrence int(11) DEFAULT '0' NOT NULL,
 	recurrence_type int(11) DEFAULT '0' NOT NULL,
-	recurrence_until datetime DEFAULT '0000-00-00 00:00:00',
+	recurrence_until int(11) DEFAULT '0' NOT NULL,
 	recurrence_count int(11) DEFAULT '0' NOT NULL,
 	ud_type int(11) DEFAULT '0' NOT NULL,
 	ud_daily_everycount int(11) DEFAULT '0' NOT NULL,
@@ -57,6 +57,7 @@ CREATE TABLE tx_datednews_domain_model_newsrecurrence (
 	eventlocation varchar(255) DEFAULT '' NOT NULL,
 	bodytext text,
 	teaser text,
+	modified tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	parent_event int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

@@ -19,10 +19,10 @@ return [
         'iconfile' => 'EXT:dated_news/Resources/Public/Icons/tx_datednews_domain_model_newsrecurrence.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, eventstart, eventend, eventlocation, bodytext, teaser, parent_event',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, eventstart, eventend, eventlocation, bodytext, teaser, modified, parent_event',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, eventstart, eventend, eventlocation, bodytext, teaser, parent_event'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, eventstart, eventend, eventlocation, bodytext, teaser, modified, parent_event'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -133,6 +133,12 @@ return [
                 'rows' => 15,
                 'eval' => 'trim'
             ]
+        ],
+        'modified' => [
+            'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_newsrecurrence.modified',
+            'config' => [
+                'type' => 'none',
+            ],
         ],
         'parent_event' => [
             'exclude' => false,

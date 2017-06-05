@@ -47,16 +47,16 @@
 				<source>recurrenceUntil</source>
 			</trans-unit>
 			<trans-unit id="recurrence_count.description">
-				<source>recurrenceCount</source>
+				<source>Number of recurring Events to create</source>
 			</trans-unit>
 			<trans-unit id="ud_type.description">
 				<source>udType</source>
 			</trans-unit>
 			<trans-unit id="ud_daily_everycount.description">
-				<source>udDailyEverycount</source>
+				<source>Every n days</source>
 			</trans-unit>
 			<trans-unit id="ud_weekly_everycount.description">
-				<source>udWeeklyEverycount</source>
+				<source>Every n weeks</source>
 			</trans-unit>
 			<trans-unit id="ud_weekly_weekdays.description">
 				<source>udWeeklyWeekdays</source>
@@ -67,20 +67,16 @@
 			<trans-unit id="ud_monthly_perday.description">
 				<source>udMonthlyPerday</source>
 			</trans-unit>
-			<trans-unit id="ud_monthly_perday_weekdays.description">
-				<source>udMonthlyPerdayWeekdays</source>
-			</trans-unit>
+
 			<trans-unit id="ud_monthly_perdate_day.description">
 				<source>udMonthlyPerdateDay</source>
 			</trans-unit>
-			<trans-unit id="ud_monthly_perdate_lastday.description">
-				<source>udMonthlyPerdateLastday</source>
-			</trans-unit>
+
 			<trans-unit id="ud_monthly_everycount.description">
-				<source>udMonthlyEverycount</source>
+				<source>Every n months</source>
 			</trans-unit>
 			<trans-unit id="ud_yearly_everycount.description">
-				<source>udYearlyEverycount</source>
+				<source>Every n years</source>
 			</trans-unit>
 			<trans-unit id="ud_yearly_perday.description">
 				<source>udYearlyPerday</source>

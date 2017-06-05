@@ -53,6 +53,13 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $teaser = '';
 
     /**
+     * modified.
+     *
+     * @var bool
+     */
+    protected $modified = false;
+
+    /**
      * parentEvent
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoder\DatedNews\Domain\Model\News>
@@ -185,6 +192,38 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setTeaser($teaser)
     {
         $this->teaser = $teaser;
+    }
+
+    /**
+     * Returns the modified.
+     *
+     * @return bool $modified
+     */
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
+    /**
+     * Sets the modified.
+     *
+     * @param bool $modified
+     *
+     * @return void
+     */
+    public function setModified($modified)
+    {
+        $this->modified = $modified;
+    }
+
+    /**
+     * Returns the boolean state of modified.
+     *
+     * @return bool
+     */
+    public function isModified()
+    {
+        return $this->modified;
     }
 
     /**
