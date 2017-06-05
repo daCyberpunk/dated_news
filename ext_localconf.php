@@ -19,7 +19,8 @@ if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][\TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools::class]['flexParsing'][]
         = \FalkRoeder\DatedNews\Hooks\FlexFormHook::class;
 }
-
+$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['dated_news'] = 'FalkRoeder\\DatedNews\\Hooks\\TCEmainHook';
+$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['dated_news'] = 'FalkRoeder\\DatedNews\\Hooks\\TCEmainHook';
 
 //register TypeConverter for mapping also hidden applications in controller actions
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('FalkRoeder\\DatedNews\\Property\\TypeConverters\\ApplicationPersistentObjectConverter');

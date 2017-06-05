@@ -1,5 +1,5 @@
 <?php
-namespace FalkRoder\DatedNews\Domain\Repository;
+namespace FalkRoeder\DatedNews\Domain\Repository;
 
 /***
  *
