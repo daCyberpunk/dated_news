@@ -1,7 +1,8 @@
 <?php
 namespace FalkRoeder\DatedNews\Hooks;
 
-
+use \Recurr\Rule;
+use \Recurr\Transformer\ArrayTransformer;
 class TCEmainHook {
 
 
@@ -19,6 +20,7 @@ class TCEmainHook {
         if($table !== 'tx_news_domain_model_news'){
             return;
         }
+        unset($fieldArray['ud_req_behavior']);
         //get all recurrence settings
         $settings = [];
         foreach ($fieldArray as $key => $val){
@@ -33,35 +35,60 @@ class TCEmainHook {
         $newsRepository = $extbaseObjectManager->get('GeorgRinger\News\Domain\Repository\NewsRepository');
         /** @var $newsRecurrenceRepository \FalkRoeder\DatedNews\Domain\Repository\NewsRecurrenceRepository */
         $newsRecurrenceRepository = $extbaseObjectManager->get('FalkRoeder\DatedNews\Domain\Repository\NewsRecurrenceRepository');
+
+        $news = $newsRepository->findByIdentifier($id);
+
+
         
 
 
         if($settings['recurrence'] === 0) {
             //delete all recurrences if exist
         } else {
+            $rule = new Rule;
+            $rule->setStartDate($news->getEventstart());
             switch ($settings['recurrence']) {
                 case 1:
                     // daily
+                    $rule->setFreq('DAILY');
                     break;
                 case 2:
                     // weekly
+                    $rule->setFreq('Weekly');
                     break;
                 case 3:
                     // workdays
+                    $rule->setByDay([0,1,2,3,4]);
                     break;
                 case 4:
                     // every other week
+                    $rule->setFreq('Weekly')->setInterval(2);
                     break;
                 case 5:
                     // monthly
+                    $rule->setFreq('Monthly');
                     break;
                 case 6:
                     // yearly
+                    $rule->setFreq('Yearly');
                     break;
                 case 7:
                     // user defined
                     break;
+                default:
             }
+            if($settings['recurrence_type'] === 1) {
+                $rule->setEndDate($settings['recurrence_until']);
+            } else {
+                $rule->setCount($settings['recurrence_count']);
+            }
+//                    \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($rule,'TCEmainHook:78');
+            $transformer = new ArrayTransformer();
+            $recurrences = $transformer->transform($rule);
+//            foreach ($recurrences as $rec) {
+//                \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($rec,'TCEmainHook:88');
+//
+//            }
         }
         
 //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($id,'TCEmainHook:13');
