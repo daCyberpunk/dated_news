@@ -337,9 +337,9 @@ $tmp_dated_news_columns = [
         'exclude' => false,
         'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.recurrence_until',
         'config' => [
-            'dbType' => 'datetime',
             'type' => 'input',
-            'size' => 12,
+            'size' => 16,
+            'max'  => 20,
             'eval' => 'datetime',
             'default' => mktime(date('H'),date('i'),0,date('m'),date('d'),date('Y'))
         ],
@@ -658,6 +658,17 @@ $tmp_dated_news_columns = [
         'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
 
+    'ud_req_behavior' => [
+        'exclude' => false,
+        'label' => 'behave',
+        'config' => [
+            'type' => 'check',
+            'items' => [
+                [ 'overwrite all', 1 ],
+            ],
+        ],
+    ],
+
     'newsrecurrence' => [
         'config' => [
             'type' => 'passthrough',
@@ -687,7 +698,7 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_js'] = ar
 );
 
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_recurrence'] = array(
-    'showitem' => 'recurrence,recurrence_type,recurrence_until,recurrence_count'
+    'showitem' => 'recurrence,recurrence_type,recurrence_until,recurrence_count,ud_req_behavior'
 );
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_udtype'] = array(
     'showitem' => 'ud_type'
