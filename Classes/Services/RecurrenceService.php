@@ -9,11 +9,65 @@ use \Recurr\Transformer\ArrayTransformer;
  * RecurringService.php
  * 
  */
-class RecurringService
+class RecurrenceService
 {
+    protected $availableWeekdays = ['MO','TU','WE','TH','FR','SA','SU'];
     
-    public function getRule(){
-        return 'AAA';
+    public function getRecurrences($startDate, $endDate, $settings){
+        
+        $rule = $this->buildRule($startDate, $endDate, $settings);
+        
+        $transformer = new ArrayTransformer();
+        $recurrences = $transformer->transform($rule);
+        
+        return $recurrences;
+    }
+    
+    public function buildRule($startDate, $endDate, $settings){
+        $rule = new Rule;
+        $rule
+            ->setStartDate($startDate)
+            ->setEndDate($endDate);
+
+        switch ($settings['recurrence']) {
+            case 1:
+                // daily
+                $rule->setFreq('DAILY');
+                break;
+            case 2:
+                // weekly
+                $rule->setFreq('WEEKLY');
+                break;
+            case 3:
+                // workdays
+                $rule->setByDay(['MO','TU','WE','TH','FR']);
+                break;
+            case 4:
+                // every other week
+                $rule->setFreq('WEEKLY')->setInterval(2);
+                break;
+            case 5:
+                // monthly
+                $rule->setFreq('MONTHLY');
+                break;
+            case 6:
+                // yearly
+                $rule->setFreq('YEARLY');
+                break;
+            case 7:
+                // user defined
+                $rule = $this->getUserdefinedRule($rule, $settings);
+                break;
+            default:
+        }
+
+        if($settings['recurrence_type'] === '1') {
+            $until = new \DateTime($settings['recurrence_until']);
+            $rule->setUntil($until->add(new \DateInterval('P1D')));
+        } else {
+            $rule->setCount($settings['recurrence_count']);
+        }
+        return $rule;
     }
     
     public function disolveBitValues($bit,$values = null){
