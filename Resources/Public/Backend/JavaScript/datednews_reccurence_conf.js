@@ -1,5 +1,5 @@
 
-$(window).on('load', function(){
+window.onload = function(){
 
 
     var d = document,
@@ -339,4 +339,4 @@ $(window).on('load', function(){
         fUdMonthlyBase[0].onchange();
     }
 
-});
+};
