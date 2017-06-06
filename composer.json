@@ -1,6 +1,6 @@
 {
   "repositories": [
-    { "type": "vcs", "url": "https://github.com/simshaun/recurr" }
+    { "type": "vcs", "url": "https://github.com/daCyberpunk/recurr" }
   ],
   "name": "falkroeder/dated-news",
   "type": "typo3-cms-extension",
@@ -19,7 +19,7 @@
   "require": {
     "typo3/cms-core": ">=7.6.13",
     "news": ">5.3.0, <6.0.99",
-    "simshaun/recurr": "^2.2"
+    "falkroeder/recurr": "^1.0"
   },
   "suggest": {
   },
