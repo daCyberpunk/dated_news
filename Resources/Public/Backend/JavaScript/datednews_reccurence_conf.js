@@ -31,6 +31,9 @@ window.onload = function(){
         ;
 
 
+    
+
+    
 
     var fRecurrenceChange,
         fRecurrenceTypeChange,
@@ -212,7 +215,15 @@ window.onload = function(){
         };
 
 
-
+//remove in production versioN!!
+    document.querySelectorAll('.extbase-debugger').forEach(function(el){
+        el.ondblclick = function(){removeDbtrees()};
+    });
+    function removeDbtrees (){
+        document.querySelectorAll('.extbase-debugger').forEach(function(el){
+            el.remove();
+        });
+    }
 
     fRecurrenceChange = function(changeColor){
         var val = parseInt(fRecurrence[0].value);

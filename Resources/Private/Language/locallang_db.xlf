@@ -9,6 +9,9 @@
 			<trans-unit id="tx_datednews_domain_model_recurrences">
 				<source>Userdefined Recurrence</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_recurrences_overrides">
+				<source>Recurrence Overrides</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_news.eventstart">
 				<source>Event Start</source>
 			</trans-unit>

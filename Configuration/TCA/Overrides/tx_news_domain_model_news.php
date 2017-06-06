@@ -638,34 +638,45 @@ $tmp_dated_news_columns = [
             'type' => 'select',
             'renderType' => 'selectSingle',
             'items' => [
-                [ 'January', 0 ],
-                [ 'February', 1 ],
-                [ 'March', 2 ],
-                [ 'April', 3 ],
-                [ 'May', 4 ],
-                [ 'June', 5 ],
-                [ 'Jule', 6 ],
-                [ 'August', 6 ],
-                [ 'September', 6 ],
-                [ 'October', 6 ],
-                [ 'November', 6 ],
-                [ 'December', 6 ],
+                [ 'January', 1 ],
+                [ 'February', 2 ],
+                [ 'March', 3 ],
+                [ 'April', 4 ],
+                [ 'May', 5 ],
+                [ 'June', 6 ],
+                [ 'Jule', 7 ],
+                [ 'August', 8 ],
+                [ 'September', 9 ],
+                [ 'October', 10 ],
+                [ 'November', 11 ],
+                [ 'December', 12 ],
             ],
             'size' => 1,
             'maxitems' => 1,
-            'eval' => ''
+            'eval' => '',
+            'default' => 1
         ],
         'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
 
-    'ud_req_behavior' => [
+    'recurrence_updated_behavior' => [
         'exclude' => false,
-        'label' => 'behave',
+        'label' => 'Behavior of building and overriding recurring events. Handle carefully!',
         'config' => [
-            'type' => 'check',
+            'type' => 'select',
+            'renderType' => 'selectSingle',
             'items' => [
-                [ 'overwrite all', 1 ],
+                [ '-- choose --', '' ],
+                [ 'do nothing', 1 ],
+                [ 'build/overwrite all (existing applications for recurring events will be lost!)', 2 ],
+                [ 'overwrite all none modified recurring events', 3 ],
+                [ 'overwrite only changed fields in all', 4 ],
+                [ 'overwrite only changed fields in none modified recurring events', 5 ],
             ],
+            'size' => 1,
+            'maxitems' => 1,
+            'eval' => 'required',
+            'default' => 2
         ],
     ],
 
@@ -698,7 +709,10 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_js'] = ar
 );
 
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_recurrence'] = array(
-    'showitem' => 'recurrence,recurrence_type,recurrence_until,recurrence_count,ud_req_behavior'
+    'showitem' => 'recurrence,recurrence_type,recurrence_until,recurrence_count'
+);
+$GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_recurrence_overrides'] = array(
+    'showitem' => 'recurrence_updated_behavior'
 );
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_udtype'] = array(
     'showitem' => 'ud_type'
@@ -735,6 +749,9 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_yearly'] 
     --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_monthly;tx_datednews_monthly,
     --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_yearly;tx_datednews_yearly,
     --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_palette_yearly;tx_datednews_js,
+    
+    ,--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_recurrences_overrides,
+    --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_recurrence_overrides;tx_datednews_recurrence_overrides,
 	'
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tx_news_domain_model_news', 'eventtype', '', 'after:istopnews');
