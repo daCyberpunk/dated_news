@@ -2,29 +2,29 @@
 
 namespace FalkRoeder\DatedNews\Services;
 
-use \Recurr\Rule;
-use \Recurr\Transformer\ArrayTransformer;
+use Recurr\Rule;
+use Recurr\Transformer\ArrayTransformer;
 
 /**
- * RecurringService.php
- * 
+ * RecurringService.php.
  */
 class RecurrenceService
 {
-    protected $availableWeekdays = ['MO','TU','WE','TH','FR','SA','SU'];
-    
-    public function getRecurrences($startDate, $endDate, $settings){
-        
+    protected $availableWeekdays = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
+
+    public function getRecurrences($startDate, $endDate, $settings)
+    {
         $rule = $this->buildRule($startDate, $endDate, $settings);
-        
+
         $transformer = new ArrayTransformer();
         $recurrences = $transformer->transform($rule);
-        
+
         return $recurrences;
     }
-    
-    public function buildRule($startDate, $endDate, $settings){
-        $rule = new Rule;
+
+    public function buildRule($startDate, $endDate, $settings)
+    {
+        $rule = new Rule();
         $rule
             ->setStartDate($startDate)
             ->setEndDate($endDate);
@@ -40,7 +40,7 @@ class RecurrenceService
                 break;
             case 3:
                 // workdays
-                $rule->setByDay(['MO','TU','WE','TH','FR']);
+                $rule->setByDay(['MO', 'TU', 'WE', 'TH', 'FR']);
                 break;
             case 4:
                 // every other week
@@ -61,30 +61,34 @@ class RecurrenceService
             default:
         }
 
-        if($settings['recurrence_type'] === '1') {
+        if ($settings['recurrence_type'] === '1') {
             $until = new \DateTime($settings['recurrence_until']);
             $rule->setUntil($until->add(new \DateInterval('P1D')));
         } else {
             $rule->setCount($settings['recurrence_count']);
         }
+
         return $rule;
     }
-    
-    public function disolveBitValues($bit,$values = null){
+
+    public function disolveBitValues($bit, $values = null)
+    {
         $result = [];
-        for ($n = 6; $n >= 0; $n--){
-            if( $bit & (1 << $n) ) {
-                if (is_array($values) && !empty($values)){
-                    array_push($result,$values[$n]);
+        for ($n = 6; $n >= 0; $n--) {
+            if ($bit & (1 << $n)) {
+                if (is_array($values) && !empty($values)) {
+                    array_push($result, $values[$n]);
                 } else {
-                    array_push($result,$n);
+                    array_push($result, $n);
                 }
             }
         }
+
         return array_reverse($result);
     }
 
-    public function getUserdefinedRule($rule, $settings){
+    public function getUserdefinedRule($rule, $settings)
+    {
         switch ($settings['ud_type']) {
             case 1:
                 // daily
@@ -104,18 +108,18 @@ class RecurrenceService
                 $rule
                     ->setFreq('MONTHLY')
                     ->setInterval($settings['ud_monthly_everycount']);
-                if($settings['ud_monthly_base'] === "1"){
+                if ($settings['ud_monthly_base'] === '1') {
                     //per day
                     $rule
                         ->setByDay([$this->availableWeekdays[$settings['ud_monthly_perday_weekdays']]])
-                        ->setBySetPosition($this->disolveBitValues($settings['ud_monthly_perday'], [1,2,3,4,5,-1]));
+                        ->setBySetPosition($this->disolveBitValues($settings['ud_monthly_perday'], [1, 2, 3, 4, 5, -1]));
                 } else {
                     //per date
                     $monthDays = $this->disolveBitValues($settings['ud_monthly_perdate_day']);
-                    foreach ($monthDays as $key => $day){
+                    foreach ($monthDays as $key => $day) {
                         $monthDays[$key] = $day + 1;
                     }
-                    if($settings['ud_monthly_perdate_lastday']){
+                    if ($settings['ud_monthly_perdate_lastday']) {
                         array_push($monthDays, -1);
                     }
                     $rule->setByMonthDay($monthDays);
@@ -123,13 +127,13 @@ class RecurrenceService
                 break;
             case 4:
                 // yearly
-                $position = $this->disolveBitValues($settings['ud_yearly_perday'], [1,2,3,4,5,-1,8]);
+                $position = $this->disolveBitValues($settings['ud_yearly_perday'], [1, 2, 3, 4, 5, -1, 8]);
                 $rule
                     ->setFreq('YEARLY')
                     ->setInterval($settings['ud_yearly_everycount'])
                     ->setByMonth([$settings['ud_yearly_perday_month']])
                     ->setByDay([$this->availableWeekdays[$settings['ud_yearly_perday_weekdays']]]);
-                if(!in_array(8,$position)){
+                if (!in_array(8, $position)) {
                     $rule->setBySetPosition($position);
                 }
                 break;

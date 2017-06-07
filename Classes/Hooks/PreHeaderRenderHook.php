@@ -1,6 +1,7 @@
 <?php
 
 namespace FalkRoeder\DatedNews\Hooks;
+
 /***************************************************************
  *  Copyright notice
  *  (c) 2013 Jo Hasenau <info@cybercraft.de>
@@ -20,20 +21,19 @@ namespace FalkRoeder\DatedNews\Hooks;
  ***************************************************************/
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 /**
- * Class PreHeaderRenderHook
- *
- * @package FalkRoeder\DatedNews\Hooks
+ * Class PreHeaderRenderHook.
  */
 class PreHeaderRenderHook implements SingletonInterface
 {
     /**
      * @param array $arg
      */
-    function main(array $arg)
+    public function main(array $arg)
     {
         /** @var \TYPO3\CMS\Core\Page\PageRenderer $pagerenderer */
         $pagerenderer = $arg['pageRenderer'];
-        $pagerenderer->addJsFile(ExtensionManagementUtility::extRelPath('dated_news') . 'Resources/Public/Backend/JavaScript/datednews_reccurence_conf.js');
+        $pagerenderer->addJsFile(ExtensionManagementUtility::extRelPath('dated_news').'Resources/Public/Backend/JavaScript/datednews_reccurence_conf.js');
     }
 }

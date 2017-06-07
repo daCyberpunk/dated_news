@@ -1,4 +1,5 @@
 <?php
+
 namespace FalkRoeder\DatedNews\Domain\Model;
 
 /***
@@ -13,40 +14,40 @@ namespace FalkRoeder\DatedNews\Domain\Model;
  ***/
 
 /**
- * NewsRecurrence
+ * NewsRecurrence.
  */
 class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
     /**
-     * eventstart
+     * eventstart.
      *
      * @var \DateTime
      */
     protected $eventstart = null;
 
     /**
-     * eventend
+     * eventend.
      *
      * @var \DateTime
      */
     protected $eventend = null;
 
     /**
-     * eventlocation
+     * eventlocation.
      *
      * @var string
      */
     protected $eventlocation = '';
 
     /**
-     * bodytext
+     * bodytext.
      *
      * @var string
      */
     protected $bodytext = '';
 
     /**
-     * teaser
+     * teaser.
      *
      * @var string
      */
@@ -58,7 +59,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var bool
      */
     protected $modified = false;
-    
+
     /**
      * hidden.
      *
@@ -67,7 +68,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $hidden = false;
 
     /**
-     * parentEvent
+     * parentEvent.
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News>
      * @cascade remove
@@ -75,7 +76,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $parentEvent = null;
 
     /**
-     * __construct
+     * __construct.
      */
     public function __construct()
     {
@@ -87,7 +88,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Initializes all ObjectStorage properties
      * Do not modify this method!
      * It will be rewritten on each save in the extension builder
-     * You may modify the constructor of this class instead
+     * You may modify the constructor of this class instead.
      *
      * @return void
      */
@@ -97,7 +98,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the eventstart
+     * Returns the eventstart.
      *
      * @return \DateTime $eventstart
      */
@@ -107,9 +108,10 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the eventstart
+     * Sets the eventstart.
      *
      * @param \DateTime $eventstart
+     *
      * @return void
      */
     public function setEventstart(\DateTime $eventstart)
@@ -118,7 +120,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the eventend
+     * Returns the eventend.
      *
      * @return \DateTime $eventend
      */
@@ -128,9 +130,10 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the eventend
+     * Sets the eventend.
      *
      * @param \DateTime $eventend
+     *
      * @return void
      */
     public function setEventend(\DateTime $eventend)
@@ -139,7 +142,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the eventlocation
+     * Returns the eventlocation.
      *
      * @return string $eventlocation
      */
@@ -149,9 +152,10 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the eventlocation
+     * Sets the eventlocation.
      *
      * @param string $eventlocation
+     *
      * @return void
      */
     public function setEventlocation($eventlocation)
@@ -160,7 +164,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the bodytext
+     * Returns the bodytext.
      *
      * @return string $bodytext
      */
@@ -170,9 +174,10 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the bodytext
+     * Sets the bodytext.
      *
      * @param string $bodytext
+     *
      * @return void
      */
     public function setBodytext($bodytext)
@@ -181,7 +186,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the teaser
+     * Returns the teaser.
      *
      * @return string $teaser
      */
@@ -191,9 +196,10 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the teaser
+     * Sets the teaser.
      *
      * @param string $teaser
+     *
      * @return void
      */
     public function setTeaser($teaser)
@@ -232,7 +238,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->modified;
     }
-    
+
     /**
      * Returns the hidden.
      *
@@ -266,9 +272,10 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Adds a News
+     * Adds a News.
      *
      * @param \GeorgRinger\News\Domain\Model\News $parentEvent
+     *
      * @return void
      */
     public function addParentEvent(\GeorgRinger\News\Domain\Model\News $parentEvent)
@@ -277,9 +284,10 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Removes a News
+     * Removes a News.
      *
      * @param \GeorgRinger\News\Domain\Model\News $parentEventToRemove The News to be removed
+     *
      * @return void
      */
     public function removeParentEvent(\GeorgRinger\News\Domain\Model\News $parentEventToRemove)
@@ -288,7 +296,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the parentEvent
+     * Returns the parentEvent.
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News> $parentEvent
      */
@@ -298,9 +306,10 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the parentEvent
+     * Sets the parentEvent.
      *
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News> $parentEvent
+     *
      * @return void
      */
     public function setParentEvent(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $parentEvent)
