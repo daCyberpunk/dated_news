@@ -34,6 +34,7 @@ class NewsRecurrenceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     /**
      * @param $id
+     *
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function getByParentId($id)

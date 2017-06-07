@@ -13,11 +13,12 @@ class RecurrenceService
     protected $availableWeekdays = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
 
     /**
-     * getRecurrences
-     * 
+     * getRecurrences.
+     *
      * @param $startDate
      * @param $endDate
      * @param $settings
+     *
      * @return \Recurr\Recurrence[]|\Recurr\RecurrenceCollection
      */
     public function getRecurrences($startDate, $endDate, $settings)
@@ -31,14 +32,16 @@ class RecurrenceService
     }
 
     /**
-     * buildRule
-     * 
+     * buildRule.
+     *
      * @param $startDate
      * @param $endDate
      * @param $settings
-     * @return mixed|Rule
+     *
      * @throws \Recurr\Exception\InvalidArgument
      * @throws \Recurr\Exception\InvalidRRule
+     *
+     * @return mixed|Rule
      */
     public function buildRule($startDate, $endDate, $settings)
     {
@@ -90,10 +93,11 @@ class RecurrenceService
     }
 
     /**
-     * disolveBitValues
-     * 
+     * disolveBitValues.
+     *
      * @param $bit
      * @param $values
+     *
      * @return array
      */
     public function disolveBitValues($bit, $values = null)
@@ -113,10 +117,11 @@ class RecurrenceService
     }
 
     /**
-     * getUserdefinedRule
-     * 
+     * getUserdefinedRule.
+     *
      * @param $rule
      * @param $settings
+     *
      * @return mixed
      */
     public function getUserdefinedRule($rule, $settings)

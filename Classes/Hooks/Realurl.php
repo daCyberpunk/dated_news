@@ -46,6 +46,7 @@ class Realurl
 
     /**
      * @param $value
+     *
      * @return string
      */
     public function id2alias($value)
@@ -65,6 +66,7 @@ class Realurl
 
     /**
      * @param $value
+     *
      * @return string
      */
     public function alias2id($value)
@@ -87,6 +89,7 @@ class Realurl
 
     /**
      * @param $uid
+     *
      * @return string
      */
     protected function getApplicationMd5($uid)
