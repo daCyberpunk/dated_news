@@ -36,7 +36,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application>
      */
     protected $application;
-    
+
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence>
      */
@@ -148,126 +148,126 @@ class News extends \GeorgRinger\News\Domain\Model\News
     protected $targetgroup = '';
 
     /**
-     * recurrence
+     * recurrence.
      *
      * @var int
      */
     protected $recurrence = 0;
 
     /**
-     * recurrenceType
+     * recurrenceType.
      *
      * @var int
      */
     protected $recurrenceType = 0;
 
     /**
-     * recurrenceUntil
+     * recurrenceUntil.
      *
      * @var \DateTime
      */
     protected $recurrenceUntil = null;
 
     /**
-     * recurrenceCount
+     * recurrenceCount.
      *
      * @var int
      */
     protected $recurrenceCount = 0;
 
     /**
-     * udType
+     * udType.
      *
      * @var int
      */
     protected $udType = 0;
 
     /**
-     * udDailyEverycount
+     * udDailyEverycount.
      *
      * @var int
      */
     protected $udDailyEverycount = 0;
 
     /**
-     * udWeeklyEverycount
+     * udWeeklyEverycount.
      *
      * @var int
      */
     protected $udWeeklyEverycount = 0;
 
     /**
-     * udWeeklyWeekdays
+     * udWeeklyWeekdays.
      *
      * @var int
      */
     protected $udWeeklyWeekdays = 0;
 
     /**
-     * udMonthlyBase
+     * udMonthlyBase.
      *
      * @var int
      */
     protected $udMonthlyBase = 0;
 
     /**
-     * udMonthlyPerday
+     * udMonthlyPerday.
      *
      * @var int
      */
     protected $udMonthlyPerday = 0;
 
     /**
-     * udMonthlyPerdayWeekdays
+     * udMonthlyPerdayWeekdays.
      *
      * @var int
      */
     protected $udMonthlyPerdayWeekdays = 0;
 
     /**
-     * udMonthlyPerdateDay
+     * udMonthlyPerdateDay.
      *
      * @var int
      */
     protected $udMonthlyPerdateDay = 0;
 
     /**
-     * udMonthlyPerdateLastday
+     * udMonthlyPerdateLastday.
      *
      * @var int
      */
     protected $udMonthlyPerdateLastday = 0;
 
     /**
-     * udMonthlyEverycount
+     * udMonthlyEverycount.
      *
      * @var int
      */
     protected $udMonthlyEverycount = 0;
 
     /**
-     * udYearlyEverycount
+     * udYearlyEverycount.
      *
      * @var int
      */
     protected $udYearlyEverycount = 0;
 
     /**
-     * udYearlyPerday
+     * udYearlyPerday.
      *
      * @var int
      */
     protected $udYearlyPerday = 0;
 
     /**
-     * udYearlyPerdayWeekdays
+     * udYearlyPerdayWeekdays.
      *
      * @var int
      */
     protected $udYearlyPerdayWeekdays = 0;
 
     /**
-     * udYearlyPerdayMonth
+     * udYearlyPerdayMonth.
      *
      * @var int
      */
@@ -787,7 +787,6 @@ class News extends \GeorgRinger\News\Domain\Model\News
         $this->application = $application;
     }
 
-
     /**
      * Adds a NewsRecurrence.
      *
@@ -834,13 +833,8 @@ class News extends \GeorgRinger\News\Domain\Model\News
         $this->newsrecurrence = $newsrecurrence;
     }
 
-
-
-
-
-
     /**
-     * Returns the recurrence
+     * Returns the recurrence.
      *
      * @return int $recurrence
      */
@@ -850,9 +844,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the recurrence
+     * Sets the recurrence.
      *
      * @param int $recurrence
+     *
      * @return void
      */
     public function setRecurrence($recurrence)
@@ -861,7 +856,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the recurrenceType
+     * Returns the recurrenceType.
      *
      * @return int $recurrenceType
      */
@@ -871,9 +866,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the recurrenceType
+     * Sets the recurrenceType.
      *
      * @param int $recurrenceType
+     *
      * @return void
      */
     public function setRecurrenceType($recurrenceType)
@@ -882,7 +878,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the recurrenceUntil
+     * Returns the recurrenceUntil.
      *
      * @return \DateTime $recurrenceUntil
      */
@@ -892,9 +888,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the recurrenceUntil
+     * Sets the recurrenceUntil.
      *
      * @param \DateTime $recurrenceUntil
+     *
      * @return void
      */
     public function setRecurrenceUntil(\DateTime $recurrenceUntil)
@@ -903,7 +900,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the recurrenceCount
+     * Returns the recurrenceCount.
      *
      * @return int $recurrenceCount
      */
@@ -913,9 +910,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the recurrenceCount
+     * Sets the recurrenceCount.
      *
      * @param int $recurrenceCount
+     *
      * @return void
      */
     public function setRecurrenceCount($recurrenceCount)
@@ -924,7 +922,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udType
+     * Returns the udType.
      *
      * @return int $udType
      */
@@ -934,9 +932,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udType
+     * Sets the udType.
      *
      * @param int $udType
+     *
      * @return void
      */
     public function setUdType($udType)
@@ -945,7 +944,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udDailyEverycount
+     * Returns the udDailyEverycount.
      *
      * @return int $udDailyEverycount
      */
@@ -955,9 +954,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udDailyEverycount
+     * Sets the udDailyEverycount.
      *
      * @param int $udDailyEverycount
+     *
      * @return void
      */
     public function setUdDailyEverycount($udDailyEverycount)
@@ -966,7 +966,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udWeeklyEverycount
+     * Returns the udWeeklyEverycount.
      *
      * @return int $udWeeklyEverycount
      */
@@ -976,9 +976,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udWeeklyEverycount
+     * Sets the udWeeklyEverycount.
      *
      * @param int $udWeeklyEverycount
+     *
      * @return void
      */
     public function setUdWeeklyEverycount($udWeeklyEverycount)
@@ -987,7 +988,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udWeeklyWeekdays
+     * Returns the udWeeklyWeekdays.
      *
      * @return int $udWeeklyWeekdays
      */
@@ -997,9 +998,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udWeeklyWeekdays
+     * Sets the udWeeklyWeekdays.
      *
      * @param int $udWeeklyWeekdays
+     *
      * @return void
      */
     public function setUdWeeklyWeekdays($udWeeklyWeekdays)
@@ -1008,7 +1010,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udMonthlyBase
+     * Returns the udMonthlyBase.
      *
      * @return int $udMonthlyBase
      */
@@ -1018,9 +1020,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udMonthlyBase
+     * Sets the udMonthlyBase.
      *
      * @param int $udMonthlyBase
+     *
      * @return void
      */
     public function setUdMonthlyBase($udMonthlyBase)
@@ -1029,7 +1032,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udMonthlyPerday
+     * Returns the udMonthlyPerday.
      *
      * @return int $udMonthlyPerday
      */
@@ -1039,9 +1042,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udMonthlyPerday
+     * Sets the udMonthlyPerday.
      *
      * @param int $udMonthlyPerday
+     *
      * @return void
      */
     public function setUdMonthlyPerday($udMonthlyPerday)
@@ -1050,7 +1054,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udMonthlyPerdayWeekdays
+     * Returns the udMonthlyPerdayWeekdays.
      *
      * @return int $udMonthlyPerdayWeekdays
      */
@@ -1060,9 +1064,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udMonthlyPerdayWeekdays
+     * Sets the udMonthlyPerdayWeekdays.
      *
      * @param int $udMonthlyPerdayWeekdays
+     *
      * @return void
      */
     public function setUdMonthlyPerdayWeekdays($udMonthlyPerdayWeekdays)
@@ -1071,7 +1076,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udMonthlyPerdateDay
+     * Returns the udMonthlyPerdateDay.
      *
      * @return int $udMonthlyPerdateDay
      */
@@ -1081,9 +1086,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udMonthlyPerdateDay
+     * Sets the udMonthlyPerdateDay.
      *
      * @param int $udMonthlyPerdateDay
+     *
      * @return void
      */
     public function setUdMonthlyPerdateDay($udMonthlyPerdateDay)
@@ -1092,7 +1098,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udMonthlyPerdateLastday
+     * Returns the udMonthlyPerdateLastday.
      *
      * @return int $udMonthlyPerdateLastday
      */
@@ -1102,9 +1108,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udMonthlyPerdateLastday
+     * Sets the udMonthlyPerdateLastday.
      *
      * @param int $udMonthlyPerdateLastday
+     *
      * @return void
      */
     public function setUdMonthlyPerdateLastday($udMonthlyPerdateLastday)
@@ -1113,7 +1120,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udMonthlyEverycount
+     * Returns the udMonthlyEverycount.
      *
      * @return int $udMonthlyEverycount
      */
@@ -1123,9 +1130,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udMonthlyEverycount
+     * Sets the udMonthlyEverycount.
      *
      * @param int $udMonthlyEverycount
+     *
      * @return void
      */
     public function setUdMonthlyEverycount($udMonthlyEverycount)
@@ -1134,7 +1142,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udYearlyEverycount
+     * Returns the udYearlyEverycount.
      *
      * @return int $udYearlyEverycount
      */
@@ -1144,9 +1152,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udYearlyEverycount
+     * Sets the udYearlyEverycount.
      *
      * @param int $udYearlyEverycount
+     *
      * @return void
      */
     public function setUdYearlyEverycount($udYearlyEverycount)
@@ -1155,7 +1164,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udYearlyPerday
+     * Returns the udYearlyPerday.
      *
      * @return int $udYearlyPerday
      */
@@ -1165,9 +1174,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udYearlyPerday
+     * Sets the udYearlyPerday.
      *
      * @param int $udYearlyPerday
+     *
      * @return void
      */
     public function setUdYearlyPerday($udYearlyPerday)
@@ -1176,7 +1186,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udYearlyPerdayWeekdays
+     * Returns the udYearlyPerdayWeekdays.
      *
      * @return int $udYearlyPerdayWeekdays
      */
@@ -1186,9 +1196,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udYearlyPerdayWeekdays
+     * Sets the udYearlyPerdayWeekdays.
      *
      * @param int $udYearlyPerdayWeekdays
+     *
      * @return void
      */
     public function setUdYearlyPerdayWeekdays($udYearlyPerdayWeekdays)
@@ -1197,7 +1208,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Returns the udYearlyPerdayMonth
+     * Returns the udYearlyPerdayMonth.
      *
      * @return int $udYearlyPerdayMonth
      */
@@ -1207,9 +1218,10 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the udYearlyPerdayMonth
+     * Sets the udYearlyPerdayMonth.
      *
      * @param int $udYearlyPerdayMonth
+     *
      * @return void
      */
     public function setUdYearlyPerdayMonth($udYearlyPerdayMonth)

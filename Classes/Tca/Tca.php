@@ -1,6 +1,7 @@
 <?php
 
 namespace FalkRoeder\DatedNews\Tca;
+
 /***************************************************************
  *  Copyright notice
  *  (c) 2013 Jo Hasenau <info@cybercraft.de>
@@ -19,19 +20,19 @@ namespace FalkRoeder\DatedNews\Tca;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 /**
- * Class PreHeaderRenderHook
- *
- * @package FalkRoeder\DatedNews\Hooks
+ * Class PreHeaderRenderHook.
  */
 class Tca
 {
     /**
      * @param array $arg
      */
-    function injectJs()
+    public function injectJs()
     {
-        $js = file_get_contents(ExtensionManagementUtility::extPath('dated_news') . 'Resources/Public/Backend/JavaScript/datednews_reccurence_conf.js');
+        $js = file_get_contents(ExtensionManagementUtility::extPath('dated_news').'Resources/Public/Backend/JavaScript/datednews_reccurence_conf.js');
+
         return '<script>'.$js.'</script>';
     }
 }
