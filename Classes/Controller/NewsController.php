@@ -378,9 +378,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     /**
      * reloads Details of news via ajax.
      *
-     * @param \GeorgRinger\News\Domain\Model\News $news news item
-     * @param string requestItems
-     *
      * @return string
      */
     public function reloadFieldsAction()
@@ -668,7 +665,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param string $jquery
      * @param string $pathToJS
      */
-    public function addCalendarJSLibs($jquery = '0', $pathToJS = '', $qtips = '0')
+    public function addCalendarJSLibs($jquery = '0', $pathToJS = '')
     {
         $libs = [
             'jQuery'        => 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js',
@@ -961,8 +958,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     }
 
     /**
-     * @param News $newsItem
-     *
+     * @param \GeorgRinger\News\Domain\Model\News $newsItem
      * @return int
      */
     protected function getNewsId(\GeorgRinger\News\Domain\Model\News $newsItem)

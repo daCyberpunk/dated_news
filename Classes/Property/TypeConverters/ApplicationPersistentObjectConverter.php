@@ -4,6 +4,9 @@ namespace FalkRoeder\DatedNews\Property\TypeConverters;
 
 use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
 
+/**
+ * Class ApplicationPersistentObjectConverter
+ */
 class ApplicationPersistentObjectConverter extends PersistentObjectConverter
 {
     /**

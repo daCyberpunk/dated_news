@@ -4,6 +4,9 @@ namespace FalkRoeder\DatedNews\Hooks;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Class TCEmainHook
+ */
 class TCEmainHook
 {
     /** @var $newsRepository \GeorgRinger\News\Domain\Repository\NewsRepository */
@@ -21,6 +24,15 @@ class TCEmainHook
     {
     }
 
+    /**
+     * processDatamap_preProcessFieldArray
+     *
+     * @param array $fieldArray
+     * @param $table
+     * @param $id
+     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     */
     public function processDatamap_preProcessFieldArray(array &$fieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler &$pObj)
     {
         // render hook only for news table
@@ -103,11 +115,12 @@ class TCEmainHook
         }
     }
 
-    /*
+    /**
      * hideAllRecurrences
-     * currently unused
-     *
-     * */
+     * 
+     * @param $news
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     */
     public function hideAllRecurrences($news)
     {
         $recurrences = $news->getNewsRecurrence();
@@ -124,6 +137,14 @@ class TCEmainHook
         $this->persistenceManager->persistAll();
     }
 
+    /**
+     * filterRecurrences
+     * 
+     * @param $news
+     * @param $recurrences
+     * @param $updateBehavior
+     * @return array
+     */
     public function filterRecurrences($news, $recurrences, $updateBehavior)
     {
         $oldRecurrences = $news->getNewsRecurrence();
@@ -144,6 +165,13 @@ class TCEmainHook
         return [$oldRecurrences, $recurrences];
     }
 
+    /**
+     * startsWith
+     * 
+     * @param $haystack
+     * @param $needle
+     * @return bool
+     */
     public function startsWith($haystack, $needle)
     {
         $length = strlen($needle);
@@ -159,6 +187,15 @@ class TCEmainHook
     {
     }
 
+    /**
+     * processDatamap_postProcessFieldArray
+     * 
+     * @param $status
+     * @param $table
+     * @param $id
+     * @param array $fieldArray
+     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
+     */
     public function processDatamap_postProcessFieldArray($status, $table, $id, array &$fieldArray, \TYPO3\CMS\Core\DataHandling\DataHandler &$pObj)
     {
         if ($table === 'tx_news_domain_model_news' || $fieldArray['recurrence_updated_behavior'] === 1) {

@@ -12,6 +12,14 @@ class RecurrenceService
 {
     protected $availableWeekdays = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
 
+    /**
+     * getRecurrences
+     * 
+     * @param $startDate
+     * @param $endDate
+     * @param $settings
+     * @return \Recurr\Recurrence[]|\Recurr\RecurrenceCollection
+     */
     public function getRecurrences($startDate, $endDate, $settings)
     {
         $rule = $this->buildRule($startDate, $endDate, $settings);
@@ -22,6 +30,16 @@ class RecurrenceService
         return $recurrences;
     }
 
+    /**
+     * buildRule
+     * 
+     * @param $startDate
+     * @param $endDate
+     * @param $settings
+     * @return mixed|Rule
+     * @throws \Recurr\Exception\InvalidArgument
+     * @throws \Recurr\Exception\InvalidRRule
+     */
     public function buildRule($startDate, $endDate, $settings)
     {
         $rule = new Rule();
@@ -71,6 +89,13 @@ class RecurrenceService
         return $rule;
     }
 
+    /**
+     * disolveBitValues
+     * 
+     * @param $bit
+     * @param $values
+     * @return array
+     */
     public function disolveBitValues($bit, $values = null)
     {
         $result = [];
@@ -87,6 +112,13 @@ class RecurrenceService
         return array_reverse($result);
     }
 
+    /**
+     * getUserdefinedRule
+     * 
+     * @param $rule
+     * @param $settings
+     * @return mixed
+     */
     public function getUserdefinedRule($rule, $settings)
     {
         switch ($settings['ud_type']) {

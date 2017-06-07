@@ -27,12 +27,14 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 class Tca
 {
     /**
-     * @param array $arg
+     * @return string
      */
     public function injectJs()
     {
-        $js = file_get_contents(ExtensionManagementUtility::extPath('dated_news').'Resources/Public/Backend/JavaScript/datednews_reccurence_conf.js');
+        $js = '<script>';
+        $js .= file_get_contents(ExtensionManagementUtility::extPath('dated_news').'Resources/Public/Backend/JavaScript/datednews_reccurence_conf.js');
+        $js .= '</script>';
 
-        return '<script>'.$js.'</script>';
+        return $js;
     }
 }

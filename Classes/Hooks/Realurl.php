@@ -44,6 +44,10 @@ class Realurl
         }
     }
 
+    /**
+     * @param $value
+     * @return string
+     */
     public function id2alias($value)
     {
         if ($value == '') {
@@ -59,6 +63,10 @@ class Realurl
         return $value;
     }
 
+    /**
+     * @param $value
+     * @return string
+     */
     public function alias2id($value)
     {
         $value = substr($value, 8);
@@ -67,6 +75,9 @@ class Realurl
         return $value;
     }
 
+    /**
+     * @return array
+     */
     protected function getMd5HashParts()
     {
         $hash = md5('booking');
@@ -74,6 +85,10 @@ class Realurl
         return str_split($hash, 8);
     }
 
+    /**
+     * @param $uid
+     * @return string
+     */
     protected function getApplicationMd5($uid)
     {
         $db = $this->getDatabaseConnection();

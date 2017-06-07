@@ -32,6 +32,10 @@ class NewsRecurrenceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $this->defaultQuerySettings->setEnableFieldsToBeIgnored(['hidden', 'deleted']);
     }
 
+    /**
+     * @param $id
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
     public function getByParentId($id)
     {
         $query = $this->createQuery();

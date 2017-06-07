@@ -4,6 +4,9 @@ namespace FalkRoeder\DatedNews\Hooks;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Class FlexFormHook
+ */
 class FlexFormHook
 {
     /**

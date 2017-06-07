@@ -58,6 +58,10 @@ class ICS
 //        'attendee'
     ];
 
+    /**
+     * ICS constructor.
+     * @param $props
+     */
     public function __construct($props)
     {
         $this->set($props);
