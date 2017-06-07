@@ -959,6 +959,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
     /**
      * @param \GeorgRinger\News\Domain\Model\News $newsItem
+     *
      * @return int
      */
     protected function getNewsId(\GeorgRinger\News\Domain\Model\News $newsItem)

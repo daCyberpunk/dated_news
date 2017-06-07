@@ -60,6 +60,7 @@ class ICS
 
     /**
      * ICS constructor.
+     *
      * @param $props
      */
     public function __construct($props)

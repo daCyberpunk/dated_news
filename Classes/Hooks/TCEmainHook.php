@@ -5,7 +5,7 @@ namespace FalkRoeder\DatedNews\Hooks;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class TCEmainHook
+ * Class TCEmainHook.
  */
 class TCEmainHook
 {
@@ -25,12 +25,13 @@ class TCEmainHook
     }
 
     /**
-     * processDatamap_preProcessFieldArray
+     * processDatamap_preProcessFieldArray.
      *
      * @param array $fieldArray
      * @param $table
      * @param $id
      * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
+     *
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function processDatamap_preProcessFieldArray(array &$fieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler &$pObj)
@@ -116,9 +117,10 @@ class TCEmainHook
     }
 
     /**
-     * hideAllRecurrences
-     * 
+     * hideAllRecurrences.
+     *
      * @param $news
+     *
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function hideAllRecurrences($news)
@@ -138,11 +140,12 @@ class TCEmainHook
     }
 
     /**
-     * filterRecurrences
-     * 
+     * filterRecurrences.
+     *
      * @param $news
      * @param $recurrences
      * @param $updateBehavior
+     *
      * @return array
      */
     public function filterRecurrences($news, $recurrences, $updateBehavior)
@@ -166,10 +169,11 @@ class TCEmainHook
     }
 
     /**
-     * startsWith
-     * 
+     * startsWith.
+     *
      * @param $haystack
      * @param $needle
+     *
      * @return bool
      */
     public function startsWith($haystack, $needle)
@@ -188,12 +192,12 @@ class TCEmainHook
     }
 
     /**
-     * processDatamap_postProcessFieldArray
-     * 
+     * processDatamap_postProcessFieldArray.
+     *
      * @param $status
      * @param $table
      * @param $id
-     * @param array $fieldArray
+     * @param array                                    $fieldArray
      * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
      */
     public function processDatamap_postProcessFieldArray($status, $table, $id, array &$fieldArray, \TYPO3\CMS\Core\DataHandling\DataHandler &$pObj)
