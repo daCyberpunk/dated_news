@@ -53,6 +53,7 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
         parent::initializeArguments();
         //argument didn't exist in original viewhelper
         $this->registerArgument('forceAbsoluteUrl', 'boolean', 'force absolute uri', false);
+        $this->registerArgument('eventDetail', 'boolean', 'use eventDetail Action instead detail', false);
     }
 
     /**
@@ -100,10 +101,13 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
 
         $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
         $configuration['additionalParams'] .= '&tx_news_pi1[news]='.$this->getNewsId($newsItem);
-
+        $action = 'detail';
+        if ($this->arguments['eventDetail']) {
+            $action = 'eventDetail';
+        }
         if ((int) $tsSettings['link']['skipControllerAndAction'] !== 1) {
             $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News'.
-                '&tx_news_pi1[action]=detail';
+                '&tx_news_pi1[action]=' . $action;
         }
 
         // Add date as human readable
