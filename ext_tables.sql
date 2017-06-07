@@ -52,8 +52,8 @@ CREATE TABLE tx_datednews_domain_model_newsrecurrence (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	eventstart datetime DEFAULT '0000-00-00 00:00:00',
-	eventend datetime DEFAULT '0000-00-00 00:00:00',
+	eventstart int(11) DEFAULT '0' NOT NULL,
+	eventend int(11) DEFAULT '0' NOT NULL,
 	eventlocation varchar(255) DEFAULT '' NOT NULL,
 	bodytext text,
 	teaser text,
@@ -87,6 +87,19 @@ CREATE TABLE tx_datednews_domain_model_newsrecurrence (
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
 	KEY language (l10n_parent,sys_language_uid)
 
+);
+
+#
+# Table structure for table 'tx_datednews_news_newsrecurrence_mm'
+#
+CREATE TABLE tx_datednews_news_newsrecurrence_mm (
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
 );
 
 #

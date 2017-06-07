@@ -1,5 +1,5 @@
 <?php
-namespace FalkRoder\DatedNews\Domain\Model;
+namespace FalkRoeder\DatedNews\Domain\Model;
 
 /***
  *
@@ -58,11 +58,18 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var bool
      */
     protected $modified = false;
+    
+    /**
+     * hidden.
+     *
+     * @var bool
+     */
+    protected $hidden = false;
 
     /**
      * parentEvent
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoder\DatedNews\Domain\Model\News>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News>
      * @cascade remove
      */
     protected $parentEvent = null;
@@ -225,14 +232,46 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->modified;
     }
+    
+    /**
+     * Returns the hidden.
+     *
+     * @return bool $hidden
+     */
+    public function getHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * Sets the hidden.
+     *
+     * @param bool $hidden
+     *
+     * @return void
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
+    }
+
+    /**
+     * Returns the boolean state of hidden.
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
 
     /**
      * Adds a News
      *
-     * @param \FalkRoder\DatedNews\Domain\Model\News $parentEvent
+     * @param \GeorgRinger\News\Domain\Model\News $parentEvent
      * @return void
      */
-    public function addParentEvent(\FalkRoder\DatedNews\Domain\Model\News $parentEvent)
+    public function addParentEvent(\GeorgRinger\News\Domain\Model\News $parentEvent)
     {
         $this->parentEvent->attach($parentEvent);
     }
@@ -240,10 +279,10 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Removes a News
      *
-     * @param \FalkRoder\DatedNews\Domain\Model\News $parentEventToRemove The News to be removed
+     * @param \GeorgRinger\News\Domain\Model\News $parentEventToRemove The News to be removed
      * @return void
      */
-    public function removeParentEvent(\FalkRoder\DatedNews\Domain\Model\News $parentEventToRemove)
+    public function removeParentEvent(\GeorgRinger\News\Domain\Model\News $parentEventToRemove)
     {
         $this->parentEvent->detach($parentEventToRemove);
     }
@@ -251,7 +290,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the parentEvent
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoder\DatedNews\Domain\Model\News> $parentEvent
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News> $parentEvent
      */
     public function getParentEvent()
     {
@@ -261,7 +300,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the parentEvent
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoder\DatedNews\Domain\Model\News> $parentEvent
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\GeorgRinger\News\Domain\Model\News> $parentEvent
      * @return void
      */
     public function setParentEvent(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $parentEvent)

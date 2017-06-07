@@ -22,7 +22,7 @@ return [
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, eventstart, eventend, eventlocation, bodytext, teaser, modified, parent_event',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, eventstart, eventend, eventlocation, bodytext, teaser, modified, parent_event'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, modified, eventstart, eventend, eventlocation, bodytext, teaser, parent_event'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -86,22 +86,20 @@ return [
             'exclude' => false,
             'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_newsrecurrence.eventstart',
             'config' => [
-                'dbType' => 'datetime',
                 'type' => 'input',
-                'size' => 12,
+                'size' => 16,
+                'max'  => 20,
                 'eval' => 'datetime',
-                'default' => '0000-00-00 00:00:00'
             ],
         ],
         'eventend' => [
             'exclude' => false,
             'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_newsrecurrence.eventend',
             'config' => [
-                'dbType' => 'datetime',
                 'type' => 'input',
-                'size' => 12,
+                'size' => 16,
+                'max'  => 20,
                 'eval' => 'datetime',
-                'default' => '0000-00-00 00:00:00'
             ],
         ],
         'eventlocation' => [
@@ -137,16 +135,22 @@ return [
         'modified' => [
             'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_newsrecurrence.modified',
             'config' => [
-                'type' => 'none',
+                'type' => 'check',
+                'items' => [
+                    [ 'lock record', 0 ],
+                ],
+                'cols' => 'inline',
+                'default' => 0
             ],
         ],
         'parent_event' => [
-            'exclude' => false,
-            'label' => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_newsrecurrence.parent_event',
-            'config' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_newsrecurrence.parent_event',
+            'config'  => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_news_domain_model_news',
-                'foreign_field' => 'newsrecurrence',
+                'MM' => 'tx_datednews_news_newsrecurrence_mm',
+                'MM_opposite_field' => 'newsrecurrence',
                 'maxitems' => 9999,
                 'appearance' => [
                     'collapseAll' => 0,
@@ -156,7 +160,6 @@ return [
                     'showAllLocalizationLink' => 1
                 ],
             ],
-
         ],
     
     ],

@@ -676,14 +676,35 @@ $tmp_dated_news_columns = [
             'size' => 1,
             'maxitems' => 1,
             'eval' => 'required',
-            'default' => 2
+            'default' => ''
         ],
     ],
 
     'newsrecurrence' => [
-        'config' => [
-            'type' => 'passthrough',
-        ]
+        'config'  => [
+            'type'          => 'inline',
+            'foreign_table' => 'tx_datednews_domain_model_newsrecurrence',
+            'MM'            => 'tx_datednews_news_newsrecurrence_mm',
+            'foreign_field' => 'parent_event', //zum anlegen muss es auskommentiert sein, zum anzeigen einkommentiert?
+            'maxitems'          => 9999,
+            'appearance'        => [
+                'collapseAll'                     => 1,
+                'levelLinksPosition'              => 'top',
+                'showSynchronizationLink'         => 1,
+                'showPossibleLocalizationRecords' => 1,
+                'useSortable'                     => 1,
+                'showAllLocalizationLink'         => 1,
+                'enabledControls' => [
+                    'info' => TRUE,
+                    'new' => FALSE,
+                    'dragdrop' => TRUE,
+                    'sort' => TRUE,
+                    'hide' => TRUE,
+                    'delete' => FALSE,
+                    'localize' => TRUE,
+                ],
+            ],
+        ],
     ]
 ];
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_general'] = array(

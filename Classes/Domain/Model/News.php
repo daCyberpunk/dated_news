@@ -36,6 +36,11 @@ class News extends \GeorgRinger\News\Domain\Model\News
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application>
      */
     protected $application;
+    
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence>
+     */
+    protected $newsrecurrence;
 
     /**
      * showincalendar.
@@ -781,6 +786,58 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         $this->application = $application;
     }
+
+
+    /**
+     * Adds a NewsRecurrence.
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\NewsRecurrence $newsrecurrence
+     *
+     * @return void
+     */
+    public function addNewsRecurrence(\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence $newsrecurrence)
+    {
+        $this->newsrecurrence->attach($newsrecurrence);
+    }
+
+    /**
+     * Removes a NewsRecurrence.
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\NewsRecurrence $newsrecurrenceToRemove The Application to be removed
+     *
+     * @return void
+     */
+    public function removeNewsRecurrence(\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence $newsrecurrenceToRemove)
+    {
+        $this->newsrecurrence->detach($newsrecurrenceToRemove);
+    }
+
+    /**
+     * Returns the newsrecurrence.
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence> $newsrecurrence
+     */
+    public function getNewsRecurrence()
+    {
+        return $this->newsrecurrence;
+    }
+
+    /**
+     * Sets the newsrecurrence.
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $newsrecurrence
+     *
+     * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence> $newsrecurrence
+     */
+    public function setNewsRecurrence(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $newsrecurrence)
+    {
+        $this->newsrecurrence = $newsrecurrence;
+    }
+
+
+
+
+
 
     /**
      * Returns the recurrence
