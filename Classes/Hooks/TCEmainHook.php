@@ -101,6 +101,7 @@ class TCEmainHook
         if ($table !== 'tx_news_domain_model_news' ||
             $fieldArray['recurrence_updated_behavior'] === 1 && (int) $fieldArray['recurrence'] > 0
         ) {
+            unset($fieldArray['recurrence_updated_behavior']);
             return;
         }
 
@@ -109,6 +110,7 @@ class TCEmainHook
         //if eventdates invalid or startdate after enddate, do nothing on recurring events, just store their on data
         $eventDates = $this->hasValidEventdates($fieldArray);
         if($eventDates === false ) {
+            unset($fieldArray['recurrence_updated_behavior']);
             return;
         }
 
@@ -154,7 +156,9 @@ class TCEmainHook
                         $newRecurrence->setEventstart($rec->getStart());
                         $newRecurrence->setEventend($rec->getEnd());
                         $newRecurrence->addParentEvent($news);
-                        $newRecurrence->setEarlyBirdDate($this->getEarlyBirdDateOfRecurrence($news, $rec->getStart()));
+                        if ($news->getEarlyBirdDate() instanceof DateTime) {
+                            $newRecurrence->setEarlyBirdDate($this->getEarlyBirdDateOfRecurrence($news, $rec->getStart()));
+                        }
                         $this->newsRecurrenceRepository->add($newRecurrence);
                         $this->newsRepository->update($news);
                         $this->persistenceManager->persistAll(); // persist here, otherwise newRecurrence is lost when next loop starts
@@ -183,6 +187,7 @@ class TCEmainHook
      * @return mixed
      */
     public function getEarlyBirdDateOfRecurrence($event, $startdateRecurrence){
+
         $eventStart = clone $event->getEventstart();
         $birdDate = clone $event->getEarlyBirdDate();
         $eventStart->setTime(0,0,0);
@@ -353,7 +358,10 @@ class TCEmainHook
                         $recurrence->{'empty'.$method}();
                         foreach(explode(',', $fieldArray[$name]) as $uid) {
                             $object = $this->{substr($name, 0, -1) . 'Repository'}->findByIdentifier($uid);
-                            $recurrence->{'add'.substr($method, 0, -1)}($object);
+                            if (NULL !== $object) {
+                                $recurrence->{'add'.substr($method, 0, -1)}($object);
+                            }
+
                         }
                     }
                     break;
