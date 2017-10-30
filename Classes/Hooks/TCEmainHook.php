@@ -126,12 +126,22 @@ class TCEmainHook
 
 
         $news = $this->newsRepository->findByIdentifier($id);
-        if ((int) $settings['recurrence'] === 0) {
-            //delete/hide all recurrences if exist ?
-        } else {
+        //get collection of all recurrences
+        $recurrences = $this->recurrenceService->getRecurrences($eventDates[0], $eventDates[1], $settings);
 
-            //get collection of all recurrences
-            $recurrences = $this->recurrenceService->getRecurrences($eventDates[0], $eventDates[1], $settings);
+        if ((int) $settings['recurrence'] === 0) {
+            // if recurrence option is set to none recurrences, delete all existing recurrences
+            if ( NULL !== $news) {
+                $emptyObj = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                $news->setNewsRecurrence($emptyObj);
+                $this->newsRepository->update($news);
+                $oldRecurrences = $news->getNewsRecurrence();
+                foreach ($oldRecurrences as $oldRec) {
+                    $this->newsRecurrenceRepository->remove($oldRec);
+                }
+                $this->persistenceManager->persistAll();
+            }
+        } else {
 
             if ((int) $settings['recurrence_updated_behavior'] > 1) {
                 //filter recurrences if only none modified events should be changed
