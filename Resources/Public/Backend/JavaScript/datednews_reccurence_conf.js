@@ -353,8 +353,8 @@ window.onload = function(){
 
 
         //trigger on record open;
-        fRecurrence[0].onchange(false);
         fRecurrenceType[0].onchange(false);
+        fRecurrence[0].onchange(false);
         fUdType[0].onchange(false);
         fUdType[0].onchange();
         fUdMonthlyBase[0].onchange();
