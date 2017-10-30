@@ -93,7 +93,7 @@ $tmp_dated_news_columns = [
             'type' => 'input',
             'size' => 16,
             'max'  => 20,
-            'eval' => 'datetime',
+            'eval' => 'datetime, required',
         ],
         'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
@@ -104,7 +104,7 @@ $tmp_dated_news_columns = [
             'type' => 'input',
             'size' => 16,
             'max'  => 20,
-            'eval' => 'datetime',
+            'eval' => 'datetime, required',
         ],
         'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
@@ -679,6 +679,7 @@ $tmp_dated_news_columns = [
             'eval'     => 'required',
             'default'  => '',
         ],
+        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
     ],
 
     'newsrecurrence' => [
