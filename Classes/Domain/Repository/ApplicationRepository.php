@@ -43,6 +43,8 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         $this->defaultQuerySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
         $this->defaultQuerySettings->setRespectStoragePage(false);
+//        $this->defaultQuerySettings->setIgnoreEnableFields(true);
+//        $this->defaultQuerySettings->setEnableFieldsToBeIgnored(['hidden']);
     }
 
     /**
@@ -100,6 +102,70 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $applicationsForNews;
     }
+
+
+    /**
+     * get number of applications allready sent to a specific news event.
+     *
+     * @param int $newsId id of news record
+     *
+     * @return int
+     */
+    public function countApplicationsForNewsRecurrence($newsId,$ignoreEnables = false )
+    {
+        return count($this->getApplicationsForNewsRecurrence($newsId, $ignoreEnables));
+    }
+
+    /**
+     * get number of reserved Slots for a specific news event.
+     *
+     * @param int $newsId id of news record
+     *
+     * @return int
+     */
+    public function countReservedSlotsForNewsRecurrence($newsId)
+    {
+        $applications = $this->getApplicationsForNewsRecurrence($newsId);
+
+        $reservedSlots = 0;
+        foreach ($applications as $application) {
+            if ($application->isConfirmed() === true) {
+                $reservedSlots = $reservedSlots + $application->getReservedSlots();
+            }
+        }
+
+        return $reservedSlots;
+    }
+
+    /**
+     * get all applications allready sent to a specific news event.
+     *
+     * @param int $newsId id of news record
+     *
+     * @return QueryResultInterface|array
+     */
+    public function getApplicationsForNewsRecurrence($newsId, $ignoreEnables = false)
+    {
+        $query = $this->createQuery();
+        if($ignoreEnables === true){
+            $query->getQuerySettings()->setIgnoreEnableFields(true);            
+        }
+        
+        $applications = $query->execute();
+        $applicationsForNews = [];
+        foreach ($applications as $key => $application) {
+            $events = $application->getRecurringevents();
+            foreach ($events as $event) {
+                if ($event->getUid() === $newsId) {
+                    $applicationsForNews[] = $application;
+                }
+            }
+        }
+
+        return $applicationsForNews;
+    }
+    
+    
 
     /**
      * checks if form allready submited using a timestamp sent with the form.

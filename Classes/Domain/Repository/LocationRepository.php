@@ -32,4 +32,5 @@ namespace FalkRoeder\DatedNews\Domain\Repository;
  */
 class LocationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+    
 }

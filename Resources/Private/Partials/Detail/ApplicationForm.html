@@ -108,10 +108,29 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="form-group">
-                                            <div class="col-xs-12">
-                                                <f:form.select name="reservedSlots" options="{slotoptions}" optionValueField="key" optionLabelField="value" property="reservedSlots" />
-                                                <label class=""><f:translate key="tx_datednews_domain_model_application.reserved_slots" extensionName="dated_news"/></label>
-                                            </div>
+
+                                             <f:if condition="{newsItem.recurrence} > 0">
+                                                 <f:then>
+                                                     <div class="col-xs-12">
+                                                         <f:for each="{newsItem.newsrecurrence}" as="recurrence">
+                                                              <f:if condition="{recurrence.slotoptions}">
+                                                                  <f:form.select name="reservedSlots-{recurrence.uid}" options="{recurrence.slotoptions}" optionValueField="key" optionLabelField="value"  />
+                                                                  <label class=""><f:translate key="tx_datednews_domain_model_application.reserved_slots" extensionName="dated_news"/></label>
+                                                               </f:if>
+
+                                                         </f:for>
+                                                     </div>
+                                                     <f:form.select name="reservedRecurrence" options="{recurrenceoptions}" optionValueField="key" optionLabelField="value" />
+                                                     <label class=""><f:translate key="tx_datednews_domain_model_application.recurrence_option" extensionName="dated_news"/></label>
+                                                     <f:format.date format="d.m.Y">{recurrence.eventstart}</f:format.date>
+                                                 </f:then>
+                                                 <f:else>
+                                                     <div class="col-xs-12">
+                                                         <f:form.select name="reservedSlots" options="{slotoptions}" optionValueField="key" optionLabelField="value" property="reservedSlots" />
+                                                         <label class=""><f:translate key="tx_datednews_domain_model_application.reserved_slots" extensionName="dated_news"/></label>
+                                                     </div>
+                                                 </f:else>
+                                             </f:if>
                                             <div class="col-xs-12">
                                                 <f:form.checkbox class="form-control" property="termsAccept" value="1" additionalAttributes="{required: 'required'}" />
                                                 <label class=""><f:format.html><f:translate key="tx_datednews_domain_model_application.terms_accept" extensionName="dated_news"/></f:format.html></label>

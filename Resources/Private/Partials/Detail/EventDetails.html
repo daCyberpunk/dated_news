@@ -23,22 +23,66 @@
         <f:if condition="{0: '{f:format.date(date: \'{newsItem.eventstart}\', format: \'d.m\')}'} == {0: '{f:format.date(date: \'{newsItem.eventend}\', format: \'d.m\')}'}">
             <f:then>
                 <div class="event-date">
-                    <f:format.date format="d.m.Y">{newsItem.eventstart}</f:format.date>
-                </div>
-                <div class="event-time">
-                    <f:format.date format="H:i">{newsItem.eventstart}</f:format.date>
-                    -
-                    <f:format.date format="H:i">{newsItem.eventend}</f:format.date> Uhr
+                    <f:if condition="{newsItem.recurrence} > 0">
+                        <f:then>
+                            <f:for each="{newsItem.newsrecurrence}" as="recurrence">
+                                <div>
+                                    <span>
+                                        <f:format.date format="d.m.Y">{recurrence.eventstart}</f:format.date>
+                                    </span>
+                                    <span class="event-time">
+                                        <f:format.date format="H:i">{recurrence.eventstart}</f:format.date>
+                                        -
+                                        <f:format.date format="H:i">{recurrence.eventend}</f:format.date> Uhr {f:if(condition: recurrence.slotoptions, else: "<span>sold out</span>")}
+                                    </span>
+                                </div>
+                            </f:for>
+                        </f:then>
+                        <f:else>
+                            <span>
+                                <f:format.date format="d.m.Y">{newsItem.eventstart}</f:format.date>
+                            </span>
+                            <span class="event-time">
+                                <f:format.date format="H:i">{newsItem.eventstart}</f:format.date>
+                                -
+                                <f:format.date format="H:i">{newsItem.eventend}</f:format.date> Uhr
+                            </span>
+                        </f:else>
+                    </f:if>
+
+
                 </div>
             </f:then>
             <f:else>
                 <div class="event-date">
-                    <f:format.date format="d.m.">{newsItem.eventstart}</f:format.date> - <f:format.date format="d.m.Y">{newsItem.eventend}</f:format.date>
-                </div>
-                <div class="event-time">
-                    <f:format.date format="H:i">{newsItem.eventstart}</f:format.date>
-                    -
-                    <f:format.date format="H:i">{newsItem.eventend}</f:format.date> Uhr
+                    <f:if condition="{newsItem.recurrence} > 0">
+                        <f:then>
+                            <f:for each="{newsItem.newsrecurrence}" as="recurrence">
+                                <div>
+                                    <span>
+                                        <f:format.date format="d.m.">{recurrence.eventstart}</f:format.date> - <f:format.date format="d.m.Y">{recurrence.eventend}</f:format.date>
+                                    </span>
+                                    <span class="event-time">
+                                        <f:format.date format="H:i">{recurrence.eventstart}</f:format.date>
+                                        -
+                                        <f:format.date format="H:i">{recurrence.eventend}</f:format.date> Uhr {f:if(condition: recurrence.slotoptions, else: "<span>sold out</span>")}
+                                    </span>
+                                </div>
+                            </f:for>
+                        </f:then>
+                        <f:else>
+                            <span>
+                                <f:format.date format="d.m.">{newsItem.eventstart}</f:format.date> - <f:format.date format="d.m.Y">{newsItem.eventend}</f:format.date>
+                            </span>
+                            <span class="event-time">
+                                <f:format.date format="H:i">{newsItem.eventstart}</f:format.date>
+                                -
+                                <f:format.date format="H:i">{newsItem.eventend}</f:format.date> Uhr
+                            </span>
+                        </f:else>
+                    </f:if>
+
+
                 </div>
             </f:else>
         </f:if>

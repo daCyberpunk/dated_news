@@ -394,6 +394,14 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @cascade remove
      */
     protected $events = null;
+    
+    /**
+     * recurringevents.
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence>
+     * @cascade remove
+     */
+    protected $recurringevents = null;
 
     /**
      * __construct.
@@ -415,6 +423,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects()
     {
         $this->events = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->recurringevents = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
     /**
@@ -786,5 +795,51 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setEvents(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $events)
     {
         $this->events = $events;
+    }
+    
+    /**
+     * Adds a Recurringevent.
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\NewsRecurrence $recurringevent
+     *
+     * @return void
+     */
+    public function addRecurringevent(\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence $recurringevent)
+    {
+        $this->recurringevents->attach($recurringevent);
+    }
+
+    /**
+     * Removes a Recurringevent.
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\NewsRecurrence $recurringeventToRemove The NewsRecurrence to be removed
+     *
+     * @return void
+     */
+    public function removeRecurringevent(\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence $recurringeventToRemove)
+    {
+        $this->recurringevents->detach($recurringeventToRemove);
+    }
+
+    /**
+     * Returns the recurringevents.
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence> $recurringevents
+     */
+    public function getRecurringevents()
+    {
+        return $this->recurringevents;
+    }
+
+    /**
+     * Sets the recurringevents.
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $recurringevents
+     *
+     * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\NewsRecurrence> $recurringevents
+     */
+    public function setRecurringevents(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $recurringevents)
+    {
+        $this->recurringevents = $recurringevents;
     }
 }

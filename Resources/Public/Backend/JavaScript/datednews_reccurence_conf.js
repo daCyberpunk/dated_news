@@ -13,6 +13,7 @@ window.onload = function(){
         fRecurrenceType = d.querySelectorAll('[name$="[recurrence_type]"]'),
         fRecurrenceUntil = d.querySelectorAll('[name$="[recurrence_until]"]'),
         fRecurrenceCount = d.querySelectorAll('[data-formengine-input-name$="[recurrence_count]"]'),
+        fRecurrenceUpdateBehavior = d.querySelectorAll('[name$="[recurrence_updated_behavior]"]'),
 
 
         fUdType = d.querySelectorAll('[name$="[ud_type]"]'),
@@ -31,7 +32,7 @@ window.onload = function(){
         ;
 
 
-    
+
 
     
 
@@ -40,6 +41,7 @@ window.onload = function(){
         fUdTypeChange,
         fUdMonthlyBaseChange,
         fUdYearlyPerdayCheckClick,
+        fRecurrenceUpdateBehaviorChange,
         addEvent,
         showFields = function(fieldArray,changeColor){
             for(var i = 0; i < fieldArray.length; i++){
@@ -329,6 +331,14 @@ window.onload = function(){
             showFields(fUdYearlyPerdayWeekdays);
         }
     };
+    fRecurrenceUpdateBehaviorChange = function(){
+        var disregardFields = fUdYearlyPerdayCheck = d.querySelectorAll('[data-formengine-input-name$="[disregard_changes_on_saving]"]');
+        var disregardChanges = fRecurrenceUpdateBehavior[0].value > 3;
+        for(var i = 0; i < disregardFields.length; i++){
+            disregardFields[i].checked = disregardChanges;
+            disregardFields[i].onclick();
+        }
+    };
 
 
     if(fEventType[0].value !== '') {
@@ -336,6 +346,7 @@ window.onload = function(){
         fRecurrenceType[0].onchange = fRecurrenceTypeChange;
         fUdType[0].onchange = fUdTypeChange;
         fUdMonthlyBase[0].onchange = fUdMonthlyBaseChange;
+        fRecurrenceUpdateBehavior[0].onchange = fRecurrenceUpdateBehaviorChange;
         for(var i = 0; i < fUdYearlyPerdayCheck.length; i++){
         }
         addEvent(fUdYearlyPerdayCheck[ fUdYearlyPerdayCheck.length -1 ], "click", fUdYearlyPerdayCheckClick);

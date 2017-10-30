@@ -1,85 +1,30 @@
-
-"use strict";
-function addAllEvents(cal, event){
-    for (var key in eventscal[event]) {
-        if (eventscal[event].hasOwnProperty(key)) {
-            cal.fullCalendar( 'addEventSource', eventscal[event][key] );
+!function(){function g(){if(!e&&(e=!0,f)){for(var a=0;a<f.length;a++)f[a].call(window,[]);f=[]}}function h(a){var b=window.onload;"function"!=typeof window.onload?window.onload=a:window.onload=function(){b&&b(),a()}}function i(){if(!d){if(d=!0,document.addEventListener&&!c.opera&&document.addEventListener("DOMContentLoaded",g,!1),c.msie&&window==top&&function(){if(!e){try{document.documentElement.doScroll("left")}catch(a){return void setTimeout(arguments.callee,0)}g()}}(),c.opera&&document.addEventListener("DOMContentLoaded",function(){if(!e){for(var a=0;a<document.styleSheets.length;a++)if(document.styleSheets[a].disabled)return void setTimeout(arguments.callee,0);g()}},!1),c.safari){var a;!function(){if(!e){if("loaded"!=document.readyState&&"complete"!=document.readyState)return void setTimeout(arguments.callee,0);if(void 0===a){for(var b=document.getElementsByTagName("link"),c=0;c<b.length;c++)"stylesheet"==b[c].getAttribute("rel")&&a++;var d=document.getElementsByTagName("style");a+=d.length}if(document.styleSheets.length!=a)return void setTimeout(arguments.callee,0);g()}}()}h(g)}}var a=window.DomReady={},b=navigator.userAgent.toLowerCase(),c={version:(b.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/)||[])[1],safari:/webkit/.test(b),opera:/opera/.test(b),msie:/msie/.test(b)&&!/opera/.test(b),mozilla:/mozilla/.test(b)&&!/(compatible|webkit)/.test(b)},d=!1,e=!1,f=[];a.ready=function(a,b){i(),e?a.call(window,[]):f.push(function(){return a.call(window,[])})},i()}();
+DomReady.ready(function() {
+    var elems = $('.js-reloadfields');
+    var requestItems = {};
+    //reloadfields
+    elems.each(function(i, e){
+        var item = $(e);
+        if(!requestItems.hasOwnProperty(item.attr('data-dn-uid'))){
+           requestItems[item.attr('data-dn-uid')] = [];
         }
-    }
-}
-function removeAllEvents(cal, event){
-    for (var key in eventscal[event]) {
-        if (eventscal[event].hasOwnProperty(key)) {
-            cal.fullCalendar( 'removeEventSource', eventscal[event][key] )
-        }
-    }
-}
-
-$('.dated-news-filter').on('click', function(){
-    var $this = $(this),
-        cal = $('#calendar.calendar_' + $this.attr('data-dn-calendar')),
-        event = "newsCalendarEvent_" + $this.attr('data-dn-calendar');
-    removeAllEvents(cal, event);
-    $this.hasClass('dn-checked') ? $this.removeClass('dn-checked') : $this.addClass('dn-checked');
-    var dnchecked = $('.dated-news-filter.dn-checked');
-    // wenn nix gechecked dann alle adden
-    if (!dnchecked.length) {
-        addAllEvents(cal, event);
-    } else {
-        var added =[];
-        dnchecked.each(function(){
-            var filter = $(this).data('dn-filter');
-            for (var key in newsCalendarTags[filter]) {
-                if (newsCalendarTags[filter].hasOwnProperty(key)) {
-                    //make sure event wasn't added before
-                    if (!added['Event_'+newsCalendarTags[filter][key]]) {
-                        cal.fullCalendar( 'addEventSource', eventscal[event]['Event_'+newsCalendarTags[filter][key]] )
-                        added['Event_'+newsCalendarTags[filter][key]] = 1;
+        requestItems[item.attr('data-dn-uid')].push(item.attr('data-dn-field'));
+    });
+    if(elems.length) {
+        $.ajax({
+            url: "?type=6660666&tx_news_pi1[action]=reloadFields&tx_news_pi1[requestItems]=" + JSON.stringify(requestItems),
+            contentType: "application/json",
+            success: function(data, s){
+                elems.each(function(i, e){
+                    var item = $(e);
+                    if(data.hasOwnProperty(item.attr('data-dn-uid'))){
+                        if(data[item.attr('data-dn-uid')].hasOwnProperty(item.attr('data-dn-field'))){
+                            item.html(data[item.attr('data-dn-uid')][item.attr('data-dn-field')]);
+                        }
                     }
-                }
+                });
             }
         });
     }
+    //switch slotoptions
 });
-
-
-function getViewport() {
-    var e = window, a = 'inner';
-    if (!('innerWidth' in window )) {
-        a = 'client';
-        e = document.documentElement || document.body;
-    }
-    return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
-}
-
-function callAfterResize(callback) {
-    $(window).bind('resizeEnd', function () {
-        callback();
-    });
-
-    $(window).resize(function () {
-        if (this.resizeTO) clearTimeout(this.resizeTO);
-        this.resizeTO = setTimeout(function () {
-            $(this).trigger('resizeEnd');
-        }, 500)
-    });
-};
-function disableQtips(){
-    //disable qtip on devices smaller then 768px width and follow direct the url to an event on click
-    if(getViewport()['width'] > $('.fc-calendar-container').first().attr('data-qtipminwidth')){
-        $('[data-hasqtip]').qtip('enable');
-    } else {
-        $('[data-hasqtip]').qtip('disable');
-    }
-};
-$(document).on('click','a.fc-day-grid-event, .fc-content, a.fc-time-grid-event', function(e){
-    if(getViewport()['width'] > $('.fc-calendar-container').first().attr('data-qtipminwidth')){
-        if($(this).closest('.fc-calendar-container').hasClass('has-qtips')){
-            e.preventDefault();
-        }
-    } 
-});
-callAfterResize(function(){
-    disableQtips();
-});
-$(window).on('load',disableQtips);

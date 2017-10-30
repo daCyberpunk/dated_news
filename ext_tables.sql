@@ -14,6 +14,7 @@ CREATE TABLE tx_news_domain_model_news (
 	backgroundcolor varchar(255) DEFAULT '' NOT NULL,
 	application int(11) unsigned DEFAULT '0' NOT NULL,
 	slots int(11) unsigned DEFAULT '0' NOT NULL,
+
 	price varchar(255) DEFAULT '' NOT NULL,
 	early_bird_price varchar(255) DEFAULT '' NOT NULL,
 	early_bird_date int(11) DEFAULT '0' NOT NULL,
@@ -59,6 +60,14 @@ CREATE TABLE tx_datednews_domain_model_newsrecurrence (
 	teaser text,
 	modified tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	parent_event int(11) unsigned DEFAULT '0' NOT NULL,
+	application int(11) unsigned DEFAULT '0' NOT NULL,
+
+	slots int(11) unsigned DEFAULT '0' NOT NULL,
+  early_bird_date int(11) DEFAULT '0' NOT NULL,
+  locations int(11) unsigned DEFAULT '0' NOT NULL,
+  persons int(11) unsigned DEFAULT '0' NOT NULL,
+  enable_application tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  showincalendar tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -116,6 +125,7 @@ CREATE TABLE tx_datednews_domain_model_application (
 	surname varchar(255) DEFAULT '' NOT NULL,
 	email varchar(255) DEFAULT '' NOT NULL,
 	events int(11) unsigned DEFAULT '0' NOT NULL,
+	recurringevents int(11) unsigned DEFAULT '0' NOT NULL,
 	reserved_slots int(11) unsigned DEFAULT '0' NOT NULL,
 	form_timestamp int(11) unsigned DEFAULT '0' NOT NULL,
 	company varchar(255) DEFAULT '' NOT NULL,
@@ -176,10 +186,24 @@ CREATE TABLE tx_news_domain_model_news (
 	application  int(11) unsigned DEFAULT '0' NOT NULL,
 
 );
+
 #
 # Table structure for table 'tx_datednews_news_application_mm'
 #
 CREATE TABLE tx_datednews_news_application_mm (
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
+);
+
+#
+# Table structure for table 'tx_datednews_newsrecurrence_application_mm'
+#
+CREATE TABLE tx_datednews_newsrecurrence_application_mm (
 	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
 	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
@@ -294,6 +318,32 @@ CREATE TABLE tx_datednews_news_location_mm (
 # Table structure for table 'tx_datednews_news_person_mm'
 #
 CREATE TABLE tx_datednews_news_person_mm (
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
+);
+
+#
+# Table structure for table 'tx_datednews_newsrecurrence_location_mm'
+#
+CREATE TABLE tx_datednews_newsrecurrence_location_mm (
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
+);
+
+#
+# Table structure for table 'tx_datednews_newsrecurrence_person_mm'
+#
+CREATE TABLE tx_datednews_newsrecurrence_person_mm (
 	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
 	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,

@@ -201,6 +201,10 @@
 				<source>Reserve Slots</source>
 				<target state="translated">Plätze reservieren</target>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.recurrence_option" approved="yes">
+				<source>Event Date</source>
+				<target state="translated">Event Datum</target>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.submit" approved="yes">
 				<source>Submit</source>
 				<target state="translated">Anmelden</target>

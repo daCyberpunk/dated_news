@@ -666,11 +666,13 @@ $tmp_dated_news_columns = [
             'renderType' => 'selectSingle',
             'items'      => [
                 ['-- choose --', ''],
-                ['do nothing', 1],
+                ['do nothing (standard save behavior of TYPO3 records)', 1],
                 ['build/overwrite all (existing applications for recurring events will be lost!)', 2],
-                ['overwrite all none modified recurring events', 3],
-                ['overwrite only changed fields in all', 4],
-                ['overwrite only changed fields in none modified recurring events', 5],
+                ['rebuild all none modified recurring events', 3],
+                ['overwrite all fields in all recurring events', 4],
+                ['overwrite all fields in none modified recurring events', 5],
+                ['overwrite only changed fields in all recurring events', 6],
+                ['overwrite only changed fields in none modified recurring events', 7],
             ],
             'size'     => 1,
             'maxitems' => 1,
@@ -685,19 +687,21 @@ $tmp_dated_news_columns = [
             'foreign_table'     => 'tx_datednews_domain_model_newsrecurrence',
             'MM'                => 'tx_datednews_news_newsrecurrence_mm',
             'foreign_field'     => 'parent_event', //zum anlegen muss es auskommentiert sein, zum anzeigen einkommentiert?
+            'foreign_default_sortby'    => 'ORDER BY eventstart DESC',
+//            'foreign_sortby'    => 'eventstart',
             'maxitems'          => 9999,
             'appearance'        => [
                 'collapseAll'                     => 1,
                 'levelLinksPosition'              => 'top',
                 'showSynchronizationLink'         => 1,
                 'showPossibleLocalizationRecords' => 1,
-                'useSortable'                     => 1,
+                'useSortable'                     => 0,
                 'showAllLocalizationLink'         => 1,
                 'enabledControls'                 => [
                     'info'     => true,
                     'new'      => false,
                     'dragdrop' => true,
-                    'sort'     => true,
+                    'sort'     => false,
                     'hide'     => true,
                     'delete'   => false,
                     'localize' => true,
@@ -722,7 +726,7 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_additiona
     'showitem' => 'locations,persons',
 ];
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_applications'] = [
-    'showitem' => 'application,newsrecurrence',
+    'showitem' => 'application',
 ];
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_js'] = [
     'showitem' => 'js',
@@ -732,7 +736,7 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_recurrenc
     'showitem' => 'recurrence,recurrence_type,recurrence_until,recurrence_count',
 ];
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_recurrence_overrides'] = [
-    'showitem' => 'recurrence_updated_behavior',
+    'showitem' => 'recurrence_updated_behavior,newsrecurrence',
 ];
 $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_udtype'] = [
     'showitem' => 'ud_type',

@@ -175,6 +175,25 @@ return [
             ],
 
         ],
+        'recurringevents' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.events',
+            'config'  => [
+                'type'              => 'inline',
+                'foreign_table'     => 'tx_datednews_domain_model_newsrecurrence',
+                'MM'                => 'tx_datednews_newsrecurrence_application_mm',
+                'MM_opposite_field' => 'application',
+                'maxitems'          => 9999,
+                'appearance'        => [
+                    'collapseAll'                     => 1,
+                    'levelLinksPosition'              => 'top',
+                    'showSynchronizationLink'         => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'useSortable'                     => 1,
+                    'showAllLocalizationLink'         => 1,
+                ],
+            ],
+        ],
         'company' => [
             'exclude' => 0,
             'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.company',

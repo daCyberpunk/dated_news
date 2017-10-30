@@ -49,6 +49,12 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     protected $applicationRepository = null;
 
     /**
+     * @var \FalkRoeder\DatedNews\Domain\Repository\NewsRecurrenceRepository
+     * @inject
+     */
+    protected $newsRecurrenceRepository = null;
+
+    /**
      * Misc Functions.
      *
      * @var \FalkRoeder\DatedNews\Utility\Div
@@ -127,7 +133,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $news->setDescription(addslashes($news->getDescription()));
             $news->setBodytext(addslashes($news->getBodytext()));
         }
-        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFile'], $this->settings['qtips']);
+        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFileCalendar'], $this->settings['qtips']);
         $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
         $assignedValues = [
@@ -168,6 +174,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function eventDetailAction(\GeorgRinger\News\Domain\Model\News $news = null, $currentPage = 1, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
     {
+//        $a = (new \DateTime('2017-05-01'));
+//        $b = (new \DateTime('2017-12-01'))->setTime(date("H"), date("i"), date("s"));
+//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([$a,$b],'NewsController:177');
+//        $a->setTimezone(new \DateTimeZone('UTC'));
+//        $b->setTimezone(new \DateTimeZone('UTC'));
+//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([$a,$b],'NewsController:178');
+
         if (is_null($news)) {
             $previewNewsId = ((int) $this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
             if ($this->request->hasArgument('news_preview')) {
@@ -199,17 +212,51 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
-        $applicationsCount = $this->applicationRepository->countReservedSlotsForNews($news->getUid());
+        if($news->getRecurrence() > 0) {
+            //todo add JS script to assignedvalues which switches the field where to choose how many places will be booked according to the choosen recurring event in application form
+            
 
-        $news->setSlotsFree((int) $news->getSlots() - $applicationsCount);
-        $slotoptions = [];
-        $i = 1;
-        while ($i <= $news->getSlotsFree()) {
-            $slotoption = new \stdClass();
-            $slotoption->key = $i;
-            $slotoption->value = $i;
-            $slotoptions[] = $slotoption;
-            $i++;
+            $recurrences = $news->getNewsRecurrence()->toArray();
+            $recurrenceOptions = [];
+            $sumFreeSlots = 0;
+            foreach ($recurrences as $recurrence) {
+                // resrervable slot options for each recurrence
+                $applicationsCount = $this->applicationRepository->countReservedSlotsForNewsRecurrence($recurrence->getUid());
+                $freeSlots = (int) $recurrence->getSlots() - $applicationsCount;
+                $recurrence->setSlotsFree($freeSlots);
+                $sumFreeSlots = $sumFreeSlots + $freeSlots;
+                $slotoptions = [];
+                $i = 1;
+                while ($i <= $recurrence->getSlotsFree()) {
+                    $slotoption = new \stdClass();
+                    $slotoption->key = $i;
+                    $slotoption->value = $i;
+                    $slotoptions[] = $slotoption;
+                    $i++;
+                }
+                $recurrence->setSlotoptions($slotoptions);
+
+                //options for reserable recurrences
+                if($recurrence->getSlotsFree() > 0) {
+                    $recurrenceOption = new \stdClass();
+                    $recurrenceOption->key = $recurrence->getUid();
+                    $recurrenceOption->value = $recurrence->getEventstart()->format($this->settings['dated_news']['emailSubjectDateFormat']);
+                    $recurrenceOptions[] = $recurrenceOption;
+                }
+            }
+            $news->setSlotsFree($sumFreeSlots);
+        } else {
+            $applicationsCount = $this->applicationRepository->countReservedSlotsForNews($news->getUid());
+            $news->setSlotsFree((int) $news->getSlots() - $applicationsCount);
+            $slotoptions = [];
+            $i = 1;
+            while ($i <= $news->getSlotsFree()) {
+                $slotoption = new \stdClass();
+                $slotoption->key = $i;
+                $slotoption->value = $i;
+                $slotoptions[] = $slotoption;
+                $i++;
+            }
         }
 
         $assignedValues = [
@@ -217,10 +264,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'currentPage'    => (int) $currentPage,
             'demand'         => $demand,
             'newApplication' => $newApplication,
-            'slotoptions'    => $slotoptions,
-
             'formTimestamp' => time(), // for form reload and doubled submit prevention
         ];
+        
+        if(isset($slotoptions)){
+            $assignedValues['slotoptions'] = $slotoptions;
+        }
+        if(isset($recurrenceOptions)){
+            $assignedValues['recurrenceoptions'] = $recurrenceOptions;
+        }
 
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_DETAIL_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
@@ -241,6 +293,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function createApplicationAction(\GeorgRinger\News\Domain\Model\News $news = null, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
     {
+        
         if (is_null($news)) {
             $previewNewsId = ((int) $this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
             if ($this->request->hasArgument('news_preview')) {
@@ -276,27 +329,52 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $newApplication->setFormTimestamp($formTimestamp);
 
             //set creationdate
-            $date = new \DateTime();
+            $date = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTime(date("H"), date("i"), date("s"));
             $newApplication->setCrdate($date->getTimestamp());
 
-            //set total depending on either customer is an early bird or not and on earyBirdPrice is set
-            if ($news->getEarlyBirdPrice() != '' && $news->getEarlyBirdDate() != '' && $news->getEarlyBirdDate() != '0') {
-                $earlybirdDate = clone $news->getEarlyBirdDate();
-                $earlybirdDate->setTime(0, 0, 0);
 
-                $today = new \DateTime();
-                $today->setTime(0, 0, 0);
+            if($news->getRecurrence() > 0 ) {
+                //set total depending on either customer is an early bird or not and on earyBirdPrice is set
+                $recurringEvent = $this->newsRecurrenceRepository->findByUid($this->request->getArgument('reservedRecurrence'));
+                $reservedSlots = $this->request->getArgument('reservedSlots-' . $this->request->getArgument('reservedRecurrence'));
+                $newApplication->setReservedSlots($reservedSlots);
+                if ($news->getEarlyBirdPrice() != '' && $recurringEvent->getEarlyBirdDate() != '' && $recurringEvent->getEarlyBirdDate() != '0') {
+                    $earlybirdDate = clone $recurringEvent->getEarlyBirdDate();
+                    $earlybirdDate->setTime(0, 0, 0);
 
-                if ($earlybirdDate >= $today) {
-                    $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',', '.', $news->getEarlyBirdPrice())));
+                    $today = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'));
+                    $today->setTime(0, 0, 0);
+
+                    if ($earlybirdDate >= $today) {
+                        $newApplication->setCosts((int)$reservedSlots * floatval(str_replace(',', '.', $news->getEarlyBirdPrice())));
+                    } else {
+                        $newApplication->setCosts((int)$reservedSlots * floatval(str_replace(',', '.', $news->getPrice())));
+                    }
+                } else {
+                    $newApplication->setCosts((int)$reservedSlots * floatval(str_replace(',', '.', $news->getPrice())));
+                }
+                $newApplication->addRecurringevent($recurringEvent);
+            } else {
+                //set total depending on either customer is an early bird or not and on earyBirdPrice is set
+                if ($news->getEarlyBirdPrice() != '' && $news->getEarlyBirdDate() != '' && $news->getEarlyBirdDate() != '0') {
+                    $earlybirdDate = clone $news->getEarlyBirdDate();
+                    $earlybirdDate->setTime(0, 0, 0);
+
+                    $today = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'));
+                    $today->setTime(0, 0, 0);
+
+                    if ($earlybirdDate >= $today) {
+                        $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',', '.', $news->getEarlyBirdPrice())));
+                    } else {
+                        $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',', '.', $news->getPrice())));
+                    }
                 } else {
                     $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',', '.', $news->getPrice())));
                 }
-            } else {
-                $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',', '.', $news->getPrice())));
+                $newApplication->addEvent($news);
             }
 
-            $newApplication->addEvent($news);
+
             $this->applicationRepository->add($newApplication);
 
             $persistenceManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
@@ -315,10 +393,14 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 'settings'       => $this->settings,
             ];
 
+            if($news->getRecurrence() > 0 ) {
+                $assignedValues['recurrence'] = $recurringEvent;
+            }
+
             $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CREATEAPPLICATION_ACTION, $assignedValues);
             $this->view->assignMultiple($assignedValues);
 
-            $this->sendMail($news, $newApplication, $this->settings);
+            $this->sendMail($news, $newApplication, $this->settings, $recurringEvent);
         } else {
             $this->flashMessageService('applicationSendMessageAllreadySent', 'applicationSendMessageAllreadySentStatus', 'ERROR');
         }
@@ -338,7 +420,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $this->flashMessageService('applicationNotFound', 'applicationNotFoundStatus', 'ERROR');
         } else {
             //vor confirmation link validity check
-            $date = new \DateTime();
+            $date = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTime(date("H"), date("i"), date("s"));
             $hoursSinceBookingRequestSent = ($date->getTimestamp() - $newApplication->getCrdate()) / 3600;
 
             if ($newApplication->isConfirmed() === true) {
@@ -354,17 +436,29 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $this->applicationRepository->update($newApplication);
 
                 $events = $newApplication->getEvents();
-                $events->rewind();
-                $news = $events->current();
+                if($events->count() === 0) {
+                    $events = $newApplication->getRecurringevents();
+                    $events->rewind();
+                    $event = $events->current();
+                    $news = $event->getParentEvent();
+                    $news->rewind();
+                    $news = $news->current();
+                } else {
+                    $events->rewind();
+                    $news = $events->current();
+                }
 
                 $persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
                 $persistenceManager->persistAll();
 
-                $this->sendMail($news, $newApplication, $this->settings, true);
+                $this->sendMail($news, $newApplication, $this->settings, $event, true);
                 $assignedValues = [
                     'newApplication' => $newApplication,
                     'newsItem'       => $news,
                 ];
+                if($news->getRecurrence() > 0 && !is_null($event)) {
+                    $assignedValues['recurrence'] = $event;
+                }
             }
         }
         if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
@@ -420,7 +514,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      *
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    public function sendMail(\GeorgRinger\News\Domain\Model\News $news = null, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $settings, $confirmation = false)
+    public function sendMail(\GeorgRinger\News\Domain\Model\News $news = null, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $settings, $recurringEvent = null, $confirmation = false)
     {
 
         // from
@@ -469,6 +563,19 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         $subjectFields = explode(',', $this->settings['dated_news']['emailSubjectFields']);
 
+        if($news->getRecurrence() > 0) {
+            $events = $newApplication->getRecurringevents();
+            $events->rewind();
+            $event = $events->current();
+            $eventstart = $event->getEventstart();
+            $eventend = $event->getEventend();
+            $newsLocation = $news->getLocations();
+        } else {
+            $eventstart = $news->getEventstart();
+            $eventend = $news->getEventend();
+            $newsLocation = $news->getLocations();
+        }
+
         $subject = '';
         $fieldIterator = 0;
         foreach ($subjectFields as $field) {
@@ -481,10 +588,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     break;
                 case 'eventstart':
                     $subject .= \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject_eventstart', 'dated_news');
-                    $subject .= $news->getEventstart()->format($this->settings['dated_news']['emailSubjectDateFormat']);
+                    $subject .= $eventstart->format($this->settings['dated_news']['emailSubjectDateFormat']);
                     break;
                 case 'locationname':
-                    $newsLocation = $news->getLocations();
                     $locationIterator = 0;
                     if (isset($newsLocation)) {
                         $subject .= \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject_locationname', 'dated_news');
@@ -585,7 +691,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 //create ICS File and send invitation
                 $newsTitle = $news->getTitle();
                 $icsLocation = '';
-                $newsLocation = $news->getLocations();
                 $i = 0;
                 if (isset($newsLocation) && count($newsLocation) < 2) {
                     foreach ($newsLocation as $location) {
@@ -601,9 +706,10 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                         }
                     }
                 }
+
                 $properties = [
-                    'dtstart'   => $news->getEventstart()->getTimestamp(),
-                    'dtend'     => $news->getEventend()->getTimestamp(),
+                    'dtstart'   => $eventstart->getTimestamp(),
+                    'dtend'     => $eventend->getTimestamp(),
                     'location'  => $icsLocation,
                     'summary'   => $newsTitle,
                     'organizer' => $this->settings['senderMail'],
@@ -612,7 +718,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 ];
 
                 //add description
-                $description = $this->getIcsDescription($news, $settings);
+                $description = $this->getIcsDescription($news, $event, $settings);
                 if ($description !== false) {
                     $properties['description'] = $description;
                 }
@@ -699,7 +805,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         //other libs
-        $file = 'typo3temp/dated_news.js';
+        $file = 'typo3temp/dated_news_calendar.js';
 
         if (!file_exists(PATH_site.$file)) {
             // writeFileToTypo3tempDir() returns NULL on success (please double-read!)
@@ -832,12 +938,17 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      *
      * @return bool|string
      */
-    public function getIcsDescription(\GeorgRinger\News\Domain\Model\News $news, $settings)
+    public function getIcsDescription(\GeorgRinger\News\Domain\Model\News $news, $event = null, $settings)
     {
         switch ($settings['icsDescriptionField']) {
             case 'Teaser':
-                if ($news->getTeaser() == strip_tags($news->getTeaser())) {
-                    return $news->getTeaser();
+                if($news->getRecurrence() > 0 && !is_null($event)) {
+                    $teaser = $event->getTeaser();
+                } else {
+                    $teaser = $news->getTeaser();
+                }
+                if ($teaser == strip_tags($teaser)) {
+                    return $teaser;
                 } else {
                     return false;
                 }
@@ -872,9 +983,14 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 if (trim($settings['icsDescriptionCustomField']) === '') {
                     return false;
                 } else {
+                    if($news->getRecurrence() > 0 && !is_null($event)) {
+                        $object = $event;
+                    } else {
+                        $object = $news;
+                    }
                     $func = 'get'.ucfirst(trim($settings['icsDescriptionCustomField']));
-                    if (method_exists($news, $func) === true) {
-                        $description = $news->{$func}();
+                    if (method_exists($object, $func) === true) {
+                        $description = $object->{$func}();
                         if (trim($description) != '' && $description != strip_tags($description)) {
                             return false;
                         } else {

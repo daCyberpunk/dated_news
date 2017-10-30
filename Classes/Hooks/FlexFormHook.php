@@ -48,7 +48,7 @@ class FlexFormHook
                 $dataStructArray['sheets']['confirmation'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/application.xml';
             }
 
-            if ($selectedView === 'News->detail') {
+            if ($selectedView === 'News->eventDetail') {
                 $dataStructArray['sheets']['additional'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/additional.xml';
             }
 
@@ -77,6 +77,7 @@ class FlexFormHook
      */
     public function getDataStructureIdentifierPreProcess(array $fieldTca, string $tableName, string $fieldName, array $row)
     {
+
         if ($tableName === 'tt_content' && $row['CType'] === 'list' && $row['list_type'] === 'news_pi1') {
             $dataStructArray = GeneralUtility::xml2array(
                 file_get_contents(PATH_site.'typo3conf/ext/news/Configuration/FlexForms/flexform_news.xml')
@@ -117,7 +118,7 @@ class FlexFormHook
                 $dataStructArray['sheets']['application'] = GeneralUtility::xml2array($application);
             }
 
-            if ($selectedView === 'News->detail') {
+            if ($selectedView === 'News->eventDetail') {
                 $dataStructArray['sheets']['additional'] = GeneralUtility::xml2array($additional);
             }
 
@@ -129,14 +130,18 @@ class FlexFormHook
                 $dataStructArray['sheets']['additional'] = GeneralUtility::xml2array($additional);
                 $dataStructArray['sheets']['confirmation'] = GeneralUtility::xml2array($confirmation);
             }
+            $identifier = [
+                'type'       => 'file',
+                'flexformDS' => $dataStructArray,
+            ];
+            
+
+        } else {
+            $identifier = [];
         }
-
-        $identifier = [
-            'type'       => 'file',
-            'flexformDS' => $dataStructArray,
-        ];
-
         return $identifier;
+
+
     }
 
     /**
@@ -148,6 +153,13 @@ class FlexFormHook
      */
     public function parseDataStructureByIdentifierPreProcess(array $identifier)
     {
-        return $identifier['flexformDS'];
+        if (!empty($identifier['flexformDS'])) {
+            return $identifier['flexformDS'];
+        } else {
+            return '';
+        }
     }
+
+
+
 }

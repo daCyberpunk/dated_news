@@ -7,7 +7,8 @@ return [
         'tstamp'                   => 'tstamp',
         'crdate'                   => 'crdate',
         'cruser_id'                => 'cruser_id',
-        'sortby'                   => 'sorting',
+//        'sortby'                   => 'eventstart',
+        'default_sortby'           => 'ORDER BY eventstart',
         'versioningWS'             => true,
         'languageField'            => 'sys_language_uid',
         'transOrigPointerField'    => 'l10n_parent',
@@ -20,10 +21,10 @@ return [
         'iconfile'     => 'EXT:dated_news/Resources/Public/Icons/tx_datednews_domain_model_newsrecurrence.gif',
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, eventstart, eventend, eventlocation, bodytext, teaser, modified, parent_event',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, eventstart, eventend, bodytext, teaser, modified, parent_event, application,slots,early_bird_date,locations,persons,enable_application,showincalendar,disregard_changes_on_saving',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, modified, eventstart, eventend, eventlocation, bodytext, teaser, parent_event'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, modified, enable_application, showincalendar, eventstart, eventend, early_bird_date, slots, locations,persons, bodytext, teaser, parent_event, application,disregard_changes_on_saving'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -154,7 +155,7 @@ return [
                 'MM_opposite_field' => 'newsrecurrence',
                 'maxitems'          => 9999,
                 'appearance'        => [
-                    'collapseAll'                     => 0,
+                    'collapseAll'                     => 1,
                     'levelLinksPosition'              => 'top',
                     'showSynchronizationLink'         => 1,
                     'showPossibleLocalizationRecords' => 1,
@@ -162,6 +163,162 @@ return [
                 ],
             ],
         ],
+        'application' => [
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.application',
+            'config'  => [
+                'type'              => 'inline',
+                'foreign_table'     => 'tx_datednews_domain_model_application',
+                'MM'                => 'tx_datednews_newsrecurrence_application_mm',
+                'maxitems'          => 9999,
+                'appearance'        => [
+                    'collapseAll'                     => 1,
+                    'levelLinksPosition'              => 'top',
+                    'showSynchronizationLink'         => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'useSortable'                     => 0,
+                    'showAllLocalizationLink'         => 1,
+                    'enabledControls'                 => [
+                        'info'     => true,
+                        'new'      => false,
+                        'dragdrop' => true,
+                        'sort'     => false,
+                        'hide'     => true,
+                        'delete'   => false,
+                        'localize' => true,
+                    ],
+                ],
+            ],
+        ],
 
+        'showincalendar' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.showincalendar',
+            'config'  => [
+                'type'    => 'check',
+                'default' => 0,
+            ],
+        ],
+        'enable_application' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.enable_application',
+            'config'  => [
+                'type'    => 'check',
+                'default' => 0,
+            ],
+        ],
+        'slots' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.slots',
+            'config'  => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'early_bird_date' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.early_bird_date',
+            'config'  => [
+                'type' => 'input',
+                'size' => 16,
+                'max'  => 20,
+                'eval' => 'datetime',
+            ],
+        ],
+        'locations' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.locations',
+            'config'  => [
+                'type'          => 'select',
+                'renderType'    => 'selectMultipleSideBySide',
+                'foreign_table' => 'tx_datednews_domain_model_location',
+                'MM'            => 'tx_datednews_news_location_mm',
+                'size'          => 10,
+                'autoSizeMax'   => 30,
+                'maxitems'      => 9999,
+                'multiple'      => 0,
+                'wizards'       => [
+                    '_PADDING'  => 1,
+                    '_VERTICAL' => 1,
+                    'edit'      => [
+                        'module' => [
+                            'name' => 'wizard_edit',
+                        ],
+                        'type'                     => 'popup',
+                        'title'                    => 'Edit',
+                        'icon'                     => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_edit.gif',
+                        'popup_onlyOpenIfSelected' => 1,
+                        'JSopenParams'             => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+                    ],
+                    'add' => [
+                        'module' => [
+                            'name' => 'wizard_add',
+                        ],
+                        'type'   => 'script',
+                        'title'  => 'Create new',
+                        'icon'   => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_add.gif',
+                        'params' => [
+                            'table'    => 'tx_datednews_domain_model_location',
+                            'pid'      => '###CURRENT_PID###',
+                            'setValue' => 'prepend',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'persons' => [
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.persons',
+            'config'  => [
+                'type'          => 'select',
+                'renderType'    => 'selectMultipleSideBySide',
+                'foreign_table' => 'tx_datednews_domain_model_person',
+                'MM'            => 'tx_datednews_newsrecurrence_person_mm',
+                'size'          => 10,
+                'autoSizeMax'   => 30,
+                'maxitems'      => 9999,
+                'multiple'      => 0,
+                'wizards'       => [
+                    '_PADDING'  => 1,
+                    '_VERTICAL' => 1,
+                    'edit'      => [
+                        'module' => [
+                            'name' => 'wizard_edit',
+                        ],
+                        'type'                     => 'popup',
+                        'title'                    => 'Edit',
+                        'icon'                     => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_edit.gif',
+                        'popup_onlyOpenIfSelected' => 1,
+                        'JSopenParams'             => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+                    ],
+                    'add' => [
+                        'module' => [
+                            'name' => 'wizard_add',
+                        ],
+                        'type'   => 'script',
+                        'title'  => 'Create new',
+                        'icon'   => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_add.gif',
+                        'params' => [
+                            'table'    => 'tx_datednews_domain_model_person',
+                            'pid'      => '###CURRENT_PID###',
+                            'setValue' => 'prepend',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        // set by JS if recurrence_updated_behavior of parent event is set > 3. This will disregard changes directly made in this model. 
+        'disregard_changes_on_saving' => [
+            'exclude' => false,
+            'config' => [
+                'type'  => 'check',
+                'items' => [
+                    ['', 0],
+                ],
+                'cols'    => 'inline',
+                'default' => 0,
+            ],
+        ],
     ],
 ];

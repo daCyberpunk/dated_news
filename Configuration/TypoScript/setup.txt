@@ -27,7 +27,7 @@ plugin.tx_news {
 			filesForMailToApplyer =
 			cssFile = {$plugin.tx_news.settings.dated_news.cssFile}
 			includeJQuery = 0
-			jsFile = typo3conf/ext/dated_news/Resources/Public/JavaScript/dated_news.js
+			jsFileCalendar = typo3conf/ext/dated_news/Resources/Public/JavaScript/dated_news_calendar.js
 
 			titlePosition = {$plugin.tx_news.settings.dated_news.titlePosition}
 			switchableViewsPosition = {$plugin.tx_news.settings.dated_news.switchableViewsPosition}
@@ -79,10 +79,10 @@ ajaxDatednews {
 	}
 }
 page.includeJSLibs{
-	request = typo3conf/ext/dated_news/Resources/Public/JavaScript/reloadfields.js
-	request.forceOnTop = 1
-	request.async = 1
-	request.excludeFromConcatenation = 1
+	datednews = typo3conf/ext/dated_news/Resources/Public/JavaScript/dated_news.js
+	datednews.forceOnTop = 1
+	datednews.async = 1
+	datednews.excludeFromConcatenation = 1
 }
 #page.includeJSFooter.getslots = typo3conf/ext/dated_news/Resources/Public/JavaScript/reloadfields.js
 #dont change this. Used for prevention of doublesending forms.

@@ -234,6 +234,9 @@
 			<trans-unit id="tx_datednews_domain_model_application.reserved_slots">
 				<source>Reserve seats</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.recurrence_option">
+				<source>Event Date</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.submit">
 				<source>Register</source>
 			</trans-unit>

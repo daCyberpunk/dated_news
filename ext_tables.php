@@ -10,3 +10,11 @@ if (!defined('TYPO3_MODE')) {
 
 //TYPO3 V7
 $TCA['tx_news_domain_model_news']['ctrl']['requestUpdate'] = 'eventtype';
+if (TYPO3_MODE=="BE" )   {
+    $GLOBALS['TBE_STYLES']['skins'][$_EXTKEY] = array (
+        'name' => $_EXTKEY,
+        'stylesheetDirectories' => array(
+            'css' => 'EXT:' . $_EXTKEY . '/Resources/Public/Backend/Css/'
+        )
+    );
+}
