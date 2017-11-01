@@ -22,7 +22,7 @@ namespace FalkRoeder\DatedNews\Tca;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
- * Class PreHeaderRenderHook.
+ * Class Tca.
  */
 class Tca
 {

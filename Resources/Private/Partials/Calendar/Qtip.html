@@ -8,25 +8,57 @@
         <span>{newsItem.eventlocation}</span>
     </div>
     <div class="qtip-start">
-        <b><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventstart}</f:format.date></b>
-        <f:format.date format="{settings.dated_news.timeFormat}">{newsItem.eventstart}</f:format.date>
+         <f:if condition="{recurrence}">
+             <f:then>
+                 <b><f:format.date format="{settings.dated_news.dateFormat}">{recurrence.eventstart}</f:format.date></b>
+                 <f:format.date format="{settings.dated_news.timeFormat}">{recurrence.eventstart}</f:format.date>
+             </f:then>
+             <f:else>
+                 <b><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventstart}</f:format.date></b>
+                 <f:format.date format="{settings.dated_news.timeFormat}">{newsItem.eventstart}</f:format.date>
+             </f:else>
+          </f:if>
+
     </div>
 
     <f:if condition="{newsItem.eventend}"> - </f:if>
 
     <div class="qtip-end">
-        <b><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventend}</f:format.date></b>
-        <f:format.date format="{settings.dated_news.timeFormat}">{newsItem.eventend}</f:format.date>
+         <f:if condition="{recurrence}">
+             <f:then>
+                 <b><f:format.date format="{settings.dated_news.dateFormat}">{recurrence.eventend}</f:format.date></b>
+                 <f:format.date format="{settings.dated_news.timeFormat}">{recurrence.eventend}</f:format.date>
+             </f:then>
+             <f:else>
+                 <b><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventend}</f:format.date></b>
+                 <f:format.date format="{settings.dated_news.timeFormat}">{newsItem.eventend}</f:format.date>
+             </f:else>
+          </f:if>
     </div>
     <div class="qtip-desc">
-        <f:if condition="{newsItem.description} == ''">
+        <f:if condition="{recurrence}">
             <f:then>
-                <f:format.html>{newsItem.teaser -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}</f:format.html>
+                <f:if condition="{recurrence.description} == ''">
+                    <f:then>
+                        <f:format.html>{recurrence.teaser -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}</f:format.html>
+                    </f:then>
+                    <f:else>
+                        <f:format.html>{recurrence.description -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}</f:format.html>
+                    </f:else>
+                </f:if>
             </f:then>
             <f:else>
-                <f:format.html>{newsItem.description -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}</f:format.html>
+                <f:if condition="{newsItem.description} == ''">
+                    <f:then>
+                        <f:format.html>{newsItem.teaser -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}</f:format.html>
+                    </f:then>
+                    <f:else>
+                        <f:format.html>{newsItem.description -> f:format.crop(maxCharacters: '{settings.cropMaxCharacters}', respectWordBoundaries:'1') -> f:format.html()}</f:format.html>
+                    </f:else>
+                </f:if>
             </f:else>
         </f:if>
+
 
     </div>
 </div>

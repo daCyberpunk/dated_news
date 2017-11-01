@@ -132,13 +132,15 @@ class TCEmainHook
         if ((int) $settings['recurrence'] === 0) {
             // if recurrence option is set to none recurrences, delete all existing recurrences
             if ( NULL !== $news) {
-                $emptyObj = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-                $news->setNewsRecurrence($emptyObj);
-                $this->newsRepository->update($news);
+
                 $oldRecurrences = $news->getNewsRecurrence();
                 foreach ($oldRecurrences as $oldRec) {
                     $this->newsRecurrenceRepository->remove($oldRec);
+                    $this->persistenceManager->persistAll();
                 }
+                $emptyObj = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+                $news->setNewsRecurrence($emptyObj);
+                $this->newsRepository->update($news);
                 $this->persistenceManager->persistAll();
             }
         } else {
@@ -154,8 +156,9 @@ class TCEmainHook
                     //remove old (none modified) recurrences
                     foreach ($oldRecurrences as $oldRec) {
                         //todo remove hidden childobjects too
-                        $news->removeNewsRecurrence($oldRec);
                         $this->newsRecurrenceRepository->remove($oldRec);
+                        $this->persistenceManager->persistAll();
+                        $news->removeNewsRecurrence($oldRec);
                     }
                     $this->persistenceManager->persistAll();
 
@@ -244,16 +247,20 @@ class TCEmainHook
             );
             return false;
         }
-
         try {
-            $eventstart = new \DateTime($fieldArray['eventstart']);
-            $eventend = new \DateTime($fieldArray['eventend']);
+            $eventstart = \DateTime::createFromFormat("U", $fieldArray['eventstart']) ?  \DateTime::createFromFormat("U", $fieldArray['eventstart']) : new \DateTime($fieldArray['eventstart']);
+            $eventend = \DateTime::createFromFormat("U", $fieldArray['eventend']) ?  \DateTime::createFromFormat("U", $fieldArray['eventend']) : new \DateTime($fieldArray['eventend']);
         } catch (\Exception $exception) {
             $this->addFlashMessage(
                 'Date Error',
                 'Either Eventstart or Eventend could not be converted into DateTime Object. Error: ' . $exception->getMessage() . ' No Recurrence changed.',
                 \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
+            return false;
+        }
+
+        
+        if(!$eventstart) {
             return false;
         }
         if($eventstart->diff($eventend)->format('%R') === '-'){
@@ -290,7 +297,12 @@ class TCEmainHook
                     }
                     break;
                 case 'object':
-                    if ($oldValue instanceof \DateTime && $oldValue->diff(new \DateTime($newValue))->format('%a') === '0') {
+                    if ($oldValue instanceof \DateTime){
+                        $newTime = new\DateTime();
+                        $newTime->setTimestamp($newValue);
+                    }
+
+                    if ($oldValue instanceof \DateTime && $oldValue->diff($newTime)->format('%a') === '0') {
                         unset($this->availableFields[$key]);
                     } elseif (is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage') || is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\ObjectStorage')){
                         $oldValue = $oldValue->toArray();
@@ -363,7 +375,7 @@ class TCEmainHook
                     break;
                 case 'object':
                     if ($oldValue instanceof \DateTime) {
-                        $recurrence->{'set'.$method}(new \DateTime($fieldArray[$name]));
+                        $recurrence->{'set'.$method}(\DateTime::createFromFormat("U", $fieldArray[$name]));
                     } elseif (is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage') || is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\ObjectStorage')){
                         $recurrence->{'empty'.$method}();
                         foreach(explode(',', $fieldArray[$name]) as $uid) {
@@ -380,6 +392,7 @@ class TCEmainHook
                     break;
             }
         }
+        $recurrence->setPid($news->getPid());
         return $recurrence;
     }
 

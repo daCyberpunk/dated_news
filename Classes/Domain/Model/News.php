@@ -274,6 +274,13 @@ class News extends \GeorgRinger\News\Domain\Model\News
     protected $udYearlyPerdayMonth = 0;
 
     /**
+     * pid.
+     *
+     * @var int
+     */
+    protected $pid;
+
+    /**
      * locations.
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Location>
@@ -1228,4 +1235,28 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         $this->udYearlyPerdayMonth = $udYearlyPerdayMonth;
     }
+
+    /**
+     * Returns the pid.
+     *
+     * @return int $pid
+     */
+    public function getPid()
+    {
+        return $this->pid;
+    }
+
+    /**
+     * Sets the pid.
+     *
+     * @param int $pid
+     *
+     * @return void
+     */
+    public function setPid($pid)
+    {
+        $this->pid = $pid;
+    }
+
+
 }

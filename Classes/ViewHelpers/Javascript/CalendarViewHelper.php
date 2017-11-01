@@ -101,6 +101,11 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         $tsSettings = $settings['dated_news'];
         $uid = $this->arguments['id'];
 
+        $timeZone = new \DateTimeZone("Europe/Berlin");
+        $dt = new \DateTime();
+        $dt->setTimezone($timeZone);
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([$dt->format('Y-m-d H:i:s'),$dt->getTimezone()],'CalendarViewHelper:106');
+        
         //build all options
         $headerFooter = $this->buildHeaderFooterOption(
             $tsSettings['titlePosition'],
@@ -165,7 +170,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 				        theme : 'true',
 						buttonIcons: true, 
 						weekNumbers: false,
-			        	timezone : 'local',
+			        	timezone : 'UTC',
 			        	viewRender: function(){
                             if($('.fc-slats').length > 0) {
                                 var bottomContainerPos = $('#calendar')[0].getBoundingClientRect().bottom;

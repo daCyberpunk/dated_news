@@ -8,7 +8,7 @@ return [
         'crdate'                   => 'crdate',
         'cruser_id'                => 'cruser_id',
 //        'sortby'                   => 'eventstart',
-        'default_sortby'           => 'ORDER BY eventstart',
+        'default_sortby'           => 'eventstart',
         'versioningWS'             => true,
         'languageField'            => 'sys_language_uid',
         'transOrigPointerField'    => 'l10n_parent',

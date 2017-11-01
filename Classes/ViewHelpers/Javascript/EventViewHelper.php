@@ -88,6 +88,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
         $this->registerArgument('qtip', 'string', 'rendered qtip Partial');
         $this->registerArgument('strftime', 'bool', 'if true, the strftime is used instead of date()', false, true);
         $this->registerArgument('item', 'mixed', 'newsitem');
+        $this->registerArgument('recurrence', 'mixed', 'recurrence of event');
         $this->registerArgument('iterator', 'mixed', 'iterator');
         $this->registerArgument('id', 'integer', 'Uid of Content Element');
         $this->registerArgument('settings', 'array', 'plugin settings');
@@ -102,16 +103,29 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
     public function render()
     {
         $item = $this->arguments['item'];
+        $recurrence = $this->arguments['recurrence'];
         $strftime = $this->arguments['strftime'];
-        $qtip = ',qtip: \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($this->arguments['settings'], $item))).'\'';
+        $qtip = ',qtip: \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($this->arguments['settings'], $item, $recurrence))).'\'';
         $calendarUid = $this->arguments['id'];
         $detailPid = $this->arguments['settings']['detailPid'];
+        $timeZone = new \DateTimeZone("Europe/Berlin");
 
+        if(NULL !== $recurrence) {
+            $start = $recurrence->getEventstart()/*->setTimezone($timeZone)*/;
+
+            $end = $recurrence->getEventend();
+            $uid = $recurrence->getUid();
+        } else {
+            $start = $item->getEventstart();
+            $end = $item->getEventend();
+            $uid = $item->getUid();
+        }
+
+
+
+        
         $title = $item->getTitle();
-        $start = $item->getEventstart();
-        $end = $item->getEventend();
         $fulltime = $item->getFulltime();
-        $uid = $item->getUid();
         $tags = $item->getTags();
         $categories = $item->getCategories();
         $filterTags = '';
@@ -224,6 +238,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 			            $qtip 
 			        }
 			    ],
+			    
 			    color: '$color',
 			    textColor: '$textcolor'
 			};
@@ -264,7 +279,7 @@ EOT;
      *
      * @return string html output of Qtip.html
      */
-    public function renderQtip($settings, $newsItem)
+    public function renderQtip($settings, $newsItem, $recurrence = null)
     {
 
         /** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
@@ -280,6 +295,9 @@ EOT;
             'newsItem' => $newsItem,
             'settings' => $settings,
         ];
+        if(NULL !== $recurrence){
+            $assignedValues['recurrence'] = $recurrence;
+        }
         $qtip->assignMultiple($assignedValues);
 
         return $qtip->render();

@@ -287,6 +287,28 @@
 				<source>Pick a color</source>
 			</trans-unit>
 
+			<trans-unit id="tx_dated_news.modal.header">
+				<source>confirm action</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.modal.overwrite.all">
+				<source>All existing recurrences of this event will be deleted! All existing applications / registrations will be lost as well!</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.modal.overwrite.noneModified">
+				<source>All existing none modified recurrences will be deleted. Recurrences where applications / registrations allready available will be kept.</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.modal.overwrite.allFieldsAll">
+				<source>All fields in recurrences will be overwritten by corresponding fields in main event!</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.modal.overwrite.allFieldsNoneModified">
+				<source>All fields in all none modified recurrences will be overwritten by corresponding fields in main event!</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.modal.overwrite.changedFieldsAll">
+				<source>All fields which are changed in main event, will be copied to corresponding fields in all recurrences! Changes in these recurrences are lost then.</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.modal.overwrite.changedFieldsNoneModified">
+				<source>All fields which are changed in main event, will be copied to corresponding fields in all none modified recurrences! Changes in these recurrences are lost then.</source>
+			</trans-unit>
+
 
 
 		</body>

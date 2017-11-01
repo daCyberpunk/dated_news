@@ -1,7 +1,6 @@
 
 window.onload = function(){
 
-
     var d = document,
         findAncestor = function(el, cls) {
             while ((el = el.parentElement) && !el.classList.contains(cls));
@@ -332,8 +331,8 @@ window.onload = function(){
         }
     };
     fRecurrenceUpdateBehaviorChange = function(){
-        var disregardFields = fUdYearlyPerdayCheck = d.querySelectorAll('[data-formengine-input-name$="[disregard_changes_on_saving]"]');
-        var disregardChanges = fRecurrenceUpdateBehavior[0].value > 3;
+        var disregardFields = d.querySelectorAll('[data-formengine-input-name$="[disregard_changes_on_saving]"]');
+        var disregardChanges = fRecurrenceUpdateBehavior[0].value > 3 || fRecurrenceUpdateBehavior[0].value === 1;
         for(var i = 0; i < disregardFields.length; i++){
             disregardFields[i].checked = disregardChanges;
             disregardFields[i].onclick();

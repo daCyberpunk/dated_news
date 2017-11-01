@@ -25,7 +25,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 /**
  * Class PreHeaderRenderHook.
  */
-class PreHeaderRenderHook implements SingletonInterface
+class PreHeaderRenderHooks implements SingletonInterface
 {
     /**
      * @param array $arg
@@ -34,6 +34,6 @@ class PreHeaderRenderHook implements SingletonInterface
     {
         /** @var \TYPO3\CMS\Core\Page\PageRenderer $pagerenderer */
         $pagerenderer = $arg['pageRenderer'];
-        $pagerenderer->addJsFile(ExtensionManagementUtility::extRelPath('dated_news').'Resources/Public/Backend/JavaScript/datednews_reccurence_conf.js');
+//        $pagerenderer->loadRequireJsModule('TYPO3/CMS/DatedNews/MyMagicModule');
     }
 }

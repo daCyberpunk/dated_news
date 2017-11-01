@@ -66,6 +66,13 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var bool
      */
     protected $hidden = false;
+    
+    /**
+     * pid.
+     *
+     * @var int
+     */
+    protected $pid ;
 
     /**
      * slots.
@@ -606,6 +613,29 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->hidden;
     }
+    
+    /**
+     * Returns the pid.
+     *
+     * @return int $pid
+     */
+    public function getPid()
+    {
+        return $this->pid;
+    }
+
+    /**
+     * Sets the pid.
+     *
+     * @param int $pid
+     *
+     * @return void
+     */
+    public function setPid($pid)
+    {
+        $this->pid = $pid;
+    }
+
 
     /**
      * Adds a Application.
