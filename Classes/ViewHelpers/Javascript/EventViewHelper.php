@@ -222,7 +222,7 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
         $js = <<<EOT
                 window.onload = function () {
                    
-                
+                };
 				if(!eventscal){
 					var eventscal= [];
 				}
@@ -261,7 +261,6 @@ class EventViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 							  }
 						}
 					}
-			};
 				
 EOT;
         if ($this->isCached()) {
