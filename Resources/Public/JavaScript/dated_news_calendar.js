@@ -16,6 +16,7 @@ function removeAllEvents(cal, event){
 }
 
 $('.dated-news-filter').on('click', function(){
+    console.log($(this),':19')
     var $this = $(this),
         cal = $('#calendar.calendar_' + $this.attr('data-dn-calendar')),
         event = "newsCalendarEvent_" + $this.attr('data-dn-calendar');

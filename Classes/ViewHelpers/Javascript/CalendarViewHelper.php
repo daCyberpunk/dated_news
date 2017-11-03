@@ -86,6 +86,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         $this->registerArgument('settings', 'mixed', 'settings');
         $this->registerArgument('id', 'integer', 'Uid of Content Element');
         $this->registerArgument('compress', 'boolean', 'Compress argument - see PageRenderer documentation', false, true);
+        $this->registerArgument('newsUids', 'string', 'uids of news records which should be demanded on ajax request', true);
     }
 
     /**
@@ -100,6 +101,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         $settings = $this->arguments['settings'];
         $tsSettings = $settings['dated_news'];
         $uid = $this->arguments['id'];
+        $newsUids = $this->arguments['newsUids'];
 
         $timeZone = new \DateTimeZone("Europe/Berlin");
         $dt = new \DateTime();
@@ -152,10 +154,30 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 
         //complete javascript code
         $js = <<<EOT
+            if(!newsCalendarTags){
+                var newsCalendarTags = [];
+            };
+            if(!eventscal){
+				var eventscal= [];
+			}
+			if(!eventscal.hasOwnProperty("newsCalendarEvent_$calendarUid")){
+				eventscal["newsCalendarEvent_$uid"] = [];
+			}
+			
 			(function($) {
 			       var events = [
 			       eventsCache = []
 			       ];
+			       var fillEventscal = function(events){
+                       for (var i = 0; i < events.length; i++) {
+                            if(!eventscal["newsCalendarEvent_$uid"].hasOwnProperty('Event_' + events[i]['id'] )){
+                                eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']] = [];
+                                eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']]['events'] = [];
+                                eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']]['events'][0] = events[i];
+                            }
+                       }
+			       }
+                    var newsUids = "$newsUids";
 					var newsCalendar_$uid = $('#calendar.calendar_$uid').fullCalendar({
 						$headerFooter[0]
 						$headerFooter[1]
@@ -186,18 +208,19 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
                             /*loading events via ajax as JSON string and store it in an array
                             * so next time the allready seen month doesnt need to be reloaded again
                             */
-                            if (events.eventsCache 
-                                && events.eventsCache[startdate.format() + "-" + enddate.format()]){
-                                callback(JSON.parse(events.eventsCache[startdate.format() + "-" + enddate.format()]));
+                            if (events.eventsCache && events.eventsCache[startdate.format() + "-" + enddate.format()]){
+                                callback(events.eventsCache[startdate.format() + "-" + enddate.format()]['events']);
                                 return;
                             }
-                            $.get("?type=6660667", { "tx_news_pi1[action]": "ajaxEvent", "tx_news_pi1[start]": startdate.format(), "tx_news_pi1[end]": enddate.format() }, function(data){
-                                if (!events.eventsCache)
-                                    events.eventsCache = {};
+                            $.get("?type=6660667", { "tx_news_pi1[action]": "ajaxEvent", "tx_news_pi1[start]": startdate.format(), "tx_news_pi1[end]": enddate.format(), "tx_news_pi1[newsUids]": newsUids}, function(data){
+                                if (!events.eventsCache) {events.eventsCache = {};}
+                                    
                                 events.eventsCache[startdate.format() + "-" + enddate.format()] = data;
-                                callback(JSON.parse(data));
+                                newsCalendarTags = data['tags'];
+                                fillEventscal(data['events']);
+                                callback(data['events']);
                             });
-                        },
+                        },  
 			        	$timeFormat
 			    	});
 					

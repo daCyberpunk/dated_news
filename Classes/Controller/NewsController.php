@@ -137,10 +137,17 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFileCalendar'], $this->settings['qtips']);
         $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
+        //collect news Uids for ajax request as we do not have the demandobject in our ajaxcall later
+        $newsUids = '';
+        foreach ($newsRecords as $news) {
+            $newsUids .= ',' . $news->getUid();
+        }
+
         $assignedValues = [
             'news'            => $newsRecords,
             'overwriteDemand' => $overwriteDemand,
             'demand'          => $demand,
+            'newsUids'        => $newsUids
         ];
 
         $filterValues = [];
@@ -209,6 +216,33 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     }
 
     /**
+     * creates list of tags from given news
+     *
+     *
+     * @return string
+     */
+    public function getTagList($tagArray, $news, $recurrence = null )
+    {
+
+        $tags = $news->getTags();
+        $uid = $recurrence ? $recurrence->getUid() : $news->getUid();
+
+        foreach ($tags as $key => $value) {
+            $tagTitle = $value->getTitle();
+            if (array_key_exists($tagTitle, $tagArray)) {
+                if(!in_array($uid, $tagArray[$tagTitle])){
+                    array_push($tagArray[$tagTitle],$uid);
+                }
+            } else {
+                $tagArray[$tagTitle] = [];
+                array_push($tagArray[$tagTitle],$uid);
+            }
+        }
+        return $tagArray;
+
+    }
+
+    /**
      * Get events via AJAX .
      *
      * @param array $overwriteDemand
@@ -220,7 +254,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         date_default_timezone_set('UTC');
         $calendarstart = \DateTime::createFromFormat('Y-m-d H:i:s', $this->request->getArgument('start') . '00:00:00');
         $calendarend = \DateTime::createFromFormat('Y-m-d H:i:s', $this->request->getArgument('end') . '00:00:00');
-        
+
+        $newsUids = explode(',',$this->request->getArgument('newsUids') );
+
         $demand = $this->createDemandObjectFromSettings($this->settings);
         $demand->setActionAndClass(__METHOD__, __CLASS__);
         if ($this->settings['disableOverrideDemand'] != 1 && $overwriteDemand !== null) {
@@ -228,71 +264,49 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         $newsRecords = $this->newsRepository->findDemanded($demand);
+        $result =[
+            'events' => [],
+            'tags' => []
+        ];
 
-        $events = [];
-        
         $newsRecords = $newsRecords->toArray();
         foreach ($newsRecords as $key => $news) {
-            //newsRecords filter if not an event or has recurrences
-            if (!$news->isEvent() || $news->hasNewsRecurrences()) {
+            //newsRecords filter if not an event, has recurrences or is not in demanded list(newsUids)
+            if (!in_array($news->getUid(), $newsUids) ||
+                !$news->isEvent() ||
+                $news->hasNewsRecurrences()
+            ) {
                 unset($newsRecords[$key]);
             } else {
-                array_push($events, $this->createSingleEvent($news));
+                $newsStart = $news->getEventstart();
+                $newsEnd = $news->getEventend();
+
+                if(
+                    $newsEnd < $calendarstart ||
+                    $newsStart > $calendarend
+                ){
+                    unset($newsRecords[$key]);
+                } else {
+                    $result['tags'] = $this->getTagList($result['tags'],$news);
+                    array_push($result['events'], $this->createSingleEvent($news));
+                }
             }
         }
 
         $recurrences = $this->newsRecurrenceRepository->getBetweenDates([$calendarstart, $calendarend]);
-        foreach ($recurrences as $evt) {
+        foreach ($recurrences as $key => $evt) {
             $parent = ($evt->getParentEvent()->toArray())[0];
-
-            array_push($events, $this->createSingleEvent($parent, $evt));
-
-        }
-        
-        return json_encode($events);
-
-
-        //newsrecurrencerepository abfragen
-        //an view übergeben
-
-
-
-        // Escaping quotes, doublequotes and backslashes for use in Javascript
-        foreach ($newsRecords as $news) {
-            $news->setTitle(addslashes($news->getTitle()));
-            $news->setTeaser(addslashes($news->getTeaser()));
-            $news->setDescription(addslashes($news->getDescription()));
-            $news->setBodytext(addslashes($news->getBodytext()));
-        }
-        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFileCalendar'], $this->settings['qtips']);
-        $this->addCalendarCss($this->settings['dated_news']['cssFile']);
-
-        $assignedValues = [
-            'news'            => $newsRecords,
-            'overwriteDemand' => $overwriteDemand,
-            'demand'          => $demand,
-        ];
-
-        $filterValues = [];
-        if ($this->settings['showCategoryFilter'] === '1') {
-            $filterValues = array_merge($filterValues, $this->getCategoriesOfNews($newsRecords));
-        }
-        if ($this->settings['showTagFilter'] === '1') {
-            $filterValues = array_merge($filterValues, $this->getTagsOfNews($newsRecords));
-        }
-        if (!empty($filterValues)) {
-            if ($this->settings['sortingFilterlist'] === 'shuffle') {
-                $assignedValues['filterValues'] = $this->div->shuffleAssoc($filterValues);
+            if(!in_array($parent->getUid(), $newsUids) ||
+                $parent->getHidden()){
+                unset($recurrences[$key]);
             } else {
-                ksort($filterValues, SORT_LOCALE_STRING);
-                $assignedValues['filterValues'] = $filterValues;
+                $result['tags'] = $this->getTagList($result['tags'],$parent, $evt);
+                array_push($result['events'], $this->createSingleEvent($parent, $evt));
             }
         }
+        
+        return json_encode($result);
 
-        $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CALENDAR_ACTION, $assignedValues);
-
-        $this->view->assignMultiple($assignedValues);
-        Cache::addPageCacheTagsByDemandObject($demand);
     }
 
     /**

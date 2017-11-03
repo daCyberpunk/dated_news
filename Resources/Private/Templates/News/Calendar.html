@@ -10,32 +10,10 @@
     <f:if condition="{news}">
         <f:then>
             <div class="news-calendar-view">
-                <f:comment>
-                    <f:for each="{news}" as="newsItem" iteration="iterator">
-                        <f:if condition="{newsItem.newsrecurrence}">
-                            <f:then>
-                                <f:for each="{newsItem.newsrecurrence}" as="rec">
-                                    <f:if condition="{rec.showincalendar} == 'TRUE'">
-                                        <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator, id:contentObjectData.uid, recurrence:rec}" />
-                                    </f:if>
-                                </f:for>
-                            </f:then>
-                            <f:else>
-                                <f:if condition="{newsItem.showincalendar} == 'TRUE'">
-                                    <f:render partial="Calendar/CalendarItem" arguments="{newsItem: newsItem,settings:settings,iterator:iterator, id:contentObjectData.uid}" />
-                                </f:if>
-                            </f:else>
-                        </f:if>
-
-                    </f:for>
-                </f:comment>
 
                 <f:format.raw>
-                    {nc:javascript.calendar(settings:settings, id:contentObjectData.uid, compress: false)}
+                    {nc:javascript.calendar(settings:settings, id:contentObjectData.uid, compress: false, newsUids: newsUids)}
                 </f:format.raw>
-
-
-
 
 
                 <f:if condition="{filterValues}">
