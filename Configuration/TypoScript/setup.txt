@@ -41,6 +41,7 @@ plugin.tx_news {
 		}
 		orderByAllowed = eventstart,eventend,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}
+	features.requireCHashArgumentForActionArguments = 0
 }
 lib.AJAXPrototype = PAGE
 lib.AJAXPrototype {
@@ -71,6 +72,29 @@ ajaxDatednews {
 		switchableControllerActions {
 			News {
 				1 = reloadFields
+			}
+		}
+		view < plugin.tx_news.view
+		persistence < plugin.tx_news.persistence
+		settings < plugin.tx_news.settings
+	}
+}
+
+ajaxEventsDatednews = PAGE
+ajaxEventsDatednews < lib.AJAXPrototype
+ajaxEventsDatednews {
+	typeNum = 6660667
+	config.debug = 0
+	10 = USER_INT
+	10 {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		extensionName = News
+		pluginName = Pi1
+		vendorName = GeorgRinger
+		controller = News
+		switchableControllerActions {
+			News {
+				1 = ajaxEvent
 			}
 		}
 		view < plugin.tx_news.view

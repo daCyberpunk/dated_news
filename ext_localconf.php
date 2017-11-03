@@ -29,11 +29,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
     'GeorgRinger.news',
     'Pi1',
     [
-        'News'     => 'list,detail,dateMenu,searchForm,searchResult,createApplication,confirmApplication,freeslots,timestamp',
+        'News'     => 'list,detail,dateMenu,searchForm,searchResult,createApplication,confirmApplication,freeslots,timestamp,ajaxEvent',
         'Category' => 'list',
         'Tag'      => 'list',
     ],
     [
-        'News' => 'searchForm,searchResult,createApplication,confirmApplication',
+        'News' => 'searchForm,searchResult,createApplication,confirmApplication,ajaxEvent',
     ]
 );

@@ -50,4 +50,38 @@ where n.uid = '.$id;
 
         return $query->execute();
     }
+
+    /**
+     * @param $dates
+     *
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function getBetweenDates($dates)
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalOr(
+                $query->logicalAnd(
+                    $query->lessThan('eventstart', $dates[0]->getTimestamp()),
+                    $query->greaterThan('eventend', $dates[0]->getTimestamp())
+                ),
+                $query->logicalAnd(
+                    $query->greaterThanOrEqual('eventstart', $dates[0]->getTimestamp()),
+                    $query->lessThanOrEqual('eventend', $dates[1]->getTimestamp())
+                ),
+                $query->logicalAnd(
+                    $query->lessThan('eventstart', $dates[1]->getTimestamp()),
+                    $query->greaterThan('eventend', $dates[1]->getTimestamp())
+                ),
+                $query->logicalAnd(
+                    $query->lessThan('eventstart', $dates[0]->getTimestamp()),
+                    $query->greaterThan('eventend', $dates[1]->getTimestamp())
+                )
+            )
+        );
+
+        return $query->execute();
+    }
+
+
 }

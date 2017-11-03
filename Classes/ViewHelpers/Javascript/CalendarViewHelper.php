@@ -153,7 +153,9 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         //complete javascript code
         $js = <<<EOT
 			(function($) {
-			       
+			       var events = [
+			       eventsCache = []
+			       ];
 					var newsCalendar_$uid = $('#calendar.calendar_$uid').fullCalendar({
 						$headerFooter[0]
 						$headerFooter[1]
@@ -180,14 +182,30 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
                                 $( ".fc-slats > table" ).css( "height", newHeight );
                             }
                         },
+                        events: function (startdate, enddate, timezone, callback) {
+                            /*loading events via ajax as JSON string and store it in an array
+                            * so next time the allready seen month doesnt need to be reloaded again
+                            */
+                            if (events.eventsCache 
+                                && events.eventsCache[startdate.format() + "-" + enddate.format()]){
+                                callback(JSON.parse(events.eventsCache[startdate.format() + "-" + enddate.format()]));
+                                return;
+                            }
+                            $.get("?type=6660667", { "tx_news_pi1[action]": "ajaxEvent", "tx_news_pi1[start]": startdate.format(), "tx_news_pi1[end]": enddate.format() }, function(data){
+                                if (!events.eventsCache)
+                                    events.eventsCache = {};
+                                events.eventsCache[startdate.format() + "-" + enddate.format()] = data;
+                                callback(JSON.parse(data));
+                            });
+                        },
 			        	$timeFormat
 			    	});
-					addAllEvents(newsCalendar_$uid,"newsCalendarEvent_$uid");
 					
 					
 					
 			})(jQuery);
 			/*jQuery.noConflict(true);*/
+			
 			
 EOT;
 

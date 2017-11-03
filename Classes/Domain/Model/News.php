@@ -639,6 +639,18 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
+     * is an event.
+     *
+     * @return bool
+     */
+    public function isEvent()
+    {
+        return $this->eventtype === '' ? false : true;
+    }
+
+
+
+    /**
      * Returns the eventlocation.
      *
      * @return string $eventlocation
@@ -826,6 +838,16 @@ class News extends \GeorgRinger\News\Domain\Model\News
     public function getNewsRecurrence()
     {
         return $this->newsrecurrence;
+    }
+
+    /**
+     * Has newsrecurrence.
+     *
+     * @return bool
+     */
+    public function hasNewsRecurrences()
+    {
+        return count($this->getNewsRecurrence()->toArray()) > 0 ? true : false;
     }
 
     /**

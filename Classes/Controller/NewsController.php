@@ -30,6 +30,7 @@ namespace FalkRoeder\DatedNews\Controller;
 use GeorgRinger\News\Utility\Cache;
 use GeorgRinger\News\Utility\Page;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Class FalkRoeder\DatedNews\Controller\NewsController.
@@ -159,8 +160,169 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CALENDAR_ACTION, $assignedValues);
+
         $this->view->assignMultiple($assignedValues);
         Cache::addPageCacheTagsByDemandObject($demand);
+    }
+
+    /**
+     * creates a single evcent array from given news / recurrence
+     *
+     *
+     * @return array
+     */
+    public function createSingleEvent($news, $recurrence = null)
+    {
+        $start = $recurrence ? $recurrence->getEventstart() : $news->getEventstart();
+        $end = $recurrence ?  $recurrence->getEventend() : $news->getEventend();
+
+        if (!$start instanceof \DateTime) {
+            try {
+                $start = new \DateTime($start);
+            } catch (\Exception $exception) {
+                throw new Exception('"'.$start.'" could not be parsed by DateTime constructor.', 1438925934);
+            }
+        }
+        if (!$end instanceof \DateTime && $end !== null) {
+            try {
+                $end = new \DateTime($end);
+            } catch (\Exception $exception) {
+                throw new Exception('"'.$end.'" could not be parsed by DateTime constructor.', 1438925934);
+            }
+        }
+
+        $uri = $this->getLinkToNewsItem($news, $settings);
+        $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($this->settings,$news,$recurrence))).'\'';
+        $uid = $recurrence ? $recurrence->getUid() : $news->getUid();
+
+        $tmpEvt = [
+            "title" => $news->getTitle(),
+            "id" => $uid,
+            "end" => $end->format('Y-m-d H:i:s'),
+            "start" => $start->format('Y-m-d H:i:s'),
+            "url" => $uri,
+            "allDay" => $news->getFulltime(),
+            "className" => 'Event_' . $uid,
+            "qtip" => $qtip
+        ];
+        return $tmpEvt;
+    }
+
+    /**
+     * Get events via AJAX .
+     *
+     * @param array $overwriteDemand
+     *
+     * @return string
+     */
+    public function ajaxEventAction(array $overwriteDemand = null)
+    {
+        date_default_timezone_set('UTC');
+        $calendarstart = \DateTime::createFromFormat('Y-m-d H:i:s', $this->request->getArgument('start') . '00:00:00');
+        $calendarend = \DateTime::createFromFormat('Y-m-d H:i:s', $this->request->getArgument('end') . '00:00:00');
+        
+        $demand = $this->createDemandObjectFromSettings($this->settings);
+        $demand->setActionAndClass(__METHOD__, __CLASS__);
+        if ($this->settings['disableOverrideDemand'] != 1 && $overwriteDemand !== null) {
+            $demand = $this->overwriteDemandObject($demand, $overwriteDemand);
+        }
+
+        $newsRecords = $this->newsRepository->findDemanded($demand);
+
+        $events = [];
+        
+        $newsRecords = $newsRecords->toArray();
+        foreach ($newsRecords as $key => $news) {
+            //newsRecords filter if not an event or has recurrences
+            if (!$news->isEvent() || $news->hasNewsRecurrences()) {
+                unset($newsRecords[$key]);
+            } else {
+                array_push($events, $this->createSingleEvent($news));
+            }
+        }
+
+        $recurrences = $this->newsRecurrenceRepository->getBetweenDates([$calendarstart, $calendarend]);
+        foreach ($recurrences as $evt) {
+            $parent = ($evt->getParentEvent()->toArray())[0];
+
+            array_push($events, $this->createSingleEvent($parent, $evt));
+
+        }
+        
+        return json_encode($events);
+
+
+        //newsrecurrencerepository abfragen
+        //an view übergeben
+
+
+
+        // Escaping quotes, doublequotes and backslashes for use in Javascript
+        foreach ($newsRecords as $news) {
+            $news->setTitle(addslashes($news->getTitle()));
+            $news->setTeaser(addslashes($news->getTeaser()));
+            $news->setDescription(addslashes($news->getDescription()));
+            $news->setBodytext(addslashes($news->getBodytext()));
+        }
+        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFileCalendar'], $this->settings['qtips']);
+        $this->addCalendarCss($this->settings['dated_news']['cssFile']);
+
+        $assignedValues = [
+            'news'            => $newsRecords,
+            'overwriteDemand' => $overwriteDemand,
+            'demand'          => $demand,
+        ];
+
+        $filterValues = [];
+        if ($this->settings['showCategoryFilter'] === '1') {
+            $filterValues = array_merge($filterValues, $this->getCategoriesOfNews($newsRecords));
+        }
+        if ($this->settings['showTagFilter'] === '1') {
+            $filterValues = array_merge($filterValues, $this->getTagsOfNews($newsRecords));
+        }
+        if (!empty($filterValues)) {
+            if ($this->settings['sortingFilterlist'] === 'shuffle') {
+                $assignedValues['filterValues'] = $this->div->shuffleAssoc($filterValues);
+            } else {
+                ksort($filterValues, SORT_LOCALE_STRING);
+                $assignedValues['filterValues'] = $filterValues;
+            }
+        }
+
+        $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CALENDAR_ACTION, $assignedValues);
+
+        $this->view->assignMultiple($assignedValues);
+        Cache::addPageCacheTagsByDemandObject($demand);
+    }
+
+    /**
+     * @param $settings
+     * @param $newsItem
+     *
+     * @return string html output of Qtip.html
+     */
+    public function renderQtip($settings, $newsItem, $recurrence = null)
+    {
+
+        /** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
+        $qtip = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+        $qtip->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('dated_news').'Resources/Private/Partials/Calendar/Qtip.html');
+        /*$qtip->setLayoutRootPaths(array(
+            'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Layouts'
+        ));*/
+        $qtip->setPartialRootPaths([
+            'default' => ExtensionManagementUtility::extPath('dated_news').'Resources/Private/Partials',
+        ]);
+        $assignedValues = [
+            'newsItem' => $newsItem,
+            'settings' => $settings,
+        ];
+        if(NULL !== $recurrence){
+            $assignedValues['recurrence'] = $recurrence;
+        }
+        $qtip->assignMultiple($assignedValues);
+
+        return $qtip->render();
     }
 
     /**
@@ -174,12 +336,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function eventDetailAction(\GeorgRinger\News\Domain\Model\News $news = null, $currentPage = 1, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
     {
-//        $a = (new \DateTime('2017-05-01'));
-//        $b = (new \DateTime('2017-12-01'))->setTime(date("H"), date("i"), date("s"));
-//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([$a,$b],'NewsController:177');
-//        $a->setTimezone(new \DateTimeZone('UTC'));
-//        $b->setTimezone(new \DateTimeZone('UTC'));
-//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([$a,$b],'NewsController:178');
 
         if (is_null($news)) {
             $previewNewsId = ((int) $this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
