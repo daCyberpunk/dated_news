@@ -104,8 +104,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         $timeZone = new \DateTimeZone("Europe/Berlin");
         $dt = new \DateTime();
         $dt->setTimezone($timeZone);
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([$dt->format('Y-m-d H:i:s'),$dt->getTimezone()],'CalendarViewHelper:106');
-        
+
         //build all options
         $headerFooter = $this->buildHeaderFooterOption(
             $tsSettings['titlePosition'],

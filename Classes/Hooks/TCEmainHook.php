@@ -105,8 +105,6 @@ class TCEmainHook
             return;
         }
 
-
-
         //if eventdates invalid or startdate after enddate, do nothing on recurring events, just store their on data
         $eventDates = $this->hasValidEventdates($fieldArray);
         if($eventDates === false ) {
@@ -123,8 +121,6 @@ class TCEmainHook
         }
         unset($fieldArray['recurrence_updated_behavior']);
 
-
-
         $news = $this->newsRepository->findByIdentifier($id);
         //get collection of all recurrences
         $recurrences = $this->recurrenceService->getRecurrences($eventDates[0], $eventDates[1], $settings);
@@ -135,9 +131,12 @@ class TCEmainHook
 
                 $oldRecurrences = $news->getNewsRecurrence();
                 foreach ($oldRecurrences as $oldRec) {
-                    $this->newsRecurrenceRepository->remove($oldRec);
-                    $this->persistenceManager->persistAll();
+                    $cmd = [];
+                    $cmd['tx_datednews_domain_model_newsrecurrence'][$oldRec->getUid()]['delete'] = true;
+                    $pObj->start([], $cmd);
+                    $pObj->process_cmdmap();
                 }
+
                 $emptyObj = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
                 $news->setNewsRecurrence($emptyObj);
                 $this->newsRepository->update($news);
@@ -145,7 +144,7 @@ class TCEmainHook
             }
         } else {
 
-            if ((int) $settings['recurrence_updated_behavior'] > 1) {
+           if ((int) $settings['recurrence_updated_behavior'] > 1) {
                 //filter recurrences if only none modified events should be changed
                 $filteredRecurrences = $this->filterRecurrences($news, $recurrences, (int) $settings['recurrence_updated_behavior']);
                 $oldRecurrences = $filteredRecurrences[0];
@@ -156,7 +155,11 @@ class TCEmainHook
                     //remove old (none modified) recurrences
                     foreach ($oldRecurrences as $oldRec) {
                         //todo remove hidden childobjects too
-                        $this->newsRecurrenceRepository->remove($oldRec);
+                        $cmd = [];
+                        $cmd['tx_datednews_domain_model_newsrecurrence'][$oldRec->getUid()]['delete'] = true;
+                        $pObj->start([], $cmd);
+                        $pObj->process_cmdmap();
+
                         $this->persistenceManager->persistAll();
                         $news->removeNewsRecurrence($oldRec);
                     }
@@ -407,10 +410,8 @@ class TCEmainHook
     {
         $recurrences = $news->getNewsRecurrence();
         $recurrences = $recurrences->toArray();
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($recurrences, 'TCEmainHook:110');
 
         foreach ($recurrences as $key => $rec) {
-            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($rec->isHidden(), $rec->getUid().' TCEmainHook:114');
             $rec->setHidden(true);
             $this->newsRecurrenceRepository->update($rec);
             $this->persistenceManager->persistAll();
