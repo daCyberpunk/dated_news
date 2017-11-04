@@ -31,6 +31,7 @@ use GeorgRinger\News\Utility\Cache;
 use GeorgRinger\News\Utility\Page;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Service\FlexFormService;
 
 /**
  * Class FalkRoeder\DatedNews\Controller\NewsController.
@@ -121,6 +122,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function calendarAction(array $overwriteDemand = null)
     {
+
         $demand = $this->createDemandObjectFromSettings($this->settings);
         $demand->setActionAndClass(__METHOD__, __CLASS__);
         if ($this->settings['disableOverrideDemand'] != 1 && $overwriteDemand !== null) {
@@ -178,7 +180,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      *
      * @return array
      */
-    public function createSingleEvent($news, $recurrence = null)
+    public function createSingleEvent($news, $settings, $recurrence = null)
     {
         $start = $recurrence ? $recurrence->getEventstart() : $news->getEventstart();
         $end = $recurrence ?  $recurrence->getEventend() : $news->getEventend();
@@ -218,8 +220,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
 
+
+
+
+
+
         $uri = $this->getLinkToNewsItem($news, $settings);
-        $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($this->settings,$news,$recurrence))).'\'';
+        $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings,$news,$recurrence))).'\'';
         $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
 
         $tmpEvt = [
@@ -280,11 +287,21 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $calendarstart = \DateTime::createFromFormat('Y-m-d H:i:s', $this->request->getArgument('start') . '00:00:00');
         $calendarend = \DateTime::createFromFormat('Y-m-d H:i:s', $this->request->getArgument('end') . '00:00:00');
 
-        $newsUids = explode(',',$this->request->getArgument('newsUids') );
+        //getPluginSettings of Calendar which requested the data
+        $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
+        $piFlexformSettings = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows( 'pi_flexform', 'tt_content', 'uid = ' . $this->request->getArgument('cUid'));
+        $ffs = GeneralUtility::makeInstance(FlexFormService::class);
+        $settings = $ffs->convertFlexFormContentToArray($piFlexformSettings[0]['pi_flexform']);
+        $settings = array_merge($this->settings, $settings['settings']);
 
-        $demand = $this->createDemandObjectFromSettings($this->settings);
+
+
+
+//        $newsUids = explode(',',$this->request->getArgument('newsUids') );
+
+        $demand = $this->createDemandObjectFromSettings($settings);
         $demand->setActionAndClass(__METHOD__, __CLASS__);
-        if ($this->settings['disableOverrideDemand'] != 1 && $overwriteDemand !== null) {
+        if ($settings['disableOverrideDemand'] != 1 && $overwriteDemand !== null) {
             $demand = $this->overwriteDemandObject($demand, $overwriteDemand);
         }
 
@@ -296,8 +313,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         $newsRecords = $newsRecords->toArray();
         foreach ($newsRecords as $key => $news) {
-            //newsRecords filter if not an event, has recurrences, is not in demanded list(newsUids) or showincalendar === False
-            if (!in_array($news->getUid(), $newsUids) ||
+            //newsRecords filter if not an event, has recurrences or showincalendar === False
+            if (
                 !$news->isEvent() ||
                 $news->hasNewsRecurrences() ||
                 !$news->isShowincalendar()
@@ -314,7 +331,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     unset($newsRecords[$key]);
                 } else {
                     $result['tags'] = $this->getTagList($result['tags'],$news);
-                    array_push($result['events'], $this->createSingleEvent($news));
+                    array_push($result['events'], $this->createSingleEvent($news, $settings));
                 }
             }
         }
@@ -322,17 +339,18 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $recurrences = $this->newsRecurrenceRepository->getBetweenDates([$calendarstart, $calendarend]);
         foreach ($recurrences as $key => $evt) {
             $parent = ($evt->getParentEvent()->toArray())[0];
-            if(!in_array($parent->getUid(), $newsUids) ||
+            if(
                 $parent->getHidden()||
                 !$parent->isShowincalendar()
             ){
                 unset($recurrences[$key]);
             } else {
                 $result['tags'] = $this->getTagList($result['tags'],$parent, $evt);
-                array_push($result['events'], $this->createSingleEvent($parent, $evt));
+                array_push($result['events'], $this->createSingleEvent($parent, $settings, $evt));
             }
         }
         
+//        return $result;
         return json_encode($result);
 
     }
@@ -1258,6 +1276,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     protected function getDetailPidFromDefaultDetailPid($settings, $newsItem)
     {
         return (int) $settings['defaultDetailPid'];
+
     }
 
     /**
@@ -1307,6 +1326,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $tsSettings,
         array $configuration = []
     ) {
+
+
+
         if (!isset($configuration['parameter'])) {
             $detailPid = 0;
             $detailPidDeterminationMethods = GeneralUtility::trimExplode(',', $tsSettings['detailPidDetermination'],

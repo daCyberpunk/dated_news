@@ -215,7 +215,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
                                     }
                                 return;
                             }
-                            $.get("?type=6660667", { "tx_news_pi1[action]": "ajaxEvent", "tx_news_pi1[start]": startdate.format(), "tx_news_pi1[end]": enddate.format(), "tx_news_pi1[newsUids]": newsUids}, function(data){
+                            $.get("?type=6660667", { "tx_news_pi1[action]": "ajaxEvent", "tx_news_pi1[start]": startdate.format(), "tx_news_pi1[end]": enddate.format(), "tx_news_pi1[cUid]": $uid}, function(data){
                                 if (!events.eventsCache) {events.eventsCache = {};}
                                 if(typeof data === 'string'){
                                     data = JSON.parse(data);
