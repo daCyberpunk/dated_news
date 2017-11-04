@@ -200,7 +200,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         $uri = $this->getLinkToNewsItem($news, $settings);
         $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($this->settings,$news,$recurrence))).'\'';
-        $uid = $recurrence ? $recurrence->getUid() : $news->getUid();
+        $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
 
         $tmpEvt = [
             "title" => $news->getTitle(),
@@ -227,7 +227,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $tags = $news->getTags()->toArray();
         $categories = $news->getCategories()->toArray();
         $tagsAndCats = array_merge($tags,$categories);
-        $uid = $recurrence ? $recurrence->getUid() : $news->getUid();
+        $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
 
         foreach ($tagsAndCats as $key => $value) {
             $tagTitle = $value->getTitle();
