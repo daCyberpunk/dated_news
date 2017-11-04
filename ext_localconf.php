@@ -25,6 +25,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
 //register TypeConverter for mapping also hidden applications in controller actions
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('FalkRoeder\\DatedNews\\Property\\TypeConverters\\ApplicationPersistentObjectConverter');
 
+//CLearCacheHook
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'FalkRoeder\\DatedNews\\Hooks\\ClearCacheHook->clearJsCache';
+
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'GeorgRinger.news',
     'Pi1',

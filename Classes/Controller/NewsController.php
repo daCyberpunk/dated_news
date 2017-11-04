@@ -1003,8 +1003,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         //other libs
-        $file = 'typo3temp/dated_news_calendar.js';
-
+        $file = 'typo3temp/assets/datednews/dated_news_calendar.js';
         if (!file_exists(PATH_site.$file)) {
             // writeFileToTypo3tempDir() returns NULL on success (please double-read!)
             $error = GeneralUtility::writeFileToTypo3tempDir(PATH_site.$file, implode($contents, NEW_LINE));
