@@ -20,7 +20,15 @@
                     <ul class="tags button-group filters-button-group">
                         <f:for each="{filterValues}" as="key" key="title">
                             <li class="dated-news-filter button" data-dn-calendar="{contentObjectData.uid}" data-dn-filter="{title}">
-                                <span style="color: {key.color}">{title}<span>{key.count}</span></span>
+                                 <f:if condition="{key.bgcolor}">
+                                     <f:then>
+                                         <span style="color: {key.textcolor}; background-color: {key.bgcolor}; background-image: none;">{title}<span >{key.count}</span></span>
+                                     </f:then>
+                                     <f:else>
+                                         <span style="color: {key.textcolor}">{title}<span>{key.count}</span></span>
+                                     </f:else>
+                                  </f:if>
+
                             </li>
 
                         </f:for>

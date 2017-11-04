@@ -182,6 +182,26 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     {
         $start = $recurrence ? $recurrence->getEventstart() : $news->getEventstart();
         $end = $recurrence ?  $recurrence->getEventend() : $news->getEventend();
+        $color = trim($news->getBackgroundcolor());
+        $textcolor = trim($news->getTextcolor());
+        $categories = $news->getCategories();
+
+        if ($color === '') {
+            foreach ($categories as $category) {
+                $tempColor = trim($category->getBackgroundcolor());
+                if ($tempColor !== '') {
+                    $color = $tempColor;
+                }
+            }
+        }
+        if ($textcolor === '') {
+            foreach ($categories as $category) {
+                $tempColor = trim($category->getTextcolor());
+                if ($tempColor !== '') {
+                    $textcolor = $tempColor;
+                }
+            }
+        }
 
         if (!$start instanceof \DateTime) {
             try {
@@ -210,7 +230,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             "url" => $uri,
             "allDay" => $news->getFulltime(),
             "className" => 'Event_' . $uid,
-            "qtip" => $qtip
+            "qtip" => $qtip,
+            'color' => $color,
+            'textColor' => $textcolor
         ];
         return $tmpEvt;
     }
@@ -1058,11 +1080,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 foreach ($categories as $category) {
                     $title = $category->getTitle();
                     $bgColor = $category->getBackgroundcolor();
+                    $textColor = $category->getTextcolor();
                     if (!array_key_exists($title, $newsCategories)) {
                         $newsCategories[$title] = [];
                         $newsCategories[$title]['count'] = 1;
                         if (trim($bgColor) !== '') {
-                            $newsCategories[$title]['color'] = $bgColor;
+                            $newsCategories[$title]['bgcolor'] = $bgColor;
+                            $newsCategories[$title]['textcolor'] = $textColor;
                         }
                     } else {
                         $newsCategories[$title]['count'] = $newsCategories[$title]['count'] + 1;
