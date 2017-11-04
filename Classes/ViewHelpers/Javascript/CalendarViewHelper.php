@@ -154,27 +154,22 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 
         //complete javascript code
         $js = <<<EOT
-            if(!newsCalendarTags){
-                var newsCalendarTags = [];
-            };
-            if(!eventscal){
-				var eventscal= [];
-			}
-			if(!eventscal.hasOwnProperty("newsCalendarEvent_$calendarUid")){
-				eventscal["newsCalendarEvent_$uid"] = [];
+          
+			if(!DatedNews.eventscal.hasOwnProperty("newsCalendarEvent_$calendarUid")){
+				DatedNews.eventscal["newsCalendarEvent_$uid"] = [];
 			}
 			
 			(function($) {
 			       var events = [
-			       eventsCache = []
+			            eventsCache = []
 			       ];
 			       var fillEventscal = function(events){
 			       if(events != undefined) {
 			            for (var i = 0; i < events.length; i++) {
-                            if(!eventscal["newsCalendarEvent_$uid"].hasOwnProperty('Event_' + events[i]['id'] )){
-                                eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']] = [];
-                                eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']]['events'] = [];
-                                eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']]['events'][0] = events[i];
+                            if(!DatedNews.eventscal["newsCalendarEvent_$uid"].hasOwnProperty('Event_' + events[i]['id'] )){
+                                DatedNews.eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']] = [];
+                                DatedNews.eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']]['events'] = [];
+                                DatedNews.eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']]['events'][0] = events[i];
                             }
                        }
 			       }
@@ -213,10 +208,10 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
                             * so next time the allready seen month doesnt need to be reloaded again
                             */
                             if (events.eventsCache && events.eventsCache[startdate.format() + "-" + enddate.format()]){
-                                newsCalendarTags = events.eventsCache[startdate.format() + "-" + enddate.format()]['tags'];
+                                DatedNews.newsCalendarTags = events.eventsCache[startdate.format() + "-" + enddate.format()]['tags'];
                                 callback(events.eventsCache[startdate.format() + "-" + enddate.format()]['events']);
-                                if(DatedNewsFilterAdded.hasOwnProperty('newsCalendarEvent_' + $uid)){
-                                        filterCalendarEvents(DatedNewsFilterAdded['newsCalendarEvent_' + $uid], $('#calendar.calendar_' + $uid), 'newsCalendarEvent_' + $uid);
+                                if(DatedNews.filterAdded.hasOwnProperty('newsCalendarEvent_' + $uid)){
+                                        DatedNews.filterCalendarEvents(DatedNews.filterAdded['newsCalendarEvent_' + $uid], $('#calendar.calendar_' + $uid), 'newsCalendarEvent_' + $uid);
                                     }
                                 return;
                             }
@@ -226,11 +221,11 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
                                     data = JSON.parse(data);
                                 }
                                 events.eventsCache[startdate.format() + "-" + enddate.format()] = data;
-                                newsCalendarTags = data['tags'];
+                                DatedNews.newsCalendarTags = data['tags'];
                                 fillEventscal(data['events']);
                                 callback(data['events']);
-                                if(DatedNewsFilterAdded.hasOwnProperty('newsCalendarEvent_' + $uid)){
-                                    filterCalendarEvents(DatedNewsFilterAdded['newsCalendarEvent_' + $uid], $('#calendar.calendar_' + $uid), 'newsCalendarEvent_' + $uid);
+                                if(DatedNews.filterAdded.hasOwnProperty('newsCalendarEvent_' + $uid)){
+                                    DatedNews.filterCalendarEvents(DatedNews.filterAdded['newsCalendarEvent_' + $uid], $('#calendar.calendar_' + $uid), 'newsCalendarEvent_' + $uid);
                                 }
                             });
                         },  
