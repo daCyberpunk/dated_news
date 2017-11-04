@@ -82,13 +82,9 @@ class FlexFormHook
             $dataStructArray = GeneralUtility::xml2array(
                 file_get_contents(PATH_site.'typo3conf/ext/news/Configuration/FlexForms/flexform_news.xml')
             );
-            $settings = file_get_contents(PATH_site.'typo3conf/ext/dated_news/Configuration/FlexForms/settings.xml');
-            $calendar = file_get_contents(PATH_site.'typo3conf/ext/dated_news/Configuration/FlexForms/calendar.xml');
-            $application = file_get_contents(PATH_site.'typo3conf/ext/dated_news/Configuration/FlexForms/application.xml');
-            $additional = file_get_contents(PATH_site.'typo3conf/ext/dated_news/Configuration/FlexForms/additional.xml');
-            $confirmation = file_get_contents(PATH_site.'typo3conf/ext/dated_news/Configuration/FlexForms/confirmation.xml');
 
-            $dataStructArray['sheets']['sDEF'] = GeneralUtility::xml2array($settings);
+            $dataStructArray['sheets']['sDEF'] = 'EXT:dated_news/Configuration/FlexForms/settings.xml';
+            $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional_original.xml';
 
             if (is_string($row['pi_flexform'])) {
                 $flexformSelection = GeneralUtility::xml2array($row['pi_flexform']);
@@ -110,31 +106,33 @@ class FlexFormHook
             }
 
             if ($selectedView === 'News->createApplication') {
-                $dataStructArray['sheets']['application'] = GeneralUtility::xml2array($application);
-                $dataStructArray['sheets']['additional'] = GeneralUtility::xml2array($additional);
+                $dataStructArray['sheets']['application'] = 'EXT:dated_news/Configuration/FlexForms/application.xml';
+                $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
             }
 
             if ($selectedView === 'News->confirmApplication') {
-                $dataStructArray['sheets']['application'] = GeneralUtility::xml2array($application);
+                $dataStructArray['sheets']['application'] = 'EXT:dated_news/Configuration/FlexForms/application.xml';
             }
 
             if ($selectedView === 'News->eventDetail') {
-                $dataStructArray['sheets']['additional'] = GeneralUtility::xml2array($additional);
+                $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
             }
 
             if ($selectedView === 'News->calendar') {
-                $dataStructArray['sheets']['calendar'] = GeneralUtility::xml2array($calendar);
+                $dataStructArray['sheets']['calendar'] = 'EXT:dated_news/Configuration/FlexForms/calendar.xml';
+
             }
 
             if ($selectedView === 'News->list') {
-                $dataStructArray['sheets']['additional'] = GeneralUtility::xml2array($additional);
-                $dataStructArray['sheets']['confirmation'] = GeneralUtility::xml2array($confirmation);
+                $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
+                $dataStructArray['sheets']['confirmation'] = 'EXT:dated_news/Configuration/FlexForms/confirmation.xml';
             }
+
             $identifier = [
                 'type'       => 'file',
                 'flexformDS' => $dataStructArray,
             ];
-            
+
 
         } else {
             $identifier = [];
@@ -153,11 +151,11 @@ class FlexFormHook
      */
     public function parseDataStructureByIdentifierPreProcess(array $identifier)
     {
-        if (!empty($identifier['flexformDS'])) {
-            return $identifier['flexformDS'];
-        } else {
-            return '';
-        }
+            if (!empty($identifier['flexformDS'])) {
+                return $identifier['flexformDS'];
+            } else {
+                return [];
+            }
     }
 
 

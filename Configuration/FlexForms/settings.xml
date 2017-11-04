@@ -13,6 +13,7 @@
                     <config>
                         <type>select</type>
                         <itemsProcFunc>GeorgRinger\News\Hooks\ItemsProcFunc->user_switchableControllerActions</itemsProcFunc>
+                        <renderType>selectSingle</renderType>
                         <items>
                             <numIndex index="1">
                                 <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.news_list</numIndex>
@@ -23,6 +24,10 @@
                                 <numIndex index="1">News->list</numIndex>
                             </numIndex>
                             <numIndex index="3">
+                                <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.news_selectedlist</numIndex>
+                                <numIndex index="1">News->selectedList</numIndex>
+                            </numIndex>
+                            <numIndex index="8">
                                 <numIndex index="0">LLL:EXT:news/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.news_detail</numIndex>
                                 <numIndex index="1">News->detail</numIndex>
                             </numIndex>
@@ -72,11 +77,11 @@
                                 <numIndex index="0">LLL:EXT:dated_news/Resources/Private/Language/locallang.xlf:flexforms_general.mode.news_detail</numIndex>
                                 <numIndex index="1">News->eventDetail</numIndex>
                             </numIndex>
-                            <numIndex index="5">
+                            <numIndex index="25">
                                 <numIndex index="0">Created Application</numIndex>
-                                <numIndex index="1">News->createApplication;News->confirmApplication</numIndex>
+                                <numIndex index="1">News->createApplication</numIndex>
                             </numIndex>
-                            <numIndex index="8">
+                            <numIndex index="28">
                                 <numIndex index="0">Confirm Application</numIndex>
                                 <numIndex index="1">News->confirmApplication</numIndex>
                             </numIndex>
