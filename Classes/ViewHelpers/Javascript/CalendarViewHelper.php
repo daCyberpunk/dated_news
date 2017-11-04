@@ -208,11 +208,16 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
                             }
                         },
                         events: function (startdate, enddate, timezone, callback) {
+                        
                             /*loading events via ajax as JSON string and store it in an array
                             * so next time the allready seen month doesnt need to be reloaded again
                             */
                             if (events.eventsCache && events.eventsCache[startdate.format() + "-" + enddate.format()]){
+                                newsCalendarTags = events.eventsCache[startdate.format() + "-" + enddate.format()]['tags'];
                                 callback(events.eventsCache[startdate.format() + "-" + enddate.format()]['events']);
+                                if(DatedNewsFilterAdded.hasOwnProperty('newsCalendarEvent_' + $uid)){
+                                        filterCalendarEvents(DatedNewsFilterAdded['newsCalendarEvent_' + $uid], $('#calendar.calendar_' + $uid), 'newsCalendarEvent_' + $uid);
+                                    }
                                 return;
                             }
                             $.get("?type=6660667", { "tx_news_pi1[action]": "ajaxEvent", "tx_news_pi1[start]": startdate.format(), "tx_news_pi1[end]": enddate.format(), "tx_news_pi1[newsUids]": newsUids}, function(data){
@@ -222,19 +227,17 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
                                 }
                                 events.eventsCache[startdate.format() + "-" + enddate.format()] = data;
                                 newsCalendarTags = data['tags'];
-                                console.log(newsCalendarTags);
                                 fillEventscal(data['events']);
                                 callback(data['events']);
+                                if(DatedNewsFilterAdded.hasOwnProperty('newsCalendarEvent_' + $uid)){
+                                    filterCalendarEvents(DatedNewsFilterAdded['newsCalendarEvent_' + $uid], $('#calendar.calendar_' + $uid), 'newsCalendarEvent_' + $uid);
+                                }
                             });
                         },  
 			        	$timeFormat
 			    	});
-					
-					
-					
 			})(jQuery);
 			/*jQuery.noConflict(true);*/
-			
 			
 EOT;
 
