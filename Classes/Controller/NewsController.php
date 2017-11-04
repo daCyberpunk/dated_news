@@ -1339,7 +1339,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         // action is set to "detail" in original Viewhelper, but we overwiritten this action
         if ((int) $tsSettings['link']['skipControllerAndAction'] !== 1) {
             $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News'.
-                '&tx_news_pi1[action]=eventDetail';
+                '&tx_news_pi1[action]=detail';
         }
 
         // Add date as human readable
