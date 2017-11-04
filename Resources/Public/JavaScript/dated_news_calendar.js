@@ -1,30 +1,28 @@
-
 "use strict";
 function addAllEvents(cal, event){
     for (var key in eventscal[event]) {
         if (eventscal[event].hasOwnProperty(key)) {
-            cal.fullCalendar( 'addEventSource', eventscal[event][key] );
+            cal.fullCalendar( 'refetchEvents' );
         }
     }
 }
 function removeAllEvents(cal, event){
     for (var key in eventscal[event]) {
         if (eventscal[event].hasOwnProperty(key)) {
-            cal.fullCalendar( 'removeEventSource', eventscal[event][key] )
+            cal.fullCalendar( 'removeEvents', eventscal[event][key]['events'][0]['id'] )
         }
     }
 }
 
 $('.dated-news-filter').on('click', function(){
-    console.log($(this),':19')
     var $this = $(this),
         cal = $('#calendar.calendar_' + $this.attr('data-dn-calendar')),
         event = "newsCalendarEvent_" + $this.attr('data-dn-calendar');
     removeAllEvents(cal, event);
     $this.hasClass('dn-checked') ? $this.removeClass('dn-checked') : $this.addClass('dn-checked');
     var dnchecked = $('.dated-news-filter.dn-checked');
-    // wenn nix gechecked dann alle adden
     if (!dnchecked.length) {
+        // wenn nix gechecked dann alle adden
         addAllEvents(cal, event);
     } else {
         var added =[];
@@ -34,7 +32,7 @@ $('.dated-news-filter').on('click', function(){
                 if (newsCalendarTags[filter].hasOwnProperty(key)) {
                     //make sure event wasn't added before
                     if (!added['Event_'+newsCalendarTags[filter][key]]) {
-                        cal.fullCalendar( 'addEventSource', eventscal[event]['Event_'+newsCalendarTags[filter][key]] )
+                        cal.fullCalendar( 'renderEvent', eventscal[event]['Event_'+newsCalendarTags[filter][key]]['events'][0] );
                         added['Event_'+newsCalendarTags[filter][key]] = 1;
                     }
                 }
@@ -78,7 +76,7 @@ $(document).on('click','a.fc-day-grid-event, .fc-content, a.fc-time-grid-event',
         if($(this).closest('.fc-calendar-container').hasClass('has-qtips')){
             e.preventDefault();
         }
-    } 
+    }
 });
 callAfterResize(function(){
     disableQtips();

@@ -169,7 +169,8 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 			       eventsCache = []
 			       ];
 			       var fillEventscal = function(events){
-                       for (var i = 0; i < events.length; i++) {
+			       if(events != undefined) {
+			            for (var i = 0; i < events.length; i++) {
                             if(!eventscal["newsCalendarEvent_$uid"].hasOwnProperty('Event_' + events[i]['id'] )){
                                 eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']] = [];
                                 eventscal["newsCalendarEvent_$uid"]['Event_' + events[i]['id']]['events'] = [];
@@ -177,6 +178,8 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
                             }
                        }
 			       }
+                       
+			       };
                     var newsUids = "$newsUids";
 					var newsCalendar_$uid = $('#calendar.calendar_$uid').fullCalendar({
 						$headerFooter[0]
@@ -214,7 +217,9 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
                             }
                             $.get("?type=6660667", { "tx_news_pi1[action]": "ajaxEvent", "tx_news_pi1[start]": startdate.format(), "tx_news_pi1[end]": enddate.format(), "tx_news_pi1[newsUids]": newsUids}, function(data){
                                 if (!events.eventsCache) {events.eventsCache = {};}
-                                    
+                                if(typeof data === 'string'){
+                                    data = JSON.parse(data);
+                                }
                                 events.eventsCache[startdate.format() + "-" + enddate.format()] = data;
                                 newsCalendarTags = data['tags'];
                                 fillEventscal(data['events']);
