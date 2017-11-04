@@ -222,6 +222,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
                                 }
                                 events.eventsCache[startdate.format() + "-" + enddate.format()] = data;
                                 newsCalendarTags = data['tags'];
+                                console.log(newsCalendarTags);
                                 fillEventscal(data['events']);
                                 callback(data['events']);
                             });

@@ -224,10 +224,12 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     public function getTagList($tagArray, $news, $recurrence = null )
     {
 
-        $tags = $news->getTags();
+        $tags = $news->getTags()->toArray();
+        $categories = $news->getCategories()->toArray();
+        $tagsAndCats = array_merge($tags,$categories);
         $uid = $recurrence ? $recurrence->getUid() : $news->getUid();
 
-        foreach ($tags as $key => $value) {
+        foreach ($tagsAndCats as $key => $value) {
             $tagTitle = $value->getTitle();
             if (array_key_exists($tagTitle, $tagArray)) {
                 if(!in_array($uid, $tagArray[$tagTitle])){
@@ -238,6 +240,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 array_push($tagArray[$tagTitle],$uid);
             }
         }
+
         return $tagArray;
 
     }
@@ -271,10 +274,11 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         $newsRecords = $newsRecords->toArray();
         foreach ($newsRecords as $key => $news) {
-            //newsRecords filter if not an event, has recurrences or is not in demanded list(newsUids)
+            //newsRecords filter if not an event, has recurrences, is not in demanded list(newsUids) or showincalendar === False
             if (!in_array($news->getUid(), $newsUids) ||
                 !$news->isEvent() ||
-                $news->hasNewsRecurrences()
+                $news->hasNewsRecurrences() ||
+                !$news->isShowincalendar()
             ) {
                 unset($newsRecords[$key]);
             } else {
@@ -297,7 +301,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         foreach ($recurrences as $key => $evt) {
             $parent = ($evt->getParentEvent()->toArray())[0];
             if(!in_array($parent->getUid(), $newsUids) ||
-                $parent->getHidden()){
+                $parent->getHidden()||
+                !$parent->isShowincalendar()
+            ){
                 unset($recurrences[$key]);
             } else {
                 $result['tags'] = $this->getTagList($result['tags'],$parent, $evt);
@@ -1048,6 +1054,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         foreach ($newsRecords as $news) {
             if ($news->isShowincalendar() === true) {
                 $categories = $news->getCategories();
+                
                 foreach ($categories as $category) {
                     $title = $category->getTitle();
                     $bgColor = $category->getBackgroundcolor();
