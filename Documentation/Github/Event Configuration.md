@@ -1,14 +1,16 @@
 # Event Configuration
 Configure/add your event as any news item before. The item is extended with a lot of event options tried to explain here:
 
-##Tab General
+## Tab General
+
 __1.Event Type (Structured Data -> Schema.org)__
 
 if you choose "not an event" the news will be handled as normal news. 
 The other options specifiy the event type as of schema .org. Inside the Fluid Template EventDetail you can see allready integrated the needed microdata markup. For more details about this see 
 https://schema.org
 
-##Tab Event Data
+## Tab Event Data
+
 __1. Show in Calendar__
    * Flag if the event should be shown in calendarview or not
    
@@ -36,7 +38,7 @@ __8. Locations / Persons__
 __9. Application Bookings__
    * Applications / Registrations by users will be shown here if the event is an single Event (no recurrences)!
    
-##Tab Recurrence Overwrites
+## Tab Recurrence Overwrites
 
 
 __1. Behavior of building and overriding recurring events.__
