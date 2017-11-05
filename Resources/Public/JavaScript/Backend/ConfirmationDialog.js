@@ -1,6 +1,11 @@
 /*
 * injects a confirmation dialog on saving news records 
 * to prevent unwanted overwriting of recurrences
+*
+* Author Falk Röder <mail@falk-roeder.de>
+* package TYPO3
+* subpackage dated_news
+*
 * */
 define(['jquery',
         'TYPO3/CMS/Backend/Modal',

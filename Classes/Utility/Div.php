@@ -5,6 +5,7 @@ namespace FalkRoeder\DatedNews\Utility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Service\FlexFormService;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -206,5 +207,20 @@ class Div
         }
 
         return $random;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return array
+     */
+    public function getPluginConfiguration($id){
+
+        $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
+        $piFlexformSettings = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows( 'pi_flexform', 'tt_content', 'uid = ' . $id);
+        $ffs = GeneralUtility::makeInstance(FlexFormService::class);
+        $settings = $ffs->convertFlexFormContentToArray($piFlexformSettings[0]['pi_flexform']);
+
+        return $settings;
     }
 }

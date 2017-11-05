@@ -16,6 +16,7 @@ namespace FalkRoeder\DatedNews\ViewHelpers;
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+
 /**
  * ViewHelper to render links from news records to detail view or page.
  *
@@ -48,6 +49,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
 {
+
+    /**
+     * Misc Functions.
+     *
+     * @var \FalkRoeder\DatedNews\Utility\Div
+     * @inject
+     */
+    protected $div;
+    
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -81,6 +91,7 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
             }
 
             foreach ($detailPidDeterminationMethods as $determinationMethod) {
+
                 if ($callback = $this->detailPidDeterminationCallbacks[$determinationMethod]) {
                     if ($detailPid = call_user_func([$this, $callback], $tsSettings, $newsItem)) {
                         break;
@@ -94,6 +105,9 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
             $configuration['parameter'] = $detailPid;
         }
 
+
+
+
         // missing in original Viewhelper
         if ($this->arguments['forceAbsoluteUrl']) {
             $configuration['forceAbsoluteUrl'] = true;
@@ -102,7 +116,7 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
         $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
         $configuration['additionalParams'] .= '&tx_news_pi1[news]='.$this->getNewsId($newsItem);
         $action = 'detail';
-        if ($this->arguments['eventDetail']) {
+        if ($this->arguments['eventDetail'] || $tsSettings['switchableControllerActions'] === 'News->list;News->eventDetail') {
             $action = 'eventDetail';
         }
         if ((int) $tsSettings['link']['skipControllerAndAction'] !== 1) {

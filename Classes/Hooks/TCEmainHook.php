@@ -67,7 +67,6 @@ class TCEmainHook
         $this->applicationRepository = $this->extbaseObjectManager->get('FalkRoeder\DatedNews\Domain\Repository\ApplicationRepository');
         $this->recurrenceService = $this->extbaseObjectManager->get('FalkRoeder\DatedNews\Services\RecurrenceService');
         $this->persistenceManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
-//        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(date_default_timezone_get(),'NewsController:177');
     }
 
     /**

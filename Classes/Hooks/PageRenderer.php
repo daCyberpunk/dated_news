@@ -44,7 +44,7 @@ class PageRenderer implements SingletonInterface
      *
      * @return void
      */
-    public function addConfirmationDialog($parameters, &$pageRenderer)
+    public function addBackendJS($parameters, &$pageRenderer)
     {
 
         if (get_class($GLOBALS['SOBE']) === 'TYPO3\CMS\Backend\Controller\EditDocumentController' && array_keys($GLOBALS['SOBE']->editconf)[0] === 'tx_news_domain_model_news') {
@@ -60,7 +60,8 @@ class PageRenderer implements SingletonInterface
 
             );
             $pageRenderer->addInlineLanguageLabelArray($languageLabels);
-            $pageRenderer->loadRequireJsModule('TYPO3/CMS/DatedNews/ConfirmationDialog');
+            $pageRenderer->loadRequireJsModule('TYPO3/CMS/DatedNews/Backend/ConfirmationDialog');
+            $pageRenderer->loadRequireJsModule('TYPO3/CMS/DatedNews/Backend/RecurrenceOptions');
             return;
         }
 

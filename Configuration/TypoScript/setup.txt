@@ -108,6 +108,4 @@ page.includeJSLibs{
 	datednews.async = 1
 	datednews.excludeFromConcatenation = 1
 }
-#page.includeJSFooter.getslots = typo3conf/ext/dated_news/Resources/Public/JavaScript/reloadfields.js
-#dont change this. Used for prevention of doublesending forms.
-page.includeJSFooter.timestamp = typo3conf/ext/dated_news/Resources/Public/JavaScript/timestamp.js
+

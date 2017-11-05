@@ -27,19 +27,7 @@ if (!isset($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'])) {
 $configuration = \GeorgRinger\News\Utility\EmConfiguration::getSettings();
 
 $tmp_dated_news_columns = [
-    'js' => [
-        'exclude' => 0,
-        'label'   => '',
-        'config'  => [
-            'type'       => 'user',
-            'size'       => '0',
-            'userFunc'   => 'FalkRoeder\\DatedNews\\Tca\\Tca->injectJs',
-            'parameters' => [
-                'color' => 'blue',
-            ],
-        ],
-        'displayCond' => 'FIELD:eventtype:REQ:TRUE',
-    ],
+
     'application' => [
         'exclude' => 1,
         'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.application',

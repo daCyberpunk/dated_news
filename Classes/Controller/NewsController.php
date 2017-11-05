@@ -31,7 +31,7 @@ use GeorgRinger\News\Utility\Cache;
 use GeorgRinger\News\Utility\Page;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Extbase\Service\FlexFormService;
+
 
 /**
  * Class FalkRoeder\DatedNews\Controller\NewsController.
@@ -111,6 +111,18 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
             }
         }
+    }
+
+    /**
+     * Initializes the current action
+     *
+     */
+    public function initializeAction()
+    {
+        parent::initializeAction();
+        $cObj =  $this->configurationManager->getContentObject();
+        $pluginConfiguration = $this->div->getPluginConfiguration($cObj->data['uid']);
+        $this->settings['switchableControllerActions'] = $pluginConfiguration['switchableControllerActions'];
     }
 
     /**
@@ -288,10 +300,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $calendarend = \DateTime::createFromFormat('Y-m-d H:i:s', $this->request->getArgument('end') . '00:00:00');
 
         //getPluginSettings of Calendar which requested the data
-        $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
-        $piFlexformSettings = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows( 'pi_flexform', 'tt_content', 'uid = ' . $this->request->getArgument('cUid'));
-        $ffs = GeneralUtility::makeInstance(FlexFormService::class);
-        $settings = $ffs->convertFlexFormContentToArray($piFlexformSettings[0]['pi_flexform']);
+        $settings = $this->div->getPluginConfiguration($this->request->getArgument('cUid'));
         $settings = array_merge($this->settings, $settings['settings']);
 
 
@@ -354,6 +363,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         return json_encode($result);
 
     }
+
 
     /**
      * @param $settings

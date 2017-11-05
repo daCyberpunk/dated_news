@@ -1,5 +1,15 @@
 "use strict";
-
+/*
+* Please do not change anything in here.
+*
+* Adding Filterability to fullcalender Events by tags and/or categories.
+* Disabling tooltips if viewport width is smaller than TS Setting viewportMinWidthForTooltip
+*
+* Author Falk Röder <mail@falk-roeder.de>
+* package TYPO3
+* subpackage dated_news
+*
+* */
 var DatedNews = {
     filterAdded: [],
     eventscal: [],
