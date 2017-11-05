@@ -17,3 +17,9 @@ The dosumentation does actually not cover any configuration option, it is a work
 
 [Event Configuration](./Documentation/Github/Event%20Configuration.md)
 
+#### Follows
+General Page Structure recommended for that extension
+Fluid Templates
+Link Viewhelper
+TS Settings
+RealURL Config
