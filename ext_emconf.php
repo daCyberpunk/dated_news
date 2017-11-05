@@ -25,7 +25,7 @@ $EM_CONF[$_EXTKEY] = [
     'constraints'      => [
         'depends' => [
             'typo3'   => '7.6.13-8.7.99',
-            'news'    => '5.3.0-6.0.99',
+            'news'    => '5.3.0-6.1.99',
             'recurr'  => '1.0.0',
         ],
         'conflicts' => [
