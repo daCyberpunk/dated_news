@@ -17,6 +17,10 @@ What you see when you confirmed the booking
 __EventDetail__
 The Event Detailview. Like the News Detail, but with more Details. 
 
+Some more extended FE Development is needed here. open an event in this view, shows allways all days and in the booking form there are "reserve seats" fields for each recurrence of an event. You can mainipulate this with a bit of Javascript.
+
+
+
 __Qtip__ This you will find in Partials/Calendar. Its the little pop opens by hovering a event in calendar. You can put any information their you want from the event. 
 
 ## Email:
