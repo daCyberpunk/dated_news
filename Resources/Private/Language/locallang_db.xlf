@@ -267,10 +267,10 @@
 			</trans-unit>
 
 			<trans-unit id="flexforms_additional.applicationPid">
-				<source>Page ID for Application / Booking confirmation</source>
+				<source>Page ID for Booking confirmation</source>
 			</trans-unit>
 			<trans-unit id="flexforms_tab.application">
-				<source>Application / Booking</source>
+				<source>Booking</source>
 			</trans-unit>
 			<trans-unit id="flexforms_application.senderMail">
 				<source>Sender Mail</source>
@@ -307,6 +307,25 @@
 			</trans-unit>
 			<trans-unit id="tx_dated_news.modal.overwrite.changedFieldsNoneModified">
 				<source>All fields which are changed in main event, will be copied to corresponding fields in all none modified recurrences! Changes in these recurrences are lost then.</source>
+			</trans-unit>
+
+			<trans-unit id="tx_dated_news.mode.head">
+				<source>Current View:</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.mode.news_calendar">
+				<source>Dated News Calendar</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.mode.news_list">
+				<source>Dated News List</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.mode.news_eventdetail">
+				<source>Dated News Detail</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.mode.news_createapplication">
+				<source>Dated News Booking Page</source>
+			</trans-unit>
+			<trans-unit id="tx_dated_news.mode.news_confirmapplication">
+				<source>Dated News Confirmation Page</source>
 			</trans-unit>
 
 

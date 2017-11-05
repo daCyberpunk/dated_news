@@ -1,18 +1,22 @@
 <?php
-/*
- * This file is part of the TYPO3 CMS project.
+namespace FalkRoeder\DatedNews\Hooks;
+
+/***
+ *
+ * This file is part of the "Dated News" Extension for TYPO3 CMS.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
  * of the License, or any later version.
  *
  * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with TYPO3 source code.
+ * LICENSE.txt file that was distributed with this source code.
  *
- * The TYPO3 project - inspiring people to share!
- */
-
-namespace FalkRoeder\DatedNews\Hooks;
+ *  (c) 2017
+ *
+ * Author Falk Röder <mail@falk-roeder.de>
+ *
+ ***/
 
 /**
  * RealURL auto-configuration and segment decoder.

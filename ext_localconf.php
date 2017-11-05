@@ -28,6 +28,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
 //CLearCacheHook
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'FalkRoeder\\DatedNews\\Hooks\\ClearCacheHook->clearJsCache';
 
+//PageLayoutHook of tx_news
+$GLOBALS['TYPO3_CONF_VARS']['EXT']['news'][\GeorgRinger\News\Hooks\PageLayoutView::class]['extensionSummary']['dated_news']
+    = \FalkRoeder\DatedNews\Hooks\PageLayoutView::class . '->extensionSummary';
+
+
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'GeorgRinger.news',
     'Pi1',
@@ -37,6 +42,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clea
         'Tag'      => 'list',
     ],
     [
-        'News' => 'searchForm,searchResult,createApplication,confirmApplication,ajaxEvent',
+        'News' => 'searchForm,searchResult,createApplication,confirmApplication',
     ]
 );
