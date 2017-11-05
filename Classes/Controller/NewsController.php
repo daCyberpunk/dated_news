@@ -79,12 +79,16 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $argumentName = $argument->getName();
             if ($this->request->hasArgument($argumentName)) {
                 if ($argumentName === 'newApplication' && $this->request->getArgument($argumentName) === '') {
-                    $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
+                    $GLOBALS['TSFE']->pageNotFoundAndExit('No Application entry found.');
                 } else {
                     $argument->setValue($this->request->getArgument($argumentName));
                 }
             } else {
-                $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
+                if ($argumentName === 'newApplication') {
+                    $GLOBALS['TSFE']->pageNotFoundAndExit('No Application entry found.');
+                } else {
+                    $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
+                }
             }
         }
     }
@@ -100,9 +104,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             if ($this->request->hasArgument($argumentName)) {
                 $argument->setValue($this->request->getArgument($argumentName));
             } else {
-                $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
+                $GLOBALS['TSFE']->pageNotFoundAndExit('No Application entry found.');
             }
-        }
+        };
     }
 
     /**
@@ -537,6 +541,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         if (is_null($news) && isset($this->settings['detail']['errorHandling'])) {
             $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
         }
+
+
 
         // prevents form submitted more than once
         $formTimestamp = $this->request->getArgument('newApplication')['formTimestamp'];
