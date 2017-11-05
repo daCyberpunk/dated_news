@@ -14,3 +14,5 @@ The dosumentation does actually not cover any configuration option, it is a work
 
 # Content
 [Plugin Configuration](./Documentation/Github/Plugin%20Configuration.md)
+[Event Configuration](./Documentation/Github/Event%20Configuration.md)
+
