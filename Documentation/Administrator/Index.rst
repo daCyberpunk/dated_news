@@ -16,10 +16,8 @@ Installation Manual
 Requirements
 ------------
 
-1. TYPO3 CMS 7.6 - 8.3
-2. tx_news 5.0.0 - 5.3.99
-3. vhs 3.0.0 - 3.1.99
-4. jQuery and jQuery UI Javascript files (not shipped with this package)
+1. TYPO3 CMS 7.6 - 8.7
+2. tx_news 5.3.0 - 6.1.99
 
 .. _admin-installation:
 

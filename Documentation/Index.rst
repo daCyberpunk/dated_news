@@ -56,7 +56,5 @@ dated_news
     Introduction/Index
     Administrator/Index
     Configuration/Index
-    Editing/Index
-    Developing/Index
     ToDoList/Index
     ChangeLog/Index

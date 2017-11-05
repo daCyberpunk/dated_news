@@ -1,0 +1,7 @@
+5.0.0 - 2017/11/05
+------------------
+
+::
+
+Major changes. We are able now to get recurrences of an event and applicate to them. The integration with tx_news is much easier now.
+It is recommended to update from 4.x.x to 5.x.x But that would need to completely reconfigure your Fluid Templates and your FE Plugins.

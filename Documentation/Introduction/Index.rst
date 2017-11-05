@@ -15,7 +15,7 @@ Introduction
 .. only:: html
 
 	This chapter gives you a basic introduction about the TYPO3 CMS extension "*news*".
-
+    Please see https://github.com/daCyberpunk/dated_news for more documentation
 .. toctree::
 	:maxdepth: 5
 	:titlesonly:

@@ -1,4 +1,26 @@
 # General
+## Installation
+### Requirements
+
+1. TYPO3 CMS 7.6 - 8.7
+2. tx_news 5.3.0 - 6.1.99
+
+
+### Installation
+
+1. Switch to the module “Extension Manager”.
+2. Get the extension from the Extension Manager: Press the “Retrieve/Update” button and search for the extension key dated_news and import the extension from the repository.
+
+### Include static Typoscript
+
+The extension ships some TypoScript code which needs to be included.
+
+1. Switch to the root page of your site.
+2. Switch to the Template module and select *Info/Modify*.
+3. Press the link *Edit the whole template record* and switch to the tab Includes.
+4. Select *Dated News (dated_news)* at the field Include static (from extensions):
+
+
 ## Page Structure
 ### Recommendation
 In Order to get the whole workflow of event presentation an registration working, the following page structure is recommended.
