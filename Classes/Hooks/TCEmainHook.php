@@ -462,7 +462,6 @@ class TCEmainHook
         // filter recurrences with existing applications
         if ($updateBehavior > 2) {
             foreach ($oldRecurrences as $key => $oldRec) {
-//                \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump([$oldRec->getApplication(),$oldRec->getApplication()->count(),$this->applicationRepository->countApplicationsForNewsRecurrence($oldRec->getUid(),true)],'TCEmainHook:401');
 
                 if ((int)$this->applicationRepository->countApplicationsForNewsRecurrence($oldRec->getUid(),true) > 0) {
                     unset($oldRecurrences[$key]);

@@ -671,6 +671,7 @@ $tmp_dated_news_columns = [
     ],
 
     'newsrecurrence' => [
+        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_newsrecurrence',
         'config'  => [
             'type'              => 'inline',
             'foreign_table'     => 'tx_datednews_domain_model_newsrecurrence',
