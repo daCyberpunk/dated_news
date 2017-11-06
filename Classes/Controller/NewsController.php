@@ -232,7 +232,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
 
 
-
         $uri = $this->getLinkToNewsItem($news, $settings);
         $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings,$news,$recurrence))).'\'';
         $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
@@ -1369,7 +1368,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         // action is set to "detail" in original Viewhelper, but we overwiritten this action
         if ((int) $tsSettings['link']['skipControllerAndAction'] !== 1) {
             $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News'.
-                '&tx_news_pi1[action]=detail';
+                '&tx_news_pi1[action]=eventDetail';
         }
 
         // Add date as human readable
