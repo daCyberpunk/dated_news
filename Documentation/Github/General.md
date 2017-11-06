@@ -4,12 +4,25 @@
 
 1. TYPO3 CMS 7.6 - 8.7
 2. tx_news 5.3.0 - 6.1.99
+3. recurr 1.0.0
 
 
 ### Installation
-
+#### via Extensionmanager (TER)
 1. Switch to the module “Extension Manager”.
-2. Get the extension from the Extension Manager: Press the “Retrieve/Update” button and search for the extension key dated_news and import the extension from the repository.
+2. Get the extension(s) from the Extension Manager: Press the “Retrieve/Update” button and search for the extension key dated_news and import the extension from the repository.
+
+#### via composer latest GITHUB Version (in development)
+1. Add `https://github.com/daCyberpunk/dated_news` and `https://github.com/daCyberpunk/recurr` to your repositories in composer.json.
+2. Add `"falkroeder/dated-news": "dev-master"` and `"falkroeder/recurr": "^1.0"` to your require array in composer.json. 
+3. ofcourse you need to install news as well. 
+4. composer update/install
+
+#### via composer (TER)
+1. Add `"typo3-ter/dated-news": "^5.0"` and `"typo3-ter/recurr": "^1.0"` to your require array in composer.json. 
+3. ofcourse you need to install news as well. 
+4. composer update/install
+
 
 ### Include static Typoscript
 
@@ -20,6 +33,14 @@ The extension ships some TypoScript code which needs to be included.
 3. Press the link *Edit the whole template record* and switch to the tab Includes.
 4. Select *Dated News (dated_news)* at the field Include static (from extensions):
 
+## jQuery
+If no jquery is included on your page, you need to set the following TypoScript option: `plugin.tx_news.settings.dated_news.includeJQuery = 1`. The Extension then will include it by itself. 
+
+## cHash Parameter
+> You have to exclude parameter for chash calculation in Installtool. Otherwise it won't work.
+
+Go to Installtool -> All configuration and loog for the option "[FE][cHashExcludedParameters]" 
+There you have to add: `tx_news_pi1[newApplication],tx_news_pi1[title]`
 
 ## Page Structure
 ### Recommendation
@@ -49,10 +70,3 @@ You will need following 4 pages:
    * The Plugin provides also a List/Detail view. So you can have both, The List and the Detail View with booking form  on the same page. 
    
    
-## cHash Parameter
-> You have to exclude parameter for chash calculation in Installtool. Otherwise it won't work.
-
-Go to Installtool -> All configuration and loog for the option "[FE][cHashExcludedParameters]" 
-There you have to add: `tx_news_pi1[newApplication],tx_news_pi1[title]`
-
-
