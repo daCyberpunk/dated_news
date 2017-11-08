@@ -223,6 +223,9 @@
 			<trans-unit id="tx_datednews_domain_model_application.events">
 				<source>Events</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.feuser">
+				<source>FE User</source>
+			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.reserved_slots">
 				<source>Reserved Slots</source>
 			</trans-unit>

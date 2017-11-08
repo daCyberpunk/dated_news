@@ -386,6 +386,13 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @cascade remove
      */
     protected $events = null;
+
+    /**
+     * feusers.
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Feuser>
+     */
+    protected $feusers = null;
     
     /**
      * recurringevents.
@@ -415,6 +422,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects()
     {
         $this->events = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->feusers = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $this->recurringevents = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
@@ -788,7 +796,55 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->events = $events;
     }
+
+
+    /**
+     * Adds a Feuser.
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Feuser $feuser
+     *
+     * @return void
+     */
+    public function addFeuser(\FalkRoeder\DatedNews\Domain\Model\Feuser $feuser)
+    {
+        $this->feusers->attach($feuser);
+    }
+
+    /**
+     * Removes a Feuser.
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Feuser $feuserToRemove The Feuser to be removed
+     *
+     * @return void
+     */
+    public function removeFeuser(\FalkRoeder\DatedNews\Domain\Model\Feuser $feuserToRemove)
+    {
+        $this->feusers->detach($feuserToRemove);
+    }
+
+    /**
+     * Returns the feusers.
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Feuser> $feusers
+     */
+    public function getFeusers()
+    {
+        return $this->feusers;
+    }
+
+    /**
+     * Sets the feusers.
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $feusers
+     *
+     * @internal param $ \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Feuser> $feusers
+     */
+    public function setFeusers(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $feusers)
+    {
+        $this->feusers = $feusers;
+    }
     
+
     /**
      * Adds a Recurringevent.
      *

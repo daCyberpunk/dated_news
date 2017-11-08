@@ -23,10 +23,10 @@ return [
         'iconfile'     => 'EXT:dated_news/Resources/Public/Icons/tx_datednews_domain_model_application.gif',
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, name, surname, email, events',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, name, surname, email, events, feusers',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,--palette--;;1, application_title, title, name, surname, email, reserved_slots, events, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, confirmed, '],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,--palette--;;1, application_title, title, name, surname, email, reserved_slots, events, feusers, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, confirmed, '],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -163,6 +163,26 @@ return [
                 'foreign_table'     => 'tx_news_domain_model_news',
                 'MM'                => 'tx_datednews_news_application_mm',
                 'MM_opposite_field' => 'application',
+                'maxitems'          => 9999,
+                'appearance'        => [
+                    'collapseAll'                     => 1,
+                    'levelLinksPosition'              => 'top',
+                    'showSynchronizationLink'         => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'useSortable'                     => 1,
+                    'showAllLocalizationLink'         => 1,
+                ],
+            ],
+
+        ],
+        'feusers' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.feuser',
+            'config'  => [
+                'type'              => 'inline',
+                'foreign_table'     => 'fe_users',
+                'MM'                => 'tx_datednews_feuser_application_mm',
+                'MM_opposite_field' => 'applications',
                 'maxitems'          => 9999,
                 'appearance'        => [
                     'collapseAll'                     => 1,

@@ -38,6 +38,9 @@ plugin.tx_news {
 			validDaysConfirmationLink = {$plugin.tx_news.settings.dated_news.validDaysConfirmationLink}
 			emailSubjectFields = {$plugin.tx_news.settings.dated_news.emailSubjectFields}
 			emailSubjectDateFormat = d.m.Y
+			autoAddFeuser = 1
+			autoAddFeuserAddToGroups = 1
+			autoAddFeuserStoragePageId = 31
 		}
 		orderByAllowed = eventstart,eventend,sorting,author,uid,title,teaser,author,tstamp,crdate,datetime,categories.title
 	}

@@ -6,7 +6,19 @@ config.tx_extbase{
                     Tx_NewsController = FalkRoeder\DatedNews\Controller\NewsController
                 }
             }
+            FalkRoeder\DatedNews\Domain\Model\Feuser {
+                mapping {
+                    tableName = fe_users
+                    recordType = Tx_Extbase_Domain_Model_FrontendUser
+                }
+            }
         }
+
+#        TYPO3\CMS\Extbase\Domain\Model\FrontendUser {
+#            subclasses {
+#                Tx_DatedNews_User = FalkRoeder\DatedNews\Domain\Model\Feuser
+#            }
+#        }
     }
 }
 
@@ -15,3 +27,6 @@ config.tx_extbase {
         GeorgRinger\News\Controller\NewsController.className = FalkRoeder\DatedNews\Controller\NewsController
     }
 }
+
+config.tx_extbase.legacy.enableLegacyFlashMessageHandling = 0
+
