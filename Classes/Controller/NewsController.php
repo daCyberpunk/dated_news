@@ -355,16 +355,22 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         $recurrences = $this->newsRecurrenceRepository->getBetweenDates([$calendarstart, $calendarend]);
         foreach ($recurrences as $key => $evt) {
-            $parent = ($evt->getParentEvent()->toArray())[0];
-            if(
-                $parent->getHidden()||
-                !$parent->isShowincalendar()
-            ){
-                unset($recurrences[$key]);
+            $parents = $evt->getParentEvent()->toArray();
+            if( isset($parents[0]) ){
+                $parent = $parents[0];
+                if(
+                    $parent->getHidden()||
+                    !$parent->isShowincalendar()
+                ){
+                    unset($recurrences[$key]);
+                } else {
+                    $result['tags'] = $this->getTagList($result['tags'],$parent, $evt);
+                    array_push($result['events'], $this->createSingleEvent($parent, $settings, $evt));
+                }
             } else {
-                $result['tags'] = $this->getTagList($result['tags'],$parent, $evt);
-                array_push($result['events'], $this->createSingleEvent($parent, $settings, $evt));
+                unset($recurrences[$key]);
             }
+
         }
         
 //        return $result;
