@@ -23,6 +23,7 @@ use GeorgRinger\News\Utility\Cache;
 use GeorgRinger\News\Utility\Page;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 
 /**
@@ -387,16 +388,30 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function renderQtip($settings, $newsItem, $recurrence = null)
     {
+        $configurationManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManagerInterface');
+        $tsSettings             = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
         /** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
         $qtip = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
-        $qtip->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('dated_news').'Resources/Private/Partials/Calendar/Qtip.html');
+        $partialRootPaths = $tsSettings['plugin.']['tx_news.']['view.']['partialRootPaths.'];
+        $partial = false;
+
+        foreach ($partialRootPaths as $key => $path) {
+            $partialRootPaths[$key] = $path . 'Calendar';
+        }
+
+        foreach (array_reverse($partialRootPaths) as $key => $path) {
+            if( !$partial && file_exists(GeneralUtility::getFileAbsFileName($path. '/Qtip.html')) ) {
+                $partial = GeneralUtility::getFileAbsFileName($path. '/Qtip.html');
+            }
+        }
+
+
+        $qtip->setTemplatePathAndFilename($partial);
         /*$qtip->setLayoutRootPaths(array(
             'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Layouts'
         ));*/
-        $qtip->setPartialRootPaths([
-            'default' => ExtensionManagementUtility::extPath('dated_news').'Resources/Private/Partials',
-        ]);
+        $qtip->setPartialRootPaths($partialRootPaths);
         $assignedValues = [
             'newsItem' => $newsItem,
             'settings' => $settings,
