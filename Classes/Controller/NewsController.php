@@ -144,7 +144,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $news->setDescription(addslashes($news->getDescription()));
             $news->setBodytext(addslashes($news->getBodytext()));
         }
-        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFileCalendar'], $this->settings['qtips']);
+        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'],$this->settings['dated_news']['jsFiles'], $this->settings['qtips']);
         $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
         //collect news Uids for ajax request as we do not have the demandobject in our ajaxcall later
@@ -1000,42 +1000,59 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param string $jquery
      * @param string $pathToJS
      */
-    public function addCalendarJSLibs($jquery = '0', $pathToJS = '')
+    public function addCalendarJSLibs($jquery = '0', $libs = [])
     {
-        $libs = [
-            'jQuery'        => 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js',
-            'xmoment'       => 'fullcalendar/lib/moment.min.js',
-            'xfullcalendar' => 'fullcalendar/fullcalendar.min.js',
-            'xlangall'      => 'fullcalendar/lang-all.js',
-            'xqtip'         => 'qtip3/jquery.qtip.min.js',
-            'dated_news'    => str_replace('EXT:', '/typo3conf/ext/', $pathToJS),
-        ];
-        $extPluginPath = 'typo3conf/ext/dated_news/Resources/Public/Plugins/';
         define('NEW_LINE', "\n");
         $contents = [];
-        foreach ($libs as $name => $path) {
-            if ($name == 'jQuery' && $jquery != '1') {
-                continue;
+
+        /*jQuery*/
+        if ($jquery == '1') {
+            if (!file_exists($libs['jQuery'])){
+                throw new \RuntimeException('File '.$libs['jQuery'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.jQuery)', 1517547086400);
+            } else {
+                $this->pageRenderer->addJsFooterLibrary(
+                    'jquery',
+                    $libs['jQuery'],
+                    'text/javascript',
+                    true
+                );
             }
-            if ($name !== 'jQuery' && $name != 'dated_news') {
-                $path = $extPluginPath.$path;
-            }
-            if ($name !== 'jQuery') {
-                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($path);
-                continue;
-            }
-            /*jQuery*/
-            $this->pageRenderer->addJsFooterLibrary(
-                $name,
-                $path,
-                'text/javascript',
-                true
-            );
         }
 
         //other libs
         $file = 'typo3temp/assets/datednews/dated_news_calendar.js';
         if (!file_exists(PATH_site.$file)) {
+
+            if (!file_exists($libs['xmoment'])){
+                throw new \RuntimeException('File '.$libs['xmoment'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.xmoment)', 1517546715990);
+            } else {
+                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs['xmoment']);
+            }
+
+            if (!file_exists($libs['xfullcalendar'])){
+                throw new \RuntimeException('File '.$libs['xfullcalendar'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.xfullcalendar)', 1517546856489);
+            } else {
+                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs['xfullcalendar']);
+            }
+            if (!file_exists($libs['xlang'])){
+                throw new \RuntimeException('File '.$libs['xlang'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.xlang)', 1517546861104);
+            } else {
+                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs['xlang']);
+            }
+
+            if (!file_exists($libs['xqtip'])){
+                throw new \RuntimeException('File '.$libs['xqtip'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.xqtip)', 1517546865227);
+            } else {
+                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs['xqtip']);
+            }
+
+            if (!file_exists($libs['dated_news'])){
+                throw new \RuntimeException('File '.$libs['dated_news'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.dated_news)', 1517546871693);
+            } else {
+                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs['dated_news']);
+            }
+
+
             // writeFileToTypo3tempDir() returns NULL on success (please double-read!)
             $error = GeneralUtility::writeFileToTypo3tempDir(PATH_site.$file, implode($contents, NEW_LINE));
             if ($error !== null) {
