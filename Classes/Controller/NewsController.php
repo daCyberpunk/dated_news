@@ -703,8 +703,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
                 // find feuser by mail or create new one if
                 // no one is attached to the application
-                \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($newApplication->getFeusers()->count(),'NewsController:700');
-                
+
                 if ($newApplication->getFeusers()->count() === 0)
                 {
                     $feuser = $this->feuserService->findUserByEmail($newApplication->getEmail());
@@ -1063,6 +1062,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function addCalendarCss($pathToCss = '')
     {
+
         $this->pageRenderer->addCssFile('/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css');
         $this->pageRenderer->addCssFile('/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css');
         $pathToCss = str_replace('EXT:', '/typo3conf/ext/', $pathToCss);
