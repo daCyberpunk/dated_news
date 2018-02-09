@@ -137,7 +137,7 @@ class TCEmainHook
         }
         unset($fieldArray['recurrence_updated_behavior']);
 
-        $news = $this->newsRepository->findByIdentifier($id);
+        $news = $this->newsRepository->findByUid($id, false);
         //get collection of all recurrences
         $recurrences = $this->recurrenceService->getRecurrences($eventDates[0], $eventDates[1], $settings);
 
