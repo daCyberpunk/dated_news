@@ -435,7 +435,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function eventDetailAction(\GeorgRinger\News\Domain\Model\News $news = null, $currentPage = 1, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
     {
-//\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($this->feuserRepository->getSimilarLoginNames('falk:admin'),'NewsController:413');
         if (is_null($news)) {
             $previewNewsId = ((int) $this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
             if ($this->request->hasArgument('news_preview')) {
