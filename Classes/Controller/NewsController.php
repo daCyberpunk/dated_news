@@ -1022,16 +1022,12 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         /*jQuery*/
         if ($jquery == '1') {
-            if (!file_exists($libs['jQuery'])){
-                throw new \RuntimeException('File '.$libs['jQuery'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.jQuery)', 1517547086400);
-            } else {
-                $this->pageRenderer->addJsFooterLibrary(
-                    'jquery',
-                    $libs['jQuery'],
-                    'text/javascript',
-                    true
-                );
-            }
+            $this->pageRenderer->addJsFooterLibrary(
+                'jquery',
+                $libs['jQuery'],
+                'text/javascript',
+                true
+            );
         }
 
         //other libs
