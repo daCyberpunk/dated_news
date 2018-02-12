@@ -104,7 +104,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             } else {
                 $GLOBALS['TSFE']->pageNotFoundAndExit('No Application entry found.');
             }
-        };
+        }
     }
 
     /**
