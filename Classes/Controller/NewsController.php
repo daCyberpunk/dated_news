@@ -181,7 +181,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     }
 
     /**
-     * creates a single evcent array from given news / recurrence
+     * creates a single event array from given news / recurrence
      *
      *
      * @param $news
@@ -193,9 +193,19 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     {
         $start = $recurrence ? $recurrence->getEventstart() : $news->getEventstart();
         $end = $recurrence ?  $recurrence->getEventend() : $news->getEventend();
+        $allDay = $news->getFulltime();
+
         $color = trim($news->getBackgroundcolor());
         $textcolor = trim($news->getTextcolor());
         $categories = $news->getCategories();
+
+        $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings,$news,$recurrence))).'\'';
+
+        $diff = date_diff($end,$start);
+        if($diff->d > 0 && $allDay === true) {
+            $end->modify('+1 day');
+        }
+
 
         if ($color === '') {
             foreach ($categories as $category) {
@@ -234,22 +244,20 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
 
         $uri = $this->getLinkToNewsItem($news, $settings);
-        $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings,$news,$recurrence))).'\'';
         $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
 
-        $tmpEvt = [
+        return [
             "title" => $news->getTitle(),
             "id" => $uid,
             "end" => $end->format('Y-m-d H:i:s'),
             "start" => $start->format('Y-m-d H:i:s'),
             "url" => $uri,
-            "allDay" => $news->getFulltime(),
+            "allDay" => $allDay,
             "className" => 'Event_' . $uid,
             "qtip" => $qtip,
             'color' => $color,
             'textColor' => $textcolor
         ];
-        return $tmpEvt;
     }
 
     /**
