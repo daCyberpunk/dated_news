@@ -22,7 +22,6 @@ namespace FalkRoeder\DatedNews\Controller;
 use GeorgRinger\News\Utility\Cache;
 use GeorgRinger\News\Utility\Page;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 
@@ -72,7 +71,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
     /**
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Property\Exception\TargetNotFoundException
      */
     public function initializeCreateApplicationAction()
     {
@@ -96,7 +94,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
     /**
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Property\Exception\TargetNotFoundException
      */
     public function initializeConfirmApplicationAction()
     {
@@ -145,7 +142,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $news->setDescription(addslashes($news->getDescription()));
             $news->setBodytext(addslashes($news->getBodytext()));
         }
-        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'],$this->settings['dated_news']['jsFiles'], $this->settings['qtips']);
+        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'],$this->settings['dated_news']['jsFiles']);
         $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
         //collect news Uids for ajax request as we do not have the demandobject in our ajaxcall later
@@ -187,6 +184,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * creates a single evcent array from given news / recurrence
      *
      *
+     * @param $news
+     * @param $settings
+     * @param null $recurrence
      * @return array
      */
     public function createSingleEvent($news, $settings, $recurrence = null)
@@ -256,6 +256,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * creates list of tags from given news
      *
      *
+     * @param $tagArray
+     * @param $news
+     * @param null $recurrence
      * @return string
      */
     public function getTagList($tagArray, $news, $recurrence = null )
@@ -288,6 +291,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param array $overwriteDemand
      *
      * @return string
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
     public function ajaxEventAction(array $overwriteDemand = null)
     {
@@ -298,11 +302,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         //getPluginSettings of Calendar which requested the data
         $settings = $this->div->getPluginConfiguration($this->request->getArgument('cUid'));
         $settings = array_merge($this->settings, $settings['settings']);
-
-
-
-
-//        $newsUids = explode(',',$this->request->getArgument('newsUids') );
 
         $demand = $this->createDemandObjectFromSettings($settings);
         $demand->setActionAndClass(__METHOD__, __CLASS__);
@@ -361,7 +360,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         }
         
-//        return $result;
         return json_encode($result);
 
     }
@@ -371,6 +369,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param $settings
      * @param $newsItem
      *
+     * @param null $recurrence
      * @return string html output of Qtip.html
      */
     public function renderQtip($settings, $newsItem, $recurrence = null)
@@ -395,9 +394,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
 
         $qtip->setTemplatePathAndFilename($partial);
-        /*$qtip->setLayoutRootPaths(array(
-            'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Layouts'
-        ));*/
         $qtip->setPartialRootPaths($partialRootPaths);
         $assignedValues = [
             'newsItem' => $newsItem,
@@ -528,10 +524,14 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     /**
      * action createApplication.
      *
-     * @param \GeorgRinger\News\Domain\Model\News            $news           news item
+     * @param \GeorgRinger\News\Domain\Model\News $news news item
      * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
      *
      * @return void
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
     public function createApplicationAction(\GeorgRinger\News\Domain\Model\News $news = null, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
     {
@@ -644,7 +644,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CREATEAPPLICATION_ACTION, $assignedValues);
             $this->view->assignMultiple($assignedValues);
 
-            $this->sendMail($news, $newApplication, $this->settings, $recurringEvent);
+            $this->sendMail($newApplication, $this->settings, $news);
         } else {
             $this->flashMessageService('applicationSendMessageAllreadySent', 'applicationSendMessageAllreadySentStatus', 'ERROR');
         }
@@ -656,6 +656,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
      *
      * @return void
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
     public function confirmApplicationAction(\FalkRoeder\DatedNews\Domain\Model\Application $newApplication)
     {
@@ -695,7 +698,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
                 $persistenceManager->persistAll();
 
-                $this->sendMail($news, $newApplication, $this->settings, $event, true);
+                $this->sendMail($newApplication, $this->settings, $news,  true);
                 $assignedValues = [
                     'newApplication' => $newApplication,
                     'newsItem'       => $news,
@@ -717,6 +720,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * reloads Details of news via ajax.
      *
      * @return string
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
     public function reloadFieldsAction()
     {
@@ -758,7 +762,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      *
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    public function sendMail(\GeorgRinger\News\Domain\Model\News $news = null, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $settings, $recurringEvent = null, $confirmation = false)
+    public function sendMail(\FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $settings, \GeorgRinger\News\Domain\Model\News $news = null, $confirmation = false)
     {
 
         // from
@@ -1013,12 +1017,20 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * and if in typoscript settings set to true, also jQuery.
      *
      * @param string $jquery
-     * @param string $pathToJS
+     * @param array $libs
      */
     public function addCalendarJSLibs($jquery = '0', $libs = [])
     {
         define('NEW_LINE', "\n");
         $contents = [];
+        $fileNames = [
+            'xmoment',
+            'xfullcalendar',
+            'xlang',
+            'xqtip',
+            'dated_news',
+        ];
+
 
         /*jQuery*/
         if ($jquery == '1') {
@@ -1034,40 +1046,18 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $file = 'typo3temp/assets/datednews/dated_news_calendar.js';
         if (!file_exists(PATH_site.$file)) {
 
-            if (!file_exists($libs['xmoment'])){
-                throw new \RuntimeException('File '.$libs['xmoment'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.xmoment)', 1517546715990);
-            } else {
-                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs['xmoment']);
+            foreach ( $fileNames as $name ) {
+                if (!file_exists($libs[$name])){
+                    throw new \InvalidArgumentException('File '.$libs[$name].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.' . $name . ')', 1517546715990);
+                } else {
+                    $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs[$name]);
+                }
             }
-
-            if (!file_exists($libs['xfullcalendar'])){
-                throw new \RuntimeException('File '.$libs['xfullcalendar'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.xfullcalendar)', 1517546856489);
-            } else {
-                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs['xfullcalendar']);
-            }
-            if (!file_exists($libs['xlang'])){
-                throw new \RuntimeException('File '.$libs['xlang'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.xlang)', 1517546861104);
-            } else {
-                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs['xlang']);
-            }
-
-            if (!file_exists($libs['xqtip'])){
-                throw new \RuntimeException('File '.$libs['xqtip'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.xqtip)', 1517546865227);
-            } else {
-                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs['xqtip']);
-            }
-
-            if (!file_exists($libs['dated_news'])){
-                throw new \RuntimeException('File '.$libs['dated_news'].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.dated_news)', 1517546871693);
-            } else {
-                $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs['dated_news']);
-            }
-
 
             // writeFileToTypo3tempDir() returns NULL on success (please double-read!)
             $error = GeneralUtility::writeFileToTypo3tempDir(PATH_site.$file, implode($contents, NEW_LINE));
             if ($error !== null) {
-                throw new \RuntimeException('Dated News JavaScript file could not be written to '.$file.'. Reason: '.$error, 1487439381339);
+                throw new \InvalidArgumentException('Dated News JavaScript file could not be written to '.$file.'. Reason: '.$error, 1487439381339);
             }
         }
 
@@ -1192,8 +1182,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * creates the ICS description for the
      * invitation send to Customer
      *
-     * @param \GeorgRinger\News\Domain\Model\News $news     news item
-     * @param array                               $settings
+     * @param \GeorgRinger\News\Domain\Model\News $news news item
+     * @param $event
+     * @param array $settings
      *
      * @return bool|string
      */
@@ -1288,7 +1279,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * Gets detailPid from categories of the given news item. First will be return.
      *
      * @param array $settings
-     * @param News  $newsItem
+     * @param News $newsItem
      *
      * @return int
      */
@@ -1310,11 +1301,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * Gets detailPid from defaultDetailPid setting.
      *
      * @param array $settings
-     * @param News  $newsItem
-     *
      * @return int
      */
-    protected function getDetailPidFromDefaultDetailPid($settings, $newsItem)
+    protected function getDetailPidFromDefaultDetailPid($settings)
     {
         return (int) $settings['defaultDetailPid'];
 
@@ -1324,11 +1313,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * Gets detailPid from flexform of current plugin.
      *
      * @param array $settings
-     * @param News  $newsItem
-     *
      * @return int
      */
-    protected function getDetailPidFromFlexform($settings, $newsItem)
+    protected function getDetailPidFromFlexform($settings)
     {
         return (int) $settings['detailPid'];
     }
