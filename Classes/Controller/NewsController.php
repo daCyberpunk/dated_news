@@ -572,10 +572,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function createApplicationAction(\GeorgRinger\News\Domain\Model\News $news = null, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
     {
-        
         $news = $this->getNewsOrPreviewNews($news);
-
-
 
         // prevents form submitted more than once
         $formTimestamp = $this->request->getArgument('newApplication')['formTimestamp'];
@@ -592,45 +589,27 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             if($news->getRecurrence() > 0 ) {
                 //set total depending on either customer is an early bird or not and on earyBirdPrice is set
-                $recurringEvent = $this->newsRecurrenceRepository->findByUid($this->request->getArgument('reservedRecurrence'));
-                $reservedSlots = $this->request->getArgument('reservedSlots-' . $this->request->getArgument('reservedRecurrence'));
+                $recurringEvent = $this->newsRecurrenceRepository->findByUid(
+                    $this->request->getArgument('reservedRecurrence')
+                );
+                $reservedSlots = $this->request->getArgument(
+                    'reservedSlots-' . $this->request->getArgument('reservedRecurrence')
+                );
                 $newApplication->setReservedSlots($reservedSlots);
-                if ($news->getEarlyBirdPrice() != '' && $recurringEvent->getEarlyBirdDate() != '' && $recurringEvent->getEarlyBirdDate() != '0') {
-                    $earlybirdDate = clone $recurringEvent->getEarlyBirdDate();
-                    $earlybirdDate->setTime(0, 0, 0);
 
-                    $today = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'));
-                    $today->setTime(0, 0, 0);
+                $newApplication->setCosts(
+                    $this->getEventTotalCosts($news, clone $recurringEvent->getEarlyBirdDate(), $reservedSlots)
+                );
 
-                    if ($earlybirdDate >= $today) {
-                        $newApplication->setCosts((int)$reservedSlots * floatval(str_replace(',', '.', $news->getEarlyBirdPrice())));
-                    } else {
-                        $newApplication->setCosts((int)$reservedSlots * floatval(str_replace(',', '.', $news->getPrice())));
-                    }
-                } else {
-                    $newApplication->setCosts((int)$reservedSlots * floatval(str_replace(',', '.', $news->getPrice())));
-                }
                 $newApplication->addRecurringevent($recurringEvent);
             } else {
-                //set total depending on either customer is an early bird or not and on earyBirdPrice is set
-                if ($news->getEarlyBirdPrice() != '' && $news->getEarlyBirdDate() != '' && $news->getEarlyBirdDate() != '0') {
-                    $earlybirdDate = clone $news->getEarlyBirdDate();
-                    $earlybirdDate->setTime(0, 0, 0);
 
-                    $today = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'));
-                    $today->setTime(0, 0, 0);
+                $newApplication->setCosts(
+                    $this->getEventTotalCosts($news, clone $news->getEarlyBirdDate(), $news->getReservedSlots())
+                );
 
-                    if ($earlybirdDate >= $today) {
-                        $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',', '.', $news->getEarlyBirdPrice())));
-                    } else {
-                        $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',', '.', $news->getPrice())));
-                    }
-                } else {
-                    $newApplication->setCosts($newApplication->getReservedSlots() * floatval(str_replace(',', '.', $news->getPrice())));
-                }
                 $newApplication->addEvent($news);
             }
-
 
             $this->applicationRepository->add($newApplication);
 
@@ -661,6 +640,33 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         } else {
             $this->flashMessageService('applicationSendMessageAllreadySent', 'applicationSendMessageAllreadySentStatus', 'ERROR');
         }
+    }
+
+    /**
+     * getEventTotalCosts
+     *
+     * @param $news
+     * @param $earlyBirdDate
+     * @param $reservedSlots
+     * @return float|int
+     */
+    public function getEventTotalCosts($news, $earlyBirdDate, $reservedSlots)
+    {
+        if ($news->getEarlyBirdPrice() != '' && $earlyBirdDate != '' && $earlyBirdDate != '0') {
+            $earlybirdDate->setTime(0, 0, 0);
+
+            $today = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'));
+            $today->setTime(0, 0, 0);
+
+            if ($earlybirdDate >= $today) {
+                $costs = $reservedSlots * floatval(str_replace(',', '.', $news->getEarlyBirdPrice()));
+            } else {
+                $costs = $reservedSlots * floatval(str_replace(',', '.', $news->getPrice()));
+            }
+        } else {
+            $costs = $reservedSlots * floatval(str_replace(',', '.', $news->getPrice()));
+        }
+        return $costs;
     }
 
     /**
