@@ -68,6 +68,14 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     protected $div;
 
     /**
+     * Misc Functions.
+     *
+     * @var \FalkRoeder\DatedNews\Services\LinkToNewsItem
+     * @inject
+     */
+    protected $linkToNewsItem;
+
+    /**
      * @var \TYPO3\CMS\Core\Page\PageRenderer
      */
     protected $pageRenderer;
@@ -253,10 +261,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
 
-
-
-
-        $uri = $this->getLinkToNewsItem($news, $settings);
+        $uri = $this->linkToNewsItem->getLink($news, $settings);
         $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
 
         return [
@@ -1293,23 +1298,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 }
                 break;
             case 'Url':
-                $uri = $this->getLinkToNewsItem($news, $settings);
+                $uri = $this->linkToNewsItem->getLink($news, $settings);
 
                 return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', ['url' => $uri]);
-
-//                if($settings['detailPid']){
-//                    $uriBuilder = $this->controllerContext->getUriBuilder();
-//                    $uri = $uriBuilder
-//                        ->reset()
-//                        ->setTargetPageUid($settings['detailPid'])
-//                        ->setUseCacheHash(TRUE)
-//                        ->setArguments(array('tx_news_pi1' => array('controller' => 'News', 'action' => 'detail', 'news' => $news->getUid())))
-//                        ->setCreateAbsoluteUri(TRUE)
-//                        ->buildFrontendUri();
-//                    return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', array('url' => $uri));
-//                } else {
-//                    return FALSE;
-//                }
                 break;
             case 'Custom':
                 if (trim($settings['icsDescriptionCustomField']) === '') {
