@@ -63,42 +63,18 @@ class Div
     /**
      * Generate and send Email.
      *
-     * @param \string Template file in Templates/Email/
-     * @param \array  $receiver    Combination of Email => Name
-     * @param \array  $receiverCc  Combination of Email => Name
-     * @param \array  $receiverBcc Combination of Email => Name
-     * @param \array  $sender      Combination of Email => Name
-     * @param \string $subject     Mail subject
-     * @param \array  $variables   Variables for assignMultiple
-     * @param $fileNames
-     *
-     * @return \bool Mail was sent?
+     * @param array $conf
+     * @return bool
      */
-    public function sendEmail($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables, $fileNames)
+    public function sendEmail($conf)
     {
 
-        /** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
-        $emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
-        $emailBodyObject->setTemplatePathAndFilename($this->getTemplatePath('Email/'.$template.'.html'));
-        $emailBodyObject->setLayoutRootPaths([
-                'default' => ExtensionManagementUtility::extPath('dated_news').'Resources/Private/Layouts',
-        ]);
-        $emailBodyObject->setPartialRootPaths([
-                'default' => ExtensionManagementUtility::extPath('dated_news').'Resources/Private/Partials',
-        ]);
-        $emailBodyObject->assignMultiple($variables);
+        $emailBodyObject = $this->getEmailBodyObject($conf);
+        $email = $this->createEmail($conf);
+        $email->setCharset($GLOBALS['TSFE']->metaCharset);
+        $email->setBody($emailBodyObject->render(), 'text/html');
 
-        $email = $this->objectManager->get('TYPO3\\CMS\\Core\\Mail\\MailMessage');
-        $email
-                ->setTo($receiver)
-                ->setCc($receiverCc)
-                ->setBcc($receiverBcc)
-                ->setFrom($sender)
-                ->setSubject($subject)
-                ->setCharset($GLOBALS['TSFE']->metaCharset)
-                ->setBody($emailBodyObject->render(), 'text/html');
-
-        if ($fileNames && is_array($fileNames)) {
+        if (isset($conf['fileNames']) && is_array($conf[$fileNames])) {
             foreach ($fileNames as $fileName) {
                 if (trim($fileName) != '') {
                     $email->attach(\Swift_Attachment::fromPath('fileadmin'.$fileName));
@@ -112,45 +88,63 @@ class Div
     }
 
     /**
-     * Generate and send ICS Invitation.
+     * createEmail
      *
-     * @param $template
-     * @param \array  $receiver      Combination of Email => Name
-     * @param \array  $receiverCc    Combination of Email => Name
-     * @param \array  $receiverBcc   Combination of Email => Name
-     * @param \array  $replyTo       Combination of Email => Name
-     * @param \array  $sender        Combination of Email => Name
-     * @param \string $subject       Mail subject
-     * @param \array  $variables     Variables for assignMultiple
-     * @param array   $icsAttachment
-     *
-     * @return bool Mail was sent?
-     *
-     * @internal param string $Template file in Templates/Email/
+     * @param $conf
+     * @return \TYPO3\CMS\Core\Mail\MailMessage
      */
-    public function sendIcsInvitation($template, $receiver, $receiverCc, $receiverBcc, $sender, $subject, $variables, $icsAttachment, $replyTo)
+    public function createEmail($conf)
     {
+        /** @var $email \TYPO3\CMS\Core\Mail\MailMessage */
+        $email = $this->objectManager->get('TYPO3\\CMS\\Core\\Mail\\MailMessage');
+        $email
+            ->setTo($conf['receiver'])
+            ->setCc($conf['receiverCc'])
+            ->setBcc($conf['receiverBcc'])
+            ->setFrom($conf['sender'])
+            ->setSubject($conf['subject']);
 
+        return $email;
+    }
+
+    /**
+     * getEmailBodyObject
+     *
+     * @param array $conf
+     * @return \TYPO3\CMS\Fluid\View\StandaloneView
+     */
+    public function getEmailBodyObject($conf)
+    {
         /** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
         $emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
-        $emailBodyObject->setTemplatePathAndFilename($this->getTemplatePath('Email/'.$template.'.html'));
+        $emailBodyObject->setTemplatePathAndFilename($this->getTemplatePath('Email/'.$conf('template').'.html'));
         $emailBodyObject->setLayoutRootPaths([
             'default' => ExtensionManagementUtility::extPath('dated_news').'Resources/Private/Layouts',
         ]);
         $emailBodyObject->setPartialRootPaths([
             'default' => ExtensionManagementUtility::extPath('dated_news').'Resources/Private/Partials',
         ]);
-        $emailBodyObject->assignMultiple($variables);
+        $emailBodyObject->assignMultiple($conf['variables']);
 
-        $email = $this->objectManager->get('TYPO3\\CMS\\Core\\Mail\\MailMessage');
-        $email
-            ->setTo($receiver)
-            ->setCc($receiverCc)
-            ->setBcc($receiverBcc)
-            ->setReplyTo($replyTo)
-            ->setFrom($sender)
-            ->setSubject($subject)
-            ->setBody($icsAttachment['content'], 'text/calendar');
+        return $emailBodyObject;
+    }
+
+
+    /**
+     * Generate and send ICS Invitation.
+     *
+     * @param $conf
+     * @return bool
+     *
+     * @internal param string $Template file in Templates/Email/
+     */
+    public function sendIcsInvitation($conf)
+    {
+
+        $email = $this->createEmail($conf);
+        $email->setReplyTo($conf['replyTo']);
+        $email->setBody($conf['attachment']['content'], 'text/calendar');
+
 
         $headers = $email->getHeaders();
         $headers->addTextHeader('Content-class', 'urn:content-classes:calendarmessage');
@@ -158,15 +152,6 @@ class Div
         $type->setValue('text/calendar; method=REQUEST');
         $type->setParameter('charset', 'UTF-8');
 
-        //might not be needed bc ICS invitation will be send
-        /*if(!empty($icsAttachment)){
-            $icsFile = \Swift_Attachment::newInstance()
-                ->setFilename($icsAttachment['name'] . ".ics")
-                ->setContentType('text/calendar;charset=UTF-8;name="' . $icsAttachment['name'] . '.ics"; method=REQUEST')
-                ->setBody($icsAttachment['content'])
-                ->setDisposition('attachment;filename=' . $icsAttachment['name'] . '.ics');
-            $email->attach($icsFile);
-        }*/
 
         $email->send();
 
@@ -175,13 +160,14 @@ class Div
 
     /**
      * Return path and filename for a file
-     * 		respect *RootPaths and *RootPath.
+     *        respect *RootPaths and *RootPath.
      *
-     *@todo Remove this function as soon as StandaloneView supports templaterootpaths ... , maybe TYPO3 6.3 ?
+     * @todo Remove this function as soon as StandaloneView supports templaterootpaths ... , maybe TYPO3 6.3 ?
      *
      * @param string $relativePathAndFilename e.g. Email/Name.html
      *
      * @return string
+     * @throws \TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException
      */
     public function getTemplatePath($relativePathAndFilename)
     {
@@ -236,8 +222,6 @@ class Div
         $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
         $piFlexformSettings = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows( 'pi_flexform', 'tt_content', 'uid = ' . $id);
         $ffs = GeneralUtility::makeInstance(FlexFormService::class);
-        $settings = $ffs->convertFlexFormContentToArray($piFlexformSettings[0]['pi_flexform']);
-
-        return $settings;
+        return $ffs->convertFlexFormContentToArray($piFlexformSettings[0]['pi_flexform']);
     }
 }

@@ -881,17 +881,18 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         // send email Customer
-        $customerMailTemplate = $confirmation === true ? 'MailConfirmationApplyer' : 'MailApplicationApplyer';
-        if (!$this->div->sendEmail(
-            $customerMailTemplate,
-            $applyer,
-            $recipientsCc,
-            $recipientsBcc,
-            $sender,
-            \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
-            ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
-            $filenames
-        )) {
+        $sendMailConf = [
+            'template' => ($confirmation === true) ? 'MailConfirmationApplyer' : 'MailApplicationApplyer',
+            'recipients' => $applyer,
+            'recipientsCc' => $recipientsCc,
+            'recipientsBcc' => $recipientsBcc,
+            'sender' => $sender,
+            'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
+            'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
+            'fileNames' => $filenames
+        ];
+
+        if ( !$this->div->sendEmail($sendMailConf) ) {
             $this->flashMessageService('applicationSendMessageApplyerError', 'applicationSendStatusApplyerErrorStatus', 'ERROR');
         } else {
             if ($confirmation === false) {
@@ -945,16 +946,18 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
 
             // send email to authors and Plugins mail addresses
-            if ($this->div->sendEmail(
-                'MailApplicationNotification',
-                $recipients,
-                $recipientsCc,
-                $recipientsBcc,
-                $sender,
-                \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
-                ['newApplication' => $newApplication, 'news' => $news, 'settings' => $this->settings],
-                []
-            )) {
+            $sendMailConf = [
+                'template' => 'MailApplicationNotification',
+                'recipients' => $recipients,
+                'recipientsCc' => $recipientsCc,
+                'recipientsBcc' => $recipientsBcc,
+                'sender' => $sender,
+                'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
+                'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $this->settings],
+                'fileNames' => []
+            ];
+
+            if ( $this->div->sendEmail($sendMailConf) ) {
                 $this->flashMessageService('applicationConfirmed', 'applicationConfirmedStatus', 'OK');
             } else {
                 $this->flashMessageService('applicationSendMessageGeneralError', 'applicationSendStatusGeneralErrorStatus', 'ERROR');
@@ -1003,17 +1006,19 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
                 ];
                 $senderMail = $this->settings['senderMail'];
-                if (!$this->div->sendIcsInvitation(
-                    'MailConfirmationApplyer',
-                    $applyer,
-                    $recipientsCc,
-                    $recipientsBcc,
-                    [$senderMail => $this->settings['senderName']],
-                    \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', ['subject' => $subject]),
-                    ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
-                    $icsAttachment,
-                    [substr_replace($this->settings['senderMail'], 'noreply', 0, strpos($this->settings['senderMail'], '@')) => $this->settings['senderName']]
-                )) {
+
+                $sendMailConf = [
+                    'template' => 'MailConfirmationApplyer',
+                    'recipients' => $applyer,
+                    'recipientsCc' => $recipientsCc,
+                    'recipientsBcc' => $recipientsBcc,
+                    'sender' => [$senderMail => $this->settings['senderName']],
+                    'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', ['subject' => $subject]),
+                    'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
+                    'attachment' => $icsAttachment,
+                    'replyTo' => [substr_replace($this->settings['senderMail'], 'noreply', 0, strpos($this->settings['senderMail'], '@')) => $this->settings['senderName']]
+                ];
+                if (!$this->div->sendIcsInvitation($sendMailConf)) {
                     $this->flashMessageService('applicationSendMessageApplyerError', 'applicationSendStatusApplyerErrorStatus', 'ERROR');
                 } else {
                     if ($confirmation === false) {
