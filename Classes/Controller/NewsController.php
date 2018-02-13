@@ -77,6 +77,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $this->pageRenderer = $pageRenderer;
     }
 
+
     /**
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
@@ -182,10 +183,41 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
 
+
+
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CALENDAR_ACTION, $assignedValues);
 
         $this->view->assignMultiple($assignedValues);
         Cache::addPageCacheTagsByDemandObject($demand);
+    }
+
+    /**
+     * getCalendarItemColors
+     *
+     * @return array
+     */
+    public function getCalendarItemColors($news)
+    {
+        $categories = $news->getCategories();
+        $color = trim($news->getBackgroundcolor());
+        $textColor = trim($news->getTextcolor());
+        if ($color === '') {
+            foreach ($categories as $category) {
+                $tempColor = trim($category->getBackgroundcolor());
+                $color = $tempColor === '' ? $color : $tempColor;
+            }
+        }
+        if ($textColor === '') {
+            foreach ($categories as $category) {
+                $tempColor = trim($category->getTextcolor());
+                $textColor = $tempColor === '' ? $textColor : $tempColor;
+            }
+        }
+
+        return [
+            'color' => $color,
+            'textColor' => $textColor
+        ];
     }
 
     /**
@@ -199,37 +231,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function createSingleEvent($news, $settings, $recurrence = null)
     {
+        $calendarDateformat = 'Y-m-d H:i:s';
         $start = $recurrence ? $recurrence->getEventstart() : $news->getEventstart();
         $end = $recurrence ?  $recurrence->getEventend() : $news->getEventend();
         $allDay = $news->getFulltime();
-
-        $color = trim($news->getBackgroundcolor());
-        $textcolor = trim($news->getTextcolor());
-        $categories = $news->getCategories();
-
         $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings,$news,$recurrence))).'\'';
 
         $diff = date_diff($end,$start);
         if($diff->d > 0 && $allDay === true) {
             $end->modify('+1 day');
-        }
-
-
-        if ($color === '') {
-            foreach ($categories as $category) {
-                $tempColor = trim($category->getBackgroundcolor());
-                if ($tempColor !== '') {
-                    $color = $tempColor;
-                }
-            }
-        }
-        if ($textcolor === '') {
-            foreach ($categories as $category) {
-                $tempColor = trim($category->getTextcolor());
-                if ($tempColor !== '') {
-                    $textcolor = $tempColor;
-                }
-            }
         }
 
         if (!$start instanceof \DateTime) {
@@ -247,21 +257,21 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
 
-
         $uri = $this->linkToNewsItem->getLink($news, $settings);
         $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
+        $colors = $this->getCalendarItemColors($news);
 
         return [
             "title" => $news->getTitle(),
             "id" => $uid,
-            "end" => $end->format('Y-m-d H:i:s'),
-            "start" => $start->format('Y-m-d H:i:s'),
+            "end" => $end->format($calendarDateformat),
+            "start" => $start->format($calendarDateformat),
             "url" => $uri,
             "allDay" => $allDay,
             "className" => 'Event_' . $uid,
             "qtip" => $qtip,
-            'color' => $color,
-            'textColor' => $textcolor
+            'color' => $colors['color'],
+            'textColor' => $colors['textColor']
         ];
     }
 
@@ -282,7 +292,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $tagsAndCats = array_merge($tags,$categories);
         $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
 
-        foreach ($tagsAndCats as $key => $value) {
+        foreach ($tagsAndCats as $value) {
             $tagTitle = $value->getTitle();
             if (array_key_exists($tagTitle, $tagArray)) {
                 if(!in_array($uid, $tagArray[$tagTitle])){
@@ -328,7 +338,59 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'tags' => []
         ];
 
-        $newsRecords = $newsRecords->toArray();
+        $result = $this->filterNewsForCalendar(
+            $newsRecords->toArray(),
+            $result,
+            $calendarstart, $calendarend,
+            $settings
+        );
+
+        return json_encode(
+            $this->addRecurrencesForCalendar(
+                $result, $calendarstart, $calendarend, $settings
+            )
+        );
+    }
+
+    /**
+     * addRecurrencesForCalendar
+     *
+     * @return array
+     */
+    public function addRecurrencesForCalendar($result, $calendarstart, $calendarend, $settings)
+    {
+        $recurrences = $this->newsRecurrenceRepository->getBetweenDates([$calendarstart, $calendarend]);
+        foreach ($recurrences as $key => $evt) {
+            $parents = $evt->getParentEvent()->toArray();
+            if( isset($parents[0]) ){
+                $parent = $parents[0];
+                if(
+                    $parent->getHidden()||
+                    !$parent->isShowincalendar()
+                ){
+                    unset($recurrences[$key]);
+                } else {
+                    $result['tags'] = $this->getTagList($result['tags'],$parent, $evt);
+                    array_push($result['events'], $this->createSingleEvent($parent, $settings, $evt));
+                }
+            } else {
+                unset($recurrences[$key]);
+            }
+
+        }
+        return $result;
+    }
+
+    /**
+     * filterNewsForCalendar
+     *
+     * newsRecords filter if not an event, has recurrences or showincalendar === False
+     *
+     * @param $newsRecords
+     * @return array
+     */
+    public function filterNewsForCalendar($newsRecords, $result, $calendarstart, $calendarend, $settings)
+    {
         foreach ($newsRecords as $key => $news) {
             //newsRecords filter if not an event, has recurrences or showincalendar === False
             if (
@@ -353,30 +415,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
 
-        $recurrences = $this->newsRecurrenceRepository->getBetweenDates([$calendarstart, $calendarend]);
-        foreach ($recurrences as $key => $evt) {
-            $parents = $evt->getParentEvent()->toArray();
-            if( isset($parents[0]) ){
-                $parent = $parents[0];
-                if(
-                    $parent->getHidden()||
-                    !$parent->isShowincalendar()
-                ){
-                    unset($recurrences[$key]);
-                } else {
-                    $result['tags'] = $this->getTagList($result['tags'],$parent, $evt);
-                    array_push($result['events'], $this->createSingleEvent($parent, $settings, $evt));
-                }
-            } else {
-                unset($recurrences[$key]);
-            }
-
-        }
-        
-        return json_encode($result);
-
+        return $result;
     }
-
 
     /**
      * @param $settings
@@ -464,30 +504,11 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
         if($news->getRecurrence() > 0) {
-            //todo add JS script to assignedvalues which switches the field where to choose how many places will be booked according to the choosen recurring event in application form
-            
 
             $recurrences = $news->getNewsRecurrence()->toArray();
             $recurrenceOptions = [];
-            $sumFreeSlots = 0;
             foreach ($recurrences as $recurrence) {
-                // resrervable slot options for each recurrence
-                $applicationsCount = $this->applicationRepository->countReservedSlotsForNewsRecurrence($recurrence->getUid());
-                $freeSlots = (int) $recurrence->getSlots() - $applicationsCount;
-                $recurrence->setSlotsFree($freeSlots);
-                $sumFreeSlots = $sumFreeSlots + $freeSlots;
-                $slotoptions = [];
-                $i = 1;
-                while ($i <= $recurrence->getSlotsFree()) {
-                    $slotoption = new \stdClass();
-                    $slotoption->key = $i;
-                    $slotoption->value = $i;
-                    $slotoptions[] = $slotoption;
-                    $i++;
-                }
-                $recurrence->setSlotoptions($slotoptions);
-
-                //options for reserable recurrences
+                //options for reservable recurrences
                 if($recurrence->getSlotsFree() > 0) {
                     $recurrenceOption = new \stdClass();
                     $recurrenceOption->key = $recurrence->getUid();
@@ -495,19 +516,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     $recurrenceOptions[] = $recurrenceOption;
                 }
             }
-            $news->setSlotsFree($sumFreeSlots);
         } else {
-            $applicationsCount = $this->applicationRepository->countReservedSlotsForNews($news->getUid());
-            $news->setSlotsFree((int) $news->getSlots() - $applicationsCount);
-            $slotoptions = [];
-            $i = 1;
-            while ($i <= $news->getSlotsFree()) {
-                $slotoption = new \stdClass();
-                $slotoption->key = $i;
-                $slotoption->value = $i;
-                $slotoptions[] = $slotoption;
-                $i++;
-            }
+            $slotoptions = $news->getSlotoptions();
         }
 
         $assignedValues = [
@@ -533,6 +543,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             Cache::addCacheTagsByNewsRecords([$news]);
         }
     }
+
+
 
     /**
      * action createApplication.
@@ -749,7 +761,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     $func = 'get'.ucfirst(trim($field));
                     if (method_exists($item, $func) === true) {
                         if ($field === 'slotsFree') {
-                            $resultArray[$uid][$field] = ((int) $item->getSlots() - $this->applicationRepository->countReservedSlotsForNews($item->getUid()));
+                            $resultArray[$uid][$field] = $item->getSlotsFree();
                         } else {
                             $resultArray[$uid][$field] = htmlentities($item->{$func}());
                         }
@@ -979,7 +991,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 ];
 
                 //add description
-                $description = $this->getIcsDescription($news, $event, $settings);
+                $description = $this->getIcsDescription($news, $settings, $event );
                 if ($description !== false) {
                     $properties['description'] = $description;
                 }
@@ -1201,57 +1213,80 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      *
      * @return bool|string
      */
-    public function getIcsDescription(\GeorgRinger\News\Domain\Model\News $news, $event = null, $settings)
+    public function getIcsDescription(\GeorgRinger\News\Domain\Model\News $news, $settings,  $event = null)
     {
         switch ($settings['icsDescriptionField']) {
             case 'Teaser':
-                if($news->getRecurrence() > 0 && !is_null($event)) {
-                    $teaser = $event->getTeaser();
-                } else {
-                    $teaser = $news->getTeaser();
-                }
-                if ($teaser == strip_tags($teaser)) {
-                    return $teaser;
-                } else {
-                    return false;
-                }
+                $result = $this->getEventTeaser($news, $event);
                 break;
             case 'Description':
-                if ($news->getDescription() == strip_tags($news->getDescription())) {
-                    return $news->getDescription();
-                } else {
-                    return false;
+                $description = $news->getDescription();
+                if (($description == strip_tags($description))) {
+                    $result = $description;
                 }
                 break;
             case 'Url':
                 $uri = $this->linkToNewsItem->getLink($news, $settings);
-
-                return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', ['url' => $uri]);
+                $result = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', ['url' => $uri]);
                 break;
             case 'Custom':
-                if (trim($settings['icsDescriptionCustomField']) === '') {
-                    return false;
-                } else {
-                    if($news->getRecurrence() > 0 && !is_null($event)) {
-                        $object = $event;
-                    } else {
-                        $object = $news;
-                    }
-                    $func = 'get'.ucfirst(trim($settings['icsDescriptionCustomField']));
-                    if (method_exists($object, $func) === true) {
-                        $description = $object->{$func}();
-                        if (trim($description) != '' && $description != strip_tags($description)) {
-                            return false;
-                        } else {
-                            return $description;
-                        }
-                    } else {
-                        return false;
-                    }
-                }
+                $result = $this->getCustomIcsDescription($news, $settings, $event);
                 break;
             default:
-                return false;
+                $result = false;
         }
+        
+        return $result;
     }
+
+    /**
+     * getCustomIcsDescription
+     *
+     * @param \GeorgRinger\News\Domain\Model\News $news
+     * @param $settings
+     * @param $event
+     * @return string | bool
+     */
+    public function getCustomIcsDescription(\GeorgRinger\News\Domain\Model\News $news, $settings, $event = null)
+    {
+        $result = false;
+        if (trim($settings['icsDescriptionCustomField']) !== '') {
+            if($news->getRecurrence() > 0 && !is_null($event)) {
+                $object = $event;
+            } else {
+                $object = $news;
+            }
+            $func = 'get'.ucfirst(trim($settings['icsDescriptionCustomField']));
+            if (method_exists($object, $func) === true) {
+                $description = $object->{$func}();
+                if (trim($description) === '' || $description === strip_tags($description)) {
+                    $result = $description;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * getEventTeaser
+     *
+     * @param \GeorgRinger\News\Domain\Model\News $news
+     * @param $event
+     * @return string | bool
+     */
+    public function getEventTeaser(\GeorgRinger\News\Domain\Model\News $news, $event = null)
+    {
+        if($news->getRecurrence() > 0 && !is_null($event)) {
+            $teaser = $event->getTeaser();
+        } else {
+            $teaser = $news->getTeaser();
+        }
+        return $teaser == strip_tags($teaser) ? $teaser : false;
+    }
+    
+    
+    
+    
+    
 }
