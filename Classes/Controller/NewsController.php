@@ -682,6 +682,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     public function confirmApplicationAction(\FalkRoeder\DatedNews\Domain\Model\Application $newApplication)
     {
         $assignedValues = [];
+        $event = null;
+
         if (is_null($newApplication)) {
             $this->flashMessageService('applicationNotFound', 'applicationNotFoundStatus', 'ERROR');
         } else {
@@ -728,15 +730,17 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     'newApplication' => $newApplication,
                     'newsItem'       => $news,
                 ];
-                if($news->getRecurrence() > 0 && !is_null($event)) {
-                    $assignedValues['recurrence'] = $event;
-                }
+
             }
 
 
         }
         if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
             GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('cache_pages')->flushByTag('tx_news_uid_'.$news->getUid());
+        }
+
+        if($news->getRecurrence() > 0 && !is_null($event)) {
+            $assignedValues['recurrence'] = $event;
         }
 
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CONFIRMAPPLICATION_ACTION, $assignedValues);
@@ -792,52 +796,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     public function sendMail(\FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $settings, \GeorgRinger\News\Domain\Model\News $news = null, $confirmation = false)
     {
 
-        // from
-        $sender = [];
-        if (!empty($this->settings['senderMail'])) {
-            $sender = ([$this->settings['senderMail'] => $this->settings['senderName']]);
-        }
-
-        //validate Mailadress of applyer
-        $applyerMail = $newApplication->getEmail();
-
-        $applyer = [];
-        if (is_string($applyerMail) && GeneralUtility::validEmail($applyerMail)) {
-            $applyer = [
-                $newApplication->getEmail() => $newApplication->getName().', '.$newApplication->getSurname(),
-            ];
-        } else {
-            $this->flashMessageService('applicationSendMessageNoApplyerEmail', 'applicationSendMessageNoApplyerEmailStatus', 'ERROR');
-            $this->forward('eventDetail', null, null, ['news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication]);
-        }
-
-        //get filenames of flexform files to send to applyer
-        if ($confirmation === false) {
-            $cObj = $this->configurationManager->getContentObject();
-            $uid = $cObj->data['uid'];
-            $fileRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
-            $fileObjects = $fileRepository->findByRelation('tt_content', 'tx_datednews', $uid);
-            $filenames = [];
-            if (is_array($fileObjects)) {
-                foreach ($fileObjects as $file) {
-                    $filenames[] = $file->getOriginalFile()->getIdentifier();
-                }
-            }
-
-            //FAL files does not work with gridelements, so add possibility to add file paths to TS. see https://forge.typo3.org/issues/71436
-            $filesFormTS = explode(',', $this->settings['dated_news']['filesForMailToApplyer']);
-            foreach ($filesFormTS as $fileName) {
-                $filenames[] = trim($fileName);
-            }
-        } else {
-            $filenames = [];
-        }
-
-        $recipientsCc = [];
-        $recipientsBcc = [];
-
-        $subjectFields = explode(',', $this->settings['dated_news']['emailSubjectFields']);
-
+        //generell event infos
         if($news->getRecurrence() > 0) {
             $events = $newApplication->getRecurringevents();
             $events->rewind();
@@ -851,6 +810,231 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $newsLocation = $news->getLocations();
         }
 
+
+        // from
+        $sender = [];
+        if (!empty($this->settings['senderMail'])) {
+            $sender = ([$this->settings['senderMail'] => $this->settings['senderName']]);
+        }
+
+        //validate Mailadress of applyer
+        $applyerMail = $newApplication->getEmail();
+        $applyer = [];
+        if (is_string($applyerMail) && GeneralUtility::validEmail($applyerMail)) {
+            $applyer = [
+                $newApplication->getEmail() => $newApplication->getName().', '.$newApplication->getSurname(),
+            ];
+        } else {
+            $this->flashMessageService('applicationSendMessageNoApplyerEmail', 'applicationSendMessageNoApplyerEmailStatus', 'ERROR');
+            $this->forward('eventDetail', null, null, ['news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication]);
+        }
+
+        //get filenames of flexform/TS files to send to applyer
+        $filenames = [];
+        if ($confirmation === false) {
+            $this->getFileNamesToSend();
+        }
+
+        $subject = $this->getEmailSubject($news, $eventstart, $newsLocation);
+
+        // send email Customer
+        $sendMailConf = [
+            'template' => ($confirmation === true) ? 'MailConfirmationApplyer' : 'MailApplicationApplyer',
+            'recipients' => $applyer,
+            'recipientsCc' => [],
+            'recipientsBcc' => [],
+            'sender' => $sender,
+            'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
+            'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
+            'fileNames' => $filenames
+        ];
+
+        if ( !$this->div->sendEmail($sendMailConf) ) {
+            $this->flashMessageService('applicationSendMessageApplyerError', 'applicationSendStatusApplyerErrorStatus', 'ERROR');
+        } else {
+            if ($confirmation === false) {
+                $this->flashMessageService('applicationSendMessage', 'applicationSendStatus', 'OK');
+            }
+        }
+
+        //Send to admins etc only when booking / application confirmed
+        if ($confirmation === true) {
+
+            $recipients = $this->getEmailRecipients($news);
+
+            if (!count($recipients)) {
+                $this->flashMessageService('applicationSendMessageNoRecipients', 'applicationSendMessageNoRecipientsStatus', 'ERROR');
+                $this->forward('eventDetail', null, null, ['news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication]);
+            }
+
+            // send email to authors and Plugins mail addresses
+            $sendMailConf = [
+                'template' => 'MailApplicationNotification',
+                'recipients' => $recipients,
+                'recipientsCc' => [],
+                'recipientsBcc' => [],
+                'sender' => $sender,
+                'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
+                'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $this->settings],
+                'fileNames' => []
+            ];
+
+            if ( $this->div->sendEmail($sendMailConf) ) {
+                $this->flashMessageService('applicationConfirmed', 'applicationConfirmedStatus', 'OK');
+            } else {
+                $this->flashMessageService('applicationSendMessageGeneralError', 'applicationSendStatusGeneralErrorStatus', 'ERROR');
+            }
+
+        }
+
+
+        if ( $confirmation === true && $this->settings['ics'] ) {
+            //create ICS File and send invitation
+            $newsTitle = $news->getTitle();
+            $icsLocation = '';
+            $i = 0;
+            if (isset($newsLocation) && count($newsLocation) < 2) {
+                foreach ($newsLocation as $location) {
+                    $icsLocation .= $location->getName().', '.$location->getAddress().', '.$location->getZip().' '.$location->getCity().', '.$location->getCountry();
+                }
+            } else {
+                foreach ($newsLocation as $location) {
+                    $i++;
+                    if ($i === 1) {
+                        $icsLocation .= $location->getName();
+                    } else {
+                        $icsLocation .= ', '.$location->getName();
+                    }
+                }
+            }
+
+            $properties = [
+                'dtstart'   => $eventstart->getTimestamp(),
+                'dtend'     => $eventend->getTimestamp(),
+                'location'  => $icsLocation,
+                'summary'   => $newsTitle,
+                'organizer' => $this->settings['senderMail'],
+                'attendee'  => $applyerMail,
+
+            ];
+
+            //add description
+            $description = $this->getIcsDescription($news, $settings, $event );
+            if ($description !== false) {
+                $properties['description'] = $description;
+            }
+
+            $ics = new \FalkRoeder\DatedNews\Services\ICS($properties);
+            $icsAttachment = [
+                'content' => $ics->to_string(),
+                'name'    => str_replace(' ', '_', $newsTitle),
+
+            ];
+
+            $sendMailConf = [
+                'template' => 'MailConfirmationApplyer',
+                'recipients' => $applyer,
+                'recipientsCc' => $recipientsCc,
+                'recipientsBcc' => $recipientsBcc,
+                'sender' => [$this->settings['senderMail'] => $this->settings['senderName']],
+                'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', ['subject' => $subject]),
+                'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
+                'attachment' => $icsAttachment,
+                'replyTo' => [substr_replace($this->settings['senderMail'], 'noreply', 0, strpos($this->settings['senderMail'], '@')) => $this->settings['senderName']]
+            ];
+            if (!$this->div->sendIcsInvitation($sendMailConf)) {
+                $this->flashMessageService('applicationSendMessageApplyerError', 'applicationSendStatusApplyerErrorStatus', 'ERROR');
+            } else {
+                if ($confirmation === false) {
+                    $this->flashMessageService('applicationSendMessage', 'applicationSendStatus', 'OK');
+                }
+            }
+        }
+
+    }
+
+    /**
+     * getEmailRecipients
+     *
+     * @param $news
+     * @return array
+     */
+    public function getEmailRecipients($news)
+    {
+        /** @var $to array Array to collect all the receipients */
+        $to = [];
+
+        //news Author
+        if ($this->settings['notificateAuthor']) {
+            $authorEmail = $news->getAuthorEmail();
+            if (!empty($authorEmail)) {
+                $to[] = [
+                    'email' => $authorEmail,
+                    'name'  => $news->getAuthor(),
+                ];
+            }
+        }
+
+        //Plugins notification mail addresses
+        if (!empty($this->settings['notificationMail'])) {
+            $tsmails = explode(',', $this->settings['notificationMail']);
+            foreach ($tsmails as $tsmail) {
+                $to[] = [
+                    'email' => trim($tsmail),
+                    'name'  => '',
+                ];
+            }
+        }
+
+        $recipients = [];
+        if (is_array($to)) {
+            foreach ($to as $pair) {
+                if (GeneralUtility::validEmail($pair['email'])) {
+                    if (trim($pair['name'])) {
+                        $recipients[$pair['email']] = $pair['name'];
+                    } else {
+                        $recipients[] = $pair['email'];
+                    }
+                }
+            }
+        }
+        return $recipients;
+    }
+
+    /**
+     * getFileNamesToSend
+     *
+     * @return array
+     */
+    public function getFileNamesToSend()
+    {
+        $cObj = $this->configurationManager->getContentObject();
+        $uid = $cObj->data['uid'];
+        $fileRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
+        $fileObjects = $fileRepository->findByRelation('tt_content', 'tx_datednews', $uid);
+        $filenames = [];
+        if (is_array($fileObjects)) {
+            foreach ($fileObjects as $file) {
+                $filenames[] = $file->getOriginalFile()->getIdentifier();
+            }
+        }
+
+        //FAL files does not work with gridelements, so add possibility to add file paths to TS. see https://forge.typo3.org/issues/71436
+        $filesFormTS = explode(',', $this->settings['dated_news']['filesForMailToApplyer']);
+        foreach ($filesFormTS as $fileName) {
+            $filenames[] = trim($fileName);
+        }
+        return $filenames;
+    }
+
+    /**
+     * getEmailSubject
+     *
+     * @return string
+     */
+    public function getEmailSubject($news, $eventstart, $newsLocation)
+    {
+        $subjectFields = explode(',', $this->settings['dated_news']['emailSubjectFields']);
         $subject = '';
         $fieldIterator = 0;
         foreach ($subjectFields as $field) {
@@ -876,154 +1060,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     }
                     break;
                 default:
-            }
-        }
-
-        // send email Customer
-        $sendMailConf = [
-            'template' => ($confirmation === true) ? 'MailConfirmationApplyer' : 'MailApplicationApplyer',
-            'recipients' => $applyer,
-            'recipientsCc' => $recipientsCc,
-            'recipientsBcc' => $recipientsBcc,
-            'sender' => $sender,
-            'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
-            'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
-            'fileNames' => $filenames
-        ];
-
-        if ( !$this->div->sendEmail($sendMailConf) ) {
-            $this->flashMessageService('applicationSendMessageApplyerError', 'applicationSendStatusApplyerErrorStatus', 'ERROR');
-        } else {
-            if ($confirmation === false) {
-                $this->flashMessageService('applicationSendMessage', 'applicationSendStatus', 'OK');
-            }
-        }
-
-        //Send to admins etc only when booking / application confirmed
-        if ($confirmation === true) {
-            /** @var $to array Array to collect all the receipients */
-            $to = [];
-
-            //news Author
-            if ($this->settings['notificateAuthor']) {
-                $authorEmail = $news->getAuthorEmail();
-                if (!empty($authorEmail)) {
-                    $to[] = [
-                        'email' => $authorEmail,
-                        'name'  => $news->getAuthor(),
-                    ];
-                }
-            }
-
-            //Plugins notification mail addresses
-            if (!empty($this->settings['notificationMail'])) {
-                $tsmails = explode(',', $this->settings['notificationMail']);
-                foreach ($tsmails as $tsmail) {
-                    $to[] = [
-                        'email' => trim($tsmail),
-                        'name'  => '',
-                    ];
-                }
-            }
-
-            $recipients = [];
-            if (is_array($to)) {
-                foreach ($to as $pair) {
-                    if (GeneralUtility::validEmail($pair['email'])) {
-                        if (trim($pair['name'])) {
-                            $recipients[$pair['email']] = $pair['name'];
-                        } else {
-                            $recipients[] = $pair['email'];
-                        }
-                    }
-                }
-            }
-
-            if (!count($recipients)) {
-                $this->flashMessageService('applicationSendMessageNoRecipients', 'applicationSendMessageNoRecipientsStatus', 'ERROR');
-                $this->forward('eventDetail', null, null, ['news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication]);
-            }
-
-            // send email to authors and Plugins mail addresses
-            $sendMailConf = [
-                'template' => 'MailApplicationNotification',
-                'recipients' => $recipients,
-                'recipientsCc' => $recipientsCc,
-                'recipientsBcc' => $recipientsBcc,
-                'sender' => $sender,
-                'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
-                'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $this->settings],
-                'fileNames' => []
-            ];
-
-            if ( $this->div->sendEmail($sendMailConf) ) {
-                $this->flashMessageService('applicationConfirmed', 'applicationConfirmedStatus', 'OK');
-            } else {
-                $this->flashMessageService('applicationSendMessageGeneralError', 'applicationSendStatusGeneralErrorStatus', 'ERROR');
-            }
-
-            if ($this->settings['ics']) {
-                //create ICS File and send invitation
-                $newsTitle = $news->getTitle();
-                $icsLocation = '';
-                $i = 0;
-                if (isset($newsLocation) && count($newsLocation) < 2) {
-                    foreach ($newsLocation as $location) {
-                        $icsLocation .= $location->getName().', '.$location->getAddress().', '.$location->getZip().' '.$location->getCity().', '.$location->getCountry();
-                    }
-                } else {
-                    foreach ($newsLocation as $location) {
-                        $i++;
-                        if ($i === 1) {
-                            $icsLocation .= $location->getName();
-                        } else {
-                            $icsLocation .= ', '.$location->getName();
-                        }
-                    }
-                }
-
-                $properties = [
-                    'dtstart'   => $eventstart->getTimestamp(),
-                    'dtend'     => $eventend->getTimestamp(),
-                    'location'  => $icsLocation,
-                    'summary'   => $newsTitle,
-                    'organizer' => $this->settings['senderMail'],
-                    'attendee'  => $applyerMail,
-
-                ];
-
-                //add description
-                $description = $this->getIcsDescription($news, $settings, $event );
-                if ($description !== false) {
-                    $properties['description'] = $description;
-                }
-
-                $ics = new \FalkRoeder\DatedNews\Services\ICS($properties);
-                $icsAttachment = [
-                    'content' => $ics->to_string(),
-                    'name'    => str_replace(' ', '_', $newsTitle),
-
-                ];
-                $senderMail = $this->settings['senderMail'];
-
-                $sendMailConf = [
-                    'template' => 'MailConfirmationApplyer',
-                    'recipients' => $applyer,
-                    'recipientsCc' => $recipientsCc,
-                    'recipientsBcc' => $recipientsBcc,
-                    'sender' => [$senderMail => $this->settings['senderName']],
-                    'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', ['subject' => $subject]),
-                    'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
-                    'attachment' => $icsAttachment,
-                    'replyTo' => [substr_replace($this->settings['senderMail'], 'noreply', 0, strpos($this->settings['senderMail'], '@')) => $this->settings['senderName']]
-                ];
-                if (!$this->div->sendIcsInvitation($sendMailConf)) {
-                    $this->flashMessageService('applicationSendMessageApplyerError', 'applicationSendStatusApplyerErrorStatus', 'ERROR');
-                } else {
-                    if ($confirmation === false) {
-                        $this->flashMessageService('applicationSendMessage', 'applicationSendStatus', 'OK');
-                    }
-                }
             }
         }
     }
