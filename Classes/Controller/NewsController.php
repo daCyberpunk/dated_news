@@ -472,31 +472,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     public function eventDetailAction(\GeorgRinger\News\Domain\Model\News $news = null, $currentPage = 1, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
     {
 
-        if (is_null($news)) {
-            $previewNewsId = ((int) $this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
-            if ($this->request->hasArgument('news_preview')) {
-                $previewNewsId = (int) $this->request->getArgument('news_preview');
-            }
-
-            if ($previewNewsId > 0) {
-                if ($this->isPreviewOfHiddenRecordsEnabled()) {
-                    $GLOBALS['TSFE']->showHiddenRecords = true;
-                    $news = $this->newsRepository->findByUid($previewNewsId, false);
-                } else {
-                    $news = $this->newsRepository->findByUid($previewNewsId);
-                }
-            }
-        }
-
-        if (is_a($news,
-                'GeorgRinger\\News\\Domain\\Model\\News') && $this->settings['detail']['checkPidOfNewsRecord']
-        ) {
-            $news = $this->checkPidOfNewsRecord($news);
-        }
-
-        if (is_null($news) && isset($this->settings['detail']['errorHandling'])) {
-            $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
-        }
+        $news = $this->getNewsOrPreviewNews($news);
 
         $demand = $this->createDemandObjectFromSettings($this->settings);
         $demand->setActionAndClass(__METHOD__, __CLASS__);
@@ -544,23 +520,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
     }
 
-
-
     /**
-     * action createApplication.
+     * getNewsOrPreviewNews
      *
-     * @param \GeorgRinger\News\Domain\Model\News $news news item
-     * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
-     *
-     * @return void
+     * @param \GeorgRinger\News\Domain\Model\News $news
+     * @return \GeorgRinger\News\Domain\Model\News
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    public function createApplicationAction(\GeorgRinger\News\Domain\Model\News $news = null, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
+    protected function getNewsOrPreviewNews(\GeorgRinger\News\Domain\Model\News $news = null)
     {
-        
         if (is_null($news)) {
             $previewNewsId = ((int) $this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
             if ($this->request->hasArgument('news_preview')) {
@@ -586,6 +554,26 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         if (is_null($news) && isset($this->settings['detail']['errorHandling'])) {
             $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
         }
+
+        return $news;
+    }
+
+    /**
+     * action createApplication.
+     *
+     * @param \GeorgRinger\News\Domain\Model\News $news news item
+     * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
+     *
+     * @return void
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     */
+    public function createApplicationAction(\GeorgRinger\News\Domain\Model\News $news = null, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
+    {
+        
+        $news = $this->getNewsOrPreviewNews($news);
 
 
 
@@ -701,7 +689,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             } elseif ($this->settings['dated_news']['validDaysConfirmationLink'] * 24 < $hoursSinceBookingRequestSent) {
                 //confirmation link not valid anymore
                 $this->flashMessageService('applicationConfirmationLinkUnvalid', 'applicationConfirmationLinkUnvalidStatus', 'ERROR');
-            } else {
+            }
+
+
+            if (
+                $newApplication->isConfirmed() !== true &&
+                !($this->settings['dated_news']['validDaysConfirmationLink'] * 24 < $hoursSinceBookingRequestSent)
+            ) {
                 //confirm
                 $newApplication->setConfirmed(true);
                 $newApplication->setHidden(false);
@@ -732,6 +726,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     $assignedValues['recurrence'] = $event;
                 }
             }
+
+
         }
         if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
             GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('cache_pages')->flushByTag('tx_news_uid_'.$news->getUid());
@@ -869,14 +865,11 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                         $subject .= \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject_locationname', 'dated_news');
                         foreach ($newsLocation as $location) {
                             $locationIterator++;
-                            if ($locationIterator === 1) {
-                                $subject .= $location->getName();
-                            } else {
-                                $subject .= ', '.$location->getName();
-                            }
+                            $subject = $locationIterator === 1 ? $subject . $location->getName() : $subject . ', ' . $location->getName();
                         }
                     }
                     break;
+                default:
             }
         }
 
@@ -1127,6 +1120,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             case 'ERROR':
                 $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
                 break;
+            default:
+                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO;
         }
 
         $this->addFlashMessage(
@@ -1282,12 +1277,16 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function getEventTeaser(\GeorgRinger\News\Domain\Model\News $news, $event = null)
     {
+        $result = false;
         if($news->getRecurrence() > 0 && !is_null($event)) {
             $teaser = $event->getTeaser();
         } else {
             $teaser = $news->getTeaser();
         }
-        return $teaser == strip_tags($teaser) ? $teaser : false;
+        if ($teaser == strip_tags($teaser)) {
+            $result = $teaser;
+        }
+        return $result;
     }
     
     
