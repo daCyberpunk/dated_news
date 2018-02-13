@@ -103,7 +103,7 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      *
      * @return int
      */
-    public function countApplicationsForNewsRecurrence($newsId,$ignoreEnables = false )
+    public function countApplicationsForNewsRecurrence($newsId, $ignoreEnables = false)
     {
         return count($this->getApplicationsForNewsRecurrence($newsId, $ignoreEnables));
     }
@@ -139,8 +139,8 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function getApplicationsForNewsRecurrence($newsId, $ignoreEnables = false)
     {
         $query = $this->createQuery();
-        if($ignoreEnables === true){
-            $query->getQuerySettings()->setIgnoreEnableFields(true);            
+        if ($ignoreEnables === true) {
+            $query->getQuerySettings()->setIgnoreEnableFields(true);
         }
         
         $applications = $query->execute();

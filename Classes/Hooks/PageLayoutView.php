@@ -85,7 +85,6 @@ class PageLayoutView
 
 
         }
-
     }
 
     /**
@@ -113,14 +112,9 @@ class PageLayoutView
      */
     public function addViewName($actionName)
     {
-
-            $this->pageLayout->tableData[] = [
+        $this->pageLayout->tableData[] = [
                 '<div class="alert alert-info" style="color:black; display: inherit;">' . $this->pageLayout->getLanguageService()->sL(self::LLPATH . 'tx_dated_news.mode.' . $actionName) . '</div>',
                 ''
             ];
-
     }
-
-
-
 }

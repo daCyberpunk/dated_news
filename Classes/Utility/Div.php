@@ -68,7 +68,6 @@ class Div
      */
     public function sendEmail($conf)
     {
-
         $emailBodyObject = $this->getEmailBodyObject($conf);
         $email = $this->createEmail($conf);
         $email->setCharset($GLOBALS['TSFE']->metaCharset);
@@ -140,7 +139,6 @@ class Div
      */
     public function sendIcsInvitation($conf)
     {
-
         $email = $this->createEmail($conf);
         $email->setReplyTo($conf['replyTo']);
         $email->setBody($conf['attachment']['content'], 'text/calendar');
@@ -217,10 +215,10 @@ class Div
      *
      * @return array
      */
-    public function getPluginConfiguration($id){
-
+    public function getPluginConfiguration($id)
+    {
         $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
-        $piFlexformSettings = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows( 'pi_flexform', 'tt_content', 'uid = ' . $id);
+        $piFlexformSettings = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('pi_flexform', 'tt_content', 'uid = ' . $id);
         $ffs = GeneralUtility::makeInstance(FlexFormService::class);
         return $ffs->convertFlexFormContentToArray($piFlexformSettings[0]['pi_flexform']);
     }

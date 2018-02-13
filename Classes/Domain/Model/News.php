@@ -710,8 +710,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
      */
     public function getSlotsFree()
     {
-
-        if($this->getRecurrence() > 0) {
+        if ($this->getRecurrence() > 0) {
             $recurrences = $this->getNewsRecurrence()->toArray();
             $sumFreeSlots = 0;
             foreach ($recurrences as $recurrence) {
@@ -733,7 +732,6 @@ class News extends \GeorgRinger\News\Domain\Model\News
     public function getReservedSlotsCount()
     {
         return count($this->getApplication()->toArray());
-
     }
 
     /**
@@ -1297,6 +1295,4 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         $this->pid = $pid;
     }
-
-
 }

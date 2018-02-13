@@ -21,7 +21,6 @@ namespace FalkRoeder\DatedNews\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 /**
  * ViewHelper to render links from news records to detail view or page.
  *
@@ -87,8 +86,11 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
     ) {
         if (!isset($configuration['parameter'])) {
             $detailPid = 0;
-            $detailPidDeterminationMethods = GeneralUtility::trimExplode(',', $tsSettings['detailPidDetermination'],
-                true);
+            $detailPidDeterminationMethods = GeneralUtility::trimExplode(
+                ',',
+                $tsSettings['detailPidDetermination'],
+                true
+            );
 
             // if TS is not set, prefer flexform setting
             if (!isset($tsSettings['detailPidDetermination'])) {
@@ -96,7 +98,6 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
             }
 
             foreach ($detailPidDeterminationMethods as $determinationMethod) {
-
                 if ($callback = $this->detailPidDeterminationCallbacks[$determinationMethod]) {
                     if ($detailPid = call_user_func([$this, $callback], $tsSettings, $newsItem)) {
                         break;

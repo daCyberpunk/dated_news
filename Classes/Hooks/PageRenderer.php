@@ -45,17 +45,16 @@ class PageRenderer implements SingletonInterface
      */
     public function addBackendJS($parameters, &$pageRenderer)
     {
-
         if (get_class($GLOBALS['SOBE']) === 'TYPO3\CMS\Backend\Controller\EditDocumentController' && array_keys($GLOBALS['SOBE']->editconf)[0] === 'tx_news_domain_model_news') {
             $lang = $GLOBALS['LANG'];
             $languageLabels = array(
-                'datedNews.modalHeader' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.header',1),
-                'datedNews.overwrite.all' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.all',1),
-                'datedNews.overwrite.noneModified' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.noneModified',1),
-                'datedNews.overwrite.allFieldsAll' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.allFieldsAll',1),
-                'datedNews.overwrite.allFieldsNoneModified' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.allFieldsNoneModified',1),
-                'datedNews.overwrite.changedFieldsAll' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.changedFieldsAll',1),
-                'datedNews.overwrite.changedFieldsNoneModified' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.changedFieldsNoneModified',1),
+                'datedNews.modalHeader' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.header', 1),
+                'datedNews.overwrite.all' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.all', 1),
+                'datedNews.overwrite.noneModified' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.noneModified', 1),
+                'datedNews.overwrite.allFieldsAll' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.allFieldsAll', 1),
+                'datedNews.overwrite.allFieldsNoneModified' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.allFieldsNoneModified', 1),
+                'datedNews.overwrite.changedFieldsAll' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.changedFieldsAll', 1),
+                'datedNews.overwrite.changedFieldsNoneModified' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.changedFieldsNoneModified', 1),
 
             );
             $pageRenderer->addInlineLanguageLabelArray($languageLabels);
@@ -63,6 +62,5 @@ class PageRenderer implements SingletonInterface
             $pageRenderer->loadRequireJsModule('TYPO3/CMS/DatedNews/Backend/RecurrenceOptions');
             return;
         }
-
     }
 }

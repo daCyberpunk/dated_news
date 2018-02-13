@@ -20,6 +20,7 @@ namespace FalkRoeder\DatedNews\Services;
  ***/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Link.
  */
@@ -69,7 +70,6 @@ class LinkToNewsItem
     protected function getDetailPidFromDefaultDetailPid($settings)
     {
         return (int) $settings['defaultDetailPid'];
-
     }
 
     /**
@@ -93,8 +93,10 @@ class LinkToNewsItem
         $uid = $newsItem->getUid();
         // If a user is logged in and not in live workspace
         if ($GLOBALS['BE_USER'] && $GLOBALS['BE_USER']->workspace > 0) {
-            $record = \TYPO3\CMS\Backend\Utility\BackendUtility::getLiveVersionOfRecord('tx_news_domain_model_news',
-                $newsItem->getUid());
+            $record = \TYPO3\CMS\Backend\Utility\BackendUtility::getLiveVersionOfRecord(
+                'tx_news_domain_model_news',
+                $newsItem->getUid()
+            );
             if ($record['uid']) {
                 $uid = $record['uid'];
             }
@@ -117,13 +119,13 @@ class LinkToNewsItem
         $tsSettings,
         array $configuration = []
     ) {
-
-
-
         if (!isset($configuration['parameter'])) {
             $detailPid = 0;
-            $detailPidDeterminationMethods = GeneralUtility::trimExplode(',', $tsSettings['detailPidDetermination'],
-                true);
+            $detailPidDeterminationMethods = GeneralUtility::trimExplode(
+                ',',
+                $tsSettings['detailPidDetermination'],
+                true
+            );
 
             // if TS is not set, prefer flexform setting
             if (!isset($tsSettings['detailPidDetermination'])) {
@@ -175,5 +177,3 @@ class LinkToNewsItem
         return $url;
     }
 }
-
-

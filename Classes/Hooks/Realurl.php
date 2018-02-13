@@ -99,11 +99,10 @@ class Realurl
     protected function getApplicationMd5($uid)
     {
         $db = $this->getDatabaseConnection();
-        if(isset($db['host'])){
+        if (isset($db['host'])) {
             $mysqli = new \mysqli($db['host'], $db['username'], $db['password'], $db['database']);
         } else {
             $mysqli = new \mysqli($db['Connections']['Default']['host'], $db['Connections']['Default']['user'], $db['Connections']['Default']['password'], $db['Connections']['Default']['dbname']);
-
         }
         $sql = 'SELECT title FROM tx_datednews_domain_model_application WHERE uid='.$uid;
         $result = $mysqli->query($sql) or die('db-query failed '. 1487571690984);

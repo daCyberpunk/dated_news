@@ -50,7 +50,15 @@ $newSysCategoryColumns = [
 ];
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('sys_category', $newSysCategoryColumns);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('sys_category', 'textcolor', '',
-    'after:shortcut');
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('sys_category', 'backgroundcolor', '',
-    'after:textcolor');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+    'sys_category',
+    'textcolor',
+    '',
+    'after:shortcut'
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+    'sys_category',
+    'backgroundcolor',
+    '',
+    'after:textcolor'
+);

@@ -37,7 +37,6 @@ class FlexFormHook
     public function getFlexFormDS_postProcessDS(&$dataStructArray, $conf, $row, $table)
     {
         if ($table === 'tt_content' && $row['CType'] === 'list' && $row['list_type'] === 'news_pi1') {
-
             $dataStructArray = $this->getManipulatedDataStructure($row, $dataStructArray);
 
 
@@ -58,7 +57,6 @@ class FlexFormHook
      */
     public function getDataStructureIdentifierPreProcess(array $fieldTca, string $tableName, string $fieldName, array $row)
     {
-
         if ($tableName === 'tt_content' && $row['CType'] === 'list' && $row['list_type'] === 'news_pi1') {
             $dataStructArray = GeneralUtility::xml2array(
                 file_get_contents(PATH_site.'typo3conf/ext/news/Configuration/FlexForms/flexform_news.xml')
@@ -75,14 +73,10 @@ class FlexFormHook
                 'type'       => 'file',
                 'flexformDS' => $dataStructArray,
             ];
-
-
         } else {
             $identifier = [];
         }
         return $identifier;
-
-
     }
 
     /**
@@ -94,11 +88,11 @@ class FlexFormHook
      */
     public function parseDataStructureByIdentifierPreProcess(array $identifier)
     {
-            if (!empty($identifier['flexformDS'])) {
-                return $identifier['flexformDS'];
-            } else {
-                return [];
-            }
+        if (!empty($identifier['flexformDS'])) {
+            return $identifier['flexformDS'];
+        } else {
+            return [];
+        }
     }
 
 
@@ -145,7 +139,6 @@ class FlexFormHook
 
         if ($selectedView === 'News->calendar') {
             $dataStructArray['sheets']['calendar'] = 'EXT:dated_news/Configuration/FlexForms/calendar.xml';
-
         }
 
         if ($selectedView === 'News->list') {
@@ -156,7 +149,4 @@ class FlexFormHook
 
         return $dataStructArray;
     }
-
-
-
 }

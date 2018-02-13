@@ -24,7 +24,6 @@ use GeorgRinger\News\Utility\Page;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
-
 /**
  * Class FalkRoeder\DatedNews\Controller\NewsController.
  */
@@ -137,7 +136,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function calendarAction(array $overwriteDemand = null)
     {
-
         $demand = $this->createDemandObjectFromSettings($this->settings);
         $demand->setActionAndClass(__METHOD__, __CLASS__);
         if ($this->settings['disableOverrideDemand'] != 1 && $overwriteDemand !== null) {
@@ -151,7 +149,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $news->setDescription(addslashes($news->getDescription()));
             $news->setBodytext(addslashes($news->getBodytext()));
         }
-        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'],$this->settings['dated_news']['jsFiles']);
+        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFiles']);
         $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
         //collect news Uids for ajax request as we do not have the demandobject in our ajaxcall later
@@ -235,10 +233,10 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $start = $recurrence ? $recurrence->getEventstart() : $news->getEventstart();
         $end = $recurrence ?  $recurrence->getEventend() : $news->getEventend();
         $allDay = $news->getFulltime();
-        $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings,$news,$recurrence))).'\'';
+        $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings, $news, $recurrence))).'\'';
 
-        $diff = date_diff($end,$start);
-        if($diff->d > 0 && $allDay === true) {
+        $diff = date_diff($end, $start);
+        if ($diff->d > 0 && $allDay === true) {
             $end->modify('+1 day');
         }
 
@@ -284,28 +282,26 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param null $recurrence
      * @return string
      */
-    public function getTagList($tagArray, $news, $recurrence = null )
+    public function getTagList($tagArray, $news, $recurrence = null)
     {
-
         $tags = $news->getTags()->toArray();
         $categories = $news->getCategories()->toArray();
-        $tagsAndCats = array_merge($tags,$categories);
+        $tagsAndCats = array_merge($tags, $categories);
         $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
 
         foreach ($tagsAndCats as $value) {
             $tagTitle = $value->getTitle();
             if (array_key_exists($tagTitle, $tagArray)) {
-                if(!in_array($uid, $tagArray[$tagTitle])){
-                    array_push($tagArray[$tagTitle],$uid);
+                if (!in_array($uid, $tagArray[$tagTitle])) {
+                    array_push($tagArray[$tagTitle], $uid);
                 }
             } else {
                 $tagArray[$tagTitle] = [];
-                array_push($tagArray[$tagTitle],$uid);
+                array_push($tagArray[$tagTitle], $uid);
             }
         }
 
         return $tagArray;
-
     }
 
     /**
@@ -341,13 +337,17 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $result = $this->filterNewsForCalendar(
             $newsRecords->toArray(),
             $result,
-            $calendarstart, $calendarend,
+            $calendarstart,
+            $calendarend,
             $settings
         );
 
         return json_encode(
             $this->addRecurrencesForCalendar(
-                $result, $calendarstart, $calendarend, $settings
+                $result,
+                $calendarstart,
+                $calendarend,
+                $settings
             )
         );
     }
@@ -362,21 +362,20 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $recurrences = $this->newsRecurrenceRepository->getBetweenDates([$calendarstart, $calendarend]);
         foreach ($recurrences as $key => $evt) {
             $parents = $evt->getParentEvent()->toArray();
-            if( isset($parents[0]) ){
+            if (isset($parents[0])) {
                 $parent = $parents[0];
-                if(
+                if (
                     $parent->getHidden()||
                     !$parent->isShowincalendar()
-                ){
+                ) {
                     unset($recurrences[$key]);
                 } else {
-                    $result['tags'] = $this->getTagList($result['tags'],$parent, $evt);
+                    $result['tags'] = $this->getTagList($result['tags'], $parent, $evt);
                     array_push($result['events'], $this->createSingleEvent($parent, $settings, $evt));
                 }
             } else {
                 unset($recurrences[$key]);
             }
-
         }
         return $result;
     }
@@ -403,13 +402,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $newsStart = $news->getEventstart();
                 $newsEnd = $news->getEventend();
 
-                if(
+                if (
                     $newsEnd < $calendarstart ||
                     $newsStart > $calendarend
-                ){
+                ) {
                     unset($newsRecords[$key]);
                 } else {
-                    $result['tags'] = $this->getTagList($result['tags'],$news);
+                    $result['tags'] = $this->getTagList($result['tags'], $news);
                     array_push($result['events'], $this->createSingleEvent($news, $settings));
                 }
             }
@@ -440,7 +439,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         foreach (array_reverse($partialRootPaths) as $key => $path) {
-            if( !$partial && file_exists(GeneralUtility::getFileAbsFileName($path. '/Qtip.html')) ) {
+            if (!$partial && file_exists(GeneralUtility::getFileAbsFileName($path. '/Qtip.html'))) {
                 $partial = GeneralUtility::getFileAbsFileName($path. '/Qtip.html');
             }
         }
@@ -452,7 +451,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'newsItem' => $newsItem,
             'settings' => $settings,
         ];
-        if(NULL !== $recurrence){
+        if (null !== $recurrence) {
             $assignedValues['recurrence'] = $recurrence;
         }
         $qtip->assignMultiple($assignedValues);
@@ -471,7 +470,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function eventDetailAction(\GeorgRinger\News\Domain\Model\News $news = null, $currentPage = 1, \FalkRoeder\DatedNews\Domain\Model\Application $newApplication = null)
     {
-
         $news = $this->getNewsOrPreviewNews($news);
 
         $demand = $this->createDemandObjectFromSettings($this->settings);
@@ -479,13 +477,12 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
-        if($news->getRecurrence() > 0) {
-
+        if ($news->getRecurrence() > 0) {
             $recurrences = $news->getNewsRecurrence()->toArray();
             $recurrenceOptions = [];
             foreach ($recurrences as $recurrence) {
                 //options for reservable recurrences
-                if($recurrence->getSlotsFree() > 0) {
+                if ($recurrence->getSlotsFree() > 0) {
                     $recurrenceOption = new \stdClass();
                     $recurrenceOption->key = $recurrence->getUid();
                     $recurrenceOption->value = $recurrence->getEventstart()->format($this->settings['dated_news']['emailSubjectDateFormat']);
@@ -504,10 +501,10 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'formTimestamp' => time(), // for form reload and doubled submit prevention
         ];
         
-        if(isset($slotoptions)){
+        if (isset($slotoptions)) {
             $assignedValues['slotoptions'] = $slotoptions;
         }
-        if(isset($recurrenceOptions)){
+        if (isset($recurrenceOptions)) {
             $assignedValues['recurrenceoptions'] = $recurrenceOptions;
         }
 
@@ -545,8 +542,10 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
 
-        if (is_a($news,
-                'GeorgRinger\\News\\Domain\\Model\\News') && $this->settings['detail']['checkPidOfNewsRecord']
+        if (is_a(
+            $news,
+                'GeorgRinger\\News\\Domain\\Model\\News'
+        ) && $this->settings['detail']['checkPidOfNewsRecord']
         ) {
             $news = $this->checkPidOfNewsRecord($news);
         }
@@ -587,7 +586,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $newApplication->setCrdate($date->getTimestamp());
 
 
-            if($news->getRecurrence() > 0 ) {
+            if ($news->getRecurrence() > 0) {
                 //set total depending on either customer is an early bird or not and on earyBirdPrice is set
                 $recurringEvent = $this->newsRecurrenceRepository->findByUid(
                     $this->request->getArgument('reservedRecurrence')
@@ -603,7 +602,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
                 $newApplication->addRecurringevent($recurringEvent);
             } else {
-
                 $newApplication->setCosts(
                     $this->getEventTotalCosts($news, clone $news->getEarlyBirdDate(), $news->getReservedSlots())
                 );
@@ -629,7 +627,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 'settings'       => $this->settings,
             ];
 
-            if($news->getRecurrence() > 0 ) {
+            if ($news->getRecurrence() > 0) {
                 $assignedValues['recurrence'] = $recurringEvent;
             }
 
@@ -710,7 +708,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $this->applicationRepository->update($newApplication);
 
                 $events = $newApplication->getEvents();
-                if($events->count() === 0) {
+                if ($events->count() === 0) {
                     $events = $newApplication->getRecurringevents();
                     $events->rewind();
                     $event = $events->current();
@@ -725,21 +723,18 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
                 $persistenceManager->persistAll();
 
-                $this->sendMail($newApplication, $this->settings, $news,  true);
+                $this->sendMail($newApplication, $this->settings, $news, true);
                 $assignedValues = [
                     'newApplication' => $newApplication,
                     'newsItem'       => $news,
                 ];
-
             }
-
-
         }
         if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
             GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('cache_pages')->flushByTag('tx_news_uid_'.$news->getUid());
         }
 
-        if($news->getRecurrence() > 0 && !is_null($event)) {
+        if ($news->getRecurrence() > 0 && !is_null($event)) {
             $assignedValues['recurrence'] = $event;
         }
 
@@ -797,7 +792,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     {
 
         //generell event infos
-        if($news->getRecurrence() > 0) {
+        if ($news->getRecurrence() > 0) {
             $events = $newApplication->getRecurringevents();
             $events->rewind();
             $event = $events->current();
@@ -849,7 +844,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'fileNames' => $filenames
         ];
 
-        if ( !$this->div->sendEmail($sendMailConf) ) {
+        if (!$this->div->sendEmail($sendMailConf)) {
             $this->flashMessageService('applicationSendMessageApplyerError', 'applicationSendStatusApplyerErrorStatus', 'ERROR');
         } else {
             if ($confirmation === false) {
@@ -859,7 +854,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         //Send to admins etc only when booking / application confirmed
         if ($confirmation === true) {
-
             $recipients = $this->getEmailRecipients($news);
 
             if (!count($recipients)) {
@@ -879,16 +873,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 'fileNames' => []
             ];
 
-            if ( $this->div->sendEmail($sendMailConf) ) {
+            if ($this->div->sendEmail($sendMailConf)) {
                 $this->flashMessageService('applicationConfirmed', 'applicationConfirmedStatus', 'OK');
             } else {
                 $this->flashMessageService('applicationSendMessageGeneralError', 'applicationSendStatusGeneralErrorStatus', 'ERROR');
             }
-
         }
 
 
-        if ( $confirmation === true && $this->settings['ics'] ) {
+        if ($confirmation === true && $this->settings['ics']) {
             //create ICS File and send invitation
             $newsTitle = $news->getTitle();
             $icsLocation = '';
@@ -919,7 +912,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             ];
 
             //add description
-            $description = $this->getIcsDescription($news, $settings, $event );
+            $description = $this->getIcsDescription($news, $settings, $event);
             if ($description !== false) {
                 $properties['description'] = $description;
             }
@@ -950,7 +943,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 }
             }
         }
-
     }
 
     /**
@@ -1110,9 +1102,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         //other libs
         $file = 'typo3temp/assets/datednews/dated_news_calendar.js';
         if (!file_exists(PATH_site.$file)) {
-
-            foreach ( $fileNames as $name ) {
-                if (!file_exists($libs[$name])){
+            foreach ($fileNames as $name) {
+                if (!file_exists($libs[$name])) {
                     throw new \InvalidArgumentException('File '.$libs[$name].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.' . $name . ')', 1517546715990);
                 } else {
                     $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs[$name]);
@@ -1255,7 +1246,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      *
      * @return bool|string
      */
-    public function getIcsDescription(\GeorgRinger\News\Domain\Model\News $news, $settings,  $event = null)
+    public function getIcsDescription(\GeorgRinger\News\Domain\Model\News $news, $settings, $event = null)
     {
         switch ($settings['icsDescriptionField']) {
             case 'Teaser':
@@ -1293,7 +1284,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     {
         $result = false;
         if (trim($settings['icsDescriptionCustomField']) !== '') {
-            if($news->getRecurrence() > 0 && !is_null($event)) {
+            if ($news->getRecurrence() > 0 && !is_null($event)) {
                 $object = $event;
             } else {
                 $object = $news;
@@ -1320,7 +1311,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     public function getEventTeaser(\GeorgRinger\News\Domain\Model\News $news, $event = null)
     {
         $result = false;
-        if($news->getRecurrence() > 0 && !is_null($event)) {
+        if ($news->getRecurrence() > 0 && !is_null($event)) {
             $teaser = $event->getTeaser();
         } else {
             $teaser = $news->getTeaser();
@@ -1330,9 +1321,4 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
         return $result;
     }
-    
-    
-    
-    
-    
 }

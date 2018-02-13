@@ -36,7 +36,7 @@ class NewsRecurrenceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $this->defaultQuerySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
         $this->defaultQuerySettings->setIgnoreEnableFields(true);
         $this->defaultQuerySettings->setEnableFieldsToBeIgnored(['hidden', 'deleted']);
-        $this->defaultQuerySettings->setRespectStoragePage(FALSE);
+        $this->defaultQuerySettings->setRespectStoragePage(false);
     }
 
     /**
@@ -88,6 +88,4 @@ where n.uid = '.$id;
 
         return $query->execute();
     }
-
-
 }
