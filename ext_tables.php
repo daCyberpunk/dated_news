@@ -22,3 +22,5 @@ if (TYPO3_MODE=="BE" )   {
         )
     );
 }
+
+$GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['orderByNews'] .= ',eventstart';

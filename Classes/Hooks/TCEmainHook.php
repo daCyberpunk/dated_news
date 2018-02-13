@@ -387,8 +387,6 @@ class TCEmainHook
             $oldValue = $news->{'get' . $method}();
             switch (gettype($oldValue)) {
                 case 'integer':
-                    $recurrence->{'set'.$method}($fieldArray[$name]);
-                    break;
                 case 'string':
                     $recurrence->{'set'.$method}($fieldArray[$name]);
                     break;
@@ -421,6 +419,7 @@ class TCEmainHook
      * @param $news
      *
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
     public function hideAllRecurrences($news)
     {
