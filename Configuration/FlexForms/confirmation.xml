@@ -1,7 +1,7 @@
 <confirmation>
     <ROOT>
         <TCEforms>
-            <sheetTitle>Email</sheetTitle>
+            <sheetTitle>Confirmation</sheetTitle>
         </TCEforms>
         <type>array</type>
         <el>
