@@ -20,6 +20,7 @@ namespace FalkRoeder\DatedNews\Services;
  ***/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Link.
  */
@@ -69,7 +70,6 @@ class LinkToNewsItem
     protected function getDetailPidFromDefaultDetailPid($settings)
     {
         return (int) $settings['defaultDetailPid'];
-
     }
 
     /**
@@ -93,8 +93,10 @@ class LinkToNewsItem
         $uid = $newsItem->getUid();
         // If a user is logged in and not in live workspace
         if ($GLOBALS['BE_USER'] && $GLOBALS['BE_USER']->workspace > 0) {
-            $record = \TYPO3\CMS\Backend\Utility\BackendUtility::getLiveVersionOfRecord('tx_news_domain_model_news',
-                $newsItem->getUid());
+            $record = \TYPO3\CMS\Backend\Utility\BackendUtility::getLiveVersionOfRecord(
+                'tx_news_domain_model_news',
+                $newsItem->getUid()
+            );
             if ($record['uid']) {
                 $uid = $record['uid'];
             }
@@ -117,13 +119,13 @@ class LinkToNewsItem
         $tsSettings,
         array $configuration = []
     ) {
-
-
-
         if (!isset($configuration['parameter'])) {
             $detailPid = 0;
-            $detailPidDeterminationMethods = GeneralUtility::trimExplode(',', $tsSettings['detailPidDetermination'],
-                true);
+            $detailPidDeterminationMethods = GeneralUtility::trimExplode(
+                ',',
+                $tsSettings['detailPidDetermination'],
+                true
+            );
 
             // if TS is not set, prefer flexform setting
             if (!isset($tsSettings['detailPidDetermination'])) {
@@ -147,11 +149,11 @@ class LinkToNewsItem
         $configuration['forceAbsoluteUrl'] = true;
 
         $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
-        $configuration['additionalParams'] .= '&tx_news_pi1[news]='.$this->getNewsId($newsItem);
+        $configuration['additionalParams'] .= '&tx_news_pi1[news]=' . $this->getNewsId($newsItem);
 
         // action is set to "detail" in original Viewhelper, but we overwiritten this action
         if ((int) $tsSettings['link']['skipControllerAndAction'] !== 1) {
-            $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News'.
+            $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News' .
                 '&tx_news_pi1[action]=eventDetail';
         }
 
@@ -160,13 +162,13 @@ class LinkToNewsItem
             $dateTime = $newsItem->getDatetime();
 
             if (!empty($tsSettings['link']['hrDate']['day'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[day]='.$dateTime->format($tsSettings['link']['hrDate']['day']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[day]=' . $dateTime->format($tsSettings['link']['hrDate']['day']);
             }
             if (!empty($tsSettings['link']['hrDate']['month'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[month]='.$dateTime->format($tsSettings['link']['hrDate']['month']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[month]=' . $dateTime->format($tsSettings['link']['hrDate']['month']);
             }
             if (!empty($tsSettings['link']['hrDate']['year'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[year]='.$dateTime->format($tsSettings['link']['hrDate']['year']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[year]=' . $dateTime->format($tsSettings['link']['hrDate']['year']);
             }
         }
         $this->cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
@@ -175,5 +177,3 @@ class LinkToNewsItem
         return $url;
     }
 }
-
-

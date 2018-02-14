@@ -133,7 +133,7 @@ class ICS
         // Build ICS properties - add header
         $props = [];
         foreach ($this->properties as $k => $v) {
-            $props[strtoupper($k.($k === 'url' ? ';VALUE=URI' : ''))] = $v;
+            $props[strtoupper($k . ($k === 'url' ? ';VALUE=URI' : ''))] = $v;
         }
 
         // Set some default values
@@ -167,10 +167,10 @@ class ICS
                 $val = $this->format_timestamp($val);
                 break;
             case 'organizer':
-                $val = 'ORGANIZER;RSVP=TRUE;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:'.$val.'';
+                $val = 'ORGANIZER;RSVP=TRUE;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:' . $val . '';
                 break;
             case 'attendee':
-                $val = 'ATTENDEE;RSVP=TRUE;CN=Falk Roeder;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:'.$val.'';
+                $val = 'ATTENDEE;RSVP=TRUE;CN=Falk Roeder;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:' . $val . '';
                 break;
             default:
                 $val = $this->escape_string($val);

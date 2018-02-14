@@ -58,11 +58,11 @@ class ApplicationPersistentObjectConverter extends PersistentObjectConverter
             $constraints = $query->equals('uid', $identity);
             $object = $query->matching($constraints)->execute()->getFirst();
         } else {
-            throw new \TYPO3\CMS\Extbase\Property\Exception\InvalidSourceException('The identity property "'.$identity.'" is no UID.', 1297931020);
+            throw new \TYPO3\CMS\Extbase\Property\Exception\InvalidSourceException('The identity property "' . $identity . '" is no UID.', 1297931020);
         }
 
         if ($object === null) {
-            throw new \TYPO3\CMS\Extbase\Property\Exception\TargetNotFoundException('Object with identity "'.print_r($identity, true).'" not found.', 1297933823);
+            throw new \TYPO3\CMS\Extbase\Property\Exception\TargetNotFoundException('Object with identity "' . print_r($identity, true) . '" not found.', 1297933823);
         }
 
         return $object;

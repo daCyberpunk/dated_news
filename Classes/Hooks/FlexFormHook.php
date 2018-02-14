@@ -37,46 +37,7 @@ class FlexFormHook
     public function getFlexFormDS_postProcessDS(&$dataStructArray, $conf, $row, $table)
     {
         if ($table === 'tt_content' && $row['CType'] === 'list' && $row['list_type'] === 'news_pi1') {
-            if (is_string($row['pi_flexform'])) {
-                $flexformSelection = GeneralUtility::xml2array($row['pi_flexform']);
-            } else {
-                $flexformSelection = $row['pi_flexform'];
-            }
-            $selectedView = '';
-            if (is_array($flexformSelection) && is_array($flexformSelection['data'])) {
-                $selectedView = $flexformSelection['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'];
-                if (!empty($selectedView)) {
-                    $actionParts = GeneralUtility::trimExplode(';', $selectedView, true);
-                    $selectedView = $actionParts[0];
-                }
-
-                // new plugin element
-            } elseif (GeneralUtility::isFirstPartOfStr($row['uid'], 'NEW')) {
-                // use List as starting view
-                $selectedView = 'News->list';
-            }
-
-            if ($selectedView === 'News->createApplication') {
-                $dataStructArray['sheets']['application'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/application.xml';
-                $dataStructArray['sheets']['additional'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/additional.xml';
-            }
-
-            if ($selectedView === 'News->confirmApplication') {
-                $dataStructArray['sheets']['confirmation'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/application.xml';
-            }
-
-            if ($selectedView === 'News->eventDetail') {
-                $dataStructArray['sheets']['additional'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/additional.xml';
-            }
-
-            if ($selectedView === 'News->calendar') {
-                $dataStructArray['sheets']['calendar'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/calendar.xml';
-            }
-
-            if ($selectedView === 'News->list') {
-                $dataStructArray['sheets']['additional'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/additional.xml';
-                $dataStructArray['sheets']['confirmation'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/application.xml';
-            }
+            $dataStructArray = $this->getManipulatedDataStructure($row, $dataStructArray);
 
             $dataStructArray['sheets']['sDEF'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/settings.xml';
         }
@@ -94,69 +55,24 @@ class FlexFormHook
      */
     public function getDataStructureIdentifierPreProcess(array $fieldTca, string $tableName, string $fieldName, array $row)
     {
-
         if ($tableName === 'tt_content' && $row['CType'] === 'list' && $row['list_type'] === 'news_pi1') {
             $dataStructArray = GeneralUtility::xml2array(
-                file_get_contents(PATH_site.'typo3conf/ext/news/Configuration/FlexForms/flexform_news.xml')
+                file_get_contents(PATH_site . 'typo3conf/ext/news/Configuration/FlexForms/flexform_news.xml')
             );
 
             $dataStructArray['sheets']['sDEF'] = 'EXT:dated_news/Configuration/FlexForms/settings.xml';
             $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional_original.xml';
 
-            if (is_string($row['pi_flexform'])) {
-                $flexformSelection = GeneralUtility::xml2array($row['pi_flexform']);
-            } else {
-                $flexformSelection = $row['pi_flexform'];
-            }
-            $selectedView = '';
-            if (is_array($flexformSelection) && is_array($flexformSelection['data'])) {
-                $selectedView = $flexformSelection['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'];
-                if (!empty($selectedView)) {
-                    $actionParts = GeneralUtility::trimExplode(';', $selectedView, true);
-                    $selectedView = $actionParts[0];
-                }
-
-                // new plugin element
-            } elseif (GeneralUtility::isFirstPartOfStr($row['uid'], 'NEW')) {
-                // use List as starting view
-                $selectedView = 'News->list';
-            }
-
-            if ($selectedView === 'News->createApplication') {
-                $dataStructArray['sheets']['application'] = 'EXT:dated_news/Configuration/FlexForms/application.xml';
-                $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
-            }
-
-            if ($selectedView === 'News->confirmApplication') {
-                $dataStructArray['sheets']['application'] = 'EXT:dated_news/Configuration/FlexForms/application.xml';
-            }
-
-            if ($selectedView === 'News->eventDetail') {
-                $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
-            }
-
-            if ($selectedView === 'News->calendar') {
-                $dataStructArray['sheets']['calendar'] = 'EXT:dated_news/Configuration/FlexForms/calendar.xml';
-
-            }
-
-            if ($selectedView === 'News->list') {
-                $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
-                $dataStructArray['sheets']['confirmation'] = 'EXT:dated_news/Configuration/FlexForms/confirmation.xml';
-            }
+            $dataStructArray = $this->getManipulatedDataStructure($row, $dataStructArray);
 
             $identifier = [
                 'type'       => 'file',
                 'flexformDS' => $dataStructArray,
             ];
-
-
         } else {
             $identifier = [];
         }
         return $identifier;
-
-
     }
 
     /**
@@ -168,13 +84,63 @@ class FlexFormHook
      */
     public function parseDataStructureByIdentifierPreProcess(array $identifier)
     {
-            if (!empty($identifier['flexformDS'])) {
-                return $identifier['flexformDS'];
-            } else {
-                return [];
-            }
+        if (!empty($identifier['flexformDS'])) {
+            return $identifier['flexformDS'];
+        } else {
+            return [];
+        }
     }
 
+    /**
+     * getManipulatedDataStructure
+     *
+     * @param array $row
+     * @param array $dataStructArray
+     * @return array
+     */
+    protected function getManipulatedDataStructure($row, $dataStructArray)
+    {
+        if (is_string($row['pi_flexform'])) {
+            $flexformSelection = GeneralUtility::xml2array($row['pi_flexform']);
+        } else {
+            $flexformSelection = $row['pi_flexform'];
+        }
+        $selectedView = '';
+        if (is_array($flexformSelection) && is_array($flexformSelection['data'])) {
+            $selectedView = $flexformSelection['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'];
+            if (!empty($selectedView)) {
+                $actionParts = GeneralUtility::trimExplode(';', $selectedView, true);
+                $selectedView = $actionParts[0];
+            }
 
+            // new plugin element
+        } elseif (GeneralUtility::isFirstPartOfStr($row['uid'], 'NEW')) {
+            // use List as starting view
+            $selectedView = 'News->list';
+        }
 
+        if ($selectedView === 'News->createApplication') {
+            $dataStructArray['sheets']['application'] = 'EXT:dated_news/Configuration/FlexForms/application.xml';
+            $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
+        }
+
+        if ($selectedView === 'News->confirmApplication') {
+            $dataStructArray['sheets']['confirmation'] = 'EXT:dated_news/Configuration/FlexForms/confirmation.xml';
+        }
+
+        if ($selectedView === 'News->eventDetail') {
+            $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
+        }
+
+        if ($selectedView === 'News->calendar') {
+            $dataStructArray['sheets']['calendar'] = 'EXT:dated_news/Configuration/FlexForms/calendar.xml';
+        }
+
+        if ($selectedView === 'News->list') {
+            $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
+            $dataStructArray['sheets']['confirmation'] = 'EXT:dated_news/Configuration/FlexForms/confirmation.xml';
+        }
+
+        return $dataStructArray;
+    }
 }

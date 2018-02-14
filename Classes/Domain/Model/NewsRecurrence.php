@@ -72,13 +72,13 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var bool
      */
     protected $hidden = false;
-    
+
     /**
      * pid.
      *
      * @var int
      */
-    protected $pid ;
+    protected $pid;
 
     /**
      * slots.
@@ -86,13 +86,6 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var int
      */
     protected $slots;
-
-    /**
-     * slotsFree.
-     *
-     * @var int
-     */
-    protected $slotsFree;
 
     /**
      * showincalendar.
@@ -107,20 +100,20 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var bool
      */
     protected $enableApplication = false;
-    
+
     /**
      * earlyBirdDate.
      *
      * @var \DateTime
      */
     protected $earlyBirdDate = '';
-    
+
     /**
      * slotoptions.
      *
      * @var array
      */
-    protected $slotoptions = '';
+    protected $slotoptions = [];
 
     /**
      * locations.
@@ -191,8 +184,8 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function emptyLocations()
     {
-        $locations = $this->locations->toArray();
-        foreach ($locations as $object) {
+        $loc = $this->locations->toArray();
+        foreach ($loc as $object) {
             $this->removeLocation($object);
         }
     }
@@ -365,27 +358,15 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Sets the slotsFree.
-     *
-     * @param int $slotsFree
-     *
-     * @return void
-     */
-    public function setSlotsFree($slotsFree)
-    {
-        $this->slotsFree = $slotsFree;
-    }
-
-    /**
      * Returns the slotsFree.
      *
      * @return int $slotsFree
      */
     public function getSlotsFree()
     {
-        return $this->slotsFree;
+        return (int) $this->getSlots() - $this->getReservedSlotsCount();
     }
-    
+
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application>
      */
@@ -554,16 +535,24 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->modified = $modified;
     }
-    
-    
+
     /**
      * Returns the slotoptions.
      *
-     * @return bool $slotoptions
+     * @return array $slotoptions
      */
     public function getSlotoptions()
     {
-        return $this->slotoptions;
+        $options = [];
+        $i = 1;
+        while ($i <= $this->getSlotsFree()) {
+            $slotoption = new \stdClass();
+            $slotoption->key = $i;
+            $slotoption->value = $i;
+            $options[] = $slotoption;
+            $i++;
+        }
+        return $options;
     }
 
     /**
@@ -585,7 +574,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isModified()
     {
-        return $this->modified;
+        return (bool)$this->modified;
     }
 
     /**
@@ -619,7 +608,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->hidden;
     }
-    
+
     /**
      * Returns the pid.
      *
@@ -641,7 +630,6 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->pid = $pid;
     }
-
 
     /**
      * Adds a Application.
@@ -688,7 +676,24 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->application = $application;
     }
-    
+
+    /**
+     * getReservedSlotsCount
+     *
+     * @return int
+     */
+    public function getReservedSlotsCount()
+    {
+        $applications = $this->getApplication()->toArray();
+        $reservedSlots = 0;
+        foreach ($applications as $application) {
+            if ($application->isConfirmed() === true) {
+                $reservedSlots = $reservedSlots + $application->getReservedSlots();
+            }
+        }
+        return $reservedSlots;
+    }
+
     /**
      * Adds a News.
      *

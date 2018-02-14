@@ -241,7 +241,7 @@ define(['jquery',
                     var r = obj.attachEvent("on" + evType, fn);
                     return r;
                 } else {
-                    alert("Handler could not be attached");
+                    console.error("Handler could not be attached");
                 }
             };
 

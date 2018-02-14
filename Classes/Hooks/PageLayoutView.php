@@ -19,7 +19,6 @@ namespace FalkRoeder\DatedNews\Hooks;
  *
  ***/
 
-
 /**
  * Class PageLayoutView
  *
@@ -39,7 +38,6 @@ class PageLayoutView
      * @var string
      */
     const LLPATH = 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:';
-
 
     /**
      * Provide an extension summary for the month selection
@@ -83,9 +81,7 @@ class PageLayoutView
                 $this->addViewName($params['action']);
                 break;
 
-
         }
-
     }
 
     /**
@@ -105,22 +101,15 @@ class PageLayoutView
         }
     }
 
-
-
     /**
      * Adds the name of the current view
      *
      */
     public function addViewName($actionName)
     {
-
-            $this->pageLayout->tableData[] = [
+        $this->pageLayout->tableData[] = [
                 '<div class="alert alert-info" style="color:black; display: inherit;">' . $this->pageLayout->getLanguageService()->sL(self::LLPATH . 'tx_dated_news.mode.' . $actionName) . '</div>',
                 ''
             ];
-
     }
-
-
-
 }

@@ -105,13 +105,6 @@ class News extends \GeorgRinger\News\Domain\Model\News
     protected $slots;
 
     /**
-     * slotsFree.
-     *
-     * @var int
-     */
-    protected $slotsFree;
-
-    /**
      * price.
      *
      * @var string
@@ -640,8 +633,6 @@ class News extends \GeorgRinger\News\Domain\Model\News
         return $this->eventtype === '' ? false : true;
     }
 
-
-
     /**
      * Returns the eventlocation.
      *
@@ -709,25 +700,60 @@ class News extends \GeorgRinger\News\Domain\Model\News
     }
 
     /**
-     * Sets the slotsFree.
-     *
-     * @param int $slotsFree
-     *
-     * @return void
-     */
-    public function setSlotsFree($slotsFree)
-    {
-        $this->slotsFree = $slotsFree;
-    }
-
-    /**
      * Returns the slotsFree.
      *
      * @return int $slotsFree
      */
     public function getSlotsFree()
     {
-        return $this->slotsFree;
+        if ($this->getRecurrence() > 0) {
+            $recurrences = $this->getNewsRecurrence()->toArray();
+            $sumFreeSlots = 0;
+            foreach ($recurrences as $recurrence) {
+                $slotsfree = $recurrence->getSlotsFree();
+                $sumFreeSlots = $sumFreeSlots + $slotsfree;
+            }
+
+            return $sumFreeSlots;
+        } else {
+            return (int) $this->getSlots() - $this->getReservedSlotsCount();
+        }
+    }
+
+    /**
+     * getReservedSlotsCount
+     *
+     * @return int
+     */
+    public function getReservedSlotsCount()
+    {
+        $applications = $this->getApplication()->toArray();
+        $reservedSlots = 0;
+        foreach ($applications as $application) {
+            if ($application->isConfirmed() === true) {
+                $reservedSlots = $reservedSlots + $application->getReservedSlots();
+            }
+        }
+        return $reservedSlots;
+    }
+
+    /**
+     * Returns the slotoptions.
+     *
+     * @return array $slotoptions
+     */
+    public function getSlotoptions()
+    {
+        $options = [];
+        $i = 1;
+        while ($i <= $this->getSlotsFree()) {
+            $slotoption = new \stdClass();
+            $slotoption->key = $i;
+            $slotoption->value = $i;
+            $options[] = $slotoption;
+            $i++;
+        }
+        return $options;
     }
 
     /**
@@ -1271,6 +1297,4 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         $this->pid = $pid;
     }
-
-
 }

@@ -14,13 +14,13 @@ if (TYPO3_MODE == 'BE') {
 
 //TYPO3 V7
 $TCA['tx_news_domain_model_news']['ctrl']['requestUpdate'] = 'eventtype';
-if (TYPO3_MODE=="BE" )   {
-    $GLOBALS['TBE_STYLES']['skins'][$_EXTKEY] = array (
+if (TYPO3_MODE=='BE') {
+    $GLOBALS['TBE_STYLES']['skins'][$_EXTKEY] = [
         'name' => $_EXTKEY,
-        'stylesheetDirectories' => array(
+        'stylesheetDirectories' => [
             'css' => 'EXT:' . $_EXTKEY . '/Resources/Public/CSS/Backend/'
-        )
-    );
+        ]
+    ];
 }
 
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['orderByNews'] .= ',eventstart';

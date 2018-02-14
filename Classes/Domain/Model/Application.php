@@ -393,7 +393,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Feuser>
      */
     protected $feusers = null;
-    
+
     /**
      * recurringevents.
      *
@@ -843,7 +843,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->feusers = $feusers;
     }
-    
+
 
     /**
      * Adds a Recurringevent.

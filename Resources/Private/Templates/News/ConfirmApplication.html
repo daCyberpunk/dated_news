@@ -20,12 +20,26 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <td><a target="_blank" href="{f:uri.page(pageUid:'{settings.detailPid}',absolute: 1,additionalParams:'{tx_news_pi1:{controller:\'News\',action:\'detail\',news:newsItem.uid}}')}">{newsItem.title}</a></td>
             </tr>
             <tr>
-                <td><f:translate key="tx_datednews_domain_model_news.eventstart"  extensionName="dated_news"/></td>
-                <td><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventstart}</f:format.date></td>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_news.eventstart"  extensionName="dated_news"/></td>
+                <f:if condition="{recurrence}">
+                    <f:then>
+                        <td><f:format.date format="{settings.dated_news.dateFormat}">{recurrence.eventstart}</f:format.date></td>
+                    </f:then>
+                    <f:else>
+                        <td><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventstart}</f:format.date></td>
+                    </f:else>
+                </f:if>
             </tr>
             <tr>
-                <td><f:translate key="tx_datednews_domain_model_news.eventend"  extensionName="dated_news"/></td>
-                <td><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventend}</f:format.date></td>
+                <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_news.eventend"  extensionName="dated_news"/></td>
+                <f:if condition="{recurrence}">
+                    <f:then>
+                        <td><f:format.date format="{settings.dated_news.dateFormat}">{recurrence.eventend}</f:format.date></td>
+                    </f:then>
+                    <f:else>
+                        <td><f:format.date format="{settings.dated_news.dateFormat}">{newsItem.eventend}</f:format.date></td>
+                    </f:else>
+                </f:if>
             </tr>
             <tr>
                 <td><f:translate key="tx_datednews_domain_model_application.surname"  extensionName="dated_news"/></td>

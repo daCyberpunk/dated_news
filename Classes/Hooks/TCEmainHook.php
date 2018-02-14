@@ -70,7 +70,7 @@ class TCEmainHook
     /**
      * @var $availableFields array
      */
-    protected $availableFields = ['bodytext','teaser','slots','early_bird_date','enable_application','showincalendar','locations','persons'];
+    protected $availableFields = ['bodytext', 'teaser', 'slots', 'early_bird_date', 'enable_application', 'showincalendar', 'locations', 'persons'];
 
     /**
      * __construct.
@@ -98,14 +98,14 @@ class TCEmainHook
      */
     public function processDatamap_preProcessFieldArray(array &$fieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler &$pObj)
     {
-        if ($table === 'tx_datednews_domain_model_newsrecurrence' ) {
+        if ($table === 'tx_datednews_domain_model_newsrecurrence') {
             // unset all fields except hidden field under following conditions:
             // record was saved as inline element of a news record AND
             // update behavior of parent record was set  > 3 (copying fields from parent to child)
             // otherwise the changes would be overwritten through the normal saving behavior of TCEMain
-            if((int)$fieldArray['disregard_changes_on_saving'] === 1) {
+            if ((int)$fieldArray['disregard_changes_on_saving'] === 1) {
                 foreach ($fieldArray as $key => $field) {
-                    if($key !== 'hidden') {
+                    if ($key !== 'hidden') {
                         unset($fieldArray[$key]);
                     }
                 }
@@ -123,7 +123,7 @@ class TCEmainHook
 
         //if eventdates invalid or startdate after enddate, do nothing on recurring events, just store their on data
         $eventDates = $this->hasValidEventdates($fieldArray);
-        if($eventDates === false ) {
+        if ($eventDates === false) {
             unset($fieldArray['recurrence_updated_behavior']);
             return;
         }
@@ -143,8 +143,7 @@ class TCEmainHook
 
         if ((int) $settings['recurrence'] === 0) {
             // if recurrence option is set to none recurrences, delete all existing recurrences
-            if ( NULL !== $news) {
-
+            if (null !== $news) {
                 $oldRecurrences = $news->getNewsRecurrence();
                 foreach ($oldRecurrences as $oldRec) {
                     $cmd = [];
@@ -159,8 +158,7 @@ class TCEmainHook
                 $this->persistenceManager->persistAll();
             }
         } else {
-
-           if ((int) $settings['recurrence_updated_behavior'] > 1) {
+            if ((int) $settings['recurrence_updated_behavior'] > 1) {
                 //filter recurrences if only none modified events should be changed
                 $filteredRecurrences = $this->filterRecurrences($news, $recurrences, (int) $settings['recurrence_updated_behavior']);
                 $oldRecurrences = $filteredRecurrences[0];
@@ -213,20 +211,20 @@ class TCEmainHook
 
     /**
      * getEarlyBirdDateOfRecurrence
-     * 
+     *
      * @param $event
      * @param $startdateRecurrence
      * @return mixed
      */
-    public function getEarlyBirdDateOfRecurrence($event, $startdateRecurrence){
-
+    public function getEarlyBirdDateOfRecurrence($event, $startdateRecurrence)
+    {
         $eventStart = clone $event->getEventstart();
         $birdDate = clone $event->getEarlyBirdDate();
-        $eventStart->setTime(0,0,0);
-        $birdDate->setTime(0,0,0);
+        $eventStart->setTime(0, 0, 0);
+        $birdDate->setTime(0, 0, 0);
         $newEarlyBirdDate = clone $startdateRecurrence;
         $diffDays = $birdDate->diff($eventStart)->format('%a');
-        return $newEarlyBirdDate->sub(new \DateInterval('P'.$diffDays.'D'));
+        return $newEarlyBirdDate->sub(new \DateInterval('P' . $diffDays . 'D'));
     }
 
     /**
@@ -235,8 +233,11 @@ class TCEmainHook
      * @param $string
      * @return mixed
      */
-    public function getMethodNameFromString($string){
-        return str_replace(' ', '',
+    public function getMethodNameFromString($string)
+    {
+        return str_replace(
+            ' ',
+            '',
             ucwords(
                 str_replace('_', ' ', $string)
             )
@@ -249,8 +250,9 @@ class TCEmainHook
      * @param $fieldArray
      * @return bool
      */
-    public function hasValidEventdates($fieldArray){
-        if($fieldArray['eventstart'] === '' || $fieldArray['eventstart'] === '0'){
+    public function hasValidEventdates($fieldArray)
+    {
+        if ($fieldArray['eventstart'] === '' || $fieldArray['eventstart'] === '0') {
             $this->addFlashMessage(
                 'Date Error',
                 'Field Eventstart shouldn\'t be empty. No Recurrences changed.',
@@ -258,7 +260,7 @@ class TCEmainHook
             );
             return false;
         }
-        if($fieldArray['eventend'] === '' || $fieldArray['eventend'] === '0'){
+        if ($fieldArray['eventend'] === '' || $fieldArray['eventend'] === '0') {
             $this->addFlashMessage(
                 'Date Error',
                 'Field Eventend shouldn\'t be empty. No Recurrences changed.',
@@ -267,8 +269,8 @@ class TCEmainHook
             return false;
         }
         try {
-            $eventstart = \DateTime::createFromFormat("U", $fieldArray['eventstart']) ?  \DateTime::createFromFormat("U", $fieldArray['eventstart']) : new \DateTime($fieldArray['eventstart']);
-            $eventend = \DateTime::createFromFormat("U", $fieldArray['eventend']) ?  \DateTime::createFromFormat("U", $fieldArray['eventend']) : new \DateTime($fieldArray['eventend']);
+            $eventstart = \DateTime::createFromFormat('U', $fieldArray['eventstart']) ?  \DateTime::createFromFormat('U', $fieldArray['eventstart']) : new \DateTime($fieldArray['eventstart']);
+            $eventend = \DateTime::createFromFormat('U', $fieldArray['eventend']) ?  \DateTime::createFromFormat('U', $fieldArray['eventend']) : new \DateTime($fieldArray['eventend']);
         } catch (\Exception $exception) {
             $this->addFlashMessage(
                 'Date Error',
@@ -278,11 +280,10 @@ class TCEmainHook
             return false;
         }
 
-        
-        if(!$eventstart) {
+        if (!$eventstart) {
             return false;
         }
-        if($eventstart->diff($eventend)->format('%R') === '-'){
+        if ($eventstart->diff($eventend)->format('%R') === '-') {
             $this->addFlashMessage(
                 'Date Error',
                 'Eventstart is set after Eventend. No Recurrences changed.',
@@ -290,7 +291,7 @@ class TCEmainHook
             );
             return false;
         }
-        return [$eventstart,$eventend];
+        return [$eventstart, $eventend];
     }
 
     /**
@@ -299,44 +300,45 @@ class TCEmainHook
      * @param $fieldArray
      * @param $news
      */
-    public function filterOutUnchangedFields($fieldArray, $news){
-        foreach($this->availableFields as $key => $name){
+    public function filterOutUnchangedFields($fieldArray, $news)
+    {
+        foreach ($this->availableFields as $key => $name) {
             $method = $this->getMethodNameFromString($name);
             $oldValue = $news->{'get' . $method}();
             $newValue = $fieldArray[$name];
             switch (gettype($oldValue)) {
                 case 'string':
-                    if(trim($oldValue) === trim($newValue)) {
+                    if (trim($oldValue) === trim($newValue)) {
                         unset($this->availableFields[$key]);
                     }
                     break;
                 case 'integer':
-                    if($oldValue === (int)$newValue) {
+                    if ($oldValue === (int)$newValue) {
                         unset($this->availableFields[$key]);
                     }
                     break;
                 case 'object':
-                    if ($oldValue instanceof \DateTime){
+                    if ($oldValue instanceof \DateTime) {
                         $newTime = new\DateTime();
                         $newTime->setTimestamp($newValue);
                     }
 
                     if ($oldValue instanceof \DateTime && $oldValue->diff($newTime)->format('%a') === '0') {
                         unset($this->availableFields[$key]);
-                    } elseif (is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage') || is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\ObjectStorage')){
+                    } elseif (is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage') || is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\ObjectStorage')) {
                         $oldValue = $oldValue->toArray();
                         $oldValueUids = [];
                         foreach ($oldValue as $val) {
                             array_push($oldValueUids, $val->getUid());
                         }
                         sort($oldValueUids);
-                        if(implode(',', $oldValueUids) === $newValue){
+                        if (implode(',', $oldValueUids) === $newValue) {
                             unset($this->availableFields[$key]);
                         }
                     }
                     break;
                 case 'boolean':
-                    if($oldValue === (bool)$newValue) {
+                    if ($oldValue === (bool)$newValue) {
                         unset($this->availableFields[$key]);
                     }
                     break;
@@ -351,7 +353,8 @@ class TCEmainHook
      * @param $body
      * @param $type
      */
-    public function addFlashMessage($title, $body, $type){
+    public function addFlashMessage($title, $body, $type)
+    {
         $this->messageService = $this->extbaseObjectManager->get(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
         $flashMessage = GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Messaging\FlashMessage::class,
@@ -373,39 +376,38 @@ class TCEmainHook
      * @param bool $onlyChangedFields
      * @return mixed
      */
-    public function copyFieldsFromEventToRecurrence($recurrence, $fieldArray, $news, $onlyChangedFields = false){
-
+    public function copyFieldsFromEventToRecurrence($recurrence, $fieldArray, $news, $onlyChangedFields = false)
+    {
         $this->locationRepository = $this->extbaseObjectManager->get('FalkRoeder\DatedNews\Domain\Repository\LocationRepository');
         $this->personRepository = $this->extbaseObjectManager->get('FalkRoeder\DatedNews\Domain\Repository\PersonRepository');
 
-        if($onlyChangedFields === true){
+        if ($onlyChangedFields === true) {
             $this->filterOutUnchangedFields($fieldArray, $news);
         }
 
-        foreach($this->availableFields as $key => $name){
+        foreach ($this->availableFields as $key => $name) {
             $method = $this->getMethodNameFromString($name);
             $oldValue = $news->{'get' . $method}();
             switch (gettype($oldValue)) {
                 case 'integer':
                 case 'string':
-                    $recurrence->{'set'.$method}($fieldArray[$name]);
+                    $recurrence->{'set' . $method}($fieldArray[$name]);
                     break;
                 case 'object':
                     if ($oldValue instanceof \DateTime) {
-                        $recurrence->{'set'.$method}(\DateTime::createFromFormat("U", $fieldArray[$name]));
-                    } elseif (is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage') || is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\ObjectStorage')){
-                        $recurrence->{'empty'.$method}();
-                        foreach(explode(',', $fieldArray[$name]) as $uid) {
+                        $recurrence->{'set' . $method}(\DateTime::createFromFormat('U', $fieldArray[$name]));
+                    } elseif (is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage') || is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\ObjectStorage')) {
+                        $recurrence->{'empty' . $method}();
+                        foreach (explode(',', $fieldArray[$name]) as $uid) {
                             $object = $this->{substr($name, 0, -1) . 'Repository'}->findByIdentifier($uid);
-                            if (NULL !== $object) {
-                                $recurrence->{'add'.substr($method, 0, -1)}($object);
+                            if (null !== $object) {
+                                $recurrence->{'add' . substr($method, 0, -1)}($object);
                             }
-
                         }
                     }
                     break;
                 case 'boolean':
-                    $recurrence->{'set'.$method}((bool)$fieldArray[$name]);
+                    $recurrence->{'set' . $method}((bool)$fieldArray[$name]);
                     break;
             }
         }
@@ -461,8 +463,7 @@ class TCEmainHook
         // filter recurrences with existing applications
         if ($updateBehavior > 2) {
             foreach ($oldRecurrences as $key => $oldRec) {
-
-                if ((int)$this->applicationRepository->countApplicationsForNewsRecurrence($oldRec->getUid(),true) > 0) {
+                if ((int)$this->applicationRepository->countApplicationsForNewsRecurrence($oldRec->getUid(), true) > 0) {
                     unset($oldRecurrences[$key]);
                     $recurrences->removeElement($recurrences->startsBetween($oldRec->getEventstart(), $oldRec->getEventstart(), true)->getValues()[0]);
                 }
@@ -499,7 +500,7 @@ class TCEmainHook
         if ($table === 'tx_news_domain_model_news' || $fieldArray['recurrence_updated_behavior'] === 1) {
             unset($fieldArray['recurrence_updated_behavior']);
         }
-        if ($table === 'tx_datednews_domain_model_newsrecurrence' ) {
+        if ($table === 'tx_datednews_domain_model_newsrecurrence') {
 //            unset($fieldArray['disregard_changes_on_saving']);
         }
     }
@@ -510,12 +511,9 @@ class TCEmainHook
     }
     public function processCmdmap_preProcess($command, $table, $id, $value, \TYPO3\CMS\Core\DataHandling\DataHandler &$pObj)
     {
-
-
     }
     public function processCmdmap_postProcess($command, $table, $id, $value, \TYPO3\CMS\Core\DataHandling\DataHandler &$pObj)
     {
-
     }
     public function processCmdmap_deleteAction($table, $id, $recordToDelete, $recordWasDeleted, \TYPO3\CMS\Core\DataHandling\DataHandler &$pObj)
     {

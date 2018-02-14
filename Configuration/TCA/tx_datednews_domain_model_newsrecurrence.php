@@ -308,7 +308,7 @@ return [
                 ],
             ],
         ],
-        // set by JS if recurrence_updated_behavior of parent event is set > 3. This will disregard changes directly made in this model. 
+        // set by JS if recurrence_updated_behavior of parent event is set > 3. This will disregard changes directly made in this model.
         'disregard_changes_on_saving' => [
             'exclude' => false,
             'config' => [

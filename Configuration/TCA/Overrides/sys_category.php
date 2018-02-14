@@ -10,7 +10,7 @@ $ll = 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:';
 $newSysCategoryColumns = [
     'textcolor' => [
         'exclude' => 0,
-        'label'   => $ll.'tx_datednews_domain_model_category.textcolor',
+        'label'   => $ll . 'tx_datednews_domain_model_category.textcolor',
         'config'  => [
             'type'    => 'input',
             'size'    => 10,
@@ -29,7 +29,7 @@ $newSysCategoryColumns = [
     ],
     'backgroundcolor' => [
         'exclude' => 0,
-        'label'   => $ll.'tx_datednews_domain_model_category.backgroundcolor',
+        'label'   => $ll . 'tx_datednews_domain_model_category.backgroundcolor',
         'config'  => [
             'type'    => 'input',
             'size'    => 10,
@@ -50,7 +50,15 @@ $newSysCategoryColumns = [
 ];
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('sys_category', $newSysCategoryColumns);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('sys_category', 'textcolor', '',
-    'after:shortcut');
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('sys_category', 'backgroundcolor', '',
-    'after:textcolor');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+    'sys_category',
+    'textcolor',
+    '',
+    'after:shortcut'
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+    'sys_category',
+    'backgroundcolor',
+    '',
+    'after:textcolor'
+);
