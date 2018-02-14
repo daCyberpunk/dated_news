@@ -684,7 +684,14 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getReservedSlotsCount()
     {
-        return count($this->getApplication()->toArray());
+        $applications = $this->getApplication()->toArray();
+        $reservedSlots = 0;
+        foreach ($applications as $application) {
+            if ($application->isConfirmed() === true) {
+                $reservedSlots = $reservedSlots + $application->getReservedSlots();
+            }
+        }
+        return $reservedSlots;
     }
 
     /**

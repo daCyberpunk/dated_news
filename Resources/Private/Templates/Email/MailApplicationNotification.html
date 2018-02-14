@@ -24,11 +24,25 @@ Available variables:
             </tr>
             <tr>
                 <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_news.eventstart"  extensionName="dated_news"/></td>
-                <td style="text-align:left;padding-left: 5px;"><f:format.date format="d.m.Y">{news.eventstart}</f:format.date></td>
+                <f:if condition="{recurrence}">
+                    <f:then>
+                        <td><f:format.date format="{settings.dated_news.dateFormat}">{recurrence.eventstart}</f:format.date></td>
+                    </f:then>
+                    <f:else>
+                        <td><f:format.date format="{settings.dated_news.dateFormat}">{news.eventstart}</f:format.date></td>
+                    </f:else>
+                </f:if>
             </tr>
             <tr>
                 <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_news.eventend"  extensionName="dated_news"/></td>
-                <td style="text-align:left;padding-left: 5px;"><f:format.date format="d.m.Y">{news.eventend}</f:format.date></td>
+                <f:if condition="{recurrence}">
+                    <f:then>
+                        <td><f:format.date format="{settings.dated_news.dateFormat}">{recurrence.eventend}</f:format.date></td>
+                    </f:then>
+                    <f:else>
+                        <td><f:format.date format="{settings.dated_news.dateFormat}">{news.eventend}</f:format.date></td>
+                    </f:else>
+                </f:if>
             </tr>
             <tr>
                 <td style="text-align:right;padding-right: 5px;"><f:translate key="tx_datednews_domain_model_application.surname"  extensionName="dated_news"/></td>

@@ -591,14 +591,24 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 );
                 $newApplication->setReservedSlots($reservedSlots);
 
+                $earlyBirdDate = null;
+                if ($recurringEvent->getEarlyBirdDate() != '' && $recurringEvent->getEarlyBirdDate() != '0') {
+                    $earlyBirdDate = clone $recurringEvent->getEarlyBirdDate();
+                } elseif ($news->getEarlyBirdDate() != '' && $news->getEarlyBirdDate() != '0') {
+                    $earlyBirdDate = clone $news->getEarlyBirdDate();
+                }
                 $newApplication->setCosts(
-                    $this->getEventTotalCosts($news, clone $recurringEvent->getEarlyBirdDate(), $reservedSlots)
+                    $this->getEventTotalCosts($news, $earlyBirdDate, $reservedSlots)
                 );
 
                 $newApplication->addRecurringevent($recurringEvent);
             } else {
+                $earlyBirdDate = null;
+                if ($news->getEarlyBirdDate() != '' && $news->getEarlyBirdDate() != '0') {
+                    $earlyBirdDate = clone $news->getEarlyBirdDate();
+                }
                 $newApplication->setCosts(
-                    $this->getEventTotalCosts($news, clone $news->getEarlyBirdDate(), $news->getReservedSlots())
+                    $this->getEventTotalCosts($news, $earlyBirdDate, $newApplication->getReservedSlots())
                 );
 
                 $newApplication->addEvent($news);
@@ -645,13 +655,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function getEventTotalCosts($news, $earlyBirdDate, $reservedSlots)
     {
-        if ($news->getEarlyBirdPrice() != '' && $earlyBirdDate != '' && $earlyBirdDate != '0') {
-            $earlybirdDate->setTime(0, 0, 0);
+        if ($news->getEarlyBirdPrice() != '' && $earlyBirdDate !== null) {
+            $earlyBirdDate->setTime(0, 0, 0);
 
             $today = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'));
             $today->setTime(0, 0, 0);
 
-            if ($earlybirdDate >= $today) {
+            if ($earlyBirdDate >= $today) {
                 $costs = $reservedSlots * floatval(str_replace(',', '.', $news->getEarlyBirdPrice()));
             } else {
                 $costs = $reservedSlots * floatval(str_replace(',', '.', $news->getPrice()));
@@ -797,6 +807,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $eventstart = $news->getEventstart();
             $eventend = $news->getEventend();
             $newsLocation = $news->getLocations();
+            $event = null;
         }
 
         // from
@@ -833,7 +844,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'recipientsBcc' => [],
             'sender' => $sender,
             'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
-            'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
+            'variables' => ['newApplication' => $newApplication, 'news' => $news, 'recurrence' => $event, 'settings' => $settings],
             'fileNames' => $filenames
         ];
 
@@ -862,7 +873,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 'recipientsBcc' => [],
                 'sender' => $sender,
                 'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
-                'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $this->settings],
+                'variables' => ['newApplication' => $newApplication, 'news' => $news, 'recurrence' => $event, 'settings' => $this->settings],
                 'fileNames' => []
             ];
 
@@ -872,7 +883,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $this->flashMessageService('applicationSendMessageGeneralError', 'applicationSendStatusGeneralErrorStatus', 'ERROR');
             }
         }
-
         if ($confirmation === true && $this->settings['ics']) {
             //create ICS File and send invitation
             $newsTitle = $news->getTitle();
@@ -919,11 +929,11 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $sendMailConf = [
                 'template' => 'MailConfirmationApplyer',
                 'recipients' => $applyer,
-                'recipientsCc' => $recipientsCc,
-                'recipientsBcc' => $recipientsBcc,
+                'recipientsCc' => [],
+                'recipientsBcc' => [],
                 'sender' => [$this->settings['senderMail'] => $this->settings['senderName']],
                 'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', ['subject' => $subject]),
-                'variables' => ['newApplication' => $newApplication, 'news' => $news, 'settings' => $settings],
+                'variables' => ['newApplication' => $newApplication, 'news' => $news, 'recurrence' => $event, 'settings' => $settings],
                 'attachment' => $icsAttachment,
                 'replyTo' => [substr_replace($this->settings['senderMail'], 'noreply', 0, strpos($this->settings['senderMail'], '@')) => $this->settings['senderName']]
             ];

@@ -97,9 +97,9 @@ class Div
         /** @var $email \TYPO3\CMS\Core\Mail\MailMessage */
         $email = $this->objectManager->get('TYPO3\\CMS\\Core\\Mail\\MailMessage');
         $email
-            ->setTo($conf['receiver'])
-            ->setCc($conf['receiverCc'])
-            ->setBcc($conf['receiverBcc'])
+            ->setTo($conf['recipients'])
+            ->setCc($conf['recipientsCc'])
+            ->setBcc($conf['recipientsBcc'])
             ->setFrom($conf['sender'])
             ->setSubject($conf['subject']);
 
@@ -116,7 +116,7 @@ class Div
     {
         /** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
         $emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
-        $emailBodyObject->setTemplatePathAndFilename($this->getTemplatePath('Email/' . $conf('template') . '.html'));
+        $emailBodyObject->setTemplatePathAndFilename($this->getTemplatePath('Email/' . $conf['template'] . '.html'));
         $emailBodyObject->setLayoutRootPaths([
             'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Layouts',
         ]);
