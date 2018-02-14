@@ -131,6 +131,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
 
 
+
     /**
      * Calendar view.
      *
@@ -192,90 +193,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     }
 
     /**
-     * getCalendarItemColors
-     *
-     * @return array
-     */
-    public function getCalendarItemColors($news)
-    {
-        $categories = $news->getCategories();
-        $color = trim($news->getBackgroundcolor());
-        $textColor = trim($news->getTextcolor());
-        if ($color === '') {
-            foreach ($categories as $category) {
-                $tempColor = trim($category->getBackgroundcolor());
-                $color = $tempColor === '' ? $color : $tempColor;
-            }
-        }
-        if ($textColor === '') {
-            foreach ($categories as $category) {
-                $tempColor = trim($category->getTextcolor());
-                $textColor = $tempColor === '' ? $textColor : $tempColor;
-            }
-        }
-
-        return [
-            'color' => $color,
-            'textColor' => $textColor
-        ];
-    }
-
-    /**
-     * creates a single event array from given news / recurrence
-     *
-     *
-     * @param $news
-     * @param $settings
-     * @param null $recurrence
-     * @return array
-     */
-    public function createSingleEvent($news, $settings, $recurrence = null)
-    {
-        $calendarDateformat = 'Y-m-d H:i:s';
-        $start = $recurrence ? $recurrence->getEventstart() : $news->getEventstart();
-        $end = $recurrence ?  $recurrence->getEventend() : $news->getEventend();
-        $allDay = $news->getFulltime();
-        $qtip = ' \'' . trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings, $news, $recurrence))) . '\'';
-
-        $diff = date_diff($end, $start);
-        if ($diff->d > 0 && $allDay === true) {
-            $end->modify('+1 day');
-        }
-
-        if (!$start instanceof \DateTime) {
-            try {
-                $start = new \DateTime($start);
-            } catch (\Exception $exception) {
-                throw new Exception('"' . $start . '" could not be parsed by DateTime constructor.', 1438925934);
-            }
-        }
-        if (!$end instanceof \DateTime && $end !== null) {
-            try {
-                $end = new \DateTime($end);
-            } catch (\Exception $exception) {
-                throw new Exception('"' . $end . '" could not be parsed by DateTime constructor.', 1438925934);
-            }
-        }
-
-        $uri = $this->linkToNewsItem->getLink($news, $settings);
-        $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
-        $colors = $this->getCalendarItemColors($news);
-
-        return [
-            'title' => $news->getTitle(),
-            'id' => $uid,
-            'end' => $end->format($calendarDateformat),
-            'start' => $start->format($calendarDateformat),
-            'url' => $uri,
-            'allDay' => $allDay,
-            'className' => 'Event_' . $uid,
-            'qtip' => $qtip,
-            'color' => $colors['color'],
-            'textColor' => $colors['textColor']
-        ];
-    }
-
-    /**
      * creates list of tags from given news
      *
      *
@@ -305,6 +222,145 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         return $tagArray;
     }
+
+    /**
+     * adds calendar and event detail specific default css.
+     *
+     * @param string $pathToCss
+     */
+    public function addCalendarCss($pathToCss = '')
+    {
+        $this->pageRenderer->addCssFile('/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css');
+        $this->pageRenderer->addCssFile('/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css');
+        $pathToCss = str_replace('EXT:', '/typo3conf/ext/', $pathToCss);
+        $this->pageRenderer->addCssFile($pathToCss);
+    }
+
+    /**
+     * adds calendar specific default js
+     * and if in typoscript settings set to true, also jQuery.
+     *
+     * @param string $jquery
+     * @param array $libs
+     */
+    public function addCalendarJSLibs($jquery = '0', $libs = [])
+    {
+        define('NEW_LINE', "\n");
+        $contents = [];
+        $fileNames = [
+            'xmoment',
+            'xfullcalendar',
+            'xlang',
+            'xqtip',
+            'dated_news',
+        ];
+
+        /*jQuery*/
+        if ($jquery == '1') {
+            $this->pageRenderer->addJsFooterLibrary(
+                'jquery',
+                $libs['jQuery'],
+                'text/javascript',
+                true
+            );
+        }
+
+        //other libs
+        $file = 'typo3temp/assets/datednews/dated_news_calendar.js';
+        if (!file_exists(PATH_site . $file)) {
+            foreach ($fileNames as $name) {
+                if (!file_exists($libs[$name])) {
+                    throw new \InvalidArgumentException('File ' . $libs[$name] . ' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.' . $name . ')', 1517546715990);
+                } else {
+                    $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs[$name]);
+                }
+            }
+
+            // writeFileToTypo3tempDir() returns NULL on success (please double-read!)
+            $error = GeneralUtility::writeFileToTypo3tempDir(PATH_site . $file, implode($contents, NEW_LINE));
+            if ($error !== null) {
+                throw new \InvalidArgumentException('Dated News JavaScript file could not be written to ' . $file . '. Reason: ' . $error, 1487439381339);
+            }
+        }
+
+        $this->pageRenderer->addJsFooterLibrary(
+            'dated_news',
+            $file,
+            'text/javascript',
+            true
+        );
+    }
+
+    /**
+     * takes categories of all
+     * news records shown in calendar and put them into a array
+     * also adds the colors which might be specified in
+     * category to the array to enable filtering of calendar items
+     * with colored buttons by category.
+     *
+     * @param $newsRecords
+     *
+     * @return array
+     */
+    public function getCategoriesOfNews($newsRecords)
+    {
+        $newsCategories = [];
+        foreach ($newsRecords as $news) {
+            if ($news->isShowincalendar() === true) {
+                $categories = $news->getCategories();
+
+                foreach ($categories as $category) {
+                    $title = $category->getTitle();
+                    $bgColor = $category->getBackgroundcolor();
+                    $textColor = $category->getTextcolor();
+                    if (!array_key_exists($title, $newsCategories)) {
+                        $newsCategories[$title] = [];
+                        $newsCategories[$title]['count'] = 1;
+                        if (trim($bgColor) !== '') {
+                            $newsCategories[$title]['bgcolor'] = $bgColor;
+                            $newsCategories[$title]['textcolor'] = $textColor;
+                        }
+                    } else {
+                        $newsCategories[$title]['count'] = $newsCategories[$title]['count'] + 1;
+                    }
+                }
+            }
+        }
+
+        return $newsCategories;
+    }
+
+    /**
+     * takes tags of all
+     * news records shown in calendar
+     * and put them into a array to enable filtering of calendar items by tag.
+     *
+     * @param $newsRecords
+     *
+     * @return array
+     */
+    public function getTagsOfNews($newsRecords)
+    {
+        $newsTags = [];
+        foreach ($newsRecords as $news) {
+            if ($news->isShowincalendar() === true) {
+                $tags = $news->getTags();
+                foreach ($tags as $tag) {
+                    $title = $tag->getTitle();
+                    if (!array_key_exists($title, $newsTags)) {
+                        $newsTags[$title] = [];
+                        $newsTags[$title]['count'] = 1;
+                    } else {
+                        $newsTags[$title]['count'] = $newsTags[$title]['count'] + 1;
+                    }
+                }
+            }
+        }
+
+        return $newsTags;
+    }
+
+
 
     /**
      * Get events via AJAX .
@@ -420,6 +476,90 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     }
 
     /**
+     * creates a single event array from given news / recurrence
+     *
+     *
+     * @param $news
+     * @param $settings
+     * @param null $recurrence
+     * @return array
+     */
+    public function createSingleEvent($news, $settings, $recurrence = null)
+    {
+        $calendarDateformat = 'Y-m-d H:i:s';
+        $start = $recurrence ? $recurrence->getEventstart() : $news->getEventstart();
+        $end = $recurrence ?  $recurrence->getEventend() : $news->getEventend();
+        $allDay = $news->getFulltime();
+        $qtip = ' \'' . trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings, $news, $recurrence))) . '\'';
+
+        $diff = date_diff($end, $start);
+        if ($diff->d > 0 && $allDay === true) {
+            $end->modify('+1 day');
+        }
+
+        if (!$start instanceof \DateTime) {
+            try {
+                $start = new \DateTime($start);
+            } catch (\Exception $exception) {
+                throw new Exception('"' . $start . '" could not be parsed by DateTime constructor.', 1438925934);
+            }
+        }
+        if (!$end instanceof \DateTime && $end !== null) {
+            try {
+                $end = new \DateTime($end);
+            } catch (\Exception $exception) {
+                throw new Exception('"' . $end . '" could not be parsed by DateTime constructor.', 1438925934);
+            }
+        }
+
+        $uri = $this->linkToNewsItem->getLink($news, $settings);
+        $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
+        $colors = $this->getCalendarItemColors($news);
+
+        return [
+            'title' => $news->getTitle(),
+            'id' => $uid,
+            'end' => $end->format($calendarDateformat),
+            'start' => $start->format($calendarDateformat),
+            'url' => $uri,
+            'allDay' => $allDay,
+            'className' => 'Event_' . $uid,
+            'qtip' => $qtip,
+            'color' => $colors['color'],
+            'textColor' => $colors['textColor']
+        ];
+    }
+
+    /**
+     * getCalendarItemColors
+     *
+     * @return array
+     */
+    public function getCalendarItemColors($news)
+    {
+        $categories = $news->getCategories();
+        $color = trim($news->getBackgroundcolor());
+        $textColor = trim($news->getTextcolor());
+        if ($color === '') {
+            foreach ($categories as $category) {
+                $tempColor = trim($category->getBackgroundcolor());
+                $color = $tempColor === '' ? $color : $tempColor;
+            }
+        }
+        if ($textColor === '') {
+            foreach ($categories as $category) {
+                $tempColor = trim($category->getTextcolor());
+                $textColor = $tempColor === '' ? $textColor : $tempColor;
+            }
+        }
+
+        return [
+            'color' => $color,
+            'textColor' => $textColor
+        ];
+    }
+
+    /**
      * @param $settings
      * @param $newsItem
      *
@@ -459,6 +599,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         return $qtip->render();
     }
+
+
+
 
     /**
      * Single view of a news record.
@@ -516,46 +659,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
             Cache::addCacheTagsByNewsRecords([$news]);
         }
-    }
-
-    /**
-     * getNewsOrPreviewNews
-     *
-     * @param \GeorgRinger\News\Domain\Model\News $news
-     * @return \GeorgRinger\News\Domain\Model\News
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     */
-    protected function getNewsOrPreviewNews(\GeorgRinger\News\Domain\Model\News $news = null)
-    {
-        if (is_null($news)) {
-            $previewNewsId = ((int) $this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
-            if ($this->request->hasArgument('news_preview')) {
-                $previewNewsId = (int) $this->request->getArgument('news_preview');
-            }
-
-            if ($previewNewsId > 0) {
-                if ($this->isPreviewOfHiddenRecordsEnabled()) {
-                    $GLOBALS['TSFE']->showHiddenRecords = true;
-                    $news = $this->newsRepository->findByUid($previewNewsId, false);
-                } else {
-                    $news = $this->newsRepository->findByUid($previewNewsId);
-                }
-            }
-        }
-
-        if (is_a(
-            $news,
-                'GeorgRinger\\News\\Domain\\Model\\News'
-        ) && $this->settings['detail']['checkPidOfNewsRecord']
-        ) {
-            $news = $this->checkPidOfNewsRecord($news);
-        }
-
-        if (is_null($news) && isset($this->settings['detail']['errorHandling'])) {
-            $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
-        }
-
-        return $news;
     }
 
     /**
@@ -651,6 +754,46 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     }
 
     /**
+     * getNewsOrPreviewNews
+     *
+     * @param \GeorgRinger\News\Domain\Model\News $news
+     * @return \GeorgRinger\News\Domain\Model\News
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     */
+    protected function getNewsOrPreviewNews(\GeorgRinger\News\Domain\Model\News $news = null)
+    {
+        if (is_null($news)) {
+            $previewNewsId = ((int) $this->settings['singleNews'] > 0) ? $this->settings['singleNews'] : 0;
+            if ($this->request->hasArgument('news_preview')) {
+                $previewNewsId = (int) $this->request->getArgument('news_preview');
+            }
+
+            if ($previewNewsId > 0) {
+                if ($this->isPreviewOfHiddenRecordsEnabled()) {
+                    $GLOBALS['TSFE']->showHiddenRecords = true;
+                    $news = $this->newsRepository->findByUid($previewNewsId, false);
+                } else {
+                    $news = $this->newsRepository->findByUid($previewNewsId);
+                }
+            }
+        }
+
+        if (is_a(
+                $news,
+                'GeorgRinger\\News\\Domain\\Model\\News'
+            ) && $this->settings['detail']['checkPidOfNewsRecord']
+        ) {
+            $news = $this->checkPidOfNewsRecord($news);
+        }
+
+        if (is_null($news) && isset($this->settings['detail']['errorHandling'])) {
+            $this->handleNoNewsFoundError($this->settings['detail']['errorHandling']);
+        }
+
+        return $news;
+    }
+
+    /**
      * getEventTotalCosts
      *
      * @param $news
@@ -676,6 +819,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
         return $costs;
     }
+
+
+
 
     /**
      * action confirmApplication.
@@ -752,6 +898,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $this->view->assignMultiple($assignedValues);
     }
 
+
+
+
     /**
      * reloads Details of news via ajax.
      *
@@ -785,6 +934,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         return false;
     }
+
+
+
 
     /**
      * sendMail to applyer, admins
@@ -1071,186 +1223,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     }
 
     /**
-     * adds calendar and event detail specific default css.
-     *
-     * @param string $pathToCss
-     */
-    public function addCalendarCss($pathToCss = '')
-    {
-        $this->pageRenderer->addCssFile('/typo3conf/ext/dated_news/Resources/Public/Plugins/fullcalendar/fullcalendar.min.css');
-        $this->pageRenderer->addCssFile('/typo3conf/ext/dated_news/Resources/Public/Plugins/qtip3/jquery.qtip.min.css');
-        $pathToCss = str_replace('EXT:', '/typo3conf/ext/', $pathToCss);
-        $this->pageRenderer->addCssFile($pathToCss);
-    }
-
-    /**
-     * adds calendar specific default js
-     * and if in typoscript settings set to true, also jQuery.
-     *
-     * @param string $jquery
-     * @param array $libs
-     */
-    public function addCalendarJSLibs($jquery = '0', $libs = [])
-    {
-        define('NEW_LINE', "\n");
-        $contents = [];
-        $fileNames = [
-            'xmoment',
-            'xfullcalendar',
-            'xlang',
-            'xqtip',
-            'dated_news',
-        ];
-
-        /*jQuery*/
-        if ($jquery == '1') {
-            $this->pageRenderer->addJsFooterLibrary(
-                'jquery',
-                $libs['jQuery'],
-                'text/javascript',
-                true
-            );
-        }
-
-        //other libs
-        $file = 'typo3temp/assets/datednews/dated_news_calendar.js';
-        if (!file_exists(PATH_site . $file)) {
-            foreach ($fileNames as $name) {
-                if (!file_exists($libs[$name])) {
-                    throw new \InvalidArgumentException('File ' . $libs[$name] . ' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.' . $name . ')', 1517546715990);
-                } else {
-                    $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs[$name]);
-                }
-            }
-
-            // writeFileToTypo3tempDir() returns NULL on success (please double-read!)
-            $error = GeneralUtility::writeFileToTypo3tempDir(PATH_site . $file, implode($contents, NEW_LINE));
-            if ($error !== null) {
-                throw new \InvalidArgumentException('Dated News JavaScript file could not be written to ' . $file . '. Reason: ' . $error, 1487439381339);
-            }
-        }
-
-        $this->pageRenderer->addJsFooterLibrary(
-            'dated_news',
-            $file,
-            'text/javascript',
-            true
-        );
-    }
-
-    /**
-     * adds needed flashmessages
-     * for informations to user.
-     *
-     * @param \string $messageKey
-     * @param \string $statusKey
-     * @param \string $level
-     *
-     * @return void
-     */
-    public function flashMessageService($messageKey, $statusKey, $level)
-    {
-        switch ($level) {
-            case 'NOTICE':
-                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::NOTICE;
-                break;
-            case 'INFO':
-                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO;
-                break;
-            case 'OK':
-                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-                break;
-            case 'WARNING':
-                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING;
-                break;
-            case 'ERROR':
-                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-                break;
-            default:
-                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO;
-        }
-
-        $message = (\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($messageKey, 'dated_news') !== null) ? \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($messageKey, 'dated_news') : $messageKey;
-
-        $this->addFlashMessage(
-            $message,
-            \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($statusKey, 'dated_news'),
-            $level,
-            true
-        );
-    }
-
-
-    /**
-     * takes categories of all
-     * news records shown in calendar and put them into a array
-     * also adds the colors which might be specified in
-     * category to the array to enable filtering of calendar items
-     * with colored buttons by category.
-     *
-     * @param $newsRecords
-     *
-     * @return array
-     */
-    public function getCategoriesOfNews($newsRecords)
-    {
-        $newsCategories = [];
-        foreach ($newsRecords as $news) {
-            if ($news->isShowincalendar() === true) {
-                $categories = $news->getCategories();
-
-                foreach ($categories as $category) {
-                    $title = $category->getTitle();
-                    $bgColor = $category->getBackgroundcolor();
-                    $textColor = $category->getTextcolor();
-                    if (!array_key_exists($title, $newsCategories)) {
-                        $newsCategories[$title] = [];
-                        $newsCategories[$title]['count'] = 1;
-                        if (trim($bgColor) !== '') {
-                            $newsCategories[$title]['bgcolor'] = $bgColor;
-                            $newsCategories[$title]['textcolor'] = $textColor;
-                        }
-                    } else {
-                        $newsCategories[$title]['count'] = $newsCategories[$title]['count'] + 1;
-                    }
-                }
-            }
-        }
-
-        return $newsCategories;
-    }
-
-    /**
-     * takes tags of all
-     * news records shown in calendar
-     * and put them into a array to enable filtering of calendar items by tag.
-     *
-     * @param $newsRecords
-     *
-     * @return array
-     */
-    public function getTagsOfNews($newsRecords)
-    {
-        $newsTags = [];
-        foreach ($newsRecords as $news) {
-            if ($news->isShowincalendar() === true) {
-                $tags = $news->getTags();
-                foreach ($tags as $tag) {
-                    $title = $tag->getTitle();
-                    if (!array_key_exists($title, $newsTags)) {
-                        $newsTags[$title] = [];
-                        $newsTags[$title]['count'] = 1;
-                    } else {
-                        $newsTags[$title]['count'] = $newsTags[$title]['count'] + 1;
-                    }
-                }
-            }
-        }
-
-        return $newsTags;
-    }
-
-    /**
      * getIcsDescription.
      *
      * creates the ICS description for the
@@ -1337,4 +1309,53 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
         return $result;
     }
+
+
+
+    /**
+     * adds needed flashmessages
+     * for informations to user.
+     *
+     * @param \string $messageKey
+     * @param \string $statusKey
+     * @param \string $level
+     *
+     * @return void
+     */
+    public function flashMessageService($messageKey, $statusKey, $level)
+    {
+        switch ($level) {
+            case 'NOTICE':
+                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::NOTICE;
+                break;
+            case 'INFO':
+                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO;
+                break;
+            case 'OK':
+                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+                break;
+            case 'WARNING':
+                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING;
+                break;
+            case 'ERROR':
+                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+                break;
+            default:
+                $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO;
+        }
+
+        $message = (\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($messageKey, 'dated_news') !== null) ? \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($messageKey, 'dated_news') : $messageKey;
+
+        $this->addFlashMessage(
+            $message,
+            \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($statusKey, 'dated_news'),
+            $level,
+            true
+        );
+    }
+
+
+
+
+
 }
