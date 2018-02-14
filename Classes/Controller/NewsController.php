@@ -24,7 +24,6 @@ use GeorgRinger\News\Utility\Page;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
-
 /**
  * Class FalkRoeder\DatedNews\Controller\NewsController.
  */
@@ -135,16 +134,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         parent::initializeAction();
         //todo check if $this->settings['switchableControllerActions']  really is needed
         $cObj =  $this->configurationManager->getContentObject();
-        if($cObj && isset($cObj->data['uid'])){
+        if ($cObj && isset($cObj->data['uid'])) {
             $pluginConfiguration = $this->div->getPluginConfiguration($cObj->data['uid']);
             $this->settings['switchableControllerActions'] = $pluginConfiguration['switchableControllerActions'];
         }
 
         $this->feuserService = $this->objectManager->get('FalkRoeder\DatedNews\Services\FeuserService');
-
     }
-
-
 
     /**
      * Calendar view.
@@ -168,7 +164,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $news->setDescription(addslashes($news->getDescription()));
             $news->setBodytext(addslashes($news->getBodytext()));
         }
-        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'],$this->settings['dated_news']['jsFiles']);
+        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFiles']);
         $this->addCalendarCss($this->settings['dated_news']['cssFile']);
 
         //collect news Uids for ajax request as we do not have the demandobject in our ajaxcall later
@@ -373,10 +369,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         return $newsTags;
     }
-
-
-
-
 
     /**
      * Get events via AJAX .
@@ -616,9 +608,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         return $qtip->render();
     }
 
-
-
-
     /**
      * Single view of a news record.
      *
@@ -702,7 +691,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             // if user is logged in attach him here otherwise attach after confirmation
             $feuser = $this->feuserService->getFrontendUserObject();
 
-
             $newApplication->setPid($news->getPid());
             $newApplication->setHidden(true);
             $newApplication->setSysLanguageUid($news->getSysLanguageUid());
@@ -752,10 +740,10 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             $persistenceManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
             $persistenceManager->persistAll();
-            if($feuser){
-                $newApplication->setApplicationTitle($news->getTitle().' - '.$feuser->getLastName().' '.$feuser->getFirstName().'-'.$newApplication->getUid());
+            if ($feuser) {
+                $newApplication->setApplicationTitle($news->getTitle() . ' - ' . $feuser->getLastName() . ' ' . $feuser->getFirstName() . '-' . $newApplication->getUid());
             } else {
-                $newApplication->setApplicationTitle($news->getTitle().' - '.$newApplication->getName().' '.$newApplication->getSurname().'-'.$newApplication->getUid());
+                $newApplication->setApplicationTitle($news->getTitle() . ' - ' . $newApplication->getName() . ' ' . $newApplication->getSurname() . '-' . $newApplication->getUid());
             }
 
             $this->applicationRepository->update($newApplication);
@@ -809,8 +797,10 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
 
-        if (is_a($news,
-                'GeorgRinger\\News\\Domain\\Model\\News') && $this->settings['detail']['checkPidOfNewsRecord']
+        if (is_a(
+            $news,
+                'GeorgRinger\\News\\Domain\\Model\\News'
+        ) && $this->settings['detail']['checkPidOfNewsRecord']
         ) {
             $news = $this->checkPidOfNewsRecord($news);
         }
@@ -848,9 +838,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
         return $costs;
     }
-
-
-
 
     /**
      * action confirmApplication.
@@ -898,10 +885,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
                 // find feuser by mail or create new one if
                 // no one is attached to the application
-                if ($newApplication->getFeusers()->count() === 0)
-                {
+                if ($newApplication->getFeusers()->count() === 0) {
                     $feuser = $this->feuserService->findUserByEmail($newApplication->getEmail());
-                    if(!$feuser) {
+                    if (!$feuser) {
                         $feuserData = $this->getNewFeuser(
                             $newApplication,
                             $this->settings['dated_news']['autoAddFeuserAddToGroups'],
@@ -946,8 +932,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('cache_pages')->flushByTag('tx_news_uid_' . $news->getUid());
         }
 
-
-
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CONFIRMAPPLICATION_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
     }
@@ -972,9 +956,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         return $this->feuserService->getNewFeuser($userData, $userGroups, $storagePage);
     }
-
-
-
 
     /**
      * reloads Details of news via ajax.
@@ -1009,9 +990,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         return false;
     }
-
-
-
 
     /**
      * sendMail to applyer, admins
@@ -1058,7 +1036,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         //validate Mailadress of applyer
-        if($feuser){
+        if ($feuser) {
             $applyerMail = $feuser->getEmail();
         } else {
             $applyerMail = $newApplication->getEmail();
@@ -1066,13 +1044,13 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         $applyer = [];
         if (is_string($applyerMail) && GeneralUtility::validEmail($applyerMail)) {
-            if($feuser){
+            if ($feuser) {
                 $applyer = [
-                    $applyerMail => $feuser->getLastName().', '.$feuser->getFirstName(),
+                    $applyerMail => $feuser->getLastName() . ', ' . $feuser->getFirstName(),
                 ];
             } else {
                 $applyer = [
-                    $newApplication->getEmail() => $newApplication->getName().', '.$newApplication->getSurname(),
+                    $newApplication->getEmail() => $newApplication->getName() . ', ' . $newApplication->getSurname(),
                 ];
             }
         } else {
@@ -1396,9 +1374,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         return $result;
     }
 
-
-
-
     /**
      * adds needed flashmessages
      * for informations to user.
@@ -1440,8 +1415,4 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             true
         );
     }
-
-
-
-
 }

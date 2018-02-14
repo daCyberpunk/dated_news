@@ -797,7 +797,6 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->events = $events;
     }
 
-
     /**
      * Adds a Feuser.
      *
@@ -843,7 +842,6 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->feusers = $feusers;
     }
-
 
     /**
      * Adds a Recurringevent.

@@ -21,7 +21,8 @@ namespace FalkRoeder\DatedNews\Domain\Model;
 /**
  * The FE User
  */
-class Feuser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser {
+class Feuser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+{
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application>
@@ -33,24 +34,26 @@ class Feuser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser {
      */
     protected $pid;
 
-	/**
-	 * __construct
-	 */
-	public function __construct() {
-		$this->initStorageObjects();
-	}
-  
-	/**
-	 * Initializes all ObjectStorage properties
-	 * Do not modify this method!
-	 * It will be rewritten on each save in the extension builder
-	 * You may modify the constructor of this class instead
-	 *
-	 * @return void
-	 */
-	protected function initStorageObjects() {
-		$this->applications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-	}
+    /**
+     * __construct
+     */
+    public function __construct()
+    {
+        $this->initStorageObjects();
+    }
+
+    /**
+     * Initializes all ObjectStorage properties
+     * Do not modify this method!
+     * It will be rewritten on each save in the extension builder
+     * You may modify the constructor of this class instead
+     *
+     * @return void
+     */
+    protected function initStorageObjects()
+    {
+        $this->applications = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
 
     /**
      * Returns the pid.
@@ -74,43 +77,46 @@ class Feuser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser {
         $this->pid = $pid;
     }
 
+    /**
+     * Adds a Application
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Application $application
+     * @return void
+     */
+    public function addApplication(\FalkRoeder\DatedNews\Domain\Model\Application $application)
+    {
+        $this->applications->attach($application);
+    }
 
-	/**
-	 * Adds a Application
-	 *
-	 * @param \FalkRoeder\DatedNews\Domain\Model\Application $application
-	 * @return void
-	 */
-	public function addApplication(\FalkRoeder\DatedNews\Domain\Model\Application $application) {
-		$this->applications->attach($application);
-	}
+    /**
+     * Removes a Application
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Application $applicationToRemove The Application to be removed
+     * @return void
+     */
+    public function removeApplication(\FalkRoeder\DatedNews\Domain\Model\Application $applicationToRemove)
+    {
+        $this->applications->detach($applicationToRemove);
+    }
 
-	/**
-	 * Removes a Application
-	 *
-	 * @param \FalkRoeder\DatedNews\Domain\Model\Application $applicationToRemove The Application to be removed
-	 * @return void
-	 */
-	public function removeApplication(\FalkRoeder\DatedNews\Domain\Model\Application $applicationToRemove) {
-		$this->applications->detach($applicationToRemove);
-	}
+    /**
+     * Returns the applications
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application> $applications
+     */
+    public function getApplications()
+    {
+        return $this->applications;
+    }
 
-	/**
-	 * Returns the applications
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application> $applications
-	 */
-	public function getApplications() {
-		return $this->applications;
-	}
-
-	/**
-	 * Sets the applications
-	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application> $applications
-	 * @return void
-	 */
-	public function setApplications(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $applications) {
-		$this->applications = $applications;
-	}
+    /**
+     * Sets the applications
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application> $applications
+     * @return void
+     */
+    public function setApplications(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $applications)
+    {
+        $this->applications = $applications;
+    }
 }

@@ -1,8 +1,8 @@
 <?php
 if (!defined('TYPO3_MODE')) {
-	die('Access denied.');
+    die('Access denied.');
 }
-$tmp_columns = array(
+$tmp_columns = [
 
     'applications' => [
         'exclude' => 1,
@@ -23,9 +23,9 @@ $tmp_columns = array(
         ],
     ],
 
-);
+];
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('fe_users',$tmp_columns);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('fe_users', $tmp_columns);
 
 $GLOBALS['TCA']['fe_users']['types']['Tx_Extbase_Domain_Model_FrontendUser']['showitem'] .= ',USER,';
 $GLOBALS['TCA']['fe_users']['types']['Tx_Extbase_Domain_Model_FrontendUser']['showitem'] .= 'applications';
