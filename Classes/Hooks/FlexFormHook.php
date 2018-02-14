@@ -138,7 +138,6 @@ class FlexFormHook
 
         if ($selectedView === 'News->list') {
             $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
-            $dataStructArray['sheets']['confirmation'] = 'EXT:dated_news/Configuration/FlexForms/confirmation.xml';
         }
 
         return $dataStructArray;
