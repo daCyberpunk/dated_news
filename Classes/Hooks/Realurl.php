@@ -62,7 +62,7 @@ class Realurl
             $titleHash = $this->getApplicationMd5($value);
             $hashArray = str_split($titleHash, 8);
 
-            $value = $hashArray[0].$value.$hashArray[1];
+            $value = $hashArray[0] . $value . $hashArray[1];
         }
 
         return $value;
@@ -104,8 +104,8 @@ class Realurl
         } else {
             $mysqli = new \mysqli($db['Connections']['Default']['host'], $db['Connections']['Default']['user'], $db['Connections']['Default']['password'], $db['Connections']['Default']['dbname']);
         }
-        $sql = 'SELECT title FROM tx_datednews_domain_model_application WHERE uid='.$uid;
-        $result = $mysqli->query($sql) or die('db-query failed '. 1487571690984);
+        $sql = 'SELECT title FROM tx_datednews_domain_model_application WHERE uid=' . $uid;
+        $result = $mysqli->query($sql) or die('db-query failed ' . 1487571690984);
 
         if ($result) {
             // Cycle through results

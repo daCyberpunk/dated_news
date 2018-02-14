@@ -95,7 +95,6 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return $applicationsForNews;
     }
 
-
     /**
      * get number of applications allready sent to a specific news event.
      *
@@ -142,7 +141,7 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         if ($ignoreEnables === true) {
             $query->getQuerySettings()->setIgnoreEnableFields(true);
         }
-        
+
         $applications = $query->execute();
         $applicationsForNews = [];
         foreach ($applications as $key => $application) {
@@ -156,8 +155,6 @@ class ApplicationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $applicationsForNews;
     }
-    
-    
 
     /**
      * checks if form allready submited using a timestamp sent with the form.

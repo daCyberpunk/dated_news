@@ -70,7 +70,7 @@ class TCEmainHook
     /**
      * @var $availableFields array
      */
-    protected $availableFields = ['bodytext','teaser','slots','early_bird_date','enable_application','showincalendar','locations','persons'];
+    protected $availableFields = ['bodytext', 'teaser', 'slots', 'early_bird_date', 'enable_application', 'showincalendar', 'locations', 'persons'];
 
     /**
      * __construct.
@@ -224,7 +224,7 @@ class TCEmainHook
         $birdDate->setTime(0, 0, 0);
         $newEarlyBirdDate = clone $startdateRecurrence;
         $diffDays = $birdDate->diff($eventStart)->format('%a');
-        return $newEarlyBirdDate->sub(new \DateInterval('P'.$diffDays.'D'));
+        return $newEarlyBirdDate->sub(new \DateInterval('P' . $diffDays . 'D'));
     }
 
     /**
@@ -269,8 +269,8 @@ class TCEmainHook
             return false;
         }
         try {
-            $eventstart = \DateTime::createFromFormat("U", $fieldArray['eventstart']) ?  \DateTime::createFromFormat("U", $fieldArray['eventstart']) : new \DateTime($fieldArray['eventstart']);
-            $eventend = \DateTime::createFromFormat("U", $fieldArray['eventend']) ?  \DateTime::createFromFormat("U", $fieldArray['eventend']) : new \DateTime($fieldArray['eventend']);
+            $eventstart = \DateTime::createFromFormat('U', $fieldArray['eventstart']) ?  \DateTime::createFromFormat('U', $fieldArray['eventstart']) : new \DateTime($fieldArray['eventstart']);
+            $eventend = \DateTime::createFromFormat('U', $fieldArray['eventend']) ?  \DateTime::createFromFormat('U', $fieldArray['eventend']) : new \DateTime($fieldArray['eventend']);
         } catch (\Exception $exception) {
             $this->addFlashMessage(
                 'Date Error',
@@ -280,7 +280,6 @@ class TCEmainHook
             return false;
         }
 
-        
         if (!$eventstart) {
             return false;
         }
@@ -292,7 +291,7 @@ class TCEmainHook
             );
             return false;
         }
-        return [$eventstart,$eventend];
+        return [$eventstart, $eventend];
     }
 
     /**
@@ -392,23 +391,23 @@ class TCEmainHook
             switch (gettype($oldValue)) {
                 case 'integer':
                 case 'string':
-                    $recurrence->{'set'.$method}($fieldArray[$name]);
+                    $recurrence->{'set' . $method}($fieldArray[$name]);
                     break;
                 case 'object':
                     if ($oldValue instanceof \DateTime) {
-                        $recurrence->{'set'.$method}(\DateTime::createFromFormat("U", $fieldArray[$name]));
+                        $recurrence->{'set' . $method}(\DateTime::createFromFormat('U', $fieldArray[$name]));
                     } elseif (is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage') || is_a($oldValue, 'TYPO3\CMS\Extbase\Persistence\Generic\ObjectStorage')) {
-                        $recurrence->{'empty'.$method}();
+                        $recurrence->{'empty' . $method}();
                         foreach (explode(',', $fieldArray[$name]) as $uid) {
                             $object = $this->{substr($name, 0, -1) . 'Repository'}->findByIdentifier($uid);
                             if (null !== $object) {
-                                $recurrence->{'add'.substr($method, 0, -1)}($object);
+                                $recurrence->{'add' . substr($method, 0, -1)}($object);
                             }
                         }
                     }
                     break;
                 case 'boolean':
-                    $recurrence->{'set'.$method}((bool)$fieldArray[$name]);
+                    $recurrence->{'set' . $method}((bool)$fieldArray[$name]);
                     break;
             }
         }

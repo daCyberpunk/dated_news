@@ -39,11 +39,9 @@ class FlexFormHook
         if ($table === 'tt_content' && $row['CType'] === 'list' && $row['list_type'] === 'news_pi1') {
             $dataStructArray = $this->getManipulatedDataStructure($row, $dataStructArray);
 
-
             $dataStructArray['sheets']['sDEF'] = 'typo3conf/ext/dated_news/Configuration/FlexForms/settings.xml';
         }
     }
-
 
     /**
      * TYPO3 V8.
@@ -59,15 +57,13 @@ class FlexFormHook
     {
         if ($tableName === 'tt_content' && $row['CType'] === 'list' && $row['list_type'] === 'news_pi1') {
             $dataStructArray = GeneralUtility::xml2array(
-                file_get_contents(PATH_site.'typo3conf/ext/news/Configuration/FlexForms/flexform_news.xml')
+                file_get_contents(PATH_site . 'typo3conf/ext/news/Configuration/FlexForms/flexform_news.xml')
             );
 
             $dataStructArray['sheets']['sDEF'] = 'EXT:dated_news/Configuration/FlexForms/settings.xml';
             $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional_original.xml';
 
             $dataStructArray = $this->getManipulatedDataStructure($row, $dataStructArray);
-
-
 
             $identifier = [
                 'type'       => 'file',
@@ -94,7 +90,6 @@ class FlexFormHook
             return [];
         }
     }
-
 
     /**
      * getManipulatedDataStructure
@@ -145,7 +140,6 @@ class FlexFormHook
             $dataStructArray['sheets']['additional'] = 'EXT:dated_news/Configuration/FlexForms/additional.xml';
             $dataStructArray['sheets']['confirmation'] = 'EXT:dated_news/Configuration/FlexForms/confirmation.xml';
         }
-
 
         return $dataStructArray;
     }

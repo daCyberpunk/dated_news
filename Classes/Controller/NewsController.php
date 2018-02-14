@@ -76,7 +76,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $this->pageRenderer = $pageRenderer;
     }
 
-
     /**
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
@@ -181,8 +180,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
 
-
-
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CALENDAR_ACTION, $assignedValues);
 
         $this->view->assignMultiple($assignedValues);
@@ -233,7 +230,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $start = $recurrence ? $recurrence->getEventstart() : $news->getEventstart();
         $end = $recurrence ?  $recurrence->getEventend() : $news->getEventend();
         $allDay = $news->getFulltime();
-        $qtip = ' \''.trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings, $news, $recurrence))).'\'';
+        $qtip = ' \'' . trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings, $news, $recurrence))) . '\'';
 
         $diff = date_diff($end, $start);
         if ($diff->d > 0 && $allDay === true) {
@@ -244,14 +241,14 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             try {
                 $start = new \DateTime($start);
             } catch (\Exception $exception) {
-                throw new Exception('"'.$start.'" could not be parsed by DateTime constructor.', 1438925934);
+                throw new Exception('"' . $start . '" could not be parsed by DateTime constructor.', 1438925934);
             }
         }
         if (!$end instanceof \DateTime && $end !== null) {
             try {
                 $end = new \DateTime($end);
             } catch (\Exception $exception) {
-                throw new Exception('"'.$end.'" could not be parsed by DateTime constructor.', 1438925934);
+                throw new Exception('"' . $end . '" could not be parsed by DateTime constructor.', 1438925934);
             }
         }
 
@@ -260,14 +257,14 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $colors = $this->getCalendarItemColors($news);
 
         return [
-            "title" => $news->getTitle(),
-            "id" => $uid,
-            "end" => $end->format($calendarDateformat),
-            "start" => $start->format($calendarDateformat),
-            "url" => $uri,
-            "allDay" => $allDay,
-            "className" => 'Event_' . $uid,
-            "qtip" => $qtip,
+            'title' => $news->getTitle(),
+            'id' => $uid,
+            'end' => $end->format($calendarDateformat),
+            'start' => $start->format($calendarDateformat),
+            'url' => $uri,
+            'allDay' => $allDay,
+            'className' => 'Event_' . $uid,
+            'qtip' => $qtip,
             'color' => $colors['color'],
             'textColor' => $colors['textColor']
         ];
@@ -439,11 +436,10 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         foreach (array_reverse($partialRootPaths) as $key => $path) {
-            if (!$partial && file_exists(GeneralUtility::getFileAbsFileName($path. '/Qtip.html'))) {
-                $partial = GeneralUtility::getFileAbsFileName($path. '/Qtip.html');
+            if (!$partial && file_exists(GeneralUtility::getFileAbsFileName($path . '/Qtip.html'))) {
+                $partial = GeneralUtility::getFileAbsFileName($path . '/Qtip.html');
             }
         }
-
 
         $qtip->setTemplatePathAndFilename($partial);
         $qtip->setPartialRootPaths($partialRootPaths);
@@ -500,7 +496,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'newApplication' => $newApplication,
             'formTimestamp' => time(), // for form reload and doubled submit prevention
         ];
-        
+
         if (isset($slotoptions)) {
             $assignedValues['slotoptions'] = $slotoptions;
         }
@@ -582,9 +578,8 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $newApplication->setFormTimestamp($formTimestamp);
 
             //set creationdate
-            $date = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTime(date("H"), date("i"), date("s"));
+            $date = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTime(date('H'), date('i'), date('s'));
             $newApplication->setCrdate($date->getTimestamp());
-
 
             if ($news->getRecurrence() > 0) {
                 //set total depending on either customer is an early bird or not and on earyBirdPrice is set
@@ -613,7 +608,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             $persistenceManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
             $persistenceManager->persistAll();
-            $newApplication->setApplicationTitle($news->getTitle().' - '.$newApplication->getName().' '.$newApplication->getSurname().'-'.$newApplication->getUid());
+            $newApplication->setApplicationTitle($news->getTitle() . ' - ' . $newApplication->getName() . ' ' . $newApplication->getSurname() . '-' . $newApplication->getUid());
             $this->applicationRepository->update($newApplication);
             $persistenceManager->persistAll();
 
@@ -686,7 +681,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $this->flashMessageService('applicationNotFound', 'applicationNotFoundStatus', 'ERROR');
         } else {
             //vor confirmation link validity check
-            $date = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTime(date("H"), date("i"), date("s"));
+            $date = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTime(date('H'), date('i'), date('s'));
             $hoursSinceBookingRequestSent = ($date->getTimestamp() - $newApplication->getCrdate()) / 3600;
 
             if ($newApplication->isConfirmed() === true) {
@@ -696,7 +691,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 //confirmation link not valid anymore
                 $this->flashMessageService('applicationConfirmationLinkUnvalid', 'applicationConfirmationLinkUnvalidStatus', 'ERROR');
             }
-
 
             if (
                 $newApplication->isConfirmed() !== true &&
@@ -731,7 +725,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
         if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
-            GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('cache_pages')->flushByTag('tx_news_uid_'.$news->getUid());
+            GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('cache_pages')->flushByTag('tx_news_uid_' . $news->getUid());
         }
 
         if ($news->getRecurrence() > 0 && !is_null($event)) {
@@ -759,7 +753,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $item = $this->newsRepository->findByUid($uid);
 
                 foreach ($fields as $field) {
-                    $func = 'get'.ucfirst(trim($field));
+                    $func = 'get' . ucfirst(trim($field));
                     if (method_exists($item, $func) === true) {
                         if ($field === 'slotsFree') {
                             $resultArray[$uid][$field] = $item->getSlotsFree();
@@ -805,7 +799,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $newsLocation = $news->getLocations();
         }
 
-
         // from
         $sender = [];
         if (!empty($this->settings['senderMail'])) {
@@ -817,7 +810,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $applyer = [];
         if (is_string($applyerMail) && GeneralUtility::validEmail($applyerMail)) {
             $applyer = [
-                $newApplication->getEmail() => $newApplication->getName().', '.$newApplication->getSurname(),
+                $newApplication->getEmail() => $newApplication->getName() . ', ' . $newApplication->getSurname(),
             ];
         } else {
             $this->flashMessageService('applicationSendMessageNoApplyerEmail', 'applicationSendMessageNoApplyerEmailStatus', 'ERROR');
@@ -880,7 +873,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
 
-
         if ($confirmation === true && $this->settings['ics']) {
             //create ICS File and send invitation
             $newsTitle = $news->getTitle();
@@ -888,7 +880,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $i = 0;
             if (isset($newsLocation) && count($newsLocation) < 2) {
                 foreach ($newsLocation as $location) {
-                    $icsLocation .= $location->getName().', '.$location->getAddress().', '.$location->getZip().' '.$location->getCity().', '.$location->getCountry();
+                    $icsLocation .= $location->getName() . ', ' . $location->getAddress() . ', ' . $location->getZip() . ' ' . $location->getCity() . ', ' . $location->getCountry();
                 }
             } else {
                 foreach ($newsLocation as $location) {
@@ -896,7 +888,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     if ($i === 1) {
                         $icsLocation .= $location->getName();
                     } else {
-                        $icsLocation .= ', '.$location->getName();
+                        $icsLocation .= ', ' . $location->getName();
                     }
                 }
             }
@@ -1088,7 +1080,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'dated_news',
         ];
 
-
         /*jQuery*/
         if ($jquery == '1') {
             $this->pageRenderer->addJsFooterLibrary(
@@ -1101,19 +1092,19 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         //other libs
         $file = 'typo3temp/assets/datednews/dated_news_calendar.js';
-        if (!file_exists(PATH_site.$file)) {
+        if (!file_exists(PATH_site . $file)) {
             foreach ($fileNames as $name) {
                 if (!file_exists($libs[$name])) {
-                    throw new \InvalidArgumentException('File '.$libs[$name].' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.' . $name . ')', 1517546715990);
+                    throw new \InvalidArgumentException('File ' . $libs[$name] . ' not found. (TypoScript settings path: plugins.tx_news.dated_news.jsFiles.' . $name . ')', 1517546715990);
                 } else {
                     $contents[] = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($libs[$name]);
                 }
             }
 
             // writeFileToTypo3tempDir() returns NULL on success (please double-read!)
-            $error = GeneralUtility::writeFileToTypo3tempDir(PATH_site.$file, implode($contents, NEW_LINE));
+            $error = GeneralUtility::writeFileToTypo3tempDir(PATH_site . $file, implode($contents, NEW_LINE));
             if ($error !== null) {
-                throw new \InvalidArgumentException('Dated News JavaScript file could not be written to '.$file.'. Reason: '.$error, 1487439381339);
+                throw new \InvalidArgumentException('Dated News JavaScript file could not be written to ' . $file . '. Reason: ' . $error, 1487439381339);
             }
         }
 
@@ -1182,7 +1173,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         foreach ($newsRecords as $news) {
             if ($news->isShowincalendar() === true) {
                 $categories = $news->getCategories();
-                
+
                 foreach ($categories as $category) {
                     $title = $category->getTitle();
                     $bgColor = $category->getBackgroundcolor();
@@ -1268,7 +1259,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             default:
                 $result = false;
         }
-        
+
         return $result;
     }
 
@@ -1289,7 +1280,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             } else {
                 $object = $news;
             }
-            $func = 'get'.ucfirst(trim($settings['icsDescriptionCustomField']));
+            $func = 'get' . ucfirst(trim($settings['icsDescriptionCustomField']));
             if (method_exists($object, $func) === true) {
                 $description = $object->{$func}();
                 if (trim($description) === '' || $description === strip_tags($description)) {

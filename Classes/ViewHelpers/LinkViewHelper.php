@@ -61,7 +61,7 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
      * @inject
      */
     protected $div;
-    
+
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -111,22 +111,19 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
             $configuration['parameter'] = $detailPid;
         }
 
-
-
-
         // missing in original Viewhelper
         if ($this->arguments['forceAbsoluteUrl']) {
             $configuration['forceAbsoluteUrl'] = true;
         }
 
         $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
-        $configuration['additionalParams'] .= '&tx_news_pi1[news]='.$this->getNewsId($newsItem);
+        $configuration['additionalParams'] .= '&tx_news_pi1[news]=' . $this->getNewsId($newsItem);
         $action = 'detail';
         if ($this->arguments['eventDetail'] || $tsSettings['switchableControllerActions'] === 'News->list;News->eventDetail') {
             $action = 'eventDetail';
         }
         if ((int) $tsSettings['link']['skipControllerAndAction'] !== 1) {
-            $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News'.
+            $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News' .
                 '&tx_news_pi1[action]=' . $action;
         }
 
@@ -135,13 +132,13 @@ class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
             $dateTime = $newsItem->getDatetime();
 
             if (!empty($tsSettings['link']['hrDate']['day'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[day]='.$dateTime->format($tsSettings['link']['hrDate']['day']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[day]=' . $dateTime->format($tsSettings['link']['hrDate']['day']);
             }
             if (!empty($tsSettings['link']['hrDate']['month'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[month]='.$dateTime->format($tsSettings['link']['hrDate']['month']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[month]=' . $dateTime->format($tsSettings['link']['hrDate']['month']);
             }
             if (!empty($tsSettings['link']['hrDate']['year'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[year]='.$dateTime->format($tsSettings['link']['hrDate']['year']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[year]=' . $dateTime->format($tsSettings['link']['hrDate']['year']);
             }
         }
 

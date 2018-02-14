@@ -32,7 +32,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clea
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news'][\GeorgRinger\News\Hooks\PageLayoutView::class]['extensionSummary']['dated_news']
     = \FalkRoeder\DatedNews\Hooks\PageLayoutView::class . '->extensionSummary';
 
-
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'GeorgRinger.news',
     'Pi1',

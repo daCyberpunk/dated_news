@@ -72,13 +72,13 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var bool
      */
     protected $hidden = false;
-    
+
     /**
      * pid.
      *
      * @var int
      */
-    protected $pid ;
+    protected $pid;
 
     /**
      * slots.
@@ -86,7 +86,6 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var int
      */
     protected $slots;
-
 
     /**
      * showincalendar.
@@ -101,14 +100,14 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var bool
      */
     protected $enableApplication = false;
-    
+
     /**
      * earlyBirdDate.
      *
      * @var \DateTime
      */
     protected $earlyBirdDate = '';
-    
+
     /**
      * slotoptions.
      *
@@ -358,7 +357,6 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->slots = $slots;
     }
 
-
     /**
      * Returns the slotsFree.
      *
@@ -368,7 +366,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return (int) $this->getSlots() - $this->getReservedSlotsCount();
     }
-    
+
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\FalkRoeder\DatedNews\Domain\Model\Application>
      */
@@ -537,8 +535,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->modified = $modified;
     }
-    
-    
+
     /**
      * Returns the slotoptions.
      *
@@ -611,7 +608,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->hidden;
     }
-    
+
     /**
      * Returns the pid.
      *
@@ -633,7 +630,6 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->pid = $pid;
     }
-
 
     /**
      * Adds a Application.
@@ -691,8 +687,6 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return count($this->getApplication()->toArray());
     }
 
-
-    
     /**
      * Adds a News.
      *

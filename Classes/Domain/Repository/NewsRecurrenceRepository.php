@@ -50,7 +50,7 @@ class NewsRecurrenceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $sql = 'SELECT r.* FROM tx_datednews_domain_model_newsrecurrence r
 inner join tx_datednews_news_newsrecurrence_mm rn on rn.uid_foreign = r.uid
 inner join tx_news_domain_model_news n on rn.uid_local = n.uid
-where n.uid = '.$id;
+where n.uid = ' . $id;
 
         $query->statement($sql);
 

@@ -96,7 +96,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         $uid = $this->arguments['id'];
         $newsUids = $this->arguments['newsUids'];
 
-        $timeZone = new \DateTimeZone("Europe/Berlin");
+        $timeZone = new \DateTimeZone('Europe/Berlin');
         $dt = new \DateTime();
         $dt->setTimezone($timeZone);
 
@@ -113,35 +113,35 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         $hasQtips = '';
         if ($settings['qtips'] == '1') {
             $hasQtips = 'has-qtips';
-            $eventRenderer = $this->buildEventRendererOption($tsSettings['tooltipPreStyle'], '.calendar_'.$uid);
+            $eventRenderer = $this->buildEventRendererOption($tsSettings['tooltipPreStyle'], '.calendar_' . $uid);
         }
         $timeFormat = $this->buildTimeFormatOption($tsSettings['twentyfourhour']);
         $buttonText = $this->getButtonText();
-        $defaultView = 'defaultView: "'.$settings['defaultView'].'",';
-        $lang = 'locale: "'.$GLOBALS['TSFE']->lang.'",';
+        $defaultView = 'defaultView: "' . $settings['defaultView'] . '",';
+        $lang = 'locale: "' . $GLOBALS['TSFE']->lang . '",';
 
         $flexformConfig = preg_replace("/\r|\n/", '', $settings['additionalConfig']);
         if (trim($flexformConfig) !== '' && substr($flexformConfig, -1) !== ',') {
-            $flexformConfig = $flexformConfig.',';
+            $flexformConfig = $flexformConfig . ',';
         }
 
         if (trim($settings['aspectRatio']) !== '' && floatval($settings['aspectRatio']) != 0) {
-            $aspectRatioHeight = 'aspectRatio: "'.floatval($settings['aspectRatio']).'",';
+            $aspectRatioHeight = 'aspectRatio: "' . floatval($settings['aspectRatio']) . '",';
         } else {
             $aspectRatioHeight = 'height: "auto",';
         }
 
         $allDaySlot = 'allDaySlot:0,';
         if ($settings['allDaySlot']) {
-            $allDaySlot = 'allDaySlot:'.$settings['allDaySlot'].',';
+            $allDaySlot = 'allDaySlot:' . $settings['allDaySlot'] . ',';
         }
         $minTime = '';
         if ($settings['minTime']) {
-            $minTime = 'minTime: "'.date('H:i:s', $settings['minTime']).'",';
+            $minTime = 'minTime: "' . date('H:i:s', $settings['minTime']) . '",';
         }
         $maxTime = '';
         if ($settings['maxTime']) {
-            $maxTime = 'maxTime: "'.date('H:i:s', $settings['maxTime']).'",';
+            $maxTime = 'maxTime: "' . date('H:i:s', $settings['maxTime']) . '",';
         }
         $this->addJQueryUIThemeCSS($tsSettings['uiThemeCustom'], $tsSettings['uiTheme']);
 
@@ -235,15 +235,15 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 EOT;
 
         if ($this->isCached()) {
-            $this->pageRenderer->addFooterData('<script name="newsCalendar_'.$uid.'" type="text/javascript">'.$js.'</script>');
+            $this->pageRenderer->addFooterData('<script name="newsCalendar_' . $uid . '" type="text/javascript">' . $js . '</script>');
         } else {
             // additionalFooterData not possible in USER_INT
-            $GLOBALS['TSFE']->additionalFooterData[md5('dated_newsCalendar_'.$uid)] = GeneralUtility::wrapJS($js);
+            $GLOBALS['TSFE']->additionalFooterData[md5('dated_newsCalendar_' . $uid)] = GeneralUtility::wrapJS($js);
         }
 
-        $this->templateVariableContainer->add('datedNewsCalendarHtml', '<div id="calendar" class="fc-calendar-container '.$hasQtips.' calendar_'.$uid.'"></div>');
+        $this->templateVariableContainer->add('datedNewsCalendarHtml', '<div id="calendar" class="fc-calendar-container ' . $hasQtips . ' calendar_' . $uid . '"></div>');
 
-        return '<div id="calendar" data-qtipminwidth="'.$tsSettings['viewportMinWidthForTooltip'].'" class="fc-calendar-container '.$hasQtips.' calendar_'.$uid.'"></div>';
+        return '<div id="calendar" data-qtipminwidth="' . $tsSettings['viewportMinWidthForTooltip'] . '" class="fc-calendar-container ' . $hasQtips . ' calendar_' . $uid . '"></div>';
     }
 
     /**
@@ -253,18 +253,18 @@ EOT;
     {
         $extensionName = 'dated_news';
         $key = 'fullcalendar.';
-        $today = LocalizationUtility::translate($key.'today', $extensionName);
-        $month = LocalizationUtility::translate($key.'month', $extensionName);
-        $week = LocalizationUtility::translate($key.'week', $extensionName);
-        $agendaWeek = LocalizationUtility::translate($key.'agendaWeek', $extensionName);
-        $day = LocalizationUtility::translate($key.'day', $extensionName);
-        $agendaDay = LocalizationUtility::translate($key.'agendaDay', $extensionName);
-        $listYear = LocalizationUtility::translate($key.'listYear', $extensionName);
-        $listMonth = LocalizationUtility::translate($key.'listMonth', $extensionName);
-        $listWeek = LocalizationUtility::translate($key.'listWeek', $extensionName);
-        $listDay = LocalizationUtility::translate($key.'listDay', $extensionName);
+        $today = LocalizationUtility::translate($key . 'today', $extensionName);
+        $month = LocalizationUtility::translate($key . 'month', $extensionName);
+        $week = LocalizationUtility::translate($key . 'week', $extensionName);
+        $agendaWeek = LocalizationUtility::translate($key . 'agendaWeek', $extensionName);
+        $day = LocalizationUtility::translate($key . 'day', $extensionName);
+        $agendaDay = LocalizationUtility::translate($key . 'agendaDay', $extensionName);
+        $listYear = LocalizationUtility::translate($key . 'listYear', $extensionName);
+        $listMonth = LocalizationUtility::translate($key . 'listMonth', $extensionName);
+        $listWeek = LocalizationUtility::translate($key . 'listWeek', $extensionName);
+        $listDay = LocalizationUtility::translate($key . 'listDay', $extensionName);
 
-        return "buttonText: {today:'".$today."',month:'".$month."',week:'".$week."',agendaWeek:'".$agendaWeek."',day:'".$day."',agendaDay:'".$agendaDay."',listYear:'".$listYear."',listMonth:'".$listMonth."',listWeek:'".$listWeek."',listDay:'".$listDay."'},";
+        return "buttonText: {today:'" . $today . "',month:'" . $month . "',week:'" . $week . "',agendaWeek:'" . $agendaWeek . "',day:'" . $day . "',agendaDay:'" . $agendaDay . "',listYear:'" . $listYear . "',listMonth:'" . $listMonth . "',listWeek:'" . $listWeek . "',listDay:'" . $listDay . "'},";
     }
 
     /**
@@ -277,8 +277,8 @@ EOT;
             $uiTheme = $uiThemeCustom;
         }
         if ($uiTheme != null) {
-            $this->pageRenderer->addCssFile('typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.min.css');
-            $this->pageRenderer->addCssFile('typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.theme.min.css');
+            $this->pageRenderer->addCssFile('typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/' . $uiTheme . '/jquery-ui.min.css');
+            $this->pageRenderer->addCssFile('typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/' . $uiTheme . '/jquery-ui.theme.min.css');
 //            $GLOBALS['TSFE']->additionalHeaderData['dated_news1'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.min.css" media="all">';
 //            $GLOBALS['TSFE']->additionalHeaderData['dated_news2'] = '<link rel="stylesheet" type="text/css" href="typo3conf/ext/dated_news/Resources/Public/CSS/jqueryThemes/'.$uiTheme.'/jquery-ui.theme.min.css" media="all">';
         }
@@ -370,9 +370,9 @@ EOT;
         $todayPositionArr = explode('_', $todayPosition);
         $positions[$todayPositionArr[0]][$todayPositionArr[1]] .= ', today';
         $switchableViewsPositionArr = explode('_', $switchableViewsPosition);
-        $positions[$switchableViewsPositionArr[0]][$switchableViewsPositionArr[1]] .= ', '.$switchableViews;
-        $header = 'header: {left: "'.$positions['header']['left'].'", center: "'.$positions['header']['center'].'", right: "'.$positions['header']['right'].'"},';
-        $footer = 'footer: {left: "'.$positions['footer']['left'].'", center: "'.$positions['footer']['center'].'", right: "'.$positions['footer']['right'].'"},';
+        $positions[$switchableViewsPositionArr[0]][$switchableViewsPositionArr[1]] .= ', ' . $switchableViews;
+        $header = 'header: {left: "' . $positions['header']['left'] . '", center: "' . $positions['header']['center'] . '", right: "' . $positions['header']['right'] . '"},';
+        $footer = 'footer: {left: "' . $positions['footer']['left'] . '", center: "' . $positions['footer']['center'] . '", right: "' . $positions['footer']['right'] . '"},';
 
         return [$header, $footer];
     }

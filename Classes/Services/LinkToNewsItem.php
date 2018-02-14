@@ -149,11 +149,11 @@ class LinkToNewsItem
         $configuration['forceAbsoluteUrl'] = true;
 
         $configuration['useCacheHash'] = $GLOBALS['TSFE']->sys_page->versioningPreview ? 0 : 1;
-        $configuration['additionalParams'] .= '&tx_news_pi1[news]='.$this->getNewsId($newsItem);
+        $configuration['additionalParams'] .= '&tx_news_pi1[news]=' . $this->getNewsId($newsItem);
 
         // action is set to "detail" in original Viewhelper, but we overwiritten this action
         if ((int) $tsSettings['link']['skipControllerAndAction'] !== 1) {
-            $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News'.
+            $configuration['additionalParams'] .= '&tx_news_pi1[controller]=News' .
                 '&tx_news_pi1[action]=eventDetail';
         }
 
@@ -162,13 +162,13 @@ class LinkToNewsItem
             $dateTime = $newsItem->getDatetime();
 
             if (!empty($tsSettings['link']['hrDate']['day'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[day]='.$dateTime->format($tsSettings['link']['hrDate']['day']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[day]=' . $dateTime->format($tsSettings['link']['hrDate']['day']);
             }
             if (!empty($tsSettings['link']['hrDate']['month'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[month]='.$dateTime->format($tsSettings['link']['hrDate']['month']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[month]=' . $dateTime->format($tsSettings['link']['hrDate']['month']);
             }
             if (!empty($tsSettings['link']['hrDate']['year'])) {
-                $configuration['additionalParams'] .= '&tx_news_pi1[year]='.$dateTime->format($tsSettings['link']['hrDate']['year']);
+                $configuration['additionalParams'] .= '&tx_news_pi1[year]=' . $dateTime->format($tsSettings['link']['hrDate']['year']);
             }
         }
         $this->cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);

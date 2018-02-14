@@ -386,7 +386,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @cascade remove
      */
     protected $events = null;
-    
+
     /**
      * recurringevents.
      *
@@ -788,7 +788,7 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->events = $events;
     }
-    
+
     /**
      * Adds a Recurringevent.
      *

@@ -104,7 +104,6 @@ class News extends \GeorgRinger\News\Domain\Model\News
      */
     protected $slots;
 
-
     /**
      * price.
      *
@@ -634,8 +633,6 @@ class News extends \GeorgRinger\News\Domain\Model\News
         return $this->eventtype === '' ? false : true;
     }
 
-
-
     /**
      * Returns the eventlocation.
      *
@@ -702,7 +699,6 @@ class News extends \GeorgRinger\News\Domain\Model\News
         $this->slots = $slots;
     }
 
-
     /**
      * Returns the slotsFree.
      *
@@ -752,7 +748,6 @@ class News extends \GeorgRinger\News\Domain\Model\News
         }
         return $options;
     }
-
 
     /**
      * Returns the backgroundcolor.

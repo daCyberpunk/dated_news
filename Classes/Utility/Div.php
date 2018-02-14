@@ -76,7 +76,7 @@ class Div
         if (isset($conf['fileNames']) && is_array($conf[$fileNames])) {
             foreach ($fileNames as $fileName) {
                 if (trim($fileName) != '') {
-                    $email->attach(\Swift_Attachment::fromPath('fileadmin'.$fileName));
+                    $email->attach(\Swift_Attachment::fromPath('fileadmin' . $fileName));
                 }
             }
         }
@@ -116,18 +116,17 @@ class Div
     {
         /** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
         $emailBodyObject = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
-        $emailBodyObject->setTemplatePathAndFilename($this->getTemplatePath('Email/'.$conf('template').'.html'));
+        $emailBodyObject->setTemplatePathAndFilename($this->getTemplatePath('Email/' . $conf('template') . '.html'));
         $emailBodyObject->setLayoutRootPaths([
-            'default' => ExtensionManagementUtility::extPath('dated_news').'Resources/Private/Layouts',
+            'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Layouts',
         ]);
         $emailBodyObject->setPartialRootPaths([
-            'default' => ExtensionManagementUtility::extPath('dated_news').'Resources/Private/Partials',
+            'default' => ExtensionManagementUtility::extPath('dated_news') . 'Resources/Private/Partials',
         ]);
         $emailBodyObject->assignMultiple($conf['variables']);
 
         return $emailBodyObject;
     }
-
 
     /**
      * Generate and send ICS Invitation.
@@ -143,13 +142,11 @@ class Div
         $email->setReplyTo($conf['replyTo']);
         $email->setBody($conf['attachment']['content'], 'text/calendar');
 
-
         $headers = $email->getHeaders();
         $headers->addTextHeader('Content-class', 'urn:content-classes:calendarmessage');
         $type = $email->getHeaders()->get('Content-Type');
         $type->setValue('text/calendar; method=REQUEST');
         $type->setParameter('charset', 'UTF-8');
-
 
         $email->send();
 
@@ -175,14 +172,14 @@ class Div
         if (!empty($extbaseFrameworkConfiguration['view']['templateRootPaths'])) {
             foreach ($extbaseFrameworkConfiguration['view']['templateRootPaths'] as $path) {
                 $absolutePath = GeneralUtility::getFileAbsFileName($path);
-                if (file_exists($absolutePath.$relativePathAndFilename)) {
-                    $absolutePathAndFilename = $absolutePath.$relativePathAndFilename;
+                if (file_exists($absolutePath . $relativePathAndFilename)) {
+                    $absolutePathAndFilename = $absolutePath . $relativePathAndFilename;
                 }
             }
         }
         if (empty($absolutePathAndFilename)) {
             $absolutePathAndFilename = GeneralUtility::getFileAbsFileName(
-                    'EXT:dated_news/Resources/Private/Templates/'.$relativePathAndFilename
+                    'EXT:dated_news/Resources/Private/Templates/' . $relativePathAndFilename
                     );
         }
 
