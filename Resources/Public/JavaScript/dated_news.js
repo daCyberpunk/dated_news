@@ -41,25 +41,34 @@ var ready = function ( fn ) {
 };
 
 ready(function() {
-    var elems = $('.js-reloadfields');
-    var requestItems = {};
+    let switchSlotOptions;
+    let elRecurrence;
+    let el;
+    let elems = document.querySelectorAll('.js-reloadfields');
+    let requestItems = {};
     //reloadfields
-    elems.each(function(i, e){
-        var item = $(e);
-        if(!requestItems.hasOwnProperty(item.attr('data-dn-uid'))){
-            requestItems[item.attr('data-dn-uid')] = [];
+    elems.forEach(function (e) {
+        let item = e;
+        if (!requestItems.hasOwnProperty(item.getAttribute('data-dn-uid'))) {
+            requestItems[item.getAttribute('data-dn-uid')] = [];
         }
-        requestItems[item.attr('data-dn-uid')].push(item.attr('data-dn-field'));
+        requestItems[item.getAttribute('data-dn-uid')].push(item.getAttribute('data-dn-field'));
     });
     if(elems.length) {
-        $.ajax({
-            url: "?type=6660666&tx_news_pi1[action]=reloadFields&tx_news_pi1[requestItems]=" + JSON.stringify(requestItems),
-            contentType: "application/json",
-            success: function(data, s){
+        let httpRequest = new XMLHttpRequest();
+
+        if (!httpRequest) {
+            console.error('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+        }
+        httpRequest.onreadystatechange = function(data, s){
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    let data = httpRequest.responseText;
                 if(typeof data === 'string') {
                     data = JSON.parse(data);
                 }
-                elems.each(function(i, e){
+                    elems.forEach(function (e) {
                     var item = $(e);
                     if(data.hasOwnProperty(item.attr('data-dn-uid'))){
                         if(data[item.attr('data-dn-uid')].hasOwnProperty(item.attr('data-dn-field'))){
@@ -67,14 +76,35 @@ ready(function() {
                         }
                     }
                 });
+                } else {
+                    console.error('There was a problem with the request.');
             }
-        });
     }
-    //timestamp in applicationform to prevent double sending applications
-    var el = document.querySelectorAll('[name="tx_news_pi1[newApplication][formTimestamp]"]');
-    if(el.length && el[0].value === '') {
-        el[0].value = Math.round(new Date().getTime() / 1000);
+        };
+        httpRequest.open('GET', '?type=6660666&tx_news_pi1[action]=reloadFields&tx_news_pi1[requestItems]=' + JSON.stringify(requestItems));
+        httpRequest.send();
     }
     //switch slotoptions
-    //...
+    elRecurrence = document.querySelectorAll('[name="tx_news_pi1[reservedRecurrence]"]')[0];
+    if(typeof elRecurrence !== 'undefined') {
+        switchSlotOptions = function () {
+            let recurrenceDates;
+            let selected;
+            if (elRecurrence) {
+                selected = elRecurrence.options[elRecurrence.selectedIndex].value;
+                recurrenceDates = document.querySelectorAll('[name^="tx_news_pi1[reservedSlots-"]');
+                recurrenceDates.forEach(function (el) {
+                    if (el.getAttribute('name') !== 'tx_news_pi1[reservedSlots-' + selected + ']') {
+                        el.style.display = 'none';
+                    } else {
+                        el.style.display = 'block';
+
+                    }
+});
+            }
+
+        };
+        elRecurrence.addEventListener('change', switchSlotOptions, true);
+        switchSlotOptions();
+    }
 });

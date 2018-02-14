@@ -360,8 +360,8 @@
 				<target state="translated">Fehler!</target>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageGeneralError" approved="yes">
-				<source>There is a technical error. Please contact us!</source>
-				<target state="translated">Ein technischer Fehler ist aufgetreten. Bitte kontaktieren Sie uns!</target>
+				<source>There is a technical error. Please contact us! %1$s</source>
+				<target state="translated">Ein technischer Fehler ist aufgetreten. Bitte kontaktieren Sie uns! %1$s</target>
 			</trans-unit>
 			<trans-unit id="applicationSendStatusGeneralErrorStatus" approved="yes">
 				<source>Error!</source>

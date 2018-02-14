@@ -93,5 +93,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
             </tr>
         </table>
     </f:if>
+     <f:if condition="{mailSent}">
+         <f:else>
+             <input type="button" value="Go back and check my Input!" onclick="history.back()"></input>
+         </f:else>
+      </f:if>
 
 </f:section>

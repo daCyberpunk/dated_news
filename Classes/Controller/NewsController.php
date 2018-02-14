@@ -121,10 +121,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     public function initializeAction()
     {
         parent::initializeAction();
+        //todo check if $this->settings['switchableControllerActions']  really is needed
         $cObj =  $this->configurationManager->getContentObject();
-        $pluginConfiguration = $this->div->getPluginConfiguration($cObj->data['uid']);
-        $this->settings['switchableControllerActions'] = $pluginConfiguration['switchableControllerActions'];
+        if($cObj && isset($cObj->data['uid'])){
+            $pluginConfiguration = $this->div->getPluginConfiguration($cObj->data['uid']);
+            $this->settings['switchableControllerActions'] = $pluginConfiguration['switchableControllerActions'];
+        }
     }
+
+
 
     /**
      * Calendar view.
@@ -331,7 +336,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'tags' => []
         ];
 
-        $result = $this->filterNewsForCalendar(
+        $result = $this->addNewsForCalendar(
             $newsRecords->toArray(),
             $result,
             $calendarstart,
@@ -385,7 +390,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      * @param $newsRecords
      * @return array
      */
-    public function filterNewsForCalendar($newsRecords, $result, $calendarstart, $calendarend, $settings)
+    public function addNewsForCalendar($newsRecords, $result, $calendarstart, $calendarend, $settings)
     {
         foreach ($newsRecords as $key => $news) {
             //newsRecords filter if not an event, has recurrences or showincalendar === False
@@ -732,15 +737,16 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     'newApplication' => $newApplication,
                     'newsItem'       => $news,
                 ];
+                if ($news->getRecurrence() > 0 && !is_null($event)) {
+                    $assignedValues['recurrence'] = $event;
+                }
             }
         }
         if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
             GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('cache_pages')->flushByTag('tx_news_uid_' . $news->getUid());
         }
 
-        if ($news->getRecurrence() > 0 && !is_null($event)) {
-            $assignedValues['recurrence'] = $event;
-        }
+
 
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CONFIRMAPPLICATION_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
@@ -811,9 +817,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         // from
-        $sender = [];
         if (!empty($this->settings['senderMail'])) {
-            $sender = ([$this->settings['senderMail'] => $this->settings['senderName']]);
+            $sender = [$this->settings['senderMail'] => $this->settings['senderName']];
+        } else {
+            $this->flashMessageService(
+                \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('applicationSendMessageGeneralError', 'dated_news', ['subject' => '(no sendermail configured.)']),
+                'applicationSendStatusGeneralErrorStatus',
+                'ERROR'
+            );
+            return;
         }
 
         //validate Mailadress of applyer
@@ -1158,13 +1170,16 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $level = \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO;
         }
 
+        $message = (\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($messageKey, 'dated_news') !== null) ? \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($messageKey, 'dated_news') : $messageKey;
+
         $this->addFlashMessage(
-            \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($messageKey, 'dated_news'),
+            $message,
             \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($statusKey, 'dated_news'),
             $level,
             true
         );
     }
+
 
     /**
      * takes categories of all

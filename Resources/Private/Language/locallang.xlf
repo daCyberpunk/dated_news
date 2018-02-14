@@ -356,7 +356,7 @@
 				<source>Error!</source>
 			</trans-unit>
 			<trans-unit id="applicationSendMessageGeneralError">
-				<source>There is a technical error. Please contact us!</source>
+				<source>There is a technical error. Please contact us! %1$s</source>
 			</trans-unit>
 			<trans-unit id="applicationSendStatusGeneralErrorStatus">
 				<source>Error!</source>
