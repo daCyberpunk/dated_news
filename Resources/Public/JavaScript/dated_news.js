@@ -29,20 +29,19 @@
  *
  *
  ***/
+
 var ready = function ( fn ) {
-    // Sanity check
+    'use strict';
     if ( typeof fn !== 'function' ) return;
-    // If document is already loaded, run method
     if ( document.readyState === 'complete'  ) {
         return fn();
     }
-    // Otherwise, wait until document is loaded
     document.addEventListener( 'DOMContentLoaded', fn, false );
 };
 ready(function() {
+    'use strict';
     let switchSlotOptions;
     let elRecurrence;
-    let el;
     let elems = document.querySelectorAll('.js-reloadfields');
     let requestItems = {};
     //reloadfields
@@ -56,11 +55,7 @@ ready(function() {
     if (elems.length) {
         let httpRequest = new XMLHttpRequest();
 
-        if (!httpRequest) {
-            console.error('Giving up :( Cannot create an XMLHTTP instance');
-            return false;
-        }
-        httpRequest.onreadystatechange = function(data, s){
+        httpRequest.onreadystatechange = function(){
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
                 if (httpRequest.status === 200) {
                     let data = httpRequest.responseText;
