@@ -54,13 +54,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class LinkViewHelper extends \GeorgRinger\News\ViewHelpers\LinkViewHelper
 {
 
-    /**
-     * Misc Functions.
-     *
-     * @var \FalkRoeder\DatedNews\Utility\Div
-     * @inject
-     */
-    protected $div;
 
     public function initializeArguments()
     {

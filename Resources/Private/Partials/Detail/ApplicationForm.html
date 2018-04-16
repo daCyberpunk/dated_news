@@ -7,7 +7,6 @@
                         <f:form id="application-form" class="form-horizontal"  pageUid="{settings.applicationPid}" action="createApplication" name="newApplication" object="{newApplication}" arguments="{news : newsItem ,newApplication: newApplication}" enctype="multipart/form-data">
                             <label id="h2" form="application-form"><f:translate key="tx_datednews_domain_model_application.formlabel" extensionName="dated_news"/></label>
                             <f:form.textfield class="form-control" type="hidden" property="formTimestamp" value="{formTimestamp}" size="40" required="required" />
-                            <f:debug title=" | ApplicationForm.html:10" maxDepth="8" inline="FALSE" >{formTimestamp}</f:debug>
                              <f:if condition="{feuserLoggedIn}">
                                  <f:else>
                                      <fieldset>

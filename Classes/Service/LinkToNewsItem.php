@@ -1,6 +1,6 @@
 <?php
 
-namespace FalkRoeder\DatedNews\Services;
+namespace FalkRoeder\DatedNews\Service;
 
 /***
  *

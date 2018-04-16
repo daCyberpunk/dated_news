@@ -58,7 +58,7 @@ class TCEmainHook
     protected $persistenceManager = null;
 
     /**
-     * @var $recurrenceService \FalkRoeder\DatedNews\Services\RecurrenceService
+     * @var $recurrenceService \FalkRoeder\DatedNews\Service\RecurrenceService
      */
     protected $recurrenceService = null;
 
@@ -82,7 +82,7 @@ class TCEmainHook
         $this->newsRepository = $this->extbaseObjectManager->get('GeorgRinger\News\Domain\Repository\NewsRepository');
         $this->newsRecurrenceRepository = $this->extbaseObjectManager->get('FalkRoeder\DatedNews\Domain\Repository\NewsRecurrenceRepository');
         $this->applicationRepository = $this->extbaseObjectManager->get('FalkRoeder\DatedNews\Domain\Repository\ApplicationRepository');
-        $this->recurrenceService = $this->extbaseObjectManager->get('FalkRoeder\DatedNews\Services\RecurrenceService');
+        $this->recurrenceService = $this->extbaseObjectManager->get('FalkRoeder\DatedNews\Service\RecurrenceService');
         $this->persistenceManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
     }
 

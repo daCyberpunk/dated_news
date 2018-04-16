@@ -1,5 +1,5 @@
 <?php
-namespace FalkRoeder\DatedNews\Services;
+namespace FalkRoeder\DatedNews\Service;
 
 use FalkRoeder\DatedNews\Domain\Model\Feuser;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -77,6 +77,44 @@ class FeuserService implements SingletonInterface
     }
 
     /**
+     * getFeuser
+     *
+     * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
+     * @param string $userGroups
+     * @param int $storagePage
+     * @return array | bool
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     */
+    public function getFeuser(\FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $userGroups = '', $storagePage = 0)
+    {
+        //logged in user
+        $feuser = $this->getFrontendUserObject();
+
+        //find user with email address
+        if( !$feuser) {
+            $feuser = $this->findUserByEmail($newApplication->getEmail());
+        }
+
+        //create user
+        if ( !$feuser ) {
+            $userData = [
+                'firstName' => $newApplication->getSurname(),
+                'lastName' => $newApplication->getName(),
+                'email' => $newApplication->getEmail(),
+            ];
+            $feuser = $this->getNewFeuser($userGroups, $storagePage, $userData);
+        }
+
+        if( is_array($feuser) && isset($feuser['user']) ) {
+            return $feuser;
+        } else {
+            return ['user' => $feuser];
+        }
+
+    }
+
+    /**
      * @return int|null
      */
     public function getFrontendUserUid()
@@ -113,11 +151,16 @@ class FeuserService implements SingletonInterface
     /**
      * gets a new FE-User and his clear password
      *
+     * @param array $userData
+     * @param $userGroupUids
+     * @param $storagePage
      * @return array|bool
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    public function getNewFeuser($userData = [], $userGroupUids, $storagePage)
+    public function getNewFeuser($userGroupUids, $storagePage, $userData = [])
     {
-        $user = $this->add($userData, $userGroupUids, $storagePage);
+        $user = $this->add($userGroupUids, $storagePage, $userData);
         if (!$user) {
             return false;
         }
@@ -136,8 +179,9 @@ class FeuserService implements SingletonInterface
      * Adds a new FE-User
      *
      * @return \FalkRoeder\DatedNews\Domain\Model\Feuser|bool
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
-    protected function add($userData = [], $userGroupUids, $storagePage)
+    protected function add($userGroupUids, $storagePage, $userData = [])
     {
         if (!is_string($userData['email']) || !GeneralUtility::validEmail($userData['email'])) {
             return false;

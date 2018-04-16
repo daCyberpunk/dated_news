@@ -1,6 +1,6 @@
 <?php
 
-namespace FalkRoeder\DatedNews\Services;
+namespace FalkRoeder\DatedNews\Service;
 
 /***
  *
@@ -58,7 +58,7 @@ namespace FalkRoeder\DatedNews\Services;
  *   A url to attach to the the event. Make sure to add the protocol (http://
  *   or https://).
  */
-class ICS
+class IcsService
 {
     const DT_FORMAT = 'Ymd\THis\Z';
 

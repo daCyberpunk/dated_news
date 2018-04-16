@@ -19,6 +19,8 @@ namespace FalkRoeder\DatedNews\Controller;
  *
  ***/
 
+use FalkRoeder\DatedNews\Service\CalendarService;
+use FalkRoeder\DatedNews\Utility\CacheUtility;
 use GeorgRinger\News\Utility\Cache;
 use GeorgRinger\News\Utility\Page;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -42,7 +44,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     protected $applicationRepository = null;
 
     /**
-     * @var \FalkRoeder\DatedNews\Services\FeuserService
+     * @var \FalkRoeder\DatedNews\Service\FeuserService
      */
     protected $feuserService;
 
@@ -61,15 +63,55 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     /**
      * Misc Functions.
      *
-     * @var \FalkRoeder\DatedNews\Utility\Div
+     * @var \FalkRoeder\DatedNews\Utility\MiscUtility
      * @inject
      */
-    protected $div;
+    protected $misc;
+
+    /**
+     * MailService
+     *
+     * @var \FalkRoeder\DatedNews\Service\MailService
+     * @inject
+     */
+    protected $mailService;
+    
+    /**
+     * PluginService
+     *
+     * @var \FalkRoeder\DatedNews\Service\PluginService
+     * @inject
+     */
+    protected $pluginService;
+
+    /**
+     * EventService
+     *
+     * @var \FalkRoeder\DatedNews\Service\EventService
+     * @inject
+     */
+    protected $eventService;
+
+    /**
+     * CalendarService
+     *
+     * @var \FalkRoeder\DatedNews\Service\CalendarService
+     * @inject
+     */
+    protected $calendarService;
+
+    /**
+     * ApplicationService
+     *
+     * @var \FalkRoeder\DatedNews\Service\ApplicationService
+     * @inject
+     */
+    protected $applicationService;
 
     /**
      * Misc Functions.
      *
-     * @var \FalkRoeder\DatedNews\Services\LinkToNewsItem
+     * @var \FalkRoeder\DatedNews\Service\LinkToNewsItem
      * @inject
      */
     protected $linkToNewsItem;
@@ -135,11 +177,16 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         //todo check if $this->settings['switchableControllerActions']  really is needed
         $cObj =  $this->configurationManager->getContentObject();
         if ($cObj && isset($cObj->data['uid'])) {
-            $pluginConfiguration = $this->div->getPluginConfiguration($cObj->data['uid']);
+            $pluginConfiguration = $this->pluginService->getPluginConfiguration($cObj->data['uid']);
             $this->settings['switchableControllerActions'] = $pluginConfiguration['switchableControllerActions'];
         }
 
-        $this->feuserService = $this->objectManager->get('FalkRoeder\DatedNews\Services\FeuserService');
+        $this->feuserService = $this->objectManager->get('FalkRoeder\DatedNews\Service\FeuserService');
+        $this->mailService = $this->objectManager->get('FalkRoeder\DatedNews\Service\MailService');
+        $this->pluginService = $this->objectManager->get('FalkRoeder\DatedNews\Service\PluginService');
+        $this->eventService = $this->objectManager->get('FalkRoeder\DatedNews\Service\EventService');
+        $this->calendarService = $this->objectManager->get('FalkRoeder\DatedNews\Service\CalendarService');
+        $this->applicationService = $this->objectManager->get('FalkRoeder\DatedNews\Service\ApplicationService');
     }
 
     /**
@@ -180,58 +227,20 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             'newsUids'        => $newsUids
         ];
 
-        $filterValues = [];
-        if ($this->settings['showCategoryFilter'] === '1') {
-            $filterValues = array_merge($filterValues, $this->getCategoriesOfNews($newsRecords));
-        }
-        if ($this->settings['showTagFilter'] === '1') {
-            $filterValues = array_merge($filterValues, $this->getTagsOfNews($newsRecords));
-        }
-        if (!empty($filterValues)) {
-            if ($this->settings['sortingFilterlist'] === 'shuffle') {
-                $assignedValues['filterValues'] = $this->div->shuffleAssoc($filterValues);
-            } else {
-                ksort($filterValues, SORT_LOCALE_STRING);
-                $assignedValues['filterValues'] = $filterValues;
-            }
-        }
-
+        $filterValues = $this->calendarService->getCalendarFilterValues(
+            $newsRecords, 
+            (bool)$this->settings['showCategoryFilter'], 
+            (bool)$this->settings['showTagFilter'],
+            $this->settings['sortingFilterlist']
+        );
+       
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CALENDAR_ACTION, $assignedValues);
 
         $this->view->assignMultiple($assignedValues);
         Cache::addPageCacheTagsByDemandObject($demand);
     }
 
-    /**
-     * creates list of tags from given news
-     *
-     *
-     * @param $tagArray
-     * @param $news
-     * @param null $recurrence
-     * @return string
-     */
-    public function getTagList($tagArray, $news, $recurrence = null)
-    {
-        $tags = $news->getTags()->toArray();
-        $categories = $news->getCategories()->toArray();
-        $tagsAndCats = array_merge($tags, $categories);
-        $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
-
-        foreach ($tagsAndCats as $value) {
-            $tagTitle = $value->getTitle();
-            if (array_key_exists($tagTitle, $tagArray)) {
-                if (!in_array($uid, $tagArray[$tagTitle])) {
-                    array_push($tagArray[$tagTitle], $uid);
-                }
-            } else {
-                $tagArray[$tagTitle] = [];
-                array_push($tagArray[$tagTitle], $uid);
-            }
-        }
-
-        return $tagArray;
-    }
+    
 
     /**
      * adds calendar and event detail specific default css.
@@ -301,77 +310,12 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         );
     }
 
-    /**
-     * takes categories of all
-     * news records shown in calendar and put them into a array
-     * also adds the colors which might be specified in
-     * category to the array to enable filtering of calendar items
-     * with colored buttons by category.
-     *
-     * @param $newsRecords
-     *
-     * @return array
-     */
-    public function getCategoriesOfNews($newsRecords)
-    {
-        $newsCategories = [];
-        foreach ($newsRecords as $news) {
-            if ($news->isShowincalendar() === true) {
-                $categories = $news->getCategories();
-
-                foreach ($categories as $category) {
-                    $title = $category->getTitle();
-                    $bgColor = $category->getBackgroundcolor();
-                    $textColor = $category->getTextcolor();
-                    if (!array_key_exists($title, $newsCategories)) {
-                        $newsCategories[$title] = [];
-                        $newsCategories[$title]['count'] = 1;
-                        if (trim($bgColor) !== '') {
-                            $newsCategories[$title]['bgcolor'] = $bgColor;
-                            $newsCategories[$title]['textcolor'] = $textColor;
-                        }
-                    } else {
-                        $newsCategories[$title]['count'] = $newsCategories[$title]['count'] + 1;
-                    }
-                }
-            }
-        }
-
-        return $newsCategories;
-    }
-
-    /**
-     * takes tags of all
-     * news records shown in calendar
-     * and put them into a array to enable filtering of calendar items by tag.
-     *
-     * @param $newsRecords
-     *
-     * @return array
-     */
-    public function getTagsOfNews($newsRecords)
-    {
-        $newsTags = [];
-        foreach ($newsRecords as $news) {
-            if ($news->isShowincalendar() === true) {
-                $tags = $news->getTags();
-                foreach ($tags as $tag) {
-                    $title = $tag->getTitle();
-                    if (!array_key_exists($title, $newsTags)) {
-                        $newsTags[$title] = [];
-                        $newsTags[$title]['count'] = 1;
-                    } else {
-                        $newsTags[$title]['count'] = $newsTags[$title]['count'] + 1;
-                    }
-                }
-            }
-        }
-
-        return $newsTags;
-    }
+   
 
     /**
      * Get events via AJAX .
+     * when calendarview changes, f.e. user clicks to next month, 
+     * the events will be called here
      *
      * @param array $overwriteDemand
      *
@@ -385,7 +329,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $calendarend = \DateTime::createFromFormat('Y-m-d H:i:s', $this->request->getArgument('end') . '00:00:00');
 
         //getPluginSettings of Calendar which requested the data
-        $settings = $this->div->getPluginConfiguration($this->request->getArgument('cUid'));
+        $settings = $this->pluginService->getPluginConfiguration($this->request->getArgument('cUid'));
         $settings = array_merge($this->settings, $settings['settings']);
 
         $demand = $this->createDemandObjectFromSettings($settings);
@@ -395,22 +339,22 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
 
         $newsRecords = $this->newsRepository->findDemanded($demand);
-        $result =[
+        $eventsArray =[
             'events' => [],
             'tags' => []
         ];
 
-        $result = $this->addNewsForCalendar(
+        $eventsArray = $this->eventService->getSingleEventsFromNewsRecords(
             $newsRecords->toArray(),
-            $result,
+            $eventsArray,
             $calendarstart,
             $calendarend,
             $settings
         );
 
         return json_encode(
-            $this->addRecurrencesForCalendar(
-                $result,
+            $this->eventService->getRecurrences(
+                $eventsArray,
                 $calendarstart,
                 $calendarend,
                 $settings
@@ -418,195 +362,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         );
     }
 
-    /**
-     * addRecurrencesForCalendar
-     *
-     * @return array
-     */
-    public function addRecurrencesForCalendar($result, $calendarstart, $calendarend, $settings)
-    {
-        $recurrences = $this->newsRecurrenceRepository->getBetweenDates([$calendarstart, $calendarend]);
-        foreach ($recurrences as $key => $evt) {
-            $parents = $evt->getParentEvent()->toArray();
-            if (isset($parents[0])) {
-                $parent = $parents[0];
-                if (
-                    $parent->getHidden()||
-                    !$parent->isShowincalendar()
-                ) {
-                    unset($recurrences[$key]);
-                } else {
-                    $result['tags'] = $this->getTagList($result['tags'], $parent, $evt);
-                    array_push($result['events'], $this->createSingleEvent($parent, $settings, $evt));
-                }
-            } else {
-                unset($recurrences[$key]);
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * filterNewsForCalendar
-     *
-     * newsRecords filter if not an event, has recurrences or showincalendar === False
-     *
-     * @param $newsRecords
-     * @return array
-     */
-    public function addNewsForCalendar($newsRecords, $result, $calendarstart, $calendarend, $settings)
-    {
-        foreach ($newsRecords as $key => $news) {
-            //newsRecords filter if not an event, has recurrences or showincalendar === False
-            if (
-                !$news->isEvent() ||
-                $news->hasNewsRecurrences() ||
-                !$news->isShowincalendar()
-            ) {
-                unset($newsRecords[$key]);
-            } else {
-                $newsStart = $news->getEventstart();
-                $newsEnd = $news->getEventend();
-
-                if (
-                    $newsEnd < $calendarstart ||
-                    $newsStart > $calendarend
-                ) {
-                    unset($newsRecords[$key]);
-                } else {
-                    $result['tags'] = $this->getTagList($result['tags'], $news);
-                    array_push($result['events'], $this->createSingleEvent($news, $settings));
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * creates a single event array from given news / recurrence
-     *
-     *
-     * @param $news
-     * @param $settings
-     * @param null $recurrence
-     * @return array
-     */
-    public function createSingleEvent($news, $settings, $recurrence = null)
-    {
-        $calendarDateformat = 'Y-m-d H:i:s';
-        $start = $recurrence ? $recurrence->getEventstart() : $news->getEventstart();
-        $end = $recurrence ?  $recurrence->getEventend() : $news->getEventend();
-        $allDay = $news->getFulltime();
-        $qtip = ' \'' . trim(preg_replace("/\r|\n/", '', $this->renderQtip($settings, $news, $recurrence))) . '\'';
-
-        $diff = date_diff($end, $start);
-        if ($diff->d > 0 && $allDay === true) {
-            $end->modify('+1 day');
-        }
-
-        if (!$start instanceof \DateTime) {
-            try {
-                $start = new \DateTime($start);
-            } catch (\Exception $exception) {
-                throw new Exception('"' . $start . '" could not be parsed by DateTime constructor.', 1438925934);
-            }
-        }
-        if (!$end instanceof \DateTime && $end !== null) {
-            try {
-                $end = new \DateTime($end);
-            } catch (\Exception $exception) {
-                throw new Exception('"' . $end . '" could not be parsed by DateTime constructor.', 1438925934);
-            }
-        }
-
-        $uri = $this->linkToNewsItem->getLink($news, $settings);
-        $uid = $recurrence ? 'r' . $recurrence->getUid() : 'n' . $news->getUid();
-        $colors = $this->getCalendarItemColors($news);
-
-        return [
-            'title' => $news->getTitle(),
-            'id' => $uid,
-            'end' => $end->format($calendarDateformat),
-            'start' => $start->format($calendarDateformat),
-            'url' => $uri,
-            'allDay' => $allDay,
-            'className' => 'Event_' . $uid,
-            'qtip' => $qtip,
-            'color' => $colors['color'],
-            'textColor' => $colors['textColor']
-        ];
-    }
-
-    /**
-     * getCalendarItemColors
-     *
-     * @return array
-     */
-    public function getCalendarItemColors($news)
-    {
-        $categories = $news->getCategories();
-        $color = trim($news->getBackgroundcolor());
-        $textColor = trim($news->getTextcolor());
-        if ($color === '') {
-            foreach ($categories as $category) {
-                $tempColor = trim($category->getBackgroundcolor());
-                $color = $tempColor === '' ? $color : $tempColor;
-            }
-        }
-        if ($textColor === '') {
-            foreach ($categories as $category) {
-                $tempColor = trim($category->getTextcolor());
-                $textColor = $tempColor === '' ? $textColor : $tempColor;
-            }
-        }
-
-        return [
-            'color' => $color,
-            'textColor' => $textColor
-        ];
-    }
-
-    /**
-     * @param $settings
-     * @param $newsItem
-     *
-     * @param null $recurrence
-     * @return string html output of Qtip.html
-     */
-    public function renderQtip($settings, $newsItem, $recurrence = null)
-    {
-        $configurationManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManagerInterface');
-        $tsSettings             = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-
-        /** @var $emailBodyObject \TYPO3\CMS\Fluid\View\StandaloneView */
-        $qtip = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
-        $partialRootPaths = $tsSettings['plugin.']['tx_news.']['view.']['partialRootPaths.'];
-        $partial = false;
-
-        foreach ($partialRootPaths as $key => $path) {
-            $partialRootPaths[$key] = $path . 'Calendar';
-        }
-
-        foreach (array_reverse($partialRootPaths) as $key => $path) {
-            if (!$partial && file_exists(GeneralUtility::getFileAbsFileName($path . '/Qtip.html'))) {
-                $partial = GeneralUtility::getFileAbsFileName($path . '/Qtip.html');
-            }
-        }
-
-        $qtip->setTemplatePathAndFilename($partial);
-        $qtip->setPartialRootPaths($partialRootPaths);
-        $assignedValues = [
-            'newsItem' => $newsItem,
-            'settings' => $settings,
-        ];
-        if (null !== $recurrence) {
-            $assignedValues['recurrence'] = $recurrence;
-        }
-        $qtip->assignMultiple($assignedValues);
-
-        return $qtip->render();
-    }
 
     /**
      * Single view of a news record.
@@ -657,7 +412,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         if (isset($recurrenceOptions)) {
             $assignedValues['recurrenceoptions'] = $recurrenceOptions;
         }
-
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_DETAIL_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
 
@@ -685,11 +439,21 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
         // prevents form submitted more than once
         $formTimestamp = $this->request->getArgument('newApplication')['formTimestamp'];
-        if ($this->applicationRepository->isFirstFormSubmission($formTimestamp)) {
+        if (!$this->applicationRepository->isFirstFormSubmission($formTimestamp)) {
+            $this->flashMessage('applicationSendMessageAllreadySent', 'applicationSendMessageAllreadySentStatus', 'ERROR');
+        } else {
+            // gets loggedinuser || user with same mail address || create user
+            // returns $feuserData['user'] = false on error
+            $feuserData = $this->feuserService->getFeuser(
+                $newApplication,
+                $this->settings['dated_news']['autoAddFeuserAddToGroups'],
+                $this->settings['dated_news']['autoAddFeuserStoragePageId']
+            );
+            $feuser = $feuserData['user'];
 
-            //gets loggedinuser or user with same mailadress if only one exists in system
-            // if user is logged in attach him here otherwise attach after confirmation
-            $feuser = $this->feuserService->getFrontendUserObject();
+            if ($feuser) {
+                $newApplication->addFeuser($feuser);
+            }
 
             $newApplication->setPid($news->getPid());
             $newApplication->setHidden(true);
@@ -717,7 +481,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     $earlyBirdDate = clone $news->getEarlyBirdDate();
                 }
                 $newApplication->setCosts(
-                    $this->getEventTotalCosts($news, $earlyBirdDate, $reservedSlots)
+                    $this->applicationService->getEventTotalCosts($news, $earlyBirdDate, $reservedSlots)
                 );
 
                 $newApplication->addRecurringevent($recurringEvent);
@@ -727,19 +491,20 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                     $earlyBirdDate = clone $news->getEarlyBirdDate();
                 }
                 $newApplication->setCosts(
-                    $this->getEventTotalCosts($news, $earlyBirdDate, $newApplication->getReservedSlots())
+                    $this->applicationService->getEventTotalCosts($news, $earlyBirdDate, $newApplication->getReservedSlots())
                 );
 
                 $newApplication->addEvent($news);
             }
-            if ($feuser) {
-                $newApplication->addFeuser($feuser);
-            }
+
 
             $this->applicationRepository->add($newApplication);
 
             $persistenceManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
             $persistenceManager->persistAll();
+
+
+
             if ($feuser) {
                 $newApplication->setApplicationTitle($news->getTitle() . ' - ' . $feuser->getLastName() . ' ' . $feuser->getFirstName() . '-' . $newApplication->getUid());
             } else {
@@ -748,6 +513,11 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             $this->applicationRepository->update($newApplication);
             $persistenceManager->persistAll();
+
+            if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
+                CacheUtility::flushCacheForNews($news->getUid());
+            }
+
 
             $demand = $this->createDemandObjectFromSettings($this->settings);
             $demand->setActionAndClass(__METHOD__, __CLASS__);
@@ -766,10 +536,18 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CREATEAPPLICATION_ACTION, $assignedValues);
             $this->view->assignMultiple($assignedValues);
 
-            $this->sendMail($newApplication, $this->settings, $news);
-        } else {
-            $this->flashMessageService('applicationSendMessageAllreadySent', 'applicationSendMessageAllreadySentStatus', 'ERROR');
+            $sent = $this->mailService->sendMail($newApplication, $this->settings, $news);
+            $this->flashMessage(
+                $sent['message'],
+                $sent['status'],
+                $sent['type']
+            );
+            if(isset($sent['forward']) && $sent['forward'] === true) {
+                $this->forward('eventDetail', null, null, ['news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication]);
+            }
         }
+
+
     }
 
     /**
@@ -812,32 +590,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         return $news;
     }
 
-    /**
-     * getEventTotalCosts
-     *
-     * @param $news
-     * @param $earlyBirdDate
-     * @param $reservedSlots
-     * @return float|int
-     */
-    public function getEventTotalCosts($news, $earlyBirdDate, $reservedSlots)
-    {
-        if ($news->getEarlyBirdPrice() != '' && $earlyBirdDate !== null) {
-            $earlyBirdDate->setTime(0, 0, 0);
 
-            $today = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'));
-            $today->setTime(0, 0, 0);
-
-            if ($earlyBirdDate >= $today) {
-                $costs = $reservedSlots * floatval(str_replace(',', '.', $news->getEarlyBirdPrice()));
-            } else {
-                $costs = $reservedSlots * floatval(str_replace(',', '.', $news->getPrice()));
-            }
-        } else {
-            $costs = $reservedSlots * floatval(str_replace(',', '.', $news->getPrice()));
-        }
-        return $costs;
-    }
 
     /**
      * action confirmApplication.
@@ -855,7 +608,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         $event = null;
 
         if (is_null($newApplication)) {
-            $this->flashMessageService('applicationNotFound', 'applicationNotFoundStatus', 'ERROR');
+            $this->flashMessage('applicationNotFound', 'applicationNotFoundStatus', 'ERROR');
         } else {
             //vor confirmation link validity check
             $date = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->setTime(date('H'), date('i'), date('s'));
@@ -863,14 +616,14 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
 
             if ($newApplication->isConfirmed() === true) {
                 //was allready confirmed
-                $this->flashMessageService(
+                $this->flashMessage(
                     'applicationAllreadyConfirmed',
                     'applicationAllreadyConfirmedStatus',
                     'INFO'
                 );
             } elseif ($this->settings['dated_news']['validDaysConfirmationLink'] * 24 < $hoursSinceBookingRequestSent) {
                 //confirmation link not valid anymore
-                $this->flashMessageService(
+                $this->flashMessage(
                     'applicationConfirmationLinkUnvalid',
                     'applicationConfirmationLinkUnvalidStatus',
                     'ERROR'
@@ -883,20 +636,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             ) {
                 //confirm
 
-                // find feuser by mail or create new one if
-                // no one is attached to the application
-                if ($newApplication->getFeusers()->count() === 0) {
-                    $feuser = $this->feuserService->findUserByEmail($newApplication->getEmail());
-                    if (!$feuser) {
-                        $feuserData = $this->getNewFeuser(
-                            $newApplication,
-                            $this->settings['dated_news']['autoAddFeuserAddToGroups'],
-                            $this->settings['dated_news']['autoAddFeuserStoragePageId']
-                        );
-                        $feuser = $feuserData['user'];
-                    }
-                    $newApplication->addFeuser($feuser);
-                }
+
 
                 $newApplication->setConfirmed(true);
                 $newApplication->setHidden(false);
@@ -918,7 +658,16 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
                 $persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
                 $persistenceManager->persistAll();
 
-                $this->sendMail($newApplication, $this->settings, $news, true);
+                $sent = $this->mailService->sendMail($newApplication, $this->settings, $news, true);
+                $this->flashMessage(
+                    $sent['message'],
+                    $sent['status'],
+                    $sent['type']
+                );
+                if(isset($sent['forward']) && $sent['forward'] === true) {
+                    $this->forward('eventDetail', null, null, ['news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication]);
+                }
+
                 $assignedValues = [
                     'newApplication' => $newApplication,
                     'newsItem'       => $news,
@@ -929,33 +678,15 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             }
         }
         if (!is_null($news) && is_a($news, 'GeorgRinger\\News\\Domain\\Model\\News')) {
-            GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('cache_pages')->flushByTag('tx_news_uid_' . $news->getUid());
+            CacheUtility::flushCacheForNews($news->getUid());
+
         }
 
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CONFIRMAPPLICATION_ACTION, $assignedValues);
         $this->view->assignMultiple($assignedValues);
     }
 
-    /**
-     * addFeuser.
-     *
-     * call feuserService to create a new feuser and returns it
-     *
-     * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
-     * @param string $userGroups
-     *
-     * @return array
-     */
-    public function getNewFeuser(\FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $userGroups = '', $storagePage = 0)
-    {
-        $userData = [
-            'firstName' => $newApplication->getSurname(),
-            'lastName' => $newApplication->getName(),
-            'email' => $newApplication->getEmail(),
-        ];
 
-        return $this->feuserService->getNewFeuser($userData, $userGroups, $storagePage);
-    }
 
     /**
      * reloads Details of news via ajax.
@@ -992,389 +723,6 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
     }
 
     /**
-     * sendMail to applyer, admins
-     * and authors and the ICS invitation
-     * if booking is confirmed.
-     *
-     * @param \GeorgRinger\News\Domain\Model\News            $news           news item
-     * @param \FalkRoeder\DatedNews\Domain\Model\Application $newApplication
-     * @param $settings
-     * @param bool $confirmation
-     *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-     */
-    public function sendMail(\FalkRoeder\DatedNews\Domain\Model\Application $newApplication, $settings, \GeorgRinger\News\Domain\Model\News $news = null, $confirmation = false)
-    {
-        //feuser
-        $feuser = $this->feuserService->getFrontendUserObject();
-
-        //generell event infos
-        if ($news->getRecurrence() > 0) {
-            $events = $newApplication->getRecurringevents();
-            $events->rewind();
-            $event = $events->current();
-            $eventstart = $event->getEventstart();
-            $eventend = $event->getEventend();
-            $newsLocation = $news->getLocations();
-        } else {
-            $eventstart = $news->getEventstart();
-            $eventend = $news->getEventend();
-            $newsLocation = $news->getLocations();
-            $event = null;
-        }
-
-        // from
-        if (!empty($this->settings['senderMail'])) {
-            $sender = [$this->settings['senderMail'] => $this->settings['senderName']];
-        } else {
-            $this->flashMessageService(
-                \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('applicationSendMessageGeneralError', 'dated_news', ['subject' => '(no sendermail configured.)']),
-                'applicationSendStatusGeneralErrorStatus',
-                'ERROR'
-            );
-            return;
-        }
-
-        //validate Mailadress of applyer
-        if ($feuser) {
-            $applyerMail = $feuser->getEmail();
-        } else {
-            $applyerMail = $newApplication->getEmail();
-        }
-
-        $applyer = [];
-        if (is_string($applyerMail) && GeneralUtility::validEmail($applyerMail)) {
-            if ($feuser) {
-                $applyer = [
-                    $applyerMail => $feuser->getLastName() . ', ' . $feuser->getFirstName(),
-                ];
-            } else {
-                $applyer = [
-                    $newApplication->getEmail() => $newApplication->getName() . ', ' . $newApplication->getSurname(),
-                ];
-            }
-        } else {
-            $this->flashMessageService('applicationSendMessageNoApplyerEmail', 'applicationSendMessageNoApplyerEmailStatus', 'ERROR');
-            $this->forward('eventDetail', null, null, ['news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication]);
-        }
-
-        //get filenames of flexform/TS files to send to applyer
-        $filenames = [];
-        if ($confirmation === false) {
-            $this->getFileNamesToSend();
-        }
-        $subject = $this->getEmailSubject($news, $eventstart, $newsLocation);
-        // send email Customer
-        $sendMailConf = [
-            'template' => ($confirmation === true) ? 'MailConfirmationApplyer' : 'MailApplicationApplyer',
-            'recipients' => $applyer,
-            'recipientsCc' => [],
-            'recipientsBcc' => [],
-            'sender' => $sender,
-            'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
-            'variables' => ['newApplication' => $newApplication, 'news' => $news, 'recurrence' => $event, 'settings' => $settings],
-            'fileNames' => $filenames
-        ];
-
-        // send email Customer
-        if (!$this->div->sendEmail($sendMailConf)) {
-            $this->flashMessageService('applicationSendMessageApplyerError', 'applicationSendStatusApplyerErrorStatus', 'ERROR');
-        } else {
-            if ($confirmation === false) {
-                $this->flashMessageService('applicationSendMessage', 'applicationSendStatus', 'OK');
-            }
-        }
-
-        //Send to admins etc only when booking / application confirmed
-        if ($confirmation === true) {
-            $recipients = $this->getEmailRecipients($news);
-
-            if (!count($recipients)) {
-                $this->flashMessageService('applicationSendMessageNoRecipients', 'applicationSendMessageNoRecipientsStatus', 'ERROR');
-                $this->forward('eventDetail', null, null, ['news' => $news, 'currentPage' => 1, 'newApplication' => $newApplication]);
-            }
-
-            // send email to authors and Plugins mail addresses
-            $sendMailConf = [
-                'template' => 'MailApplicationNotification',
-                'recipients' => $recipients,
-                'recipientsCc' => [],
-                'recipientsBcc' => [],
-                'sender' => $sender,
-                'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject', 'dated_news', ['subject' => $subject]),
-                'variables' => ['newApplication' => $newApplication, 'news' => $news, 'recurrence' => $event, 'settings' => $this->settings],
-                'fileNames' => []
-            ];
-
-            if ($this->div->sendEmail($sendMailConf)) {
-                $this->flashMessageService('applicationConfirmed', 'applicationConfirmedStatus', 'OK');
-            } else {
-                $this->flashMessageService('applicationSendMessageGeneralError', 'applicationSendStatusGeneralErrorStatus', 'ERROR');
-            }
-        }
-        if ($confirmation === true && $this->settings['ics']) {
-            //create ICS File and send invitation
-            $newsTitle = $news->getTitle();
-            $icsLocation = '';
-            $i = 0;
-            if (isset($newsLocation) && count($newsLocation) < 2) {
-                foreach ($newsLocation as $location) {
-                    $icsLocation .= $location->getName() . ', ' . $location->getAddress() . ', ' . $location->getZip() . ' ' . $location->getCity() . ', ' . $location->getCountry();
-                }
-            } else {
-                foreach ($newsLocation as $location) {
-                    $i++;
-                    if ($i === 1) {
-                        $icsLocation .= $location->getName();
-                    } else {
-                        $icsLocation .= ', ' . $location->getName();
-                    }
-                }
-            }
-
-            $properties = [
-                'dtstart'   => $eventstart->getTimestamp(),
-                'dtend'     => $eventend->getTimestamp(),
-                'location'  => $icsLocation,
-                'summary'   => $newsTitle,
-                'organizer' => $this->settings['senderMail'],
-                'attendee'  => $applyerMail,
-
-            ];
-
-            //add description
-            $description = $this->getIcsDescription($news, $settings, $event);
-            if ($description !== false) {
-                $properties['description'] = $description;
-            }
-
-            $ics = new \FalkRoeder\DatedNews\Services\ICS($properties);
-            $icsAttachment = [
-                'content' => $ics->to_string(),
-                'name'    => str_replace(' ', '_', $newsTitle),
-
-            ];
-
-            $sendMailConf = [
-                'template' => 'MailConfirmationApplyer',
-                'recipients' => $applyer,
-                'recipientsCc' => [],
-                'recipientsBcc' => [],
-                'sender' => [$this->settings['senderMail'] => $this->settings['senderName']],
-                'subject' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.invitation_subject', 'dated_news', ['subject' => $subject]),
-                'variables' => ['newApplication' => $newApplication, 'news' => $news, 'recurrence' => $event, 'settings' => $settings],
-                'attachment' => $icsAttachment,
-                'replyTo' => [substr_replace($this->settings['senderMail'], 'noreply', 0, strpos($this->settings['senderMail'], '@')) => $this->settings['senderName']]
-            ];
-            if (!$this->div->sendIcsInvitation($sendMailConf)) {
-                $this->flashMessageService('applicationSendMessageApplyerError', 'applicationSendStatusApplyerErrorStatus', 'ERROR');
-            } else {
-                if ($confirmation === false) {
-                    $this->flashMessageService('applicationSendMessage', 'applicationSendStatus', 'OK');
-                }
-            }
-        }
-    }
-    /**
-     * getEmailRecipients
-     *
-     * @param $news
-     * @return array
-     */
-    public function getEmailRecipients($news)
-    {
-        /** @var $to array Array to collect all the receipients */
-        $to = [];
-
-        //news Author
-        if ($this->settings['notificateAuthor']) {
-            $authorEmail = $news->getAuthorEmail();
-            if (!empty($authorEmail)) {
-                $to[] = [
-                    'email' => $authorEmail,
-                    'name'  => $news->getAuthor(),
-                ];
-            }
-        }
-
-        //Plugins notification mail addresses
-        if (!empty($this->settings['notificationMail'])) {
-            $tsmails = explode(',', $this->settings['notificationMail']);
-            foreach ($tsmails as $tsmail) {
-                $to[] = [
-                    'email' => trim($tsmail),
-                    'name'  => '',
-                ];
-            }
-        }
-
-        $recipients = [];
-        if (is_array($to)) {
-            foreach ($to as $pair) {
-                if (GeneralUtility::validEmail($pair['email'])) {
-                    if (trim($pair['name'])) {
-                        $recipients[$pair['email']] = $pair['name'];
-                    } else {
-                        $recipients[] = $pair['email'];
-                    }
-                }
-            }
-        }
-        return $recipients;
-    }
-
-    /**
-     * getFileNamesToSend
-     *
-     * @return array
-     */
-    public function getFileNamesToSend()
-    {
-        $cObj = $this->configurationManager->getContentObject();
-        $uid = $cObj->data['uid'];
-        $fileRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
-        $fileObjects = $fileRepository->findByRelation('tt_content', 'tx_datednews', $uid);
-        $filenames = [];
-        if (is_array($fileObjects)) {
-            foreach ($fileObjects as $file) {
-                $filenames[] = $file->getOriginalFile()->getIdentifier();
-            }
-        }
-
-        //FAL files does not work with gridelements, so add possibility to add file paths to TS. see https://forge.typo3.org/issues/71436
-        $filesFormTS = explode(',', $this->settings['dated_news']['filesForMailToApplyer']);
-        foreach ($filesFormTS as $fileName) {
-            $filenames[] = trim($fileName);
-        }
-        return $filenames;
-    }
-
-    /**
-     * getEmailSubject
-     *
-     * @return string
-     */
-    public function getEmailSubject($news, $eventstart, $newsLocation)
-    {
-        $subjectFields = explode(',', $this->settings['dated_news']['emailSubjectFields']);
-        $subject = '';
-        $fieldIterator = 0;
-        foreach ($subjectFields as $field) {
-            switch (trim($field)) {
-                case 'title':
-                    if ($fieldIterator > 0) {
-                        $subject .= ', ';
-                    }
-                    $subject .= $news->getTitle();
-                    break;
-                case 'eventstart':
-                    $subject .= \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject_eventstart', 'dated_news');
-                    $subject .= $eventstart->format($this->settings['dated_news']['emailSubjectDateFormat']);
-                    break;
-                case 'locationname':
-                    $locationIterator = 0;
-                    if (isset($newsLocation)) {
-                        $subject .= \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.notificationemail_subject_locationname', 'dated_news');
-                        foreach ($newsLocation as $location) {
-                            $locationIterator++;
-                            $subject = $locationIterator === 1 ? $subject . $location->getName() : $subject . ', ' . $location->getName();
-                        }
-                    }
-                    break;
-                default:
-            }
-        }
-    }
-
-    /**
-     * getIcsDescription.
-     *
-     * creates the ICS description for the
-     * invitation send to Customer
-     *
-     * @param \GeorgRinger\News\Domain\Model\News $news news item
-     * @param $event
-     * @param array $settings
-     *
-     * @return bool|string
-     */
-    public function getIcsDescription(\GeorgRinger\News\Domain\Model\News $news, $settings, $event = null)
-    {
-        switch ($settings['icsDescriptionField']) {
-            case 'Teaser':
-                $result = $this->getEventTeaser($news, $event);
-                break;
-            case 'Description':
-                $description = $news->getDescription();
-                if (($description == strip_tags($description))) {
-                    $result = $description;
-                }
-                break;
-            case 'Url':
-                $uri = $this->linkToNewsItem->getLink($news, $settings);
-                $result = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('tx_datednews_domain_model_application.ics_description', 'dated_news', ['url' => $uri]);
-                break;
-            case 'Custom':
-                $result = $this->getCustomIcsDescription($news, $settings, $event);
-                break;
-            default:
-                $result = false;
-        }
-
-        return $result;
-    }
-
-    /**
-     * getCustomIcsDescription
-     *
-     * @param \GeorgRinger\News\Domain\Model\News $news
-     * @param $settings
-     * @param $event
-     * @return string | bool
-     */
-    public function getCustomIcsDescription(\GeorgRinger\News\Domain\Model\News $news, $settings, $event = null)
-    {
-        $result = false;
-        if (trim($settings['icsDescriptionCustomField']) !== '') {
-            if ($news->getRecurrence() > 0 && !is_null($event)) {
-                $object = $event;
-            } else {
-                $object = $news;
-            }
-            $func = 'get' . ucfirst(trim($settings['icsDescriptionCustomField']));
-            if (method_exists($object, $func) === true) {
-                $description = $object->{$func}();
-                if (trim($description) === '' || $description === strip_tags($description)) {
-                    $result = $description;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * getEventTeaser
-     *
-     * @param \GeorgRinger\News\Domain\Model\News $news
-     * @param $event
-     * @return string | bool
-     */
-    public function getEventTeaser(\GeorgRinger\News\Domain\Model\News $news, $event = null)
-    {
-        $result = false;
-        if ($news->getRecurrence() > 0 && !is_null($event)) {
-            $teaser = $event->getTeaser();
-        } else {
-            $teaser = $news->getTeaser();
-        }
-        if ($teaser == strip_tags($teaser)) {
-            $result = $teaser;
-        }
-        return $result;
-    }
-
-    /**
      * adds needed flashmessages
      * for informations to user.
      *
@@ -1384,7 +732,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      *
      * @return void
      */
-    public function flashMessageService($messageKey, $statusKey, $level)
+    public function flashMessage($messageKey, $statusKey, $level)
     {
         switch ($level) {
             case 'NOTICE':
@@ -1415,4 +763,9 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             true
         );
     }
+
+
+   
+
+    
 }
