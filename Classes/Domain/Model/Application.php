@@ -181,6 +181,35 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * cancelled.
+     *
+     * @var bool
+     */
+    protected $cancelled = false;
+
+    /**
+     * Returns the cancelled.
+     *
+     * @return bool $cancelled
+     */
+    public function getCancelled()
+    {
+        return $this->cancelled;
+    }
+
+    /**
+     * Sets the cancelled.
+     *
+     * @param bool $cancelled
+     *
+     * @return void
+     */
+    public function setCancelled($cancelled)
+    {
+        $this->cancelled = $cancelled;
+    }
+
+    /**
      * Returns the boolean state of confirmed.
      *
      * @return bool
@@ -188,6 +217,16 @@ class Application extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isConfirmed()
     {
         return $this->confirmed;
+    }
+
+    /**
+     * Returns the boolean state of cancelled.
+     *
+     * @return bool
+     */
+    public function isCancelled()
+    {
+        return $this->cancelled;
     }
 
     /**

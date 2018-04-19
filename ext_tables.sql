@@ -143,6 +143,7 @@ CREATE TABLE tx_datednews_domain_model_application (
 	taxid varchar(255) DEFAULT '' NOT NULL,
 	terms_accept tinyint(1) DEFAULT NULL,
 	confirmed tinyint(1) DEFAULT NULL,
+	cancelled tinyint(1) DEFAULT NULL,
 	message text NOT NULL,
 
 

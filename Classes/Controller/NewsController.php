@@ -205,35 +205,45 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
         }
         $newsRecords = $this->newsRepository->findDemanded($demand);
         // Escaping quotes, doublequotes and backslashes for use in Javascript
-        foreach ($newsRecords as $news) {
-            $news->setTitle(addslashes($news->getTitle()));
-            $news->setTeaser(addslashes($news->getTeaser()));
-            $news->setDescription(addslashes($news->getDescription()));
-            $news->setBodytext(addslashes($news->getBodytext()));
-        }
-        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFiles']);
-        $this->addCalendarCss($this->settings['dated_news']['cssFile']);
+        $cObj =  $this->configurationManager->getContentObject();
+        $assignedValues = $this->calendarService->renderCalendar($newsRecords, $this->settings, $overwriteDemand, $demand, $cObj->data['uid']);
 
-        //collect news Uids for ajax request as we do not have the demandobject in our ajaxcall later
-        $newsUids = '';
-        foreach ($newsRecords as $news) {
-            $newsUids .= ',' . $news->getUid();
-        }
 
-        $assignedValues = [
-            'news'            => $newsRecords,
-            'overwriteDemand' => $overwriteDemand,
-            'demand'          => $demand,
-            'newsUids'        => $newsUids
-        ];
+//        foreach ($newsRecords as $news) {
+//            $news->setTitle(addslashes($news->getTitle()));
+//            $news->setTeaser(addslashes($news->getTeaser()));
+//            $news->setDescription(addslashes($news->getDescription()));
+//            $news->setBodytext(addslashes($news->getBodytext()));
+//        }
+//
+//
+//        $this->addCalendarJSLibs($this->settings['dated_news']['includeJQuery'], $this->settings['dated_news']['jsFiles']);
+//        $this->addCalendarCss($this->settings['dated_news']['cssFile']);
+//
+//        //collect news Uids for ajax request as we do not have the demandobject in our ajaxcall later
+//        $newsUids = '';
+//        foreach ($newsRecords as $news) {
+//            $newsUids .= ',' . $news->getUid();
+//        }
+//
+//
+//
+//        $filterValues = $this->calendarService->getCalendarFilterValues(
+//            $newsRecords,
+//            (bool)$this->settings['showCategoryFilter'],
+//            (bool)$this->settings['showTagFilter'],
+//            $this->settings['sortingFilterlist']
+//        );
+//
+//        $assignedValues = [
+//            'news'            => $newsRecords,
+//            'overwriteDemand' => $overwriteDemand,
+//            'demand'          => $demand,
+//            'newsUids'        => $newsUids,
+//            'filterValues'    => $filterValues
+//        ];
 
-        $filterValues = $this->calendarService->getCalendarFilterValues(
-            $newsRecords, 
-            (bool)$this->settings['showCategoryFilter'], 
-            (bool)$this->settings['showTagFilter'],
-            $this->settings['sortingFilterlist']
-        );
-       
+
         $assignedValues = $this->emitActionSignal('NewsController', self::SIGNAL_NEWS_CALENDAR_ACTION, $assignedValues);
 
         $this->view->assignMultiple($assignedValues);
@@ -452,6 +462,10 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
             $feuser = $feuserData['user'];
 
             if ($feuser) {
+                //todo: add name and adress etc to feuser from newapplication.
+                //todo: send registierungsmail mit PW aus $feuserData['pw'] if user is newly registered with pw and confirmationlink
+                //todo: log user in if newly created
+                //todo: set user confirmed by admin when in TS is set to true (new setting to make)
                 $newApplication->addFeuser($feuser);
             }
 

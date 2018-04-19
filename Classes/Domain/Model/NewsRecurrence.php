@@ -687,7 +687,7 @@ class NewsRecurrence extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $applications = $this->getApplication()->toArray();
         $reservedSlots = 0;
         foreach ($applications as $application) {
-            if ($application->isConfirmed() === true) {
+            if ($application->isConfirmed() === true && $application->isCancelled() === false) {
                 $reservedSlots = $reservedSlots + $application->getReservedSlots();
             }
         }

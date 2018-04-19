@@ -62,5 +62,20 @@ class MiscUtility
         return $random;
     }
 
+    /**
+     * changeKeyCaseRecursive
+     *
+     * @return void
+     */
+    public static function changeKeyCaseRecursive($arr, $case)
+    {
+        return array_map(function ($item) use ($case) {
+            if (is_array($item)) {
+                $item =  self::changeKeyCaseRecursive($item, $case);
+            }
+            return $item;
+        }, array_change_key_case($arr, CASE_LOWER));
+    }
+
 
 }

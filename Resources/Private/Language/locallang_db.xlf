@@ -268,6 +268,9 @@
 			<trans-unit id="tx_datednews_domain_model_application.confirmed">
 				<source>Per E-Mail-Link confirmed</source>
 			</trans-unit>
+			<trans-unit id="tx_datednews_domain_model_application.cancelled">
+				<source>User Cancelled his participation</source>
+			</trans-unit>
 
 			<trans-unit id="flexforms_additional.applicationPid">
 				<source>Page ID for Booking confirmation</source>
@@ -332,6 +335,23 @@
 			</trans-unit>
 
 
+		<!--usermanager Plugin-->
+
+			<trans-unit id="flexforms_tab.settings">
+				<source>Settings</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.mode">
+				<source>View</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.mode.show">
+				<source>Show</source>
+			</trans-unit>
+			<trans-unit id="flexforms_general.mode.edit">
+				<source>Edit</source>
+			</trans-unit>
+			<trans-unit id="flexforms_additional.detailPid">
+				<source>Detail Pid</source>
+			</trans-unit>
 
 		</body>
 	</file>

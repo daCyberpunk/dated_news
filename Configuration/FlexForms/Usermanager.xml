@@ -1,0 +1,69 @@
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:flexforms_tab.settings</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <!-- View -->
+                    <switchableControllerActions>
+                        <TCEforms>
+                            <label>LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:flexforms_general.mode</label>
+                            <onChange>reload</onChange>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="1">
+                                        <numIndex index="0">LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:flexforms_general.mode.show</numIndex>
+                                        <numIndex index="1">Feuser->show;</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:flexforms_general.mode.edit</numIndex>
+                                        <numIndex index="1">Feuser->edit;</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
+                                        <numIndex index="0">LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:flexforms_general.mode.cancel</numIndex>
+                                        <numIndex index="1">Application->cancel;</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </switchableControllerActions>
+
+                    <settings.detailPid>
+                        <TCEforms>
+                            <label>LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:flexforms_additional.detailPid</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>0</minitems>
+                                <show_thumbs>1</show_thumbs>
+                                <wizards>
+                                    <suggest>
+                                        <type>suggest</type>
+                                        <default>
+                                            <searchWholePhrase>1</searchWholePhrase>
+                                        </default>
+                                    </suggest>
+                                </wizards>
+                            </config>
+                        </TCEforms>
+                    </settings.detailPid>
+
+
+
+                </el>
+            </ROOT>
+        </sDEF>
+
+
+
+
+    </sheets>
+</T3DataStructure>

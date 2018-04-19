@@ -1,5 +1,17 @@
 
-
+plugin.tx_dated_news {
+	view {
+		templateRootPaths {
+			0 = EXT:dated_news/Resources/Private/Templates/Feuser/
+		}
+		partialRootPaths {
+			0 = EXT:dated_news/Resources/Private/Partials/Feuser/
+		}
+		layoutRootPaths {
+			0 = EXT:dated_news/Resources/Private/Layouts/Feuser/
+		}
+	}
+}
 plugin.tx_news {
 	view {
 		templateRootPaths {
@@ -112,10 +124,36 @@ ajaxEventsDatednews {
 		settings < plugin.tx_news.settings
 	}
 }
+ajaxCancelApplication = PAGE
+ajaxCancelApplication < lib.AJAXPrototype
+ajaxCancelApplication {
+	typeNum = 6660668
+	config.debug = 0
+	10 = USER_INT
+	10 {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		extensionName = DatedNews
+		pluginName = Pi1
+		vendorName = FalkRoeder
+		controller = Application
+		switchableControllerActions {
+			Application {
+				1 = cancel
+			}
+		}
+		view < plugin.tx_dated_news.view
+		persistence < plugin.tx_news.persistence
+		settings < plugin.tx_news.settings
+	}
+}
 page.includeJSLibs{
 	datednews = typo3conf/ext/dated_news/Resources/Public/JavaScript/dated_news.js
 	datednews.forceOnTop = 1
 	datednews.async = 1
 	datednews.excludeFromConcatenation = 1
+}
+page.includeJSFooter{
+	datednewsCancelApplication = typo3conf/ext/dated_news/Resources/Public/JavaScript/dated_news_cancelApplication.js
+	datednewsCancelApplication.async = 1
 }
 

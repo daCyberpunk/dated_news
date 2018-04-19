@@ -44,3 +44,16 @@ $GLOBALS['TYPO3_CONF_VARS']['EXT']['news'][\GeorgRinger\News\Hooks\PageLayoutVie
         'News' => 'searchForm,searchResult,createApplication,confirmApplication',
     ]
 );
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'FalkRoeder.'.$_EXTKEY,
+    'Pi1',
+    [
+        'Feuser' => 'show, edit',
+        'Application' => 'cancel'
+    ],
+    [
+        'Feuser' => 'edit',
+        'Application' => 'cancel'
+    ]
+);

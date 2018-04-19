@@ -10,9 +10,9 @@
     <f:if condition="{news}">
         <f:then>
             <div class="news-calendar-view">
-
+                <f:debug title=" | Calendar.html:13" maxDepth="8" inline="FALSE" >{_all}</f:debug>
                 <f:format.raw>
-                    {nc:javascript.calendar(settings:settings, id:contentObjectData.uid, compress: false, newsUids: newsUids)}
+                    {nc:javascript.calendar(settings:settings, id:cObjUid, compress: false, newsUids: newsUids)}
                 </f:format.raw>
 
 

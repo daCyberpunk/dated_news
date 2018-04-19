@@ -1,0 +1,34 @@
+{namespace nc=FalkRoeder\DatedNews\ViewHelpers}
+
+<f:section name="main">
+    {f:translate(key:'user.past_events')}
+    <f:for each="{pastEvents}" as="event">
+        <div><a href="{nc:link(newsItem: event.event, settings: settings, uriOnly: 1, eventDetail:1)}" alt="Link to {event.title}">{event.title}</a>, <f:format.date format="{f:translate(key:'dateFormat',extensionName: 'news')}">{event.eventstart}</f:format.date></div>
+    </f:for>
+
+    {f:translate(key:'user.future_events_confirmed')}
+    <f:for each="{actualEvents}" as="event">
+        <f:if condition="{0: event.application.confirmed, 1: event.application.cancelled} == {0: 1, 1: 0}">
+            <div><a href="{nc:link(newsItem: event.event, settings: settings, uriOnly: 1, eventDetail:1)}" alt="Link to {event.title}">{event.title}</a>, <f:format.date format="{f:translate(key:'dateFormat',extensionName: 'news')}">{event.eventstart}</f:format.date></div>
+            <f:form object="{event.application}" additionalParams="{type:'6660668'}" controller="Application" action="cancel" pluginName="Pi1" name="application" class="js-cancel-event">
+                <button type="submit">Cancel</button>
+            </f:form>
+        </f:if>
+    </f:for>
+
+
+    {f:translate(key:'user.future_events_cancelled')}
+    <f:for each="{actualEvents}" as="event">
+        <f:if condition="{event.application.cancelled} == '1'">
+            <div><a href="{nc:link(newsItem: event.event, settings: settings, uriOnly: 1, eventDetail:1)}" alt="Link to {event.title}">{event.title}</a>, <f:format.date format="{f:translate(key:'dateFormat',extensionName: 'news')}">{event.eventstart}</f:format.date></div>
+        </f:if>
+    </f:for>
+
+    <f:format.raw>
+        {calendar}
+    </f:format.raw>
+
+
+</f:section>
+
+<f:layout name="Default"/>

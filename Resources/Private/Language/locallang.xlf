@@ -424,6 +424,19 @@
 			<trans-unit id="fullcalendar.listDay">
 				<source>List Day</source>
 			</trans-unit>
+
+
+		<!--Usermanagement-->
+			<trans-unit id="user.future_events_confirmed">
+				<source>Confirmed coming events</source>
+			</trans-unit>
+			<trans-unit id="user.future_events_cancelled">
+				<source>coming events Cancelled  by User</source>
+			</trans-unit>
+			<trans-unit id="user.past_events">
+				<source>Past Events</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

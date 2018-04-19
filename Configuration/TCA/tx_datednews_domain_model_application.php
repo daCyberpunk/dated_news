@@ -26,7 +26,7 @@ return [
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, name, surname, email, events, feusers',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,--palette--;;1, application_title, title, name, surname, email, reserved_slots, events, feusers, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, confirmed, '],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,--palette--;;1, application_title, title, name, surname, email, reserved_slots, events, feusers, company, address, address2, zip, city, country, costs, phone, mobile,taxid,message,terms_accept, confirmed,cancelled '],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -325,6 +325,14 @@ return [
         'confirmed' => [
             'exclude' => 0,
             'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.confirmed',
+            'config'  => [
+                'type'    => 'check',
+                'default' => '0',
+            ],
+        ],
+        'cancelled' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_application.cancelled',
             'config'  => [
                 'type'    => 'check',
                 'default' => '0',
