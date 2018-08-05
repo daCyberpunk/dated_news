@@ -287,7 +287,6 @@
             </trans-unit>
 
             <trans-unit id="tx_dated_news.modal.header">
-                <source>confirm action</source>
                 <target>Durchführungsbestätigung</target>
             </trans-unit>
             <trans-unit id="tx_dated_news.modal.overwrite.all">
@@ -327,8 +326,145 @@
             <trans-unit id="tx_dated_news.mode.news_confirmapplication">
                 <target>Dated News Bestätigungsseite</target>
             </trans-unit>
+            
+            
+            
+            <trans-unit id="tx_datednews_recurrence.updateBehaviour">
+              <target>Verhalten beim Erstellen und Überschreiben wiedekehrender Termine. Vorsichtige Handhabung!</target>
+            </trans-unit>
 
+            <!-- Select boxes values -->
+            <trans-unit id="tx_datednews_eventtype.isNotEvent">
+                <target>Ist keine Veranstaltung</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_eventtype.event">
+                <target>Veranstaltung</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_eventtype.publication">
+                <target>Publikationstermin</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_eventtype.exhibition">
+                <target>Ausstellung</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_eventtype.visualArts">
+                <target>Veranstaltung der bildenden Künste</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_eventtype.business">
+                <target>Geschäftliche Veranstaltung</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_eventtype.education">
+                <target>Bildungsveranstaltung</target>
+            </trans-unit>
+            
+            <trans-unit id="tx_datednews_recurrence.none">
+                <target>-- keine --</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.daily">
+                <target>täglich</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.weekly">
+                <target>wöchentlich</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.workdays">
+                <target>werktags</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.everyOtherWeek">
+                <source>every other week</source>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.monthly">
+                <target>monatlich</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.yearly">
+                <target>jährlich</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.userdefined">
+                <target>benutzerdefiniert</target>
+            </trans-unit>
+            
+            <trans-unit id="tx_datednews_recurrence.choose">
+                <target>-- wählen --</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.createUntil">
+                <target>erstelle Veranstaltungstermine bis</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.createNumber">
+                <target>erstelle bestimmte Anzahl an Veranstaltungsterminen</target>
+            </trans-unit>
 
+            <trans-unit id="tx_datednews_recurrence.doNothing">
+                <target>Mache nichts (übliches Speicherverhalten von TYPO3 Datensätzen</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.overwriteAll">
+                <source>build/overwrite all (existing applications for recurring events will be lost!)</source>
+                <target>Erstelle/überschreibe alle (ACHTUNG: bestehende Anmeldungen für wiederkehrende Termine gehen verloren!)</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.rebuildNoneModified">
+                <source>rebuild all none modified recurring events</source>
+                <target>Erstelle alle unveränderten wiederkehrenden Termine neu</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.overwriteAllFields">
+                <source>overwrite all fields in all recurring events</source>
+                <target>Überschreibe alle Felder in allen wiederkehrenden Terminen</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.overwriteAllFieldsNoneModified">
+                <source>overwrite all fields in none modified recurring events</source>
+                <target>Überschreibe alle Felder in allen unveränderten wiederkehrenden Terminen</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.overwriteChangedFieldsInAll">
+                <source>overwrite only changed fields in all recurring events</source>
+                <target>Überschreibe nur veränderte Felder in allen wiederkehrenden Terminen</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_recurrence.overwriteChangedFieldsInNoneModified">
+                <source>overwrite only changed fields in none modified recurring events</source>
+                <target>Überschreibe nur veränderte Felder in allen unveränderten wiedekehrenden Termine</target>
+            </trans-unit>
+            
+            <trans-unit id="tx_datednews_months.January">
+                <target>Jänner</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_months.February">
+                <target>Februar</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_months.March">
+                <target>März</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_months.May">
+                <target>Mai</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_months.June">
+                <target>Juni</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_months.July">
+                <target>Juli</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_months.October">
+                <target>Oktober</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_months.December">
+                <target>Dezember</target>
+            </trans-unit>
+            
+            <trans-unit id="tx_datednews_weekdays.Monday">
+                <target>Montag</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_weekdays.Tuesday">
+                <target>Dienstag</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_weekdays.Wednesday">
+                <target>Mittwoch</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_weekdays.Thursday">
+                <target>Donnerstag</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_weekdays.Friday">
+                <target>Freitag</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_weekdays.Saturday">
+                <target>Samstag</target>
+            </trans-unit>
+            <trans-unit id="tx_datednews_weekdays.Sunday">
+                <target>Sonntag</target>
+            </trans-unit>
 
         </body>
     </file>
