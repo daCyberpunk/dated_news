@@ -175,7 +175,7 @@
 				<source>Phone</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_location.email">
-				<source>Email</source>
+				<source>E-mail</source>
 			</trans-unit>
 			
 			
@@ -193,7 +193,7 @@
 				<source>Title</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.email">
-				<source>Email</source>
+				<source>E-mail</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.images">
 				<source>Photo</source>
@@ -218,7 +218,7 @@
 				<source>Surname</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email">
-				<source>Email</source>
+				<source>E-mail</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.events">
 				<source>Events</source>
