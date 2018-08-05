@@ -18,7 +18,7 @@ return [
             'disabled' => 'hidden',
         ],
         'searchFields' => 'eventstart,eventend,eventlocation,bodytext,teaser,parent_event',
-        'iconfile'     => 'EXT:dated_news/Resources/Public/Icons/tx_datednews_domain_model_newsrecurrence.gif',
+        'iconfile'     => 'EXT:dated_news/Resources/Public/Icons/tx_datednews_domain_model_newsrecurrence.svg',
     ],
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, eventstart, eventend, bodytext, teaser, modified, parent_event, application,slots,early_bird_date,locations,persons,enable_application,showincalendar,disregard_changes_on_saving',
