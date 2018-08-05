@@ -184,10 +184,10 @@
 				<source>Person</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.name">
-				<source>Name</source>
+				<source>Firstname</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.surname">
-				<source>Surname</source>
+				<source>Lastname</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.title">
 				<source>Title</source>
@@ -206,7 +206,7 @@
 				<source>Application</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.name">
-				<source>Name</source>
+				<source>Firstname</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.title">
 				<source>Title</source>
@@ -215,7 +215,7 @@
 				<source>Applications</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.surname">
-				<source>Surname</source>
+				<source>Lastname</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email">
 				<source>E-mail</source>
