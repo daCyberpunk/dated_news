@@ -1,8 +1,6 @@
 <?php
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
+defined('TYPO3_MODE') or die();
 
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['classes']['Domain/Model/News'][] = 'dated_news';
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['classes']['Domain/Model/Category'][] = 'dated_news';
