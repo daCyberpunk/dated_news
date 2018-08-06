@@ -16,6 +16,7 @@ $EM_CONF[$_EXTKEY] = [
   'category'          => 'fe',
   'author'            => 'Falk Röder',
   'author_email'      => 'mail@falk-roeder.de',
+  'author_company'    => '',
   'state'             => 'stable',
   'uploadfolder'      => false,
   'createDirs'        => '',
@@ -33,6 +34,5 @@ $EM_CONF[$_EXTKEY] = [
     ],
   ],
   'clearcacheonload'  => true,
-  'author_company'    => NULL,
 ];
 
