@@ -20,15 +20,15 @@ if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['dated_news'] = 'FalkRoeder\\DatedNews\\Hooks\\TCEmainHook';
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['dated_news'] = 'FalkRoeder\\DatedNews\\Hooks\\TCEmainHook';
 
-//register TypeConverter for mapping also hidden applications in controller actions
+// register TypeConverter for mapping also hidden applications in controller actions
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('FalkRoeder\\DatedNews\\Property\\TypeConverters\\ApplicationPersistentObjectConverter');
 
-//CLearCacheHook
+// CLearCacheHook
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'FalkRoeder\\DatedNews\\Hooks\\ClearCacheHook->clearJsCache';
 
-//PageLayoutHook of tx_news
+// PageLayoutHook of tx_news
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news'][\GeorgRinger\News\Hooks\PageLayoutView::class]['extensionSummary']['dated_news']
-    = \FalkRoeder\DatedNews\Hooks\PageLayoutView::class . '->extensionSummary';
+    = \FalkRoeder\DatedNews\Hooks\PageLayoutView::class.'->extensionSummary';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'GeorgRinger.news',
