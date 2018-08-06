@@ -330,7 +330,7 @@
             
             
             <trans-unit id="tx_datednews_recurrence.updateBehaviour">
-              <target>Verhalten beim Erstellen und Überschreiben wiedekehrender Termine. Vorsichtige Handhabung!</target>
+              <target>Verhalten beim Erstellen und Überschreiben wiederkehrender Termine. Vorsichtige Handhabung!</target>
             </trans-unit>
 
             <!-- Select boxes values -->
@@ -416,7 +416,7 @@
             </trans-unit>
             <trans-unit id="tx_datednews_recurrence.overwriteChangedFieldsInNoneModified">
                 <source>overwrite only changed fields in none modified recurring events</source>
-                <target>Überschreibe nur veränderte Felder in allen unveränderten wiedekehrenden Termine</target>
+                <target>Überschreibe nur veränderte Felder in allen unveränderten wiederkehrenden Termine</target>
             </trans-unit>
             
             <trans-unit id="tx_datednews_months.January">
