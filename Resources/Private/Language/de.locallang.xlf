@@ -93,7 +93,7 @@
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_location.name" approved="yes">
 				<source>Name</source>
-				<target state="translated">Name</target>
+				<target state="translated">Vorname</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_location.address2" approved="yes">
 				<source>Address 2</source>
@@ -132,11 +132,11 @@
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.name" approved="yes">
 				<source>Name</source>
-				<target state="translated">Name</target>
+				<target state="translated">Vorname</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.surname" approved="yes">
 				<source>Surname</source>
-				<target state="translated">Vorname</target>
+				<target state="translated">Nachname</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.title" approved="yes">
 				<source>Title</source>
@@ -163,7 +163,7 @@
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.name" approved="yes">
 				<source>Name</source>
-				<target state="translated">Name</target>
+				<target state="translated">Vorname</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.mrs" approved="yes">
 				<source>Mrs.</source>
@@ -187,7 +187,7 @@
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.surname" approved="yes">
 				<source>Surname</source>
-				<target state="translated">Vorname</target>
+				<target state="translated">Nachname</target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email" approved="yes">
 				<source>Email</source>
@@ -300,8 +300,12 @@
 				<target state="translated"><![CDATA[Wir werden uns schon bald mit Ihnen bzgl. weiterer Informationen zur Veranstaltung in Kontakt setzen. Bitte zögern Sie nicht uns zu kontaktieren falls Sie Fragen haben.</br></br>Mit freundlichen Grüßen,</br>Ihr My Company Team]]></target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.footer_contact">
-				<source><![CDATA[My Company  Signature</br>Managing director: Cheffe</br>Registration: Amtsgericht xxx / VAT ID: xxxxx </br>Phone +49 (000) 0000</br></br><a href="https://www.example.com/en/general-terms-and-conditions/">General Terms and Conditions</a> of My Company apply ]]></source>
-				<target state="translated"><![CDATA[My Company  Signatur</br>Managing director: Cheffe</br>Registration: xxx / Steuernummer: xxxx  </br>Tel +49 (000) 000</br>]]></target>
+				<source><![CDATA[My Company
+ Signature</br>Managing director: Cheffe</br>Registration: Amtsgericht xxx / VAT ID: xxxxx
+</br>Phone +49 (000) 0000</br></br><a href="https://www.example.com/en/general-terms-and-conditions/">General Terms and Conditions</a> of My Company apply ]]></source>
+				<target state="translated"><![CDATA[My Company 
+Signatur</br>Managing director: Cheffe</br>Registration: xxx / Steuernummer: xxxx 
+</br>Tel +49 (000) 000</br>]]></target>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.expire_info" approved="yes">
 				<source>(This link expires in %s days.)</source>

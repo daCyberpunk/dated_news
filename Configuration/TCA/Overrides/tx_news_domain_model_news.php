@@ -1,8 +1,8 @@
 <?php
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
+defined('TYPO3_MODE') or die();
+
+$ll = 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:';
 
 if (!isset($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'])) {
     if (file_exists($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['dynamicConfigFile'])) {
@@ -13,7 +13,7 @@ if (!isset($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'])) {
     $tempColumns = [];
     $tempColumns[$GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type']] = [
         'exclude' => 1,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews.tx_extbase_type',
+        'label'   => $ll.'tx_datednews.tx_extbase_type',
         'config'  => [
             'type'     => 'select',
             'items'    => [],
@@ -30,7 +30,7 @@ $tmp_dated_news_columns = [
 
     'application' => [
         'exclude' => 1,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.application',
+        'label'   => $ll.'tx_datednews_domain_model_news.application',
         'config'  => [
             'type'              => 'inline',
             'foreign_table'     => 'tx_datednews_domain_model_application',
@@ -49,7 +49,7 @@ $tmp_dated_news_columns = [
     ],
     'showincalendar' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.showincalendar',
+        'label'   => $ll.'tx_datednews_domain_model_news.showincalendar',
         'config'  => [
             'type'    => 'check',
             'default' => 0,
@@ -58,7 +58,7 @@ $tmp_dated_news_columns = [
     ],
     'enable_application' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.enable_application',
+        'label'   => $ll.'tx_datednews_domain_model_news.enable_application',
         'config'  => [
             'type'    => 'check',
             'default' => 0,
@@ -67,7 +67,7 @@ $tmp_dated_news_columns = [
     ],
     'fulltime' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.fulltime',
+        'label'   => $ll.'tx_datednews_domain_model_news.fulltime',
         'config'  => [
             'type'    => 'check',
             'default' => 0,
@@ -76,7 +76,7 @@ $tmp_dated_news_columns = [
     ],
     'eventstart' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.eventstart',
+        'label'   => $ll.'tx_datednews_domain_model_news.eventstart',
         'config'  => [
             'type' => 'input',
             'size' => 16,
@@ -87,7 +87,7 @@ $tmp_dated_news_columns = [
     ],
     'eventend' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.eventend',
+        'label'   => $ll.'tx_datednews_domain_model_news.eventend',
         'config'  => [
             'type' => 'input',
             'size' => 16,
@@ -98,7 +98,7 @@ $tmp_dated_news_columns = [
     ],
     'eventlocation' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.eventlocation',
+        'label'   => $ll.'tx_datednews_domain_model_news.eventlocation',
         'config'  => [
             'type' => 'input',
             'size' => 30,
@@ -108,18 +108,18 @@ $tmp_dated_news_columns = [
     ],
     'eventtype' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.eventtype',
+        'label'   => $ll.'tx_datednews_domain_model_news.eventtype',
         'config'  => [
             'type'       => 'select',
             'renderType' => 'selectSingle',
             'items'      => [
-                ['is not an event', ''],
-                ['Event', 'Event'],
-                ['Publication Event', 'PublicationEvent'],
-                ['Exhibition', 'ExhibitionEvent'],
-                ['Visual Arts Event', 'VisualArtsEvent'],
-                ['Business Event', 'BusinessEvent'],
-                ['Education Event', 'EducationEvent'],
+                [$ll.'tx_datednews_eventtype.isNotEvent', ''],
+                [$ll.'tx_datednews_eventtype.event', 'Event'],
+                [$ll.'tx_datednews_eventtype.publication', 'PublicationEvent'],
+                [$ll.'tx_datednews_eventtype.exhibition', 'ExhibitionEvent'],
+                [$ll.'tx_datednews_eventtype.visualArts', 'VisualArtsEvent'],
+                [$ll.'tx_datednews_eventtype.business', 'BusinessEvent'],
+                [$ll.'tx_datednews_eventtype.education', 'EducationEvent'],
             ],
             'size'     => 1,
             'maxitems' => 1,
@@ -128,7 +128,7 @@ $tmp_dated_news_columns = [
     ],
     'textcolor' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.textcolor',
+        'label'   => $ll.'tx_datednews_domain_model_news.textcolor',
         'config'  => [
             'type' => 'input',
             'size' => 30,
@@ -138,7 +138,7 @@ $tmp_dated_news_columns = [
     ],
     'backgroundcolor' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.backgroundcolor',
+        'label'   => $ll.'tx_datednews_domain_model_news.backgroundcolor',
         'config'  => [
             'type' => 'input',
             'size' => 30,
@@ -148,7 +148,7 @@ $tmp_dated_news_columns = [
     ],
     'targetgroup' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.targetgroup',
+        'label'   => $ll.'tx_datednews_domain_model_news.targetgroup',
         'config'  => [
             'type' => 'text',
             'cols' => 60,
@@ -158,7 +158,7 @@ $tmp_dated_news_columns = [
     ],
     'slots' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.slots',
+        'label'   => $ll.'tx_datednews_domain_model_news.slots',
         'config'  => [
             'type' => 'input',
             'size' => 30,
@@ -168,7 +168,7 @@ $tmp_dated_news_columns = [
     ],
     'price' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.price',
+        'label'   => $ll.'tx_datednews_domain_model_news.price',
         'config'  => [
             'type' => 'input',
             'size' => 30,
@@ -178,7 +178,7 @@ $tmp_dated_news_columns = [
     ],
     'early_bird_price' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.early_bird_price',
+        'label'   => $ll.'tx_datednews_domain_model_news.early_bird_price',
         'config'  => [
             'type' => 'input',
             'size' => 30,
@@ -188,7 +188,7 @@ $tmp_dated_news_columns = [
     ],
     'early_bird_date' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.early_bird_date',
+        'label'   => $ll.'tx_datednews_domain_model_news.early_bird_date',
         'config'  => [
             'type' => 'input',
             'size' => 16,
@@ -199,7 +199,7 @@ $tmp_dated_news_columns = [
     ],
     'locations' => [
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.locations',
+        'label'   => $ll.'tx_datednews_domain_model_news.locations',
         'config'  => [
             'type'          => 'select',
             'renderType'    => 'selectMultipleSideBySide',
@@ -241,7 +241,7 @@ $tmp_dated_news_columns = [
     ],
     'persons' => [
         'exclude' => 1,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.persons',
+        'label'   => $ll.'tx_datednews_domain_model_news.persons',
         'config'  => [
             'type'          => 'select',
             'renderType'    => 'selectMultipleSideBySide',
@@ -284,19 +284,19 @@ $tmp_dated_news_columns = [
 
     'recurrence' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.recurrence',
+        'label'   => $ll.'tx_datednews_domain_model_news.recurrence',
         'config'  => [
             'type'       => 'select',
             'renderType' => 'selectSingle',
             'items'      => [
-                ['-- none --', 0],
-                ['daily', 1],
-                ['weekly', 2],
-                ['workdays', 3],
-                ['every other week', 4],
-                ['monthly', 5],
-                ['yearly', 6],
-                ['user defined', 7],
+                [$ll.'tx_datednews_recurrence.none', 0],
+                [$ll.'tx_datednews_recurrence.daily', 1],
+                [$ll.'tx_datednews_recurrence.weekly', 2],
+                [$ll.'tx_datednews_recurrence.workdays', 3],
+                [$ll.'tx_datednews_recurrence.everyOtherWeek', 4],
+                [$ll.'tx_datednews_recurrence.monthly', 5],
+                [$ll.'tx_datednews_recurrence.yearly', 6],
+                [$ll.'tx_datednews_recurrence.userdefined', 7],
             ],
             'size'     => 1,
             'maxitems' => 1,
@@ -306,14 +306,14 @@ $tmp_dated_news_columns = [
     ],
     'recurrence_type' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.recurrence_type',
+        'label'   => $ll.'tx_datednews_domain_model_news.recurrence_type',
         'config'  => [
             'type'       => 'select',
             'renderType' => 'selectSingle',
             'items'      => [
-                ['-- choose --', 0],
-                ['create events until', 1],
-                ['create specific number of events', 2],
+                [$ll.'tx_datednews_recurrence.choose', 0],
+                [$ll.'tx_datednews_recurrence.createUntil', 1],
+                [$ll.'tx_datednews_recurrence.createNumber', 2],
             ],
             'size'     => 1,
             'maxitems' => 1,
@@ -323,7 +323,7 @@ $tmp_dated_news_columns = [
     ],
     'recurrence_until' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.recurrence_until',
+        'label'   => $ll.'tx_datednews_domain_model_news.recurrence_until',
         'config'  => [
             'type'    => 'input',
             'size'    => 16,
@@ -335,7 +335,7 @@ $tmp_dated_news_columns = [
     ],
     'recurrence_count' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.recurrence_count',
+        'label'   => $ll.'tx_datednews_domain_model_news.recurrence_count',
         'config'  => [
             'type'  => 'input',
             'size'  => 10,
@@ -355,16 +355,16 @@ $tmp_dated_news_columns = [
 
     'ud_type' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_type',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_type',
         'config'  => [
             'type'       => 'select',
             'renderType' => 'selectSingle',
             'items'      => [
-                ['-- choose --', 0],
-                ['daily', 1],
-                ['weekly', 2],
-                ['monthly', 3],
-                ['yearly', 4],
+                [$ll.'tx_datednews_recurrence.choose', 0],
+                [$ll.'tx_datednews_recurrence.daily', 1],
+                [$ll.'tx_datednews_recurrence.weekly', 2],
+                [$ll.'tx_datednews_recurrence.monthly', 3],
+                [$ll.'tx_datednews_recurrence.yearly', 4],
             ],
             'size'     => 1,
             'maxitems' => 1,
@@ -375,7 +375,7 @@ $tmp_dated_news_columns = [
 
     'ud_daily_everycount' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_daily_everycount',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_daily_everycount',
         'config'  => [
             'type'  => 'input',
             'size'  => 4,
@@ -396,7 +396,7 @@ $tmp_dated_news_columns = [
 
     'ud_weekly_everycount' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_weekly_everycount',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_weekly_everycount',
         'config'  => [
             'type'  => 'input',
             'size'  => 4,
@@ -415,17 +415,17 @@ $tmp_dated_news_columns = [
     ],
     'ud_weekly_weekdays' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_weekly_weekdays',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_weekly_weekdays',
         'config'  => [
             'type'  => 'check',
             'items' => [
-                ['Monday', 0],
-                ['Tuesday', 1],
-                ['Wednesday', 2],
-                ['Thursday', 3],
-                ['Friday', 4],
-                ['Saturday', 5],
-                ['Sunday', 6],
+                [$ll.'tx_datednews_weekdays.Monday', 0],
+                [$ll.'tx_datednews_weekdays.Tuesday', 1],
+                [$ll.'tx_datednews_weekdays.Wednesday', 2],
+                [$ll.'tx_datednews_weekdays.Thursday', 3],
+                [$ll.'tx_datednews_weekdays.Friday', 4],
+                [$ll.'tx_datednews_weekdays.Saturday', 5],
+                [$ll.'tx_datednews_weekdays.Sunday', 6],
             ],
             'cols' => 'inline',
         ],
@@ -434,7 +434,7 @@ $tmp_dated_news_columns = [
 
     'ud_monthly_base' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_monthly_base',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_monthly_base',
         'config'  => [
             'type'       => 'select',
             'renderType' => 'selectSingle',
@@ -451,7 +451,7 @@ $tmp_dated_news_columns = [
     ],
     'ud_monthly_everycount' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_monthly_everycount',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_monthly_everycount',
         'config'  => [
             'type'  => 'input',
             'size'  => 4,
@@ -470,7 +470,7 @@ $tmp_dated_news_columns = [
     ],
     'ud_monthly_perday' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_monthly_perday',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_monthly_perday',
         'config'  => [
             'type'  => 'check',
             'items' => [
@@ -487,18 +487,18 @@ $tmp_dated_news_columns = [
     ],
     'ud_monthly_perday_weekdays' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_monthly_perday_weekdays',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_monthly_perday_weekdays',
         'config'  => [
             'type'       => 'select',
             'renderType' => 'selectSingle',
             'items'      => [
-                ['Monday', 0],
-                ['Tuesday', 1],
-                ['Wednesday', 2],
-                ['Thursday', 3],
-                ['Friday', 4],
-                ['Saturday', 5],
-                ['Sunday', 6],
+                [$ll.'tx_datednews_weekdays.Monday', 0],
+                [$ll.'tx_datednews_weekdays.Tuesday', 1],
+                [$ll.'tx_datednews_weekdays.Wednesday', 2],
+                [$ll.'tx_datednews_weekdays.Thursday', 3],
+                [$ll.'tx_datednews_weekdays.Friday', 4],
+                [$ll.'tx_datednews_weekdays.Saturday', 5],
+                [$ll.'tx_datednews_weekdays.Sunday', 6],
             ],
             'size'     => 1,
             'maxitems' => 1,
@@ -508,7 +508,7 @@ $tmp_dated_news_columns = [
     ],
     'ud_monthly_perdate_day' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_monthly_perdate_day',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_monthly_perdate_day',
         'config'  => [
             'type'  => 'check',
             'items' => [
@@ -550,7 +550,7 @@ $tmp_dated_news_columns = [
     ],
     'ud_monthly_perdate_lastday' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_monthly_perdate_lastday',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_monthly_perdate_lastday',
         'config'  => [
             'type'  => 'check',
             'items' => [
@@ -562,7 +562,7 @@ $tmp_dated_news_columns = [
 
     'ud_yearly_everycount' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_yearly_everycount',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_yearly_everycount',
         'config'  => [
             'type'  => 'input',
             'size'  => 4,
@@ -581,7 +581,7 @@ $tmp_dated_news_columns = [
     ],
     'ud_yearly_perday' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_yearly_perday',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_yearly_perday',
         'config'  => [
             'type'  => 'check',
             'items' => [
@@ -599,18 +599,18 @@ $tmp_dated_news_columns = [
     ],
     'ud_yearly_perday_weekdays' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_yearly_perday_weekdays',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_yearly_perday_weekdays',
         'config'  => [
             'type'       => 'select',
             'renderType' => 'selectSingle',
             'items'      => [
-                ['Monday', 0],
-                ['Tuesday', 1],
-                ['Wednesday', 2],
-                ['Thursday', 3],
-                ['Friday', 4],
-                ['Saturday', 5],
-                ['Sunday', 6],
+                [$ll.'tx_datednews_weekdays.Monday', 0],
+                [$ll.'tx_datednews_weekdays.Tuesday', 1],
+                [$ll.'tx_datednews_weekdays.Wednesday', 2],
+                [$ll.'tx_datednews_weekdays.Thursday', 3],
+                [$ll.'tx_datednews_weekdays.Friday', 4],
+                [$ll.'tx_datednews_weekdays.Saturday', 5],
+                [$ll.'tx_datednews_weekdays.Sunday', 6],
             ],
             'size'     => 1,
             'maxitems' => 1,
@@ -620,23 +620,23 @@ $tmp_dated_news_columns = [
     ],
     'ud_yearly_perday_month' => [
         'exclude' => false,
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.ud_yearly_perday_month',
+        'label'   => $ll.'tx_datednews_domain_model_news.ud_yearly_perday_month',
         'config'  => [
             'type'       => 'select',
             'renderType' => 'selectSingle',
             'items'      => [
-                ['January', 1],
-                ['February', 2],
-                ['March', 3],
-                ['April', 4],
-                ['May', 5],
-                ['June', 6],
-                ['Jule', 7],
-                ['August', 8],
-                ['September', 9],
-                ['October', 10],
-                ['November', 11],
-                ['December', 12],
+                [$ll.'tx_datednews_months.January', 1],
+                [$ll.'tx_datednews_months.February', 2],
+                [$ll.'tx_datednews_months.March', 3],
+                [$ll.'tx_datednews_months.April', 4],
+                [$ll.'tx_datednews_months.May', 5],
+                [$ll.'tx_datednews_months.June', 6],
+                [$ll.'tx_datednews_months.July', 7],
+                [$ll.'tx_datednews_months.August', 8],
+                [$ll.'tx_datednews_months.September', 9],
+                [$ll.'tx_datednews_months.October', 10],
+                [$ll.'tx_datednews_months.November', 11],
+                [$ll.'tx_datednews_months.December', 12],
             ],
             'size'     => 1,
             'maxitems' => 1,
@@ -648,19 +648,19 @@ $tmp_dated_news_columns = [
 
     'recurrence_updated_behavior' => [
         'exclude' => false,
-        'label'   => 'Behavior of building and overriding recurring events. Handle carefully!',
+        'label'   => $ll.'tx_datednews_recurrence.updateBehaviour',
         'config'  => [
             'type'       => 'select',
             'renderType' => 'selectSingle',
             'items'      => [
-                ['-- choose --', ''],
-                ['do nothing (standard save behavior of TYPO3 records)', 1],
-                ['build/overwrite all (existing applications for recurring events will be lost!)', 2],
-                ['rebuild all none modified recurring events', 3],
-                ['overwrite all fields in all recurring events', 4],
-                ['overwrite all fields in none modified recurring events', 5],
-                ['overwrite only changed fields in all recurring events', 6],
-                ['overwrite only changed fields in none modified recurring events', 7],
+                [$ll.'tx_datednews_recurrence.choose', ''],
+                [$ll.'tx_datednews_recurrence.doNothing', 1],
+                [$ll.'tx_datednews_recurrence.overwriteAll', 2],
+                [$ll.'tx_datednews_recurrence.rebuildNoneModified', 3],
+                [$ll.'tx_datednews_recurrence.overwriteAllFields', 4],
+                [$ll.'tx_datednews_recurrence.overwriteAllFieldsNoneModified', 5],
+                [$ll.'tx_datednews_recurrence.overwriteChangedFieldsInAll', 6],
+                [$ll.'tx_datednews_recurrence.overwriteChangedFieldsInNoneModified', 7],
             ],
             'size'     => 1,
             'maxitems' => 1,
@@ -671,13 +671,13 @@ $tmp_dated_news_columns = [
     ],
 
     'newsrecurrence' => [
-        'label'   => 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_newsrecurrence',
+        'label'   => $ll.'tx_datednews_domain_model_newsrecurrence',
         'config'  => [
-            'type'              => 'inline',
-            'foreign_table'     => 'tx_datednews_domain_model_newsrecurrence',
-            'MM'                => 'tx_datednews_news_newsrecurrence_mm',
-            'foreign_field'     => 'parent_event', //zum anlegen muss es auskommentiert sein, zum anzeigen einkommentiert?
-            'foreign_default_sortby'    => 'eventstart DESC',
+            'type'                   => 'inline',
+            'foreign_table'          => 'tx_datednews_domain_model_newsrecurrence',
+            'MM'                     => 'tx_datednews_news_newsrecurrence_mm',
+            'foreign_field'          => 'parent_event', //zum anlegen muss es auskommentiert sein, zum anzeigen einkommentiert?
+            'foreign_default_sortby' => 'eventstart DESC',
 //            'foreign_sortby'    => 'eventstart',
             'maxitems'          => 9999,
             'appearance'        => [
@@ -766,7 +766,7 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_yearly'] 
     
     ,--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_recurrences_overrides,
     --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_recurrence_overrides;tx_datednews_recurrence_overrides,
-	'
+    '
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tx_news_domain_model_news', 'eventtype', '', 'after:istopnews');
 

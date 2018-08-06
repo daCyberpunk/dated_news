@@ -175,7 +175,7 @@
 				<source>Phone</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_location.email">
-				<source>Email</source>
+				<source>E-mail</source>
 			</trans-unit>
 			
 			
@@ -184,16 +184,16 @@
 				<source>Person</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.name">
-				<source>Name</source>
+				<source>Firstname</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.surname">
-				<source>Surname</source>
+				<source>Lastname</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.title">
 				<source>Title</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.email">
-				<source>Email</source>
+				<source>E-mail</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_person.images">
 				<source>Photo</source>
@@ -206,7 +206,7 @@
 				<source>Application</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.name">
-				<source>Name</source>
+				<source>Firstname</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.title">
 				<source>Title</source>
@@ -215,10 +215,10 @@
 				<source>Applications</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.surname">
-				<source>Surname</source>
+				<source>Lastname</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.email">
-				<source>Email</source>
+				<source>E-mail</source>
 			</trans-unit>
 			<trans-unit id="tx_datednews_domain_model_application.events">
 				<source>Events</source>
@@ -328,8 +328,150 @@
 				<source>Dated News Confirmation Page</source>
 			</trans-unit>
 
-
-
+      
+      <trans-unit id="tx_datednews_recurrence.updateBehaviour">
+          <source>Behavior of building and overriding recurring events. Handle carefully!</source>
+      </trans-unit>
+      
+      <!-- Select boxes values -->
+      <trans-unit id="tx_datednews_eventtype.isNotEvent">
+        <source>Is not an event</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_eventtype.event">
+        <source>Event</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_eventtype.publication">
+        <source>Publication event</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_eventtype.exhibition">
+        <source>Exhibition</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_eventtype.visualArts">
+        <source>Visual arts event</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_eventtype.business">
+        <source>Business event</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_eventtype.education">
+        <source>Education event</source>
+      </trans-unit>
+      
+      <trans-unit id="tx_datednews_recurrence.none">
+        <source>-- none --</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.daily">
+        <source>daily</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.weekly">
+        <source>weekly</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.workdays">
+        <source>workdays</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.everyOtherWeek">
+        <source>every other week</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.monthly">
+        <source>monthly</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.yearly">
+        <source>yearly</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.userdefined">
+        <source>user defined</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.choose">
+        <source>-- choose --</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.createUntil">
+        <source>create events until</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.createNumber">
+        <source>create specific number of events</source>
+      </trans-unit>
+      
+      <trans-unit id="tx_datednews_recurrence.doNothing">
+        <source>do nothing (standard save behavior of TYPO3 records)</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.overwriteAll">
+        <source>build/overwrite all (existing applications for recurring events will be lost!)</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.rebuildNoneModified">
+        <source>rebuild all none modified recurring events</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.overwriteAllFields">
+        <source>overwrite all fields in all recurring events</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.overwriteAllFieldsNoneModified">
+        <source>overwrite all fields in none modified recurring events</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.overwriteChangedFieldsInAll">
+        <source>overwrite only changed fields in all recurring events</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_recurrence.overwriteChangedFieldsInNoneModified">
+        <source>overwrite only changed fields in none modified recurring events</source>
+      </trans-unit>
+      
+      <trans-unit id="tx_datednews_months.January">
+        <source>January</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.February">
+        <source>February</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.March">
+        <source>March</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.April">
+        <source>April</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.May">
+        <source>May</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.June">
+        <source>June</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.July">
+        <source>July</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.August">
+        <source>August</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.September">
+        <source>September</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.October">
+        <source>October</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.November">
+        <source>November</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_months.December">
+        <source>December</source>
+      </trans-unit>
+      
+      <trans-unit id="tx_datednews_weekdays.Monday">
+        <source>Monday</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_weekdays.Tuesday">
+        <source>Tuesday</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_weekdays.Wednesday">
+        <source>Wednesday</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_weekdays.Thursday">
+        <source>Thursday</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_weekdays.Friday">
+        <source>Friday</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_weekdays.Saturday">
+        <source>Saturday</source>
+      </trans-unit>
+      <trans-unit id="tx_datednews_weekdays.Sunday">
+        <source>Sunday</source>
+      </trans-unit>
+      
+      
 		</body>
 	</file>
 </xliff>
