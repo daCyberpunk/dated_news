@@ -4,7 +4,6 @@ defined('TYPO3_MODE') or die();
 
 $ll = 'LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:';
 
-
 if (!isset($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['type'])) {
     if (file_exists($GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['dynamicConfigFile'])) {
         require_once $GLOBALS['TCA']['tx_news_domain_model_news']['ctrl']['dynamicConfigFile'];
@@ -767,7 +766,7 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['palettes']['tx_datednews_yearly'] 
     
     ,--div--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_recurrences_overrides,
     --palette--;LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xlf:tx_datednews_domain_model_news.tx_datednews_recurrence_overrides;tx_datednews_recurrence_overrides,
-	'
+    '
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tx_news_domain_model_news', 'eventtype', '', 'after:istopnews');
 

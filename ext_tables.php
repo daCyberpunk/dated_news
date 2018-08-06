@@ -18,7 +18,7 @@ if (TYPO3_MODE == 'BE') {
         'name'                  => $_EXTKEY,
         'stylesheetDirectories' => [
             'css' => 'EXT:'.$_EXTKEY.'/Resources/Public/CSS/Backend/',
-        ]
+        ],
     ];
 }
 
