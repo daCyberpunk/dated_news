@@ -372,7 +372,7 @@ class NewsController extends \GeorgRinger\News\Controller\NewsController
      */
     public function ajaxEventAction(array $overwriteDemand = null)
     {
-        date_default_timezone_set('UTC');
+        //date_default_timezone_set('UTC+1');
         $calendarstart = \DateTime::createFromFormat('Y-m-d H:i:s', $this->request->getArgument('start') . '00:00:00');
         $calendarend = \DateTime::createFromFormat('Y-m-d H:i:s', $this->request->getArgument('end') . '00:00:00');
 

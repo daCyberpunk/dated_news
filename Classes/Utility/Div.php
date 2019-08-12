@@ -23,6 +23,8 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Service\FlexFormService;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 
 /**
  * This file is part of the TYPO3 CMS project.
@@ -214,9 +216,18 @@ class Div
      */
     public function getPluginConfiguration($id)
     {
-        $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
-        $piFlexformSettings = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('pi_flexform', 'tt_content', 'uid = ' . $id);
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $queryBuilder->select('pi_flexform')
+        ->from('tt_content')
+        ->where(
+            $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($id, \PDO::PARAM_INT))
+        );
+        
+        $piFlexformSettings = $queryBuilder->execute()->fetchAll();
+        
         $ffs = GeneralUtility::makeInstance(FlexFormService::class);
         return $ffs->convertFlexFormContentToArray($piFlexformSettings[0]['pi_flexform']);
+
+
     }
 }

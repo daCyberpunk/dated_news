@@ -9,7 +9,7 @@ if (!defined('TYPO3_MODE')) {
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_datednews_domain_model_newsrecurrence');
 
 if (TYPO3_MODE == 'BE') {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-preProcess'][] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Classes/Hooks/PageRenderer.php:FalkRoeder\\DatedNews\\Hooks\\PageRenderer->addBackendJS';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-preProcess'][] = 'FalkRoeder\\DatedNews\\Hooks\\PageRenderer->addBackendJS';
 }
 
 //TYPO3 V7

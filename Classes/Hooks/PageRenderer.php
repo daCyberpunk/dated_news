@@ -26,7 +26,7 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class PageRenderer implements SingletonInterface
 {
-
+    
     /**
      * wrapper function called by hook (\TYPO3\CMS\Core\Page\PageRenderer->render-preProcess)
      *
@@ -37,7 +37,7 @@ class PageRenderer implements SingletonInterface
      */
     public function addBackendJS($parameters, &$pageRenderer)
     {
-        if (get_class($GLOBALS['SOBE']) === 'TYPO3\CMS\Backend\Controller\EditDocumentController' && array_keys($GLOBALS['SOBE']->editconf)[0] === 'tx_news_domain_model_news') {
+        if (!empty($GLOBALS['SOBE']) && (get_class($GLOBALS['SOBE'])  === 'TYPO3\CMS\Backend\Controller\EditDocumentController' && array_keys($GLOBALS['SOBE']->editconf)[0] === 'tx_news_domain_model_news')) {
             $lang = $GLOBALS['LANG'];
             $languageLabels = [
                 'datedNews.modalHeader' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.header', 1),
@@ -47,7 +47,7 @@ class PageRenderer implements SingletonInterface
                 'datedNews.overwrite.allFieldsNoneModified' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.allFieldsNoneModified', 1),
                 'datedNews.overwrite.changedFieldsAll' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.changedFieldsAll', 1),
                 'datedNews.overwrite.changedFieldsNoneModified' => $lang->sL('LLL:EXT:dated_news/Resources/Private/Language/locallang_db.xml:tx_dated_news.modal.overwrite.changedFieldsNoneModified', 1),
-
+                
             ];
             $pageRenderer->addInlineLanguageLabelArray($languageLabels);
             $pageRenderer->loadRequireJsModule('TYPO3/CMS/DatedNews/Backend/ConfirmationDialog');
