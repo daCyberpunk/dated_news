@@ -147,7 +147,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 
         //complete javascript code
         $js = <<<EOT
-          
+                        
 			if(!DatedNews.eventscal.hasOwnProperty("newsCalendarEvent_$calendarUid")){
 				DatedNews.eventscal["newsCalendarEvent_$uid"] = [];
 			}
@@ -184,7 +184,7 @@ class CalendarViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 				        theme : 'true',
 						buttonIcons: true, 
 						weekNumbers: false,
-			        	timezone : 'UTC',
+			        	timezone : 'UTC',            
 			        	viewRender: function(){
                             if($('.fc-slats').length > 0) {
                                 var bottomContainerPos = $('#calendar')[0].getBoundingClientRect().bottom;
